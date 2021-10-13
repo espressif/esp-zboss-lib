@@ -1,0 +1,29 @@
+menu "ZBOSS Lib"
+
+    config ZB_ENABLED
+        bool "Zigbee Enable"
+        default n
+        help
+            Select this option to enable Zigbee and show the submenu with Zigbee configuration choices.
+
+    choice ZB_DEVICE_TYPE
+        prompt "config the Zigbee device type"
+        depends on ZB_ENABLED
+        default ZB_ZCZR
+        help
+            Configure the Zigbee device type 
+
+        config ZB_ZCZR
+            bool "Zigbee Coordinator and Router"
+            help
+                Select this to enable Zigbee Coordinator and Router
+
+        config ZB_ZED
+            bool "Zigbee End Device"
+            help
+                Select this to enable Zigbee End Device
+
+    endchoice
+
+
+endmenu
