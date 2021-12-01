@@ -59,7 +59,6 @@
  *
  *    Other two commands can be sent in the same way using appropriate macros.
  *
- *    For more information see 5.7.3_onoff_server sample
  */
 
 /* Cluster ZB_ZCL_CLUSTER_ID_ON_OFF */
@@ -180,6 +179,8 @@ enum zb_zcl_on_off_cmd_e
 
 #define ZB_ZCL_CLUSTER_ID_ON_OFF_SERVER_ROLE_RECEIVED_CMD_LIST ZB_ZCL_CLUSTER_ID_ON_OFF_CLIENT_ROLE_GENERATED_CMD_LIST
 
+/** @endcond */ /* internals_doc */
+
 /*! @brief General macro for sending On/Off cluster command
     @param buffer to put data to
     @param addr - address of the device to send command to
@@ -201,8 +202,6 @@ enum zb_zcl_on_off_cmd_e
   ZB_ZCL_SEND_COMMAND_SHORT(                                                            \
       buffer, addr, dst_addr_mode, dst_ep, ep, prof_id, ZB_ZCL_CLUSTER_ID_ON_OFF, cb);  \
 }
-
-/** @endcond */ /* internals_doc */
 
 /*! Specific macro for sending Off command */
 #define ZB_ZCL_ON_OFF_SEND_OFF_REQ(                                         \

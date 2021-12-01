@@ -156,10 +156,11 @@ typedef zb_uint8_t zb_nwk_command_status_t;
 
 /** @cond internals_doc */
 /** @brief 3.4.3 Network Status Command: Arguments of the NLME-STATUS.indication routine. */
-typedef ZB_PACKED_PRE struct zb_nlme_status_indication_s {
-    zb_uint8_t status; /**< Error code associated with the failure */
-    zb_uint16_t network_addr;  /**< Network device address associated with the status information */
-    zb_uint8_t unknown_command_id; /**< Unknown command ID
+typedef ZB_PACKED_PRE struct zb_nlme_status_indication_s
+{
+  zb_uint8_t status; /**< Error code associated with the failure */
+  zb_uint16_t network_addr;  /**< Network device address associated with the status information */
+  zb_uint8_t unknown_command_id; /**< Unknown command ID
                                     (required for ZB_NWK_COMMAND_STATUS_UNKNOWN_COMMAND) */
 } ZB_PACKED_STRUCT
 zb_nlme_status_indication_t;
@@ -371,7 +372,7 @@ zb_nlme_status_indication_t;
 */
 #define ZB_PAGE31_SUB_GHZ_MAX_CHANNEL_NUMBER (ZB_PAGE31_SUB_GHZ_MAX_LOGICAL_CHANNEL - \
                                               ZB_PAGE31_SUB_GHZ_START_LOGICAL_CHANNEL)
-/** @endcond */ /* DOXYGEN_SE_SECTION */
+  /** @endcond */ /* DOXYGEN_SE_SECTION */
 /* ZB_MAC_START_CHANNEL_NUMBER */
 /**
    The first logical channel for Page 0 2.4GHz
@@ -470,20 +471,21 @@ zb_nlme_status_indication_t;
   Useful when using alien MAC layer without direct access to PIB: blockable "get"
   interface to PIB is too complex and slow.
  */
-typedef struct zb_nwk_pib_cache_s {
-    zb_uint16_t             mac_short_address;             /*!< The 16-bit address that the device uses
+typedef struct zb_nwk_pib_cache_s
+{
+  zb_uint16_t             mac_short_address;             /*!< The 16-bit address that the device uses
                                                            to communicate in the PAN. */
-    zb_uint16_t             mac_pan_id;                    /*!< The 16-bit identifier of the PAN on which
+  zb_uint16_t             mac_pan_id;                    /*!< The 16-bit identifier of the PAN on which
                                                            the device is operating. If this value is 0xffff,
                                                            the device is not associated. */
-    zb_ieee_addr_t          mac_extended_address;          /*!< The 64-bit (IEEE) address assigned to the device. */
+  zb_ieee_addr_t          mac_extended_address;          /*!< The 64-bit (IEEE) address assigned to the device. */
 
-    zb_uint8_t              mac_association_permit;        /*!< Indication of whether a coordinator is currently
+  zb_uint8_t              mac_association_permit;        /*!< Indication of whether a coordinator is currently
                                                            allowing association. A value of TRUE indicates*/
-    zb_uint8_t              mac_rx_on_when_idle;           /*!< Indication of whether the MAC sublayer is to enable
+  zb_uint8_t              mac_rx_on_when_idle;           /*!< Indication of whether the MAC sublayer is to enable
                                                            its receiver during idle periods. */
-    zb_uint8_t              phy_current_page;              /*!< Index of current physical channel page  */
-    zb_uint8_t              phy_current_channel;           /*!< Index of current physical channel */
+  zb_uint8_t              phy_current_page;              /*!< Index of current physical channel page  */
+  zb_uint8_t              phy_current_channel;           /*!< Index of current physical channel */
 } zb_nwk_pib_cache_t;
 
 /** @} */
@@ -518,7 +520,7 @@ zb_nwk_pib_cache_t *zb_nwk_get_pib_cache(void);
  * We ensure that only one instance of the macro is effectively
  * defined here. */
 #ifdef ZB_PIB_CACHE
-#error Please ensure that you are not including any internal headers which redefine ZB_PIB_CACHE macro before incuding this file
+#error Please ensure that you are not including any internal headers which redefine ZB_PIB_CACHE macro before including this file
 #else /* ZB_PIB_CACHE */
 /*cstat !MISRAC2012-Rule-5.2_c99 !MISRAC2012-Rule-5.4_c99 */
 #define ZB_PIB_CACHE() zb_nwk_get_pib_cache()
@@ -561,8 +563,9 @@ zb_nwk_pib_cache_t *zb_nwk_get_pib_cache(void);
 /**
    Arguments of the NLME-PERMIT_JOINING.request routine.
 */
-typedef ZB_PACKED_PRE struct zb_nlme_permit_joining_request_s {
-    zb_uint8_t permit_duration; /**< Time in seconds during which the coordinator
+typedef ZB_PACKED_PRE struct zb_nlme_permit_joining_request_s
+{
+  zb_uint8_t permit_duration; /**< Time in seconds during which the coordinator
                                * or router will allow associations */
 } ZB_PACKED_STRUCT
 zb_nlme_permit_joining_request_t;
@@ -591,12 +594,13 @@ void zb_nlme_permit_joining_request(zb_uint8_t param);
 #define ZB_PAN_ID_CONFLICT_INFO_MAX_PANIDS_COUNT  16U
 
 /** Structure describing a detected PAN ID conflict */
-typedef ZB_PACKED_PRE struct zb_pan_id_conflict_info_s {
-    zb_uint16_t panid_count;      /* <! Count of neighboring PAN IDs. */
-    zb_uint16_t panids[ZB_PAN_ID_CONFLICT_INFO_MAX_PANIDS_COUNT];
-    /* <! Array of such PAN IDs.
-     *  Only values at indices 0..(panid_count - 1) will be taken
-     *  into consideration. */
+typedef ZB_PACKED_PRE struct zb_pan_id_conflict_info_s
+{
+  zb_uint16_t panid_count;      /* <! Count of neighboring PAN IDs. */
+  zb_uint16_t panids[ZB_PAN_ID_CONFLICT_INFO_MAX_PANIDS_COUNT];
+                                /* <! Array of such PAN IDs.
+                                 *  Only values at indices 0..(panid_count - 1) will be taken
+                                 *  into consideration. */
 } ZB_PACKED_STRUCT zb_pan_id_conflict_info_t;
 
 /**
@@ -649,7 +653,7 @@ void zb_enable_auto_pan_id_conflict_resolution(zb_bool_t status);
 
 /** @cond internals_doc */
 /**
-   Toogles panid conflict resolution.
+   Toggles panid conflict resolution.
 
    Call of that function forces linking of panid conflict resolution
    code and allows switching on/off panid conflict resolution and detection
@@ -735,13 +739,105 @@ void zb_set_nbt_transmit_failure_timeout(zb_uint8_t transmit_failure_timeout);
 /** @addtogroup nwk_management_service NWK management service
  * @{
  */
+
+/**
+   Get own device type.
+
+   @return One of the values from @ref nwk_device_type.
+
+   @snippet onoff_server/on_off_output_zc.c zb_get_device_type_example
+ */
+zb_nwk_device_type_t zb_get_device_type(void);
+
 /**
    Get short address of the parent node.
 
    @return Short address of the parent node or ZB_UNKNOWN_SHORT_ADDR if the device isn't joined to a network.
  */
 zb_uint16_t zb_nwk_get_parent(void);
+
+#define ZB_NWK_NBR_ITERATOR_INDEX_EOT 0xFFFFU /*! Index, indicating that the iterator reached boundaries of the neighbour table. */
+
+typedef ZB_PACKED_PRE struct zb_nwk_nbr_iterator_cb_params_s {
+   zb_uint16_t index;        /*!< In the callback function:
+                              *     Index of the returned neighbour table entry.
+                              *     The value of ZB_NWK_NBR_ITERATOR_INDEX_EOT
+                              *     indicates that the entry was not returned and
+                              *     the buffer payload should be ignored.
+                              *   If the structure is passed as the API call parameters:
+                              *     Index, from which the next neighbour table
+                              *     entry should be searched.
+                              */
+   zb_uint32_t update_count; /*!< In the callback function:
+                              *     The current value of the table update counter.
+                              *     This parameter is ignored in the API call parameters.
+                              */
+} ZB_PACKED_STRUCT
+zb_nwk_nbr_iterator_params_t;
+
+typedef ZB_PACKED_PRE struct zb_nwk_nbr_iterator_entry_s
+{
+  zb_ieee_addr_t  ieee_addr;            /*!< Long address (EUI64) of the device. */
+  zb_uint16_t     short_addr;           /*!< Short address (network address) of the device. */
+
+  zb_uint8_t      device_type;          /*!< Neighbor device type - @see @ref nwk_device_type */
+  zb_uint8_t      depth;                /*!< The network depth of this device.
+                                         *    A value of 0x00 indicates that this device is the
+                                         *    Zigbee coordinator for the network.
+                                         */
+  zb_uint8_t      rx_on_when_idle;      /*!< Indicates if neighbour receiver enabled during idle periods:
+                                         *     TRUE = Receiver is on
+                                         *     FALSE = Receiver is off
+                                         *   This field should be present for entries that record the parent or
+                                         *   children of a Zigbee router or Zigbee coordinator.
+                                         */
+  zb_uint8_t      relationship;         /*!< The relationship between the neighbour and the current device.
+                                         *   This field shall be present in every neighbour table entry.
+                                         *   @if DOXYGEN_INTERNAL_DOC See @ref nwk_relationship @endif
+                                         */
+  zb_uint8_t      send_via_routing;     /*!< Due to bad link to that device send packets
+                                         *   via NWK routing.
+                                         */
+
+  zb_uint8_t      keepalive_received;   /*!< This value indicates at least one keepalive
+                                         *   has been received from the end device since
+                                         *   the router has rebooted.
+                                         */
+  zb_uint8_t      mac_iface_idx;        /*!< An index into the MAC Interface Table
+                                         * indicating what interface the neighbour or
+                                         * child is bound to.
+                                         */
+
+  zb_uint8_t      transmit_failure_cnt; /*!< Transmit failure counter (used to initiate
+                                         * device address search).
+                                         */
+  zb_uint8_t      lqi;                  /*!< Link quality. Also used to calculate
+                                         * incoming cost
+                                         */
+  zb_int8_t       rssi;                 /*!< Received signal strength indicator */
+  zb_uint8_t      outgoing_cost;        /*!< The cost of an outgoing link. Got from link status. */
+  zb_uint8_t      age;                  /*!< Counter value for router aging.
+                                         *   The number of nwkLinkStatusPeriod intervals since a
+                                         *   link status command was received.
+                                         */
+  zb_uint32_t     device_timeout;       /*!< Configured end device timeout, in seconds. */
+  zb_uint32_t     timeout_counter;      /*!< Timeout value ED aging, in milliseconds. */
+} ZB_PACKED_STRUCT
+zb_nwk_nbr_iterator_entry_t;
+
+/**
+   Read the next active entry from the NWK neighbour table.
+   The index indicates the point, from which the entry will be searched in the neighbour table.
+   This API returns neighbour table entry inside the buffer payload, that are connected to the same PAN
+   and their entries are not marked as stale or timed out.
+   The index of the entry is passed as buffer parameters.
+
+   @param  bufid  The ZBOSS buffer, containing arguments defined by zb_nwk_nbr_iterator_params_t structure, passed as buffer parameters.
+   @param  cb     Callback function, that will get the next neighbour table entry.
+ */
+zb_ret_t zb_nwk_nbr_iterator_next(zb_uint8_t bufid, zb_callback_t cb);
+
 /** @} */ /* nwk_management_service */
-/** @} */
+/** @} */ /* nwk_api */
 
 #endif /*#ifndef ZB_ZBOSS_API_NWK_H*/

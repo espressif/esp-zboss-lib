@@ -171,7 +171,7 @@ enum zb_zcl_power_config_attr_e
 
   ZB_ZCL_ATTR_POWER_CONFIG_BATTERY3_ALARM_STATE_ID               = 0x007e,
   /** @cond internals_doc */
-  /* Custom attribures */
+  /* Custom attributes */
   ZB_ZCL_ATTR_POWER_CONFIG_CUSTOM_BATTERY_VOLTAGE_SHARP_ID  = 0x8020
   /*! @}
    *  @endcond */ /* internals_doc */

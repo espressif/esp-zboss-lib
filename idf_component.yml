@@ -1,7 +1,5 @@
-version: "0.0.2" 
+version: "0.0.3"
 description: esp-zboss library component
-targets:
-  - esp32h2 
 url: https://github.com/espressif/esp-zboss-lib
 dependencies:
   idf:

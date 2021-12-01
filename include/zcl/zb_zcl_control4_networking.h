@@ -181,7 +181,7 @@ enum zb_zcl_control4_networking_device_type_e
     @param access_point_long_ID - pointer to variable to store Access Point Long ID attribute value
     @param access_point_cost - pointer to variable to store Access Point Cost ID attribute value
     @param mesh_channel - pointer to variable to store Mesh Channel attribute value
-    @param avg_RSSI - pointer to variable to store Avg RSSSI attribute value
+    @param avg_RSSI - pointer to variable to store Avg RSSI attribute value
     @param avg_LQI - pointer to variable to store Avg LQI attribute value
     @param battery_level - pointer to variable to store Battery Level attribute value
     @param radio_4_bars - pointer to variable to store Radio 4-Bar attribute value

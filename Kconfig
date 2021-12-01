@@ -1,4 +1,4 @@
-menu "ZBOSS Lib"
+menu "Zigbee"
 
     config ZB_ENABLED
         bool "Zigbee Enable"
@@ -11,19 +11,49 @@ menu "ZBOSS Lib"
         depends on ZB_ENABLED
         default ZB_ZCZR
         help
-            Configure the Zigbee device type 
+            Configure the Zigbee device type
 
         config ZB_ZCZR
-            bool "Zigbee Coordinator and Router"
+            bool "Zigbee Coordinator and Router device"
             help
-                Select this to enable Zigbee Coordinator and Router
+                Select this to enable Zigbee Coordinator and Router.
 
         config ZB_ZED
             bool "Zigbee End Device"
             help
-                Select this to enable Zigbee End Device
+                Select this to enable Zigbee End Device.
+
+        config ZB_RCP
+            bool "Zigbee radio co-processor device"
+            help
+                Select this to enable Zigbee rcp function device which can only forward packets from MAC to the host.
+                The rest of Zigbee stack will be run on the host side.
 
     endchoice
 
+    choice ZB_RADIO_TYPE
+        prompt "config the zigbee radio type"
+        depends on ZB_ENABLED
+        default ZB_RADIO_NATIVE if IDF_TARGET_ESP32H2
+        default ZB_HOST
 
+        config ZB_RADIO_NATIVE
+            depends on IDF_TARGET_ESP32H2
+            bool "Native 15.4 radio"
+            help
+                Select this to use the native 15.4 radio.
+
+        config ZB_HOST
+            depends on ZB_ZCZR || ZB_ZED
+            bool "Zigbee gateway host"
+            help
+                 when enable Zigbee gateway host, the zboss stack will only have layer above MAC, which will be acted as Zigbee gateway or Host.
+    endchoice
+  
+    menu "Zigbee macsplit transport type"
+            depends on ZB_HOST || ZB_RCP
+            default ZB_MACSPLIT_TRANSPORT_UART
+            config ZB_MACSPLIT_TRANSPORT_UART
+                bool "UART"
+    endmenu
 endmenu

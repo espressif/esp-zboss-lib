@@ -77,66 +77,69 @@
 #define ZB_ZCL_MAX_CVC_SLOTS_BY_EP (ZB_ZCL_UNDEFINED_CVC_SLOT / ZB_ZCL_MAX_EP_NUMBER)
 
 /** @brief Value set function that will be used for setting value on device */
-typedef zb_ret_t (ZB_CODE *zb_zcl_cvc_value_set_func_t)(zb_uint8_t endpoint, zb_uint16_t *new_value, zb_uint16_t remaining_time);
+typedef zb_ret_t (ZB_CODE * zb_zcl_cvc_value_set_func_t)(zb_uint8_t endpoint, zb_uint16_t* new_value, zb_uint16_t remaining_time);
 
 
 /** @internal Structure of Input variables
  */
-typedef struct zb_zcl_cvc_input_variables_s {
-    /** @brief Current Value */
-    zb_uint16_t current_value16;
-    /** @brief End Value */
-    zb_uint16_t end_value16;
-    /** @brief Min Value */
-    zb_uint16_t min_value16;
-    /** @brief Max Value */
-    zb_uint16_t max_value16;
-    /** @brief Overlapping flag */
-    zb_uint8_t overlap;
-    /** @brief Transition Time */
-    zb_uint16_t transition_time;
-    /** @brief Value set function */
-    zb_zcl_cvc_value_set_func_t value_set_func;
-    /** @brief Buffer id for after_processing_cb */
-    zb_uint8_t buf_id;
-    /** @brief After Processing callback */
-    zb_callback_t after_processing_cb;
+typedef struct zb_zcl_cvc_input_variables_s
+{
+/** @brief Current Value */
+  zb_uint16_t current_value16;
+/** @brief End Value */
+  zb_uint16_t end_value16;
+/** @brief Min Value */
+  zb_uint16_t min_value16;
+/** @brief Max Value */
+  zb_uint16_t max_value16;
+/** @brief Overlapping flag */
+  zb_uint8_t overlap;
+/** @brief Transition Time */
+  zb_uint16_t transition_time;
+/** @brief Value set function */
+  zb_zcl_cvc_value_set_func_t value_set_func;
+/** @brief Buffer id for after_processing_cb */
+  zb_uint8_t buf_id;
+/** @brief After Processing callback */
+  zb_callback_t after_processing_cb;
 } zb_zcl_cvc_input_variables_t;
 
 /** @internal Structure of Continuous Value Change variables
  */
-typedef struct zb_zcl_cvc_variables_s {
-    /** @brief Input variables */
-    zb_zcl_cvc_input_variables_t input_var;
-    /** @brief Time to next scheduled operation (delta time) */
-    zb_uint16_t delta_time;
-    /** @brief Delta value for one step */
-    zb_int16_t delta_value16;
-    /** @brief Number of remaining steps for transition */
-    zb_uint16_t steps_number;
-    /** @brief Step number for extra increment delta value */
-    zb_uint16_t extra_inc_value_step;
-    /** @brief Step number for extra increment delta time */
-    zb_uint16_t extra_inc_time_step;
-    /** @brief End time of transition */
-    zb_time_t end_time;
-    /** @brief Available time error */
-    zb_uint16_t time_err;
+typedef struct zb_zcl_cvc_variables_s
+{
+/** @brief Input variables */
+  zb_zcl_cvc_input_variables_t input_var;
+/** @brief Time to next scheduled operation (delta time) */
+  zb_uint16_t delta_time;
+/** @brief Delta value for one step */
+  zb_int16_t delta_value16;
+/** @brief Number of remaining steps for transition */
+  zb_uint16_t steps_number;
+/** @brief Step number for extra increment delta value */
+  zb_uint16_t extra_inc_value_step;
+/** @brief Step number for extra increment delta time */
+  zb_uint16_t extra_inc_time_step;
+/** @brief End time of transition */
+  zb_time_t end_time;
+/** @brief Available time error */
+  zb_uint16_t time_err;
 } zb_zcl_cvc_variables_t;
 
 /** @internal Structure of Alarm variables
  */
-typedef struct zb_zcl_cvc_alarm_variables_s {
-    /** @brief Endpoint id */
-    zb_uint8_t endpoint_id;
-    /** @brief Cluster id */
-    zb_uint16_t cluster_id;
-    /** @brief Attribute id */
-    zb_uint16_t attribute_id;
-    /** @brief Alarm buffer id */
-    zb_uint8_t alarm_buf_id;
-    /** @brief Is Used flag */
-    zb_bool_t is_used;
+typedef struct zb_zcl_cvc_alarm_variables_s
+{
+/** @brief Endpoint id */
+  zb_uint8_t endpoint_id;
+/** @brief Cluster id */
+  zb_uint16_t cluster_id;
+/** @brief Attribute id */
+  zb_uint16_t attribute_id;
+/** @brief Alarm buffer id */
+  zb_uint8_t alarm_buf_id;
+/** @brief Is Used flag */
+  zb_bool_t is_used;
 } ZB_PACKED_STRUCT
 zb_zcl_cvc_alarm_variables_t;
 
@@ -145,7 +148,7 @@ zb_zcl_cvc_alarm_variables_t;
   @param input_var - pointer to zb_zcl_cvc_input_variables_s containing input data
   @return buffer ID with zb_zcl_cvc_variables_s
 */
-zb_uint8_t zb_zcl_cvc_calculate_transition_values(zb_zcl_cvc_input_variables_t *input_var);
+zb_uint8_t zb_zcl_cvc_calculate_transition_values(zb_zcl_cvc_input_variables_t* input_var);
 
 
 /*!
@@ -178,9 +181,9 @@ zb_uint8_t zb_zcl_cvc_stop_transition(zb_uint8_t alarm_id);
   @return alarm ID (ZB_ZCL_CVC_INVALID_ALARM_ID if it is not running)
 */
 zb_uint8_t zb_zcl_cvc_check_transition_running(
-    zb_uint8_t endpoint_id,
-    zb_uint16_t cluster_id,
-    zb_uint16_t attribute_id);
+  zb_uint8_t endpoint_id,
+  zb_uint16_t cluster_id,
+  zb_uint16_t attribute_id);
 
 
 /*! @brief Initialize alarm list (stored in device context). */

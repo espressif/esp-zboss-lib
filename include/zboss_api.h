@@ -80,7 +80,6 @@
  *    to well-known key. To be used in certification tests mainly.
  *  @snippet simple_gw/simple_gw.c zb_secur_setup_preconfigured_key_value
  *  @snippet simple_gw/simple_gw.c zb_secur_setup_preconfigured_key
- *  @see TP_R20_BV-01 sample.
  */
 void zb_secur_setup_nwk_key(zb_uint8_t *key, zb_uint8_t i);
 
@@ -116,7 +115,7 @@ void zb_secur_set_tc_rejoin_enabled(zb_bool_t enable);
  *  @param enable - whether to enable or disable TC Rejoin ignore.
  */
 void zb_secur_set_ignore_tc_rejoin(zb_bool_t enable);
-#ifndef NCP_MODE_HOST
+
 /**
  *  Specifies whether Trust Center Rejoin is allowed, when there is no unique TCLK.
  *  On joiner device it could be used to perform TC rejoin with legacy ZC.
@@ -126,7 +125,7 @@ void zb_secur_set_ignore_tc_rejoin(zb_bool_t enable);
  *  @param enable - whether to enable or disable unsecured TC Rejoin.
  */
 void zb_secur_set_unsecure_tc_rejoin_enabled(zb_bool_t enable);
-#endif
+
 /** @} */ /* secur_tc_rejoin */
 
 /** @cond DOXYGEN_INTERNAL_DOC */
@@ -217,75 +216,83 @@ zb_ret_t zb_secur_ic_set(zb_uint8_t ic_type, zb_uint8_t *ic);
 
 /** @brief Request for zb_secur_ic_get_list_req.
 */
-typedef ZB_PACKED_PRE struct zb_secur_ic_get_list_req_s {
-    zb_uint8_t start_index;    /*!< Starting Index for the requested elements
+typedef ZB_PACKED_PRE struct zb_secur_ic_get_list_req_s
+{
+  zb_uint8_t start_index;    /*!< Starting Index for the requested elements
                                * of the IC table */
-    zb_callback_t response_cb; /*!< Callback that will be called on response receiving */
+  zb_callback_t response_cb; /*!< Callback that will be called on response receiving */
 }
 ZB_PACKED_STRUCT
 zb_secur_ic_get_list_req_t;
 
 /** @brief Response for zb_secur_ic_get_list_req.
 */
-typedef ZB_PACKED_PRE struct zb_secur_ic_get_list_resp_s {
-    zb_uint8_t status;                     /*!< The status of the command.*/
-    zb_uint8_t ic_table_entries;           /*!< Total number of IC table entries within the device */
-    zb_uint8_t start_index;                /*!< Starting index within the IC table */
-    zb_uint8_t ic_table_list_count;        /*!< Number of received IC table entries */
+typedef ZB_PACKED_PRE struct zb_secur_ic_get_list_resp_s
+{
+  zb_uint8_t status;                     /*!< The status of the command.*/
+  zb_uint8_t ic_table_entries;           /*!< Total number of IC table entries within the device */
+  zb_uint8_t start_index;                /*!< Starting index within the IC table */
+  zb_uint8_t ic_table_list_count;        /*!< Number of received IC table entries */
 }
 ZB_PACKED_STRUCT
 zb_secur_ic_get_list_resp_t;
 
 /** @brief Request for zb_secur_ic_get_by_idx_req.
   */
-typedef ZB_PACKED_PRE struct zb_secur_ic_get_by_idx_req_s {
-    zb_uint8_t ic_index;        /*!< Starting Index for the requested elements
+typedef ZB_PACKED_PRE struct zb_secur_ic_get_by_idx_req_s
+{
+  zb_uint8_t ic_index;        /*!< Starting Index for the requested elements
                                 * of the IC table */
-    zb_callback_t response_cb;  /*!< Callback that will be called on response receiving */
+  zb_callback_t response_cb;  /*!< Callback that will be called on response receiving */
 }
 ZB_PACKED_STRUCT
 zb_secur_ic_get_by_idx_req_t;
 
 /** @brief Response for zb_secur_ic_get_by_idx_req.
   */
-typedef ZB_PACKED_PRE struct zb_secur_ic_get_by_idx_resp_s {
-    zb_uint8_t status;                           /*!< The status of the command.*/
-    zb_ieee_addr_t device_address;               /*!< Partner address */
-    zb_ic_types_t ic_type;                       /*!< Installcode type.*/
-    zb_uint8_t installcode[ZB_CCM_KEY_SIZE + ZB_CCM_KEY_CRC_SIZE]; /*!< 16b installcode +2b crc */
+typedef ZB_PACKED_PRE struct zb_secur_ic_get_by_idx_resp_s
+{
+  zb_uint8_t status;                           /*!< The status of the command.*/
+  zb_ieee_addr_t device_address;               /*!< Partner address */
+  zb_ic_types_t ic_type;                       /*!< Installcode type.*/
+  zb_uint8_t installcode[ZB_CCM_KEY_SIZE+ZB_CCM_KEY_CRC_SIZE];   /*!< 16b installcode +2b crc */
 }
 ZB_PACKED_STRUCT
 zb_secur_ic_get_by_idx_resp_t;
 
 /** @brief Request for zb_secur_ic_remove_req.
   */
-typedef ZB_PACKED_PRE struct zb_secur_ic_remove_req_s {
-    zb_ieee_addr_t device_address; /*!< Address of the device to remove installcode */
-    zb_callback_t response_cb;     /*!< Callback that will be called on response receiving */
+typedef ZB_PACKED_PRE struct zb_secur_ic_remove_req_s
+{
+  zb_ieee_addr_t device_address; /*!< Address of the device to remove installcode */
+  zb_callback_t response_cb;     /*!< Callback that will be called on response receiving */
 }
 ZB_PACKED_STRUCT
 zb_secur_ic_remove_req_t;
 
 /** @brief Response for zb_secur_ic_remove_req.
   */
-typedef ZB_PACKED_PRE struct zb_secur_ic_remove_resp_s {
-    zb_uint8_t status; /*!< The status of the command.*/
+typedef ZB_PACKED_PRE struct zb_secur_ic_remove_resp_s
+{
+  zb_uint8_t status; /*!< The status of the command.*/
 }
 ZB_PACKED_STRUCT
 zb_secur_ic_remove_resp_t;
 
 /** @brief Request for zb_secur_ic_remove_all_req.
   */
-typedef ZB_PACKED_PRE struct zb_secur_ic_remove_all_req_s {
-    zb_callback_t response_cb;     /*!< Callback that will be called on response receiving */
+typedef ZB_PACKED_PRE struct zb_secur_ic_remove_all_req_s
+{
+  zb_callback_t response_cb;     /*!< Callback that will be called on response receiving */
 }
 ZB_PACKED_STRUCT
 zb_secur_ic_remove_all_req_t;
 
 /** @brief Response for zb_secur_ic_remove_all_req.
   */
-typedef ZB_PACKED_PRE struct zb_secur_ic_remove_all_resp_s {
-    zb_uint8_t status;  /*!< The status of the command.*/
+typedef ZB_PACKED_PRE struct zb_secur_ic_remove_all_resp_s
+{
+  zb_uint8_t status;  /*!< The status of the command.*/
 }
 ZB_PACKED_STRUCT
 zb_secur_ic_remove_all_resp_t;
@@ -411,6 +418,8 @@ zb_bool_t zb_is_transport_key_aps_encryption_enabled(void);
 
 #endif  /* DOXYGEN */
 
+/*! @} */ /* zboss_general_api */
+
 /** @cond DOXYGEN_INTERNAL_DOC */
 /**
    Check whether the right library is selected at application compilation time
@@ -425,12 +434,6 @@ void since_you_got_that_symbol_unresolved_you_probably_use_ZB_ED_ROLE_preprocess
 void since_you_got_that_symbol_unresolved_you_probably_forget_use_ZB_ED_ROLE_preprocessor_define_while_linking_with_zed_library(void);
 #endif /* ZB_ED_ROLE */
 
-/* minor internal hack for CI system */
-#if defined ZB_NSNG_CI && defined ZB_HAVE_SERIAL
-#define ZB_SET_NS_UART_CB_STUB() zb_osif_set_ns_uart_cb_stub()
-#else
-#define ZB_SET_NS_UART_CB_STUB()
-#endif /* ZB_NSNG_CI && ZB_HAVE_SERIAL */
 
 /** @endcond*/ /* DOXYGEN_INTERNAL_DOC */
 
@@ -450,14 +453,11 @@ void since_you_got_that_symbol_unresolved_you_probably_forget_use_ZB_ED_ROLE_pre
 @code
   ZB_INIT("zdo_zc");
 @endcode
-
-  See any sample
  */
 #define ZB_INIT(trace_comment)               \
 {                                            \
   ZB_CHECK_LIBRARY();                        \
   zb_init((zb_char_t *)trace_comment);       \
-  ZB_SET_NS_UART_CB_STUB();                  \
 }
 /** @cond DOXYGEN_INTERNAL_DOC */
 /** @brief Global stack initialization.
@@ -480,14 +480,11 @@ void zb_init(zb_char_t *trace_comment);
 @code
   ZB_INIT("zdo_zc");
 @endcode
-
-  See any sample
  */
 #define ZB_INIT(trace_comment)               \
 {                                            \
   ZB_CHECK_LIBRARY();                        \
   zb_init();                                 \
-  ZB_SET_NS_UART_CB_STUB();                  \
 }
 void zb_init(void);
 #endif  /* ZB_INIT_HAS_ARGS || defined DOXYGEN */
@@ -521,15 +518,54 @@ void zb_set_channel_mask(zb_uint32_t channel_mask);
 zb_ret_t zb_set_tx_power(zb_uint8_t tx_power);
 #endif
 
+#ifdef ZB_MAC_CONFIGURABLE_TX_POWER
+
+/**
+ * @brief A struct with params for zb_get_tx_power_async and zb_set_tx_power_async
+ */
+typedef struct zb_tx_power_params_s
+{
+  zb_ret_t status;    /*!< Status of the operation. Can be RET_OK, RET_UNINITIALIZED or one of 
+                            RET_INVALID_PARAMETET_1, RET_INVALID_PARAMETET_2 or RET_INVALID_PARAMETET_3
+                            for the following three fields respectively. */
+  zb_uint8_t page;    /*!< Page number. Should be provided by the application. */
+  zb_uint8_t channel; /*!< Channel number on a given page. Should be provided by the application. */
+  zb_int8_t tx_power; /*!< Transceiver power for a given page and channel. 
+                            Should be provided by the application in case of setting the power */
+  zb_callback_t cb;   /*!< Callback function to be called after the function finishes. Should be provided by the application. */
+} zb_tx_power_params_t;
+
+
+/**
+ * @brief Get transceiver power for given page and channel asynchronously.
+ * 
+ * This function requires param to contain @ref zb_tx_power_params_t. 
+ * Will return status RET_UNINITIALIZED if the channel/page storage hasn't been initialized yet.
+ * 
+ * @param param - buffer, containing @ref zb_tx_power_params_t.
+*/
+void zb_get_tx_power_async(zb_bufid_t param);
+
+/**
+ * @brief Set transceiver power to a given value on a given page and channel asynchronously.
+ * 
+ * This function requires param to contain @ref zb_tx_power_params_t. 
+ * If the power change is for the current channel, the function will attempt to change power immediately, 
+ *  otherwise it will save the change until channel switch.
+ * 
+ * @param param - buffer, containing @ref zb_tx_power_params_t.
+*/
+void zb_set_tx_power_async(zb_bufid_t param);
+#endif
+
 /** @endcond */ /* DOXYGEN_BDB_SECTION */
 
 /**
    Set RxOnWhenIdle attribute
    @param rx_on - attribute value
 
-
    @b Example:
-@snippet doxygen_snippets.dox zboss_api_h_1
+@snippet ias_zone_sensor/src/izs_device.c set_rx_on_when_idle_attribute
 */
 void zb_set_rx_on_when_idle(zb_bool_t rx_on);
 
@@ -1009,39 +1045,40 @@ void zboss_signal_handler(zb_uint8_t param);
  *
  * ZB_NVRAM_DATASET_NUMBER - count of dataset types. Not a real dataset type!
  */
-typedef enum zb_nvram_dataset_types_e {
-    /* Do not use 0 as dataset type: it can be used internally */
-    ZB_NVRAM_RESERVED              = 0, /**< Reserved value */
-    ZB_NVRAM_COMMON_DATA           = 1, /**< Dataset, contains common Zigbee data */
-    ZB_NVRAM_HA_DATA               = 2, /**< Dataset, contains HA profile Zigbee data */
-    ZB_NVRAM_ZCL_REPORTING_DATA    = 3, /**< Dataset, contains ZCL reporting data */
-    ZB_NVRAM_APS_SECURE_DATA_GAP   = 4, /**< Reserved value */
-    ZB_NVRAM_APS_BINDING_DATA_GAP  = 5, /**< Reserved value */
-    ZB_NVRAM_HA_POLL_CONTROL_DATA  = 6, /**< Dataset, contains HA POLL CONTROL data */
-    ZB_IB_COUNTERS                 = 7, /**< Dataset, contains NIB outgoing frame counter */
-    ZB_NVRAM_DATASET_GRPW_DATA     = 8, /**< Green Power dataset */
-    ZB_NVRAM_APP_DATA1             = 9, /**< Application-specific data #1 */
-    ZB_NVRAM_APP_DATA2             = 10, /**< Application-specific data #2 */
-    ZB_NVRAM_ADDR_MAP              = 11, /**< Dataset stores address map info */
-    ZB_NVRAM_NEIGHBOUR_TBL         = 12, /**< Dataset stores Neighbor table info */
-    ZB_NVRAM_INSTALLCODES          = 13, /**< Dataset contains APS installcodes data */
-    ZB_NVRAM_APS_SECURE_DATA       = 14, /**< Dataset, contains APS secure keys data */
-    ZB_NVRAM_APS_BINDING_DATA      = 15, /**< Dataset, contains APS binding data */
-    ZB_NVRAM_DATASET_GP_PRPOXYT    = 16, /**< Green Power Proxy table */
-    ZB_NVRAM_DATASET_GP_SINKT      = 17, /**< Green Power Sink table */
-    ZB_NVRAM_DATASET_GP_CLUSTER    = 18, /**< Green Power Cluster data */
-    ZB_NVRAM_APS_GROUPS_DATA       = 19, /**< Dataset, contains APS groups data */
-    ZB_NVRAM_DATASET_SE_CERTDB     = 20, /**< Smart Energy Dataset - Certificates DataBase */
-    ZB_NVRAM_ZCL_WWAH_DATA         = 21, /**< Dataset, contains ZCL WWAH data */
-    ZB_NVRAM_DATASET_GP_APP_TBL    = 22, /**< Dataset, contains ZCL WWAH data */
-    /* Note: added new app_data datasets down and created a hole for new system datasets.
-     */
-    ZB_NVRAM_APP_DATA3             = 27, /**< Application-specific data #3 */
-    ZB_NVRAM_APP_DATA4             = 28, /**< Application-specific data #4 */
-    ZB_NVRAM_KE_WHITELIST          = 29,
-    ZB_NVRAM_ZDO_DIAGNOSTICS_DATA  = 31, /**< Dataset of the Diagnostics cluster */
-    ZB_NVRAM_DATASET_NUMBER        = 32, /**< Count of Dataset */
-    ZB_NVRAM_DATA_SET_TYPE_PAGE_HDR = 30, /**< Special internal dataset type  */
+typedef enum zb_nvram_dataset_types_e
+{
+  /* Do not use 0 as dataset type: it can be used internally */
+  ZB_NVRAM_RESERVED              = 0, /**< Reserved value */
+  ZB_NVRAM_COMMON_DATA           = 1, /**< Dataset, contains common Zigbee data */
+  ZB_NVRAM_HA_DATA               = 2, /**< Dataset, contains HA profile Zigbee data */
+  ZB_NVRAM_ZCL_REPORTING_DATA    = 3, /**< Dataset, contains ZCL reporting data */
+  ZB_NVRAM_APS_SECURE_DATA_GAP   = 4, /**< Reserved value */
+  ZB_NVRAM_APS_BINDING_DATA_GAP  = 5, /**< Reserved value */
+  ZB_NVRAM_HA_POLL_CONTROL_DATA  = 6, /**< Dataset, contains HA POLL CONTROL data */
+  ZB_IB_COUNTERS                 = 7, /**< Dataset, contains NIB outgoing frame counter */
+  ZB_NVRAM_DATASET_GRPW_DATA     = 8, /**< Green Power dataset */
+  ZB_NVRAM_APP_DATA1             = 9, /**< Application-specific data #1 */
+  ZB_NVRAM_APP_DATA2             = 10, /**< Application-specific data #2 */
+  ZB_NVRAM_ADDR_MAP              = 11, /**< Dataset stores address map info */
+  ZB_NVRAM_NEIGHBOUR_TBL         = 12, /**< Dataset stores Neighbor table info */
+  ZB_NVRAM_INSTALLCODES          = 13, /**< Dataset contains APS installcodes data */
+  ZB_NVRAM_APS_SECURE_DATA       = 14, /**< Dataset, contains APS secure keys data */
+  ZB_NVRAM_APS_BINDING_DATA      = 15, /**< Dataset, contains APS binding data */
+  ZB_NVRAM_DATASET_GP_PRPOXYT    = 16, /**< Green Power Proxy table */
+  ZB_NVRAM_DATASET_GP_SINKT      = 17, /**< Green Power Sink table */
+  ZB_NVRAM_DATASET_GP_CLUSTER    = 18, /**< Green Power Cluster data */
+  ZB_NVRAM_APS_GROUPS_DATA       = 19, /**< Dataset, contains APS groups data */
+  ZB_NVRAM_DATASET_SE_CERTDB     = 20, /**< Smart Energy Dataset - Certificates DataBase */
+  ZB_NVRAM_ZCL_WWAH_DATA         = 21, /**< Dataset, contains ZCL WWAH data */
+  ZB_NVRAM_DATASET_GP_APP_TBL    = 22, /**< Dataset, contains ZCL WWAH data */
+  /* Note: added new app_data datasets down and created a hole for new system datasets.
+   */
+  ZB_NVRAM_APP_DATA3             = 27, /**< Application-specific data #3 */
+  ZB_NVRAM_APP_DATA4             = 28, /**< Application-specific data #4 */
+  ZB_NVRAM_KE_WHITELIST          = 29,
+  ZB_NVRAM_ZDO_DIAGNOSTICS_DATA  = 31, /**< Dataset of the Diagnostics cluster */
+  ZB_NVRAM_DATASET_NUMBER        = 32, /**< Count of Dataset */
+  ZB_NVRAM_DATA_SET_TYPE_PAGE_HDR = 30, /**< Special internal dataset type  */
 } zb_nvram_dataset_types_t;
 
 #define ZB_NVRAM_APP_DATASET_NUMBER 4U
@@ -1146,10 +1183,8 @@ void zb_nvram_register_app4_write_cb(
  * @param t - dataset index, see @ref zb_nvram_dataset_types_e
  * @return Status of operation
  *
- * @b Example @b
+ * @b Example
  * @snippet light_sample/dimmable_light/bulb.c nvram_usage_example
- *
- * See light_sample
  */
 zb_ret_t zb_nvram_write_dataset(zb_nvram_dataset_types_t t);
 
@@ -1228,19 +1263,21 @@ zb_ret_t zb_nvram_write_data(zb_uint8_t page, zb_uint32_t pos, zb_uint8_t *buf, 
 /** Maximum size of production configuration */
 #define ZB_PRODUCTION_CONFIG_APP_MAX_SIZE 128U
 
-typedef ZB_PACKED_PRE struct zb_production_config_hdr_s {
-    zb_uint32_t crc; /*!< crc for the whole production configuration (including application specific part) */
-    zb_uint16_t len; /*!< length of production configuration (including application specific part) */
-    zb_uint16_t version; /*!< Version of production configuration (reserved for future changes) */
+typedef ZB_PACKED_PRE struct zb_production_config_hdr_s
+{
+  zb_uint32_t crc; /*!< crc for the whole production configuration (including application specific part) */
+  zb_uint16_t len; /*!< length of production configuration (including application specific part) */
+  zb_uint16_t version; /*!< Version of production configuration (reserved for future changes) */
 }
 ZB_PACKED_STRUCT zb_production_config_hdr_t;
 
-typedef ZB_PACKED_PRE struct zb_production_config_ver_1_s {
-    zb_production_config_hdr_t hdr; /*!< Header */
-    zb_uint32_t aps_channel_mask;   /*!< APS Channel Mask  */
-    zb_64bit_addr_t extended_address; /*!< IEEE address */
-    zb_int8_t mac_tx_power[16]; /*!< Tx power specified for every possible channel */
-    zb_uint8_t install_code[ZB_CCM_KEY_SIZE + ZB_CCM_KEY_CRC_SIZE]; /*!< Installation code + its own crc */
+typedef ZB_PACKED_PRE struct zb_production_config_ver_1_s
+{
+  zb_production_config_hdr_t hdr; /*!< Header */
+  zb_uint32_t aps_channel_mask;   /*!< APS Channel Mask  */
+  zb_64bit_addr_t extended_address; /*!< IEEE address */
+  zb_int8_t mac_tx_power[16]; /*!< Tx power specified for every possible channel */
+  zb_uint8_t install_code[ZB_CCM_KEY_SIZE+ZB_CCM_KEY_CRC_SIZE]; /*!< Installation code + its own crc */
 }
 ZB_PACKED_STRUCT zb_production_config_ver_1_t;
 
@@ -1251,13 +1288,14 @@ ZB_PACKED_STRUCT zb_production_config_ver_1_t;
 #define ZB_PROD_CFG_OPTIONS_IC_TYPE_MASK      0x03U
 #define ZB_PROD_CFG_OPTIONS_CERT_PRESENT_MASK 0x80U
 
-typedef ZB_PACKED_PRE struct zb_production_config_ver_2_s {
-    zb_production_config_hdr_t hdr; /*!< Header */
-    zb_channel_page_t aps_channel_mask_list[ZB_PROD_CFG_APS_CHANNEL_LIST_SIZE]; /*!< Channel mask for device to operate on */
-    zb_64bit_addr_t extended_address; /*!< IEEE address */
-    zb_int8_t mac_tx_power[ZB_PROD_CFG_APS_CHANNEL_LIST_SIZE][ZB_PROD_CFG_MAC_TX_POWER_CHANNEL_N]; /*! < Tx power specified for every possible channel */
-    zb_uint8_t options;/*low 2 bits - ic_type field *//*7th bit - certificates block presents*/
-    zb_uint8_t install_code[ZB_CCM_KEY_SIZE + ZB_CCM_KEY_CRC_SIZE]; /*!< Installation code + its own crc */
+typedef ZB_PACKED_PRE struct zb_production_config_ver_2_s
+{
+  zb_production_config_hdr_t hdr; /*!< Header */
+  zb_channel_page_t aps_channel_mask_list[ZB_PROD_CFG_APS_CHANNEL_LIST_SIZE]; /*!< Channel mask for device to operate on */
+  zb_64bit_addr_t extended_address; /*!< IEEE address */
+  zb_int8_t mac_tx_power[ZB_PROD_CFG_APS_CHANNEL_LIST_SIZE][ZB_PROD_CFG_MAC_TX_POWER_CHANNEL_N]; /*! < Tx power specified for every possible channel */
+  zb_uint8_t options;/*low 2 bits - ic_type field *//*7th bit - certificates block presents*/
+  zb_uint8_t install_code[ZB_CCM_KEY_SIZE+ZB_CCM_KEY_CRC_SIZE]; /*!< Installation code + its own crc */
 }
 ZB_PACKED_STRUCT zb_production_config_ver_2_t;
 
@@ -1271,20 +1309,23 @@ typedef zb_production_config_ver_2_t zb_production_config_t;
 #define ZB_CS2_CERTIFICATE_SIZE 74
 #define ZB_CS2_PRIVATE_KEY_SIZE 36
 
-typedef ZB_PACKED_PRE struct zb_cs1_key_material_s {
-    zb_uint8_t publisher_public_key[ZB_CS1_PUBLISHER_PUBLIC_KEY_SIZE];
-    zb_uint8_t certificate[ZB_CS1_CERTIFICATE_SIZE];
-    zb_uint8_t private_key[ZB_CS1_PRIVATE_KEY_SIZE];
+typedef ZB_PACKED_PRE struct zb_cs1_key_material_s
+{
+  zb_uint8_t publisher_public_key[ZB_CS1_PUBLISHER_PUBLIC_KEY_SIZE];
+  zb_uint8_t certificate[ZB_CS1_CERTIFICATE_SIZE];
+  zb_uint8_t private_key[ZB_CS1_PRIVATE_KEY_SIZE];
 } ZB_PACKED_STRUCT zb_cs1_key_material_t;
 
-typedef ZB_PACKED_PRE struct zb_cs2_key_material_s {
-    zb_uint8_t publisher_public_key[ZB_CS2_PUBLISHER_PUBLIC_KEY_SIZE];
-    zb_uint8_t certificate[ZB_CS2_CERTIFICATE_SIZE];
-    zb_uint8_t private_key[ZB_CS2_PRIVATE_KEY_SIZE];
+typedef ZB_PACKED_PRE struct zb_cs2_key_material_s
+{
+  zb_uint8_t publisher_public_key[ZB_CS2_PUBLISHER_PUBLIC_KEY_SIZE];
+  zb_uint8_t certificate[ZB_CS2_CERTIFICATE_SIZE];
+  zb_uint8_t private_key[ZB_CS2_PRIVATE_KEY_SIZE];
 } ZB_PACKED_STRUCT zb_cs2_key_material_t;
 
-typedef ZB_PACKED_PRE struct zb_cs_key_material_header_s {
-    zb_uint16_t certificate_mask;
+typedef ZB_PACKED_PRE struct zb_cs_key_material_header_s
+{
+  zb_uint16_t certificate_mask;
 } ZB_PACKED_STRUCT zb_cs_key_material_header_t;
 
 #define ZB_PROD_CFG_IS_PRESENT_CERT_ANY(v) ((v->options) & 0x80U)
@@ -1365,19 +1406,21 @@ void zb_sleep_now(void);
 
 
 /** Parameters for @ref zb_ieee_joining_list_add. */
-typedef ZB_PACKED_PRE struct zb_ieee_joining_list_add_params_s {
-    zb_callback_t callback;   /**< Callback to be scheduled on completion of adding. */
+typedef ZB_PACKED_PRE struct zb_ieee_joining_list_add_params_s
+{
+  zb_callback_t callback;   /**< Callback to be scheduled on completion of adding. */
 
-    zb_ieee_addr_t address;   /**< 64-bit address to add. */
+  zb_ieee_addr_t address;   /**< 64-bit address to add. */
 
 } ZB_PACKED_STRUCT zb_ieee_joining_list_add_params_t;
 
 
 /** Parameters for @ref zb_ieee_joining_list_delete. */
-typedef ZB_PACKED_PRE struct zb_ieee_joining_list_delete_params_s {
-    zb_callback_t callback;  /**< Callback to be scheduled on completion of deleting. */
+typedef ZB_PACKED_PRE struct zb_ieee_joining_list_delete_params_s
+{
+  zb_callback_t callback;  /**< Callback to be scheduled on completion of deleting. */
 
-    zb_ieee_addr_t address;  /**< 64-bit address to delete. */
+  zb_ieee_addr_t address;  /**< 64-bit address to delete. */
 
 } ZB_PACKED_STRUCT zb_ieee_joining_list_delete_params_t;
 
@@ -1402,11 +1445,12 @@ typedef ZB_PACKED_PRE struct zb_ieee_joining_list_delete_params_s {
 typedef zb_uint8_t zb_mac_joining_policy_t;
 
 /** Parameters for @ref zb_ieee_joining_list_clear. */
-typedef ZB_PACKED_PRE struct zb_ieee_joining_list_clear_params_s {
-    zb_callback_t callback;  /**< Callback to be scheduled on completion
+typedef ZB_PACKED_PRE struct zb_ieee_joining_list_clear_params_s
+{
+  zb_callback_t callback;  /**< Callback to be scheduled on completion
                               of clearing IEEE joining list. */
 
-    zb_mac_joining_policy_t new_joining_policy;   /**< Joining list policy to set on the emptied list.
+  zb_mac_joining_policy_t new_joining_policy;   /**< Joining list policy to set on the emptied list.
                                                    See @ref mac_joining_policy for possible
                                                    values.*/
 
@@ -1414,11 +1458,12 @@ typedef ZB_PACKED_PRE struct zb_ieee_joining_list_clear_params_s {
 
 
 /** Parameters for @ref zb_ieee_joining_list_set_policy. */
-typedef ZB_PACKED_PRE struct zb_ieee_joining_list_set_policy_s {
-    zb_callback_t callback;  /**< Callback to be scheduled on completion
+typedef ZB_PACKED_PRE struct zb_ieee_joining_list_set_policy_s
+{
+  zb_callback_t callback;  /**< Callback to be scheduled on completion
                               of updating IEEE joining list policy. */
 
-    zb_mac_joining_policy_t new_joining_policy;   /**< Joining list policy to set on the emptied list.
+  zb_mac_joining_policy_t new_joining_policy;   /**< Joining list policy to set on the emptied list.
                                                    See @ref mac_joining_policy for possible
                                                    values.*/
 
@@ -1426,17 +1471,19 @@ typedef ZB_PACKED_PRE struct zb_ieee_joining_list_set_policy_s {
 
 
 /** Parameters for @ref zb_ieee_joining_list_announce. */
-typedef ZB_PACKED_PRE struct zb_ieee_joining_list_announce_s {
-    zb_callback_t callback;   /**< Callback to be scheduled on completion
+typedef ZB_PACKED_PRE struct zb_ieee_joining_list_announce_s
+{
+  zb_callback_t callback;   /**< Callback to be scheduled on completion
                                of clearing IEEE joining list. */
 
-    zb_bool_t silent;         /**< If set to ZB_TRUE, no broadcast happens. */
+  zb_bool_t silent;         /**< If set to ZB_TRUE, no broadcast happens. */
 } ZB_PACKED_STRUCT zb_ieee_joining_list_announce_t;
 
 
 /** Parameters for @ref zb_ieee_joining_list_request. */
-typedef ZB_PACKED_PRE struct zb_ieee_joining_list_request_s {
-    zb_callback_t callback;   /**< Callback to be scheduled on completion of the operation. */
+typedef ZB_PACKED_PRE struct zb_ieee_joining_list_request_s
+{
+  zb_callback_t callback;   /**< Callback to be scheduled on completion of the operation. */
 } ZB_PACKED_STRUCT zb_ieee_joining_list_request_t;
 
 
@@ -1472,8 +1519,9 @@ typedef zb_uint8_t zb_ieee_joining_list_result_status_t;
 
 
 /** Structure passed as a parameter to operation completion callbacks. */
-typedef ZB_PACKED_PRE struct zb_ieee_joining_list_result_s {
-    zb_ieee_joining_list_result_status_t status;
+typedef ZB_PACKED_PRE struct zb_ieee_joining_list_result_s
+{
+  zb_ieee_joining_list_result_status_t status;
 } ZB_PACKED_STRUCT zb_ieee_joining_list_result_t;
 
 /**

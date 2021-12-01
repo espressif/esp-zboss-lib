@@ -206,6 +206,10 @@ zb_zcl_cluster_write_attr_hook_t zb_zcl_get_control4_cluster_write_attr_hook(zb_
 #define ZB_ZCL_CLUSTER_CLIENT_ROLE 0x02U
 /** Internal value - used for searching any role (on the moment when cluster role is not known yet). */
 #define ZB_ZCL_CLUSTER_ANY_ROLE 0x03U
+/** Reverts cluster role */
+#define ZB_ZCL_REVERT_CLUSTER_ROLE(_d) \
+  (((_d) != ZB_ZCL_CLUSTER_ANY_ROLE) ? (((_d) == ZB_ZCL_CLUSTER_SERVER_ROLE) ? ZB_ZCL_CLUSTER_CLIENT_ROLE : ZB_ZCL_CLUSTER_SERVER_ROLE) :  \
+   ZB_ZCL_CLUSTER_ANY_ROLE)
 /** @} */
 
 /**
@@ -440,7 +444,6 @@ typedef void (*zb_zcl_modify_attr_value_cb_t)(
     @{
     Use @ref ZB_ZCL_SET_ATTRIBUTE
     @par
-    For more information see HA samples
 */
 
 /** @brief Sets correctly ZCL char string value */
@@ -1079,7 +1082,7 @@ typedef ZB_PACKED_PRE  struct zb_zcl_parsed_hdr_s
 #endif /* defined ZB_ENABLE_ZLL */
   } addr_data;
 #if defined ZB_ENABLE_ZLL
-  zb_uint8_t rssi;          /**< RSSI of the packet. */
+  zb_int8_t rssi;          /**< RSSI of the packet. */
 #endif /* defined ZB_ENABLE_ZLL */
   zb_uint16_t cluster_id;
   zb_uint16_t profile_id;
@@ -1432,8 +1435,6 @@ void *zb_zcl_start_command_header(zb_bufid_t zbbuf, zb_uint8_t frame_ctl, zb_uin
       @par Example
       @snippet HA_samples/write_attr_test/sample_zed.c ZB_ZCL_PACKET
       @par
-
-    For more information see HA samples
 */
 
 /**

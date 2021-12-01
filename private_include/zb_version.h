@@ -35,7 +35,6 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-
 /* PURPOSE: ZBOSS version declare
 */
 
@@ -54,7 +53,7 @@
 #endif
 
 #ifndef ZBOSS_MINOR
-#define ZBOSS_MINOR 3U
+#define ZBOSS_MINOR 10U
 #endif
 
 #endif /* ZB_VERSION_H */

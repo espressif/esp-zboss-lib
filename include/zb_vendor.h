@@ -1,6 +1,5 @@
 /*
- * Copyright (c) 2012-2021 DSR Corporation, Denver CO, USA
- * Copyright (c) 2021 Espressif Systems (Shanghai) PTE LTD
+ * Copyright (c) 2021 Espressif Systems (Shanghai) CO LTD
  * All rights reserved.
  *
  *
@@ -39,96 +38,44 @@
 #pragma once
 
 #include "sdkconfig.h"
-#define ZB_CONFIG_ESP
 
-/* Number of buttons supported */
-#define ZB_N_BUTTONS 5
+#if CONFIG_ZB_RCP
+#include "zb_vendor_rcp.h"
+#elif CONFIG_ZB_ZCZR || CONFIG_ZB_ZED
+#include "zb_vendor_default.h"
+#endif
 
-#define ZB_ENABLE_HA
-#define ZB_ENABLE_ZCL
+#if CONFIG_ZB_HOST
+#include "zb_vendor_host.h"
+#endif
 
+#if CONFIG_ZB_R22_ENABLE
+#define ZB_ENABLE_SE
 #define ZB_ENABLE_ZGP
-#define ZB_TEST_PROFILE
-/* Enable Rejoin Backoff (used in Smart Plug and IAS Zone samples). */
-#define ZB_REJOIN_BACKOFF
-#define ZB_USE_SLEEP
-#define ZB_CERTIFICATION_HACKS
+#endif
+
+#define ZB_CONFIG_ESP
+/* trace */
+#define ZB_TRACE_LEVEL CONFIG_ZB_TRACE_LEVEL
+#define ZB_TRACE_MASK  CONFIG_ZB_TRACE_MASK
+
+#ifdef ZB_TRACE_LEVEL
+#define ZB_TRACE_TO_PORT
+#define ZB_TRACE_FROM_INTR
+#define ZB_BINARY_TRACE
+#define ZB_TRAFFIC_DUMP_ON
+#ifndef ZB_TRACE_OVER_JTAG
+#define ZB_TRACE_OVER_USART
+#define ZB_HAVE_SERIAL
+#endif  /* not over jtag */
+#endif  /* if trace */
+
+#if defined ZB_TRACE_OVER_USART && defined ZB_TRACE_LEVEL
+#define ZB_SERIAL_FOR_TRACE
+#endif
+
+/* Macsplit SoC does not use prod cfg indeed, but that define is necessary for constants definition */
+#define ZB_PRODUCTION_CONFIG
 #define ZB_PROMISCUOUS_MODE
 
-#ifdef ZB_USE_SLEEP
-#define ZB_MEMORY_COMPACT
-#endif
-
-/* ZB3.0 BDB mode */
-#define ZB_BDB_MODE
-#define ZB_BDB_ENABLE_FINDING_BINDING
-#define ZB_DISTRIBUTED_SECURITY_ON
-#define ZB_SECURITY_INSTALLCODES
-
-#ifndef ZB_ED_ROLE
-#define ZB_IOBUF_POOL_SIZE  40
-#define ZB_SCHEDULER_Q_SIZE 40
-#else
-#define ZB_IOBUF_POOL_SIZE 30
-#define ZB_SCHEDULER_Q_SIZE 30
-#endif
-
-/* ZGP */
-
-#ifdef  ZB_ENABLE_ZGP
-#define ZB_ENABLE_ZGP_GPCB
-#define ZB_ZGP_TRANSL_CMD_PLD_MAX_SIZE 3
-#define ZGP_CLUSTER_TEST
-#define ZB_ZGP_SKIP_GPDF_ON_NWK_LAYER
-#define ZB_ZGP_RUNTIME_WORK_MODE_WITH_PROXIES
-#define ZB_ZGP_SINK_TBL_SIZE 10
-#define ZB_ZGP_PROXY_TBL_SIZE 4
-#endif
-
-/* Device support */
-#define ZB_ALL_DEVICE_SUPPORT
-
-/* OOM detection */
-#define ZB_CHECK_OOM_STATUS
-#define ZB_SEND_OOM_STATUS
-
-#define ZB_NO_NVRAM_VER_MIGRATION
-#define ZB_LIMIT_VISIBILITY
-
-#define ZB_TEST_GROUP_ZCP_R22_APS
-#define ZB_TEST_GROUP_ZCP_R22_BDB
-#define ZB_TEST_GROUP_ZCP_R22_NWK
-#define ZB_TEST_GROUP_ZCP_R22_PED
-#define ZB_TEST_GROUP_ZCP_R22_PRO
-#define ZB_TEST_GROUP_ZCP_R22_R20
-#define ZB_TEST_GROUP_ZCP_R22_R21
-#define ZB_TEST_GROUP_ZCP_R22_R22
-#define ZB_TEST_GROUP_ZCP_R22_SEC
-#define ZB_TEST_GROUP_ZCP_R22_ZDO
-
-#ifdef CONFIG_ZB_ZCZR
-#define ZB_COORDINATOR_ROLE
-#define ZB_ROUTER_ROLE
-#else
-#define ZB_ED_ROLE
-#define ZB_ED_FUNC
-#endif
-
-#define ZB_PRODUCTION_CONFIG
-
-/* APS BIND TABLE SIZE */
-#ifndef ZB_ED_ROLE
-#define ZB_APS_SRC_BINDING_TABLE_SIZE 16
-#define ZB_APS_DST_BINDING_TABLE_SIZE 32
-#else
-#define ZB_APS_SRC_BINDING_TABLE_SIZE 16
-#define ZB_APS_DST_BINDING_TABLE_SIZE 32
-#endif /* ZB_ED_ROLE */
-
-/* APS GROUP TABLE SIZE */
-#ifndef ZB_ED_ROLE
-#define ZB_APS_GROUP_TABLE_SIZE 16
-#else
-#define ZB_APS_GROUP_TABLE_SIZE 8
-#endif
-#define ZB_MULTITEST_CONSOLE_SLEEP_TIMEOUT 1000000
+#define DEBUG 1

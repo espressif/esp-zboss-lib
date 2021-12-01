@@ -61,8 +61,6 @@
  *
  *    Identify Query request sending:
  *    @snippet HA_samples/on_off_switch/sample_zed.c identify_send_identify_query_req
- *
- *    For more information see HA_samples/door_lock and HA_samples/on_off_switch samples
  */
 
 /** @name Identify cluster attributes

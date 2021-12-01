@@ -167,7 +167,7 @@
     {                                                                                          \
       ZB_ZCL_CLUSTER_ID_BASIC,                                                                 \
       ZB_ZCL_CLUSTER_ID_IDENTIFY,                                                              \
-        ZB_ZCL_CLUSTER_ID_SCENES,                                                                \
+	    ZB_ZCL_CLUSTER_ID_SCENES,                                                                \
       ZB_ZCL_CLUSTER_ID_GROUPS,                                                                \
       ZB_ZCL_CLUSTER_ID_ON_OFF,                                                                \
       ZB_ZCL_CLUSTER_ID_LEVEL_CONTROL,                                                         \

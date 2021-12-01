@@ -130,7 +130,7 @@ typedef void (*zb_zcl_time_sync_time_server_found_cb_t)(zb_ret_t status, zb_uint
 
 /**
  * @brief Start time synchronization.
- * @param endpoint enpoint for each time server synchronization shall be started.
+ * @param endpoint endpoint for each time server synchronization shall be started.
  * @param cb callback that will be called on each successfull time server discovery.
  * @details Start time synchronization process. If device doesn't have master bit set in Time Status attribute of Time Cluster
  *          then starts to search available time server in Zigbee network and tries to read status and time attributes.

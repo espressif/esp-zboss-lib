@@ -61,11 +61,12 @@
     @{
 */
 
-typedef ZB_PACKED_PRE struct zb_zcl_diagnostics_ctx_s {
-    zb_mac_diagnostic_info_t mac_data;
-    zdo_diagnostics_info_t zdo_data;
-    zb_callback_t sync_data_cb;
-    zb_uint8_t cb_param;
+typedef ZB_PACKED_PRE struct zb_zcl_diagnostics_ctx_s
+{
+  zb_mac_diagnostic_info_t mac_data;
+  zdo_diagnostics_info_t zdo_data;
+  zb_callback_t sync_data_cb;
+  zb_uint8_t cb_param;
 }
 ZB_PACKED_STRUCT zb_zcl_diagnostics_ctx_t;
 
@@ -74,120 +75,121 @@ extern zb_zcl_diagnostics_ctx_t diagnostics_ctx_zcl;
 /*! @brief Diagnostics cluster attribute identifiers
     @see HA spec, Diagnostics Cluster 9.3.2.2.2
 */
-enum zb_zcl_diagnostics_attr_e {
-    /** @brief number_of_resets, Zigbee Diagnostic Cluster spec 1.2.2.1.1 */
-    ZB_ZCL_ATTR_DIAGNOSTICS_NUMBER_OF_RESETS_ID                = 0x0000,
-    /** This attribute keeps track of the number of writes to persistent memory.
-     *  HA spec 9.2.2.2.1.2 */
-    ZB_ZCL_ATTR_DIAGNOSTICS_PERSISTENT_MEMORY_WRITES_ID        = 0x0001,
-    /** @brief MacRxBcast, HA spec 9.2.2.2.2.1 */
-    ZB_ZCL_ATTR_DIAGNOSTICS_MAC_RX_BCAST_ID                    = 0x0100,
-    /** @brief MacTxBcast, HA spec 9.2.2.2.2.2 */
-    ZB_ZCL_ATTR_DIAGNOSTICS_MAC_TX_BCAST_ID                    = 0x0101,
-    /** MacRxUcast Attribute A counter that is incremented each time the MAC
-     *  layer receives a unicast. */
-    ZB_ZCL_ATTR_DIAGNOSTICS_MAC_RX_UCAST_ID                    = 0x0102,
-    /** @brief MacTxUcast, HA spec 9.2.2.2.2.4 */
-    ZB_ZCL_ATTR_DIAGNOSTICS_MAC_TX_UCAST_ID                    = 0x0103,
-    /** MacTxUcastRetry Attribute A counter that is incremented each time
-     *  the MAC layer retries a unicast. */
-    ZB_ZCL_ATTR_DIAGNOSTICS_MAC_TX_UCAST_RETRY_ID              = 0x0104,
-    /** MacTxUcastFail Attribute A counter that is incremented each time
-     *  the MAC layer fails to send a unicast. */
-    ZB_ZCL_ATTR_DIAGNOSTICS_MAC_TX_UCAST_FAIL_ID               = 0x0105,
-    /** APSRxBcast Attribute A counter that is incremented each time
-     *  the APS layer receives a broadcast. */
-    ZB_ZCL_ATTR_DIAGNOSTICS_APS_RX_BCAST_ID                    = 0x0106,
-    /** @brief aps_tx_bcast, HA spec 9.3.2.2.2 (??) */
-    ZB_ZCL_ATTR_DIAGNOSTICS_APS_TX_BCAST_ID                    = 0x0107,
-    /** APSRxUcast Attribute A counter that is incremented each time
-     *  the APS layer receives a unicast. */
-    ZB_ZCL_ATTR_DIAGNOSTICS_APS_RX_UCAST_ID                    = 0x0108,
-    /** @brief aps_tx_ucast_success, HA spec 9.3.2.2.2 (??) */
-    ZB_ZCL_ATTR_DIAGNOSTICS_APS_TX_UCAST_SUCCESS_ID            = 0x0109,
-    /** APSTxUcastRetry Attribute A counter that is incremented each time
-     *  the APS layer retries the sending of a unicast. */
-    ZB_ZCL_ATTR_DIAGNOSTICS_APS_TX_UCAST_RETRY_ID              = 0x010A,
-    /** @brief aps_tx_ucast_fail, HA spec 9.3.2.2.2 (??) */
-    ZB_ZCL_ATTR_DIAGNOSTICS_APS_TX_UCAST_FAIL_ID               = 0x010b,
-    /** RouteDiscInitiated Attribute A counter that is incremented each time
-     *  a route request is initiated . */
-    ZB_ZCL_ATTR_DIAGNOSTICS_ROUTE_DISC_INITIATED_ID            = 0x010C,
-    /** NeighborAdded Attribute A counter that is incremented each time
-     *  an entry is added to the neighbor table. */
-    ZB_ZCL_ATTR_DIAGNOSTICS_NEIGHBOR_ADDED_ID                  = 0x010D,
-    /** NeighborRemoved Attribute A counter that is incremented each time
-     *  an entry is removed from the neighbor table. */
-    ZB_ZCL_ATTR_DIAGNOSTICS_NEIGHBOR_REMOVED_ID                = 0x010E,
-    /** A counter that is incremented each time a neighbor table entry becomes stale
-     *  because the neighbor has not been heard from. */
-    ZB_ZCL_ATTR_DIAGNOSTICS_NEIGHBOR_STALE_ID                  = 0x010F,
-    /** @brief join_indication, HA spec 1.2.2.2.17 */
-    ZB_ZCL_ATTR_DIAGNOSTICS_JOIN_INDICATION_ID                 = 0x0110,
-    /** A counter that is incremented each time an entry is removed from the child table. */
-    ZB_ZCL_ATTR_DIAGNOSTICS_CHILD_MOVED_ID                     = 0x0111,
-    /** A counter that is incremented each time a message is dropped at the network
-     *  layer because the APS frame counter was not higher than the last message seen
-     *  from that source. */
-    ZB_ZCL_ATTR_DIAGNOSTICS_NWKFC_FAILURE_ID                   = 0x0112,
-    /** A counter that is incremented each time a message is dropped at the APS layer
-     *  because the APS frame counter was not higher than the last message seen from
-     *  that source. */
-    ZB_ZCL_ATTR_DIAGNOSTICS_APSFC_FAILURE_ID                   = 0x0113,
-    /** A counter that is incremented each time a message is dropped at the APS layer
-     *  because it had APS encryption but the key associated with the sender has
-     *  not been authenticated, and thus the key is not authorized for use
-     *  in APS data messages. */
-    ZB_ZCL_ATTR_DIAGNOSTICS_APS_UNAUTHORIZED_KEY_ID            = 0x0114,
-    /** A counter that is incremented each time a NWK encrypted message was received
-     *  but dropped because decryption failed. */
-    ZB_ZCL_ATTR_DIAGNOSTICS_NWK_DECRYPT_FAILURES_ID            = 0x0115,
-    /** A counter that is incremented each time an APS encrypted message was received
-     *  but dropped because decryption failed. */
-    ZB_ZCL_ATTR_DIAGNOSTICS_APS_DECRYPT_FAILURES_ID            = 0x0116,
-    /** A counter that is incremented each time the stack failed to allocate a packet
-     *  buffers. This doesn't necessarily mean that the packet buffer count was 0 at
-     *  the time, but that the number requested was greater than the number free. */
-    ZB_ZCL_ATTR_DIAGNOSTICS_PACKET_BUFFER_ALLOCATE_FAILURES_ID = 0x0117,
-    /** A counter that is incremented each time a unicast packet is relayed. */
-    ZB_ZCL_ATTR_DIAGNOSTICS_RELAYED_UCAST_ID                   = 0x0118,
-    /** A counter that is incremented each time a packet is dropped because the PHY to
-     *  MAC queue was exhausted */
-    ZB_ZCL_ATTR_DIAGNOSTICS_PHYTOMACQUEUELIMITREACHED_ID       = 0x0119,
-    /** A counter that is incremented each time a packet was dropped due to a packet
-     *  validation error. This could be due to length or other formatting problems
-     *  in the packet. */
-    ZB_ZCL_ATTR_DIAGNOSTICS_PACKET_VALIDATEDROPCOUNT_ID        = 0x011A,
-    /** A counter that is equal to the average number of MAC retries needed to send
-     *  an APS message, HA spec 9.2.2.2.2.27 */
-    ZB_ZCL_ATTR_DIAGNOSTICS_AVERAGE_MAC_RETRY_PER_APS_ID       = 0x011b,
-    /** This is the Link Quality Indicator for the last message received. There is no
-     *  current agreed upon standard for calculating the LQI. For some implementations
-     *  LQI is related directly to RSSI for others it is a function of the number of
-     *  errors received over a fixed number of bytes in a given message. The one thing
-     *  that has been agreed is that the Link Quality Indicator is a value between 0
-     *  and 255 where 0 indicates the worst possible link and 255 indicates the best
-     *  possible link. Note that for a device reading the Last Message LQI the returned
-     *  value SHALL be the LQI for the read attribute message used to read the attribute
-     *  itself. */
-    ZB_ZCL_ATTR_DIAGNOSTICS_LAST_LQI_ID                        = 0x011c,
-    /** This is the receive signal strength indication for the last message received.
-     *  As with Last Message LQI, a device reading the Last Message RSSI, the returned
-     *  value SHALL be the RSSI of the read attribute message used to read the attribute
-     *  itself. */
-    ZB_ZCL_ATTR_DIAGNOSTICS_LAST_RSSI_ID                       = 0x011d,
-    /*! @brief A counter that is incremented on the NWK layer
-     *         each time tries number of a packet resending are gone.
-     *
-     * @note It's a non-standard counter that depends on ZB_ENABLE_NWK_RETRANSMIT and
-     *       will be zero always when the macro isn't set. */
-    ZB_ZCL_ATTR_DIAGNOSTICS_CUSTOM_ATTR_NWK_RETRY_OVERFLOW_ID  = 0xff00,
-    /** A non-standard counter that is incremented each time an the PHY layer was unable
-     *  to transmit due to a failed CCA */
-    ZB_ZCL_ATTR_DIAGNOSTICS_CUSTOM_ATTR_PHY_CCA_FAILURES_ID    = 0xff01,
-    /** A non-standard counter of the number of times the NWK broadcast was dropped
-     *  because the broadcast table was full. */
-    ZB_ZCL_ATTR_DIAGNOSTICS_CUSTOM_ATTR_BCAST_TABLE_FULL_ID    = 0xff02
+enum zb_zcl_diagnostics_attr_e
+{
+  /** @brief number_of_resets, Zigbee Diagnostic Cluster spec 1.2.2.1.1 */
+  ZB_ZCL_ATTR_DIAGNOSTICS_NUMBER_OF_RESETS_ID                = 0x0000,
+  /** This attribute keeps track of the number of writes to persistent memory.
+   *  HA spec 9.2.2.2.1.2 */
+  ZB_ZCL_ATTR_DIAGNOSTICS_PERSISTENT_MEMORY_WRITES_ID        = 0x0001,
+  /** @brief MacRxBcast, HA spec 9.2.2.2.2.1 */
+  ZB_ZCL_ATTR_DIAGNOSTICS_MAC_RX_BCAST_ID                    = 0x0100,
+  /** @brief MacTxBcast, HA spec 9.2.2.2.2.2 */
+  ZB_ZCL_ATTR_DIAGNOSTICS_MAC_TX_BCAST_ID                    = 0x0101,
+  /** MacRxUcast Attribute A counter that is incremented each time the MAC
+   *  layer receives a unicast. */
+  ZB_ZCL_ATTR_DIAGNOSTICS_MAC_RX_UCAST_ID                    = 0x0102,
+  /** @brief MacTxUcast, HA spec 9.2.2.2.2.4 */
+  ZB_ZCL_ATTR_DIAGNOSTICS_MAC_TX_UCAST_ID                    = 0x0103,
+  /** MacTxUcastRetry Attribute A counter that is incremented each time
+   *  the MAC layer retries a unicast. */
+  ZB_ZCL_ATTR_DIAGNOSTICS_MAC_TX_UCAST_RETRY_ID              = 0x0104,
+  /** MacTxUcastFail Attribute A counter that is incremented each time
+   *  the MAC layer fails to send a unicast. */
+  ZB_ZCL_ATTR_DIAGNOSTICS_MAC_TX_UCAST_FAIL_ID               = 0x0105,
+  /** APSRxBcast Attribute A counter that is incremented each time
+   *  the APS layer receives a broadcast. */
+  ZB_ZCL_ATTR_DIAGNOSTICS_APS_RX_BCAST_ID                    = 0x0106,
+  /** @brief aps_tx_bcast, HA spec 9.3.2.2.2 (??) */
+  ZB_ZCL_ATTR_DIAGNOSTICS_APS_TX_BCAST_ID                    = 0x0107,
+  /** APSRxUcast Attribute A counter that is incremented each time
+   *  the APS layer receives a unicast. */
+  ZB_ZCL_ATTR_DIAGNOSTICS_APS_RX_UCAST_ID                    = 0x0108,
+  /** @brief aps_tx_ucast_success, HA spec 9.3.2.2.2 (??) */
+  ZB_ZCL_ATTR_DIAGNOSTICS_APS_TX_UCAST_SUCCESS_ID            = 0x0109,
+  /** APSTxUcastRetry Attribute A counter that is incremented each time
+   *  the APS layer retries the sending of a unicast. */
+  ZB_ZCL_ATTR_DIAGNOSTICS_APS_TX_UCAST_RETRY_ID              = 0x010A,
+  /** @brief aps_tx_ucast_fail, HA spec 9.3.2.2.2 (??) */
+  ZB_ZCL_ATTR_DIAGNOSTICS_APS_TX_UCAST_FAIL_ID               = 0x010b,
+  /** RouteDiscInitiated Attribute A counter that is incremented each time
+   *  a route request is initiated . */
+  ZB_ZCL_ATTR_DIAGNOSTICS_ROUTE_DISC_INITIATED_ID            = 0x010C,
+  /** NeighborAdded Attribute A counter that is incremented each time
+   *  an entry is added to the neighbor table. */
+  ZB_ZCL_ATTR_DIAGNOSTICS_NEIGHBOR_ADDED_ID                  = 0x010D,
+  /** NeighborRemoved Attribute A counter that is incremented each time
+   *  an entry is removed from the neighbor table. */
+  ZB_ZCL_ATTR_DIAGNOSTICS_NEIGHBOR_REMOVED_ID                = 0x010E,
+  /** A counter that is incremented each time a neighbor table entry becomes stale
+   *  because the neighbor has not been heard from. */
+  ZB_ZCL_ATTR_DIAGNOSTICS_NEIGHBOR_STALE_ID                  = 0x010F,
+  /** @brief join_indication, HA spec 1.2.2.2.17 */
+  ZB_ZCL_ATTR_DIAGNOSTICS_JOIN_INDICATION_ID                 = 0x0110,
+  /** A counter that is incremented each time an entry is removed from the child table. */
+  ZB_ZCL_ATTR_DIAGNOSTICS_CHILD_MOVED_ID                     = 0x0111,
+  /** A counter that is incremented each time a message is dropped at the network
+   *  layer because the APS frame counter was not higher than the last message seen
+   *  from that source. */
+  ZB_ZCL_ATTR_DIAGNOSTICS_NWKFC_FAILURE_ID                   = 0x0112,
+  /** A counter that is incremented each time a message is dropped at the APS layer
+   *  because the APS frame counter was not higher than the last message seen from
+   *  that source. */
+  ZB_ZCL_ATTR_DIAGNOSTICS_APSFC_FAILURE_ID                   = 0x0113,
+  /** A counter that is incremented each time a message is dropped at the APS layer
+   *  because it had APS encryption but the key associated with the sender has
+   *  not been authenticated, and thus the key is not authorized for use
+   *  in APS data messages. */
+  ZB_ZCL_ATTR_DIAGNOSTICS_APS_UNAUTHORIZED_KEY_ID            = 0x0114,
+  /** A counter that is incremented each time a NWK encrypted message was received
+   *  but dropped because decryption failed. */
+  ZB_ZCL_ATTR_DIAGNOSTICS_NWK_DECRYPT_FAILURES_ID            = 0x0115,
+  /** A counter that is incremented each time an APS encrypted message was received
+   *  but dropped because decryption failed. */
+  ZB_ZCL_ATTR_DIAGNOSTICS_APS_DECRYPT_FAILURES_ID            = 0x0116,
+  /** A counter that is incremented each time the stack failed to allocate a packet
+   *  buffers. This doesn't necessarily mean that the packet buffer count was 0 at
+   *  the time, but that the number requested was greater than the number free. */
+  ZB_ZCL_ATTR_DIAGNOSTICS_PACKET_BUFFER_ALLOCATE_FAILURES_ID = 0x0117,
+  /** A counter that is incremented each time a unicast packet is relayed. */
+  ZB_ZCL_ATTR_DIAGNOSTICS_RELAYED_UCAST_ID                   = 0x0118,
+  /** A counter that is incremented each time a packet is dropped because the PHY to
+   *  MAC queue was exhausted */
+  ZB_ZCL_ATTR_DIAGNOSTICS_PHYTOMACQUEUELIMITREACHED_ID       = 0x0119,
+  /** A counter that is incremented each time a packet was dropped due to a packet
+   *  validation error. This could be due to length or other formatting problems
+   *  in the packet. */
+  ZB_ZCL_ATTR_DIAGNOSTICS_PACKET_VALIDATEDROPCOUNT_ID        = 0x011A,
+  /** A counter that is equal to the average number of MAC retries needed to send
+   *  an APS message, HA spec 9.2.2.2.2.27 */
+  ZB_ZCL_ATTR_DIAGNOSTICS_AVERAGE_MAC_RETRY_PER_APS_ID       = 0x011b,
+  /** This is the Link Quality Indicator for the last message received. There is no
+   *  current agreed upon standard for calculating the LQI. For some implementations
+   *  LQI is related directly to RSSI for others it is a function of the number of
+   *  errors received over a fixed number of bytes in a given message. The one thing
+   *  that has been agreed is that the Link Quality Indicator is a value between 0
+   *  and 255 where 0 indicates the worst possible link and 255 indicates the best
+   *  possible link. Note that for a device reading the Last Message LQI the returned
+   *  value SHALL be the LQI for the read attribute message used to read the attribute
+   *  itself. */
+  ZB_ZCL_ATTR_DIAGNOSTICS_LAST_LQI_ID                        = 0x011c,
+  /** This is the receive signal strength indication for the last message received.
+   *  As with Last Message LQI, a device reading the Last Message RSSI, the returned
+   *  value SHALL be the RSSI of the read attribute message used to read the attribute
+   *  itself. */
+  ZB_ZCL_ATTR_DIAGNOSTICS_LAST_RSSI_ID                       = 0x011d,
+  /*! @brief A counter that is incremented on the NWK layer
+   *         each time tries number of a packet resending are gone.
+   *
+   * @note It's a non-standard counter that depends on ZB_ENABLE_NWK_RETRANSMIT and
+   *       will be zero always when the macro isn't set. */
+  ZB_ZCL_ATTR_DIAGNOSTICS_CUSTOM_ATTR_NWK_RETRY_OVERFLOW_ID  = 0xff00,
+  /** A non-standard counter that is incremented each time an the PHY layer was unable
+   *  to transmit due to a failed CCA */
+  ZB_ZCL_ATTR_DIAGNOSTICS_CUSTOM_ATTR_PHY_CCA_FAILURES_ID    = 0xff01,
+  /** A non-standard counter of the number of times the NWK broadcast was dropped
+   *  because the broadcast table was full. */
+  ZB_ZCL_ATTR_DIAGNOSTICS_CUSTOM_ATTR_BCAST_TABLE_FULL_ID    = 0xff02
 };
 
 /** @brief Default value for number_of_resets attribute */
@@ -613,7 +615,7 @@ enum zb_zcl_diagnostics_attr_e {
  *   Important note:
  * We have asynchronous reading the Diagnostics attributes:
  * in the zb_zcl_read_attr_handler() we call zdo_diagnostics_get_stats()
- * that will copy all counters to the same bufer from the first byte.
+ * that will copy all counters to the same buffer from the first byte.
  * What the problem? We have the following buffer stucture:
  *   a) buffer begin (from zero byte! not from zb_buf_begin()) - will contain all counters;
  *   b) buffer middle (from zb_buf_begin()) - contains one or more zb_zcl_read_attr_req_t;

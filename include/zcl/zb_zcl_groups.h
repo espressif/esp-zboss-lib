@@ -170,7 +170,6 @@ enum zb_zcl_groups_cmd_resp_e
  *    @snippet doxygen_snippets.dox Parse Add Group response_snippet_groups_dut_553_c
  *    @par
  *
- *    For more information see 5.5.3_groups sample
  */
 
 /** @brief Add group command structure */
@@ -290,7 +289,6 @@ zb_zcl_groups_add_group_res_t;
  *    @snippet doxygen_snippets.dox Parse View Group response_snippet_groups_dut_c
  *    @par
  *
- *    For more information see 545_groups sample
  */
 
 /** @brief View group command structure */
@@ -406,7 +404,6 @@ zb_zcl_groups_view_group_res_t;
  *    If there are more then one response record, macro call can be iterated.
  *    @par
  *
- *    For more information see 516_groups sample
  */
 
 /** @brief Get Group Membership command structure */
@@ -564,7 +561,6 @@ zb_zcl_groups_get_group_membership_res_t;
  *    @snippet doxygen_snippets.dox Parse Remove Group response_snippet_groups_dut_c
  *    @par
  *
- *    For more information see 516_groups sample
  */
 
 /** @brief Remove Group command structure */
@@ -677,7 +673,6 @@ zb_zcl_groups_remove_group_res_t;
  *    @snippet HA_samples/door_lock/sample_zed.c send_remove_all_groups_req
  *    @par
  *
- *    For more information see 516_groups sample
  */
 
 /** @brief Send Remove all groups command
@@ -716,7 +711,6 @@ zb_zcl_groups_remove_group_res_t;
  *    Add Group if Identifying send:
  *    @snippet HA_samples/door_lock/sample_zed.c add_group_if_ident_req
  *
- *    For more information see 545_groups sample
  */
 
 /** @brief Send Add group if identifying command

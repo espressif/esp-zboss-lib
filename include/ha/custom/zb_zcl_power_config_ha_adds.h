@@ -492,7 +492,7 @@ enum zb_zcl_power_config_battery_alarm_state_ha_e
   ZB_ZCL_FINISH_DECLARE_ATTRIB_LIST
 
 
-/** @internal @brief Declare attribute list for Power Configuration cluster (mains + 2 batterys) - server side
+/** @internal @brief Declare attribute list for Power Configuration cluster (mains + 2 batteries) - server side
     @param attr_list - attribute list name
 
     @param voltage_m - pointer to variable to store MainsVoltage attribute

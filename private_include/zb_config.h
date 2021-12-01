@@ -197,7 +197,7 @@
 
 /** @cond DOXYGEN_INTERNAL_DOC */
 /**
-   ZB_ENABLE_SE_MIN_CONFIG - enables CBKE-related structures and functionaity
+   ZB_ENABLE_SE_MIN_CONFIG - enables CBKE-related structures and functionality
    can be defined in vendor file directly, or enabled, when ZB_ENABLE_SE is defined
 */
 #ifdef ZB_ENABLE_SE
@@ -211,7 +211,7 @@
 #ifndef ZB_SECURITY_INSTALLCODES
 #define ZB_SECURITY_INSTALLCODES
 #endif
-/* ZB_ENABLE_SE coyuld be set to enable only CBKE but not SE commissioninfg */
+/* ZB_ENABLE_SE could be set to enable only CBKE but not SE commissioning */
 #ifndef ZB_NO_SE_COMMISSIONING
 #define ZB_SE_COMMISSIONING
 #endif
@@ -256,6 +256,7 @@
 
 /* Current Sub-GHz properties */
 #define ZB_MAC_DUTY_CYCLE_MONITORING
+#define ZB_MAC_POWER_CONTROL
 #define ZB_SUB_GHZ_LBT
 #define ZB_ENHANCED_BEACON_SUPPORT
 #define ZB_JOINING_LIST_SUPPORT
@@ -466,7 +467,7 @@ Ideally should rework the whole zb_config.h to suit better for that new concept.
 #endif  /* ZB_MACSPLIT_HOST */
 
 #ifdef ZB_MACSPLIT
-#ifdef ZB_MACSPLIT_TRANSPORT_SERIAL
+#if defined ZB_MACSPLIT_TRANSPORT_SERIAL || defined ZB_TRANSPORT_LINUX_UART
 #define ZB_MACSPLIT_TRANSPORT_TYPE ZB_MACSPLIT_TRANSPORT_TYPE_SERIAL
 #endif
 #ifdef ZB_MACSPLIT_TRANSPORT_USERIAL
@@ -1097,14 +1098,14 @@ exponent.
 /* As defined in D.6 Zigbee/r22 spec */
 #define ZB_MAC_MIN_BE 5U
 
-/**
+ /**
 The maximum value of the
 backoff exponent, BE, in the
 CSMA-CA algorithm. See
 7.5.1.4 for a detailed
 explanation of the backoff
 exponent.
-*/
+ */
 /* As defined in D.6 Zigbee/r22 spec */
 #define ZB_MAC_MAX_BE 8U
 
@@ -1129,6 +1130,20 @@ exponent.
  */
 #define ZB_NWK_NEIGHBOUR_PATH_COST_LQI_BASED
 #endif /* ZB_NWK_NEIGHBOUR_PATH_COST_RSSI_BASED */
+
+/*! Reserved space for routing on a parent when a device in ZED role.
+ *
+ * ZED doesn't have information about routing, so we need to reserve
+ * some space in a packet during APSDE data request processing.
+ * In this case our parent will be able to use at least 7 hops.
+ *
+ * If destination is not ZC, it is possible that packet
+ * can be routed via ZC, and ZC will use source routing.
+ *
+ * Use that 24 bytes for either long addresses in nwk hdr with 3 hops
+ * or 11 hops of source routing.
+*/
+#define ZB_NWK_RESERVED_SPACE_FOR_PARENT_ROUTING 24U
 /** @endcond */ /* DOXYGEN_INTERNAL_DOC */
 
 /***********************************************************************/
@@ -1350,6 +1365,25 @@ exponent.
 #ifndef ZB_USERDATA_FILE_PATH_PREFIX
 #define ZB_USERDATA_FILE_PATH_PREFIX ""
 #endif
+#ifndef ZB_LOG_FILE_PATH_PREFIX
+#define ZB_LOG_FILE_PATH_PREFIX ZB_TMP_FILE_PATH_PREFIX
+#endif
+
+#ifdef ZB_USE_LOGFILE_ROTATE
+#ifndef LOG_ROTATE_1K
+#define LOG_ROTATE_1K 1024
+#endif
+#ifndef ZB_DEFAULT_MAX_LOGFILE_SIZE
+#define ZB_DEFAULT_MAX_LOGFILE_SIZE   (720 * LOG_ROTATE_1K)
+#endif
+#ifndef ZB_DEFAULT_TOTAL_LOGS_SIZE
+#define ZB_DEFAULT_TOTAL_LOGS_SIZE    (2160 * LOG_ROTATE_1K)
+#endif
+#ifndef ZB_DEFAULT_MAX_LOGFILE_CNT
+#define ZB_DEFAULT_MAX_LOGFILE_CNT  (ZB_DEFAULT_TOTAL_LOGS_SIZE / ZB_DEFAULT_MAX_LOGFILE_SIZE)
+#endif
+#endif  /* ZB_USE_LOGFILE_ROTATE */
+
 /* #  define ZB_BINARY_TRACE */
 /* #  define ZB_NET_TRACE */
 /* #  define ZB_TRAFFIC_DUMP_ON */
@@ -1473,7 +1507,7 @@ exponent.
 #define ZB_EMBER_SEC_DATA_PRECONF_NONHASH
 
 /* Use hashed data link key(pair key) for compatibility tests with Ember, by default used
-   non-hached plain key, it is Only for testing purpose */
+   non-hashed plain key, it is Only for testing purpose */
 
 #if 0
 /* Currently isn't used, by default non-hashed key */
@@ -1748,7 +1782,7 @@ exponent.
 
 #ifndef SNCP_MODE
 /**
-   Do not check for APS security counters inconsistence at unsecure
+   Do not check for APS security counters inconsistency at unsecure
  */
 #ifndef ZB_NO_CHECK_INCOMING_SECURE_APS_FRAME_COUNTERS
 #define ZB_NO_CHECK_INCOMING_SECURE_APS_FRAME_COUNTERS
@@ -2074,7 +2108,7 @@ compatibility with some mammoth shit */
 #endif
 
 #ifdef ZB_ENABLE_INTER_PAN_NON_DEFAULT_CHANNEL
-/* Lock queues size to temporarily store packets when inter-pan procedue is in progress */
+/* Lock queues size to temporarily store packets when inter-pan procedure is in progress */
 #define NWK_INTRP_LOCK_QUEUE_SIZE 5U
 #define APS_LOCK_QUEUE_SIZE 5U
 #endif
@@ -2144,7 +2178,10 @@ compatibility with some mammoth shit */
 #endif
 
 #ifndef ZB_DEPRECATED_API
+/* Note: we don't use deprecated API in SNCP */
+#ifndef SNCP_MODE
 #define ZB_DEPRECATED_API
+#endif
 #endif
 
 #endif /* ZB_CONFIG_H */

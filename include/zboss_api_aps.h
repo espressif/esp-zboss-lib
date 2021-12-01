@@ -214,43 +214,44 @@ typedef zb_uint8_t zb_aps_aib_attr_id_t;
 
 /** @brief Parsed APS header.
  */
-typedef ZB_PACKED_PRE struct zb_aps_hdr_s {
-    /* TODO: rearrange fields to make that structure packet and exclude "packed" attribute. Don't forget to update NCP side. */
-    zb_uint8_t  fc;              /*!< Frame control. */
-    zb_uint16_t src_addr;        /*!< Source address of packet originator. */
-    zb_uint16_t dst_addr;        /*!< The destination address of the packet. */
-    zb_uint16_t group_addr;      /*!< If send to group then group address destination else 0. */
-    zb_uint8_t  dst_endpoint;    /*!< The destination endpoint of the packet receiver. */
-    zb_uint8_t  src_endpoint;    /*!< The source endpoint from which that packet was send. */
-    zb_uint16_t clusterid;       /*!< The identifier of the cluster on the source device. */
-    zb_uint16_t profileid;        /*!< Profile ID */
-    zb_uint8_t  aps_counter;      /*!< APS Counter for check APS dup command. */
-    zb_uint16_t mac_src_addr;     /*!< Source address of device that transmit that packet. */
-    zb_uint16_t mac_dst_addr;     /*!< Next hop address used for frame transmission. */
-    zb_uint8_t lqi;
-    zb_int8_t rssi;
-    /* attributes of the key used to unsecure this frame */
-    zb_bitfield_t aps_key_source: 1;    /*!< @if ZB_SECUR
+typedef ZB_PACKED_PRE struct zb_aps_hdr_s
+{
+  /* TODO: rearrange fields to make that structure packet and exclude "packed" attribute. Don't forget to update NCP side. */
+  zb_uint8_t  fc;              /*!< Frame control. */
+  zb_uint16_t src_addr;        /*!< Source address of packet originator. */
+  zb_uint16_t dst_addr;        /*!< The destination address of the packet. */
+  zb_uint16_t group_addr;      /*!< If send to group then group address destination else 0. */
+  zb_uint8_t  dst_endpoint;    /*!< The destination endpoint of the packet receiver. */
+  zb_uint8_t  src_endpoint;    /*!< The source endpoint from which that packet was send. */
+  zb_uint16_t clusterid;       /*!< The identifier of the cluster on the source device. */
+  zb_uint16_t profileid;        /*!< Profile ID */
+  zb_uint8_t  aps_counter;      /*!< APS Counter for check APS dup command. */
+  zb_uint16_t mac_src_addr;     /*!< Source address of device that transmit that packet. */
+  zb_uint16_t mac_dst_addr;     /*!< Next hop address used for frame transmission. */
+  zb_uint8_t lqi;
+  zb_int8_t rssi;
+  /* attributes of the key used to unsecure this frame */
+  zb_bitfield_t aps_key_source:1;    /*!< @if ZB_SECUR
                                    *     @ref secur_key_sources
                                    *   @endif
                                    */
-    zb_bitfield_t aps_key_attrs: 2;     /*!< @if ZB_SECUR
+  zb_bitfield_t aps_key_attrs:2;     /*!< @if ZB_SECUR
                                    *      @ref secur_key_attributes
                                    *   @endif
                                    */
-    zb_bitfield_t aps_key_from_tc: 1; /* Denotes that packet received from TC and properly
+  zb_bitfield_t aps_key_from_tc:1; /* Denotes that packet received from TC and properly
                                     * encrypted with TCLK by any appropriate method:
                                     * 1) BDB Request key (with Key Type: TCLK) ->
                                     *    Transport Key -> Verify Key
                                     * 2) BDB+SE Mixed CBKE
                                     * 3) SE CBKE */
-    zb_bitfield_t extended_fc: 2;
-    zb_bitfield_t reserved: 2;
+  zb_bitfield_t extended_fc:2;
+  zb_bitfield_t reserved:2;
 
-#define FIRST_INTERNAL_APSIND_FIELD tsn
-    zb_uint8_t tsn;               /*!< Transaction sequence number for ZDO/ZCL command. */
-    zb_uint8_t block_num;         /*!< Fragmentation: block number. */
-    zb_uint8_t block_ack;         /*!< Fragmentation: block ack. */
+  #define FIRST_INTERNAL_APSIND_FIELD tsn
+  zb_uint8_t tsn;               /*!< Transaction sequence number for ZDO/ZCL command. */
+  zb_uint8_t block_num;         /*!< Fragmentation: block number. */
+  zb_uint8_t block_ack;         /*!< Fragmentation: block ack. */
 } ZB_PACKED_STRUCT zb_aps_hdr_t;
 
 
@@ -278,26 +279,27 @@ ZB_ASSERT_IF_NOT_ALIGNED_TO_4(zb_apsde_data_indication_t);
   * This data structure passed to @ref zb_apsme_bind_request()
   * and to @ref zb_apsme_unbind_request().
   */
-typedef struct zb_apsme_binding_req_s {
-    zb_ieee_addr_t  src_addr;       /*!< The source IEEE address for the binding entry. */
-    zb_uint8_t      src_endpoint;   /*!< The source endpoint for the binding entry. */
-    zb_uint16_t     clusterid;      /*!< The identifier of the cluster on the source
+typedef struct zb_apsme_binding_req_s
+{
+  zb_ieee_addr_t  src_addr;       /*!< The source IEEE address for the binding entry. */
+  zb_uint8_t      src_endpoint;   /*!< The source endpoint for the binding entry. */
+  zb_uint16_t     clusterid;      /*!< The identifier of the cluster on the source
                                         device that is to be bound to the destination device.*/
-    zb_uint8_t      addr_mode;      /*!< The type of destination address supplied by
+  zb_uint8_t      addr_mode;      /*!< The type of destination address supplied by
                                        the DstAddr parameter - see @ref aps_addr_mode  */
-    zb_addr_u       dst_addr;       /*!< The destination address for the binding entry. */
-    zb_uint8_t      dst_endpoint;   /*!< This parameter will be present only if
+  zb_addr_u       dst_addr;       /*!< The destination address for the binding entry. */
+  zb_uint8_t      dst_endpoint;   /*!< This parameter will be present only if
                                        the DstAddrMode parameter has a value of
                                        0x03 and, if present, will be the
                                        destination endpoint for the binding entry.*/
 #ifdef SNCP_MODE
-    zb_uint8_t       remote_bind;   /*!< Indication if the bind req is local or remote */
-    zb_uint8_t       id;             /*!< unique identifier of the entry for NCP, updated only in
+  zb_uint8_t       remote_bind;   /*!< Indication if the bind req is local or remote */
+  zb_uint8_t       id;             /*!< unique identifier of the entry for NCP, updated only in
                                     zb_apsme_bind_request and zb_apsme_unbind_request and used to
                                     notify NCP */
-    /* confirm_cb is not sent in payload by NCP, keep it in the end of this structure */
+  /* confirm_cb is not sent in payload by NCP, keep it in the end of this structure */
 #endif
-    zb_callback_t   confirm_cb;     /*!< The callback to be called when the operation is completed. */
+  zb_callback_t   confirm_cb;     /*!< The callback to be called when the operation is completed. */
 } zb_apsme_binding_req_t;
 
 
@@ -305,34 +307,38 @@ typedef struct zb_apsme_binding_req_s {
 /**
   * This data structure passed to @ref zb_aps_check_binding_request().
   */
-typedef struct zb_aps_check_binding_req_s {
-    zb_uint8_t src_endpoint; /* a source endpoint, if ZB_ZCL_BROADCAST_ENDPOINT - any endpoint */
-    zb_uint16_t cluster_id; /* a source cluster ID */
-    zb_callback_t response_cb;
+typedef struct zb_aps_check_binding_req_s
+{
+  zb_uint8_t src_endpoint; /* a source endpoint, if ZB_ZCL_BROADCAST_ENDPOINT - any endpoint */
+  zb_uint16_t cluster_id; /* a source cluster ID */
+  zb_callback_t response_cb;
 } zb_aps_check_binding_req_t;
 
 
 /**
   * This data structure passed to callback passed to @ref zb_aps_check_binding_request().
   */
-typedef struct zb_aps_check_binding_resp_s {
-    zb_uint8_t src_endpoint; /* a source endpoint from the corresponding request */
-    zb_uint16_t cluster_id; /* a source cluster ID from the corresponding request */
-    zb_bool_t exists; /* whether the binding with specified parameters exists */
+typedef struct zb_aps_check_binding_resp_s
+{
+  zb_uint8_t src_endpoint; /* a source endpoint from the corresponding request */
+  zb_uint16_t cluster_id; /* a source cluster ID from the corresponding request */
+  zb_bool_t exists; /* whether the binding with specified parameters exists */
 } zb_aps_check_binding_resp_t;
 
 /** @brief APSME-ADD-GROUP.request primitive parameters. */
-typedef struct zb_apsme_add_group_req_s {
-    zb_uint16_t     group_address; /*!< The 16-bit address of the group being added.  */
-    zb_uint8_t      endpoint;      /*!< The endpoint to which the given group is being added.  */
-    zb_callback_t   confirm_cb;    /*!< The callback to be called when the operation is completed. */
+typedef struct zb_apsme_add_group_req_s
+{
+  zb_uint16_t     group_address; /*!< The 16-bit address of the group being added.  */
+  zb_uint8_t      endpoint;      /*!< The endpoint to which the given group is being added.  */
+  zb_callback_t   confirm_cb;    /*!< The callback to be called when the operation is completed. */
 } zb_apsme_add_group_req_t;
 
 /** @brief APSME-ADD-GROUP.confirm primitive parameters. */
-typedef struct zb_apsme_add_group_conf_s {
-    zb_uint16_t group_address;    /*!< The 16-bit address of the group being added.  */
-    zb_uint8_t  endpoint;         /*!< The endpoint to which the given group is being added.  */
-    zb_ret_t  status;           /*!< Request send status. */
+typedef struct zb_apsme_add_group_conf_s
+{
+  zb_uint16_t group_address;    /*!< The 16-bit address of the group being added.  */
+  zb_uint8_t  endpoint;         /*!< The endpoint to which the given group is being added.  */
+  zb_ret_t  status;           /*!< Request send status. */
 } zb_apsme_add_group_conf_t;
 
 /** @brief APSME-REMOVE-GROUP.request primitive parameters.  */
@@ -342,15 +348,17 @@ typedef struct zb_apsme_add_group_req_s zb_apsme_remove_group_req_t;
 typedef struct zb_apsme_add_group_conf_s zb_apsme_remove_group_conf_t;
 
 /** @brief APSME-REMOVE-ALL-GROUPS.request primitive parameters.  */
-typedef struct zb_apsme_remove_all_groups_req_s {
-    zb_uint8_t    endpoint;      /*!< The endpoint to which the given group is being removed. */
-    zb_callback_t confirm_cb;    /*!< The callback to be called when the operation is completed. */
+typedef struct zb_apsme_remove_all_groups_req_s
+{
+  zb_uint8_t    endpoint;      /*!< The endpoint to which the given group is being removed. */
+  zb_callback_t confirm_cb;    /*!< The callback to be called when the operation is completed. */
 } zb_apsme_remove_all_groups_req_t;
 
 /** @brief APSME-REMOVE-ALL-GROUPS.confirm primitive parameters.  */
-typedef struct zb_apsme_remove_all_groups_conf_s {
-    zb_uint8_t  endpoint;         /*!< The endpoint which is to be removed from all groups. */
-    zb_ret_t  status;           /*!< The status of the request to remove all groups. */
+typedef struct zb_apsme_remove_all_groups_conf_s
+{
+  zb_uint8_t  endpoint;         /*!< The endpoint which is to be removed from all groups. */
+  zb_ret_t  status;           /*!< The status of the request to remove all groups. */
 } zb_apsme_remove_all_groups_conf_t;
 
 zb_bool_t zb_aps_is_endpoint_in_group(
@@ -359,31 +367,35 @@ zb_bool_t zb_aps_is_endpoint_in_group(
 
 /** @cond internals_doc */
 /** @brief APSME GET request structure. */
-typedef struct zb_apsme_get_request_s {
-    zb_aps_aib_attr_id_t aib_attr;       /*!< The identifier of the AIB attribute to read. */
-    zb_callback_t        confirm_cb;     /*!< User's callback to be called as APSME-GET.confirm  */
+typedef struct zb_apsme_get_request_s
+{
+  zb_aps_aib_attr_id_t aib_attr;       /*!< The identifier of the AIB attribute to read. */
+  zb_callback_t        confirm_cb;     /*!< User's callback to be called as APSME-GET.confirm  */
 } zb_apsme_get_request_t;
 
 /** @brief APSME GET confirm structure. */
-typedef ZB_PACKED_PRE struct zb_apsme_get_confirm_s {
-    zb_ret_t status;         /*!< The results of the request to read an AIB attribute value. */
-    zb_aps_aib_attr_id_t aib_attr;  /*!< The identifier of the AIB attribute that was read.*/
-    zb_uint8_t aib_length;          /*!< The length, in octets, of the attribute value being returned.*/
-    /* Various */                   /* The value of the AIB attribute that was read.*/
+typedef ZB_PACKED_PRE struct zb_apsme_get_confirm_s
+{
+  zb_ret_t status;         /*!< The results of the request to read an AIB attribute value. */
+  zb_aps_aib_attr_id_t aib_attr;  /*!< The identifier of the AIB attribute that was read.*/
+  zb_uint8_t aib_length;          /*!< The length, in octets, of the attribute value being returned.*/
+  /* Various */                   /* The value of the AIB attribute that was read.*/
 } ZB_PACKED_STRUCT zb_apsme_get_confirm_t;
 
 /** @brief APSME SET request structure. */
-typedef ZB_PACKED_PRE struct zb_apsme_set_request_s {
-    zb_aps_aib_attr_id_t aib_attr; /*!< The identifier of the AIB attribute to be written. */
-    zb_uint8_t           aib_length; /*!< The length, in octets, of the attribute value being set. */
-    zb_callback_t        confirm_cb; /*!< User's callback to be called as APSME-SET.confirm  */
-    /* Various */                   /* The value of the AIB attribute that should be written. */
+typedef ZB_PACKED_PRE struct zb_apsme_set_request_s
+{
+  zb_aps_aib_attr_id_t aib_attr; /*!< The identifier of the AIB attribute to be written. */
+  zb_uint8_t           aib_length; /*!< The length, in octets, of the attribute value being set. */
+  zb_callback_t        confirm_cb; /*!< User's callback to be called as APSME-SET.confirm  */
+  /* Various */                   /* The value of the AIB attribute that should be written. */
 } ZB_PACKED_STRUCT zb_apsme_set_request_t;
 
 /** @brief APSME SET confirm structure. */
-typedef ZB_PACKED_PRE struct zb_apsme_set_confirm_s {
-    zb_ret_t   status;       /*!< The result of the request to write the AIB Attribute. */
-    zb_aps_aib_attr_id_t aib_attr;  /*!< The identifier of the AIB attribute that was written. */
+typedef ZB_PACKED_PRE struct zb_apsme_set_confirm_s
+{
+  zb_ret_t   status;       /*!< The result of the request to write the AIB Attribute. */
+  zb_aps_aib_attr_id_t aib_attr;  /*!< The identifier of the AIB attribute that was written. */
 } ZB_PACKED_STRUCT zb_apsme_set_confirm_t;
 
 /** @endcond */
@@ -394,8 +406,6 @@ typedef ZB_PACKED_PRE struct zb_apsme_set_confirm_s {
   * @par Example
   * @snippet light_sample/light_control/light_control.c apsme_bind_req
   * @par
-  *
-  * See light_sample
   */
 void zb_apsme_bind_request(zb_uint8_t param);
 
@@ -407,7 +417,6 @@ void zb_apsme_bind_request(zb_uint8_t param);
   * @snippet doxygen_snippets.dox zb_apsme_unbind_request_tests_aps_bind_aps_binding_test_c
   * @par
   *
-  * See aps_binding_test sample
   */
 void zb_apsme_unbind_request(zb_uint8_t param);
 
@@ -430,7 +439,6 @@ void zb_aps_check_binding_request(zb_bufid_t param);
   * @snippet scenes/scenes_zed.c apsme_add_group_req
   * @par
   *
-  * See scenes sample
   */
 void zb_apsme_add_group_request(zb_uint8_t param);
 
@@ -445,7 +453,6 @@ void zb_apsme_add_group_request(zb_uint8_t param);
   * @snippet doxygen_snippets.dox zb_apsme_remove_group_request_certification_TP_APS_BV-17_tp_aps_bv-17_zed_c
   * @par
   *
-  * See tp_aps_bv-17 sample
   */
 void zb_apsme_remove_group_request(zb_uint8_t param);
 
@@ -460,7 +467,6 @@ void zb_apsme_remove_group_request(zb_uint8_t param);
   * @snippet doxygen_snippets.dox zb_apsme_remove_all_groups_request_tests_certification_TP_APS_BV-18_tp_aps_bv-18_zed_c
   * @par
   *
-  * See tp_aps_bv-18 sample
   */
 void zb_apsme_remove_all_groups_request(zb_uint8_t param);
 
@@ -482,8 +488,10 @@ zb_uint8_t zb_aps_get_max_buffer_size(zb_uint16_t short_addr);
 /** @addtogroup aps_api
  * @{
  */
-/*! @addtogroup aps_user_payload APS user payload */
-/*! @{ */
+
+/** @addtogroup aps_user_payload APS user payload
+ * @{
+ */
 
 /*!
  * @brief
@@ -499,11 +507,12 @@ typedef void (*zb_aps_user_payload_callback_t)(zb_uint8_t param);
  *
  * Stored in the buf->u.hdr.status field
  */
-typedef enum zb_aps_user_payload_cb_status_e {
-    /*! APS user payload transmission is successful*/
-    ZB_APS_USER_PAYLOAD_CB_STATUS_SUCCESS    = (zb_uint8_t)0x00,
-    /* Failed to transmit APS user payload - No confirmation from APS*/
-    ZB_APS_USER_PAYLOAD_CB_STATUS_NO_APS_ACK = (zb_uint8_t)0xbe
+typedef enum zb_aps_user_payload_cb_status_e
+{
+  /*! APS user payload transmission is successful*/
+  ZB_APS_USER_PAYLOAD_CB_STATUS_SUCCESS    = (zb_uint8_t)0x00,
+  /* Failed to transmit APS user payload - No confirmation from APS*/
+  ZB_APS_USER_PAYLOAD_CB_STATUS_NO_APS_ACK = (zb_uint8_t)0xbe
 } zb_aps_user_payload_cb_status_t;
 
 /*!
@@ -530,16 +539,16 @@ typedef enum zb_aps_user_payload_cb_status_e {
  * @return RET_INVALID_PARAMETER_3 - if the payload_size parameter is too large
  */
 zb_ret_t zb_aps_send_user_payload(
-    zb_uint8_t param,
-    zb_addr_u dst_addr,
-    zb_uint16_t profile_id,
-    zb_uint16_t cluster_id,
-    zb_uint8_t dst_endpoint,
-    zb_uint8_t src_endpoint,
-    zb_uint8_t addr_mode,
-    zb_bool_t aps_ack_is_enabled,
-    zb_uint8_t *payload_ptr,
-    zb_uint8_t payload_size);
+  zb_uint8_t param,
+  zb_addr_u dst_addr,
+  zb_uint16_t profile_id,
+  zb_uint16_t cluster_id,
+  zb_uint8_t dst_endpoint,
+  zb_uint8_t src_endpoint,
+  zb_uint8_t addr_mode,
+  zb_bool_t aps_ack_is_enabled,
+  zb_uint8_t *payload_ptr,
+  zb_uint8_t payload_size);
 
 /*!
  * @brief Get pointer to an APS payload
@@ -561,9 +570,9 @@ zb_uint8_t *zb_aps_get_aps_payload(zb_uint8_t param, zb_uint8_t *aps_payload_siz
  */
 void zb_aps_set_user_data_tx_cb(zb_aps_user_payload_callback_t cb);
 
-/*! @} */ /* addtogroup aps_user_payload */
+/** @} */ /* aps_user_payload */
 
-/*! @} */
+/** @} */
 
 #endif /* #ifdef ZB_APS_USER_PAYLOAD */
 

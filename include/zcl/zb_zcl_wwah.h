@@ -77,57 +77,58 @@
 /*! @brief WWAH cluster attribute identifiers
     @see WWAH spec, subclause 6.3.2.2
 */
-enum zb_zcl_wwah_attr_e {
-    /** If set to TRUE, the device SHALL disallow downgrades of it's firmware. */
-    ZB_ZCL_ATTR_WWAH_DISABLE_OTA_DOWNGRADES_ID                   = 0x0002,
-    /** If set to FALSE, the node SHALL ignore MGMT Leave Without Rejoin commands. */
-    ZB_ZCL_ATTR_WWAH_MGMT_LEAVE_WITHOUT_REJOIN_ENABLED_ID        = 0x0003,
-    /** This attribute is a fixed value containing the number of Network Level Retries
-     *  the device performs when sending a unicast command, not including APS retries. */
-    ZB_ZCL_ATTR_WWAH_NWK_RETRY_COUNT_ID                          = 0x0004,
-    /** This attribute is a fixed value containing the number of MAC Level Retries the
-     *  device performs when sending a unicast command, not including APS retries. */
-    ZB_ZCL_ATTR_WWAH_MAC_RETRY_COUNT_ID                          = 0x0005,
-    /** This attribute is set to TRUE if the router's check-in algorithm has been enabled
-     *  through the 'Enable Periodic Router Check-Ins' command detailed below. */
-    ZB_ZCL_ATTR_WWAH_ROUTER_CHECK_IN_ENABLED_ID                  = 0x0006,
-    /** This attribute is set to FALSE if support for Touchlink Interpan messages has been
-     *  disabled on the device. */
-    ZB_ZCL_ATTR_WWAH_TOUCHLINK_INTERPAN_ENABLED_ID               = 0x0007,
-    /** If set to TRUE, the device SHALL enable the WWAH Parent Classification
-     *  Advertisements feature. */
-    ZB_ZCL_ATTR_WWAH_WWAH_PARENT_CLASSIFICATION_ENABLED_ID       = 0x0008,
-    /** This attribute is TRUE if the WWAH Application Event Retry Algorithm is enabled. */
-    ZB_ZCL_ATTR_WWAH_WWAH_APP_EVENT_RETRY_ENABLED_ID             = 0x0009,
-    /** This attribute is the queue size for re-delivery attempts in the WWAH Application
-     *  Event Retry Algorithm. */
-    ZB_ZCL_ATTR_WWAH_WWAH_APP_EVENT_RETRY_QUEUE_SIZE_ID          = 0x000A,
-    /** This attribute is set to TRUE if the WWAH Rejoin Algorithm is enabled. */
-    ZB_ZCL_ATTR_WWAH_WWAH_REJOIN_ENABLED_ID                      = 0x000B,
-    /** This attribute is the time in seconds the device waits before retrying a data poll
-     *  when a MAC level data poll fails for any reason. */
-    ZB_ZCL_ATTR_WWAH_MAC_POLL_FAILURE_WAIT_TIME_ID               = 0x000C,
-    /** This attribute indicates whether the device is able to be configured using ZDO
-     *  commands that are not encrypted using the Trust Center Link Key. */
-    ZB_ZCL_ATTR_WWAH_CONFIGURATION_MODE_ENABLED_ID               = 0x000D,
-    /** This attribute contains the ID of the current debug report stored on the node. */
-    ZB_ZCL_ATTR_WWAH_CURRENT_DEBUG_REPORT_ID_ID                  = 0x000E,
-    /** If this attribute is set to TRUE, the node SHALL only process network
-     *  key rotation commands which are sent via unicast and are encrypted by
-     *  the Trust Center Link Key. */
-    ZB_ZCL_ATTR_WWAH_TC_SECURITY_ON_NWK_KEY_ROTATION_ENABLED_ID  = 0x000F,
-    /** If this attribute is set to TRUE, the endpoint device SHALL enable
-     *  the WWAH Bad Parent Recovery feature. */
-    ZB_ZCL_ATTR_WWAH_WWAH_BAD_PARENT_RECOVERY_ENABLED_ID         = 0x0010,
-    /** This attribute contains the channel number of the only channel the device
-     *  SHALL accept in a ZDO Mgmt Network Update command. */
-    ZB_ZCL_ATTR_WWAH_PENDING_NETWORK_UPDATE_CHANNEL_ID           = 0x0011,
-    /** This attribute contains the only short PAN ID the device SHALL accept in
-     *  a NLME Network Update command. */
-    ZB_ZCL_ATTR_WWAH_PENDING_NETWORK_UPDATE_PANID_ID             = 0x0012,
-    /** This attribute contains the maximum time in seconds the device may be unavailable
-     *  after completing its OTA download (while restarting, etc). */
-    ZB_ZCL_ATTR_WWAH_OTA_MAX_OFFLINE_DURATION_ID                 = 0x0013,
+enum zb_zcl_wwah_attr_e
+{
+  /** If set to TRUE, the device SHALL disallow downgrades of it's firmware. */
+  ZB_ZCL_ATTR_WWAH_DISABLE_OTA_DOWNGRADES_ID                   = 0x0002,
+  /** If set to FALSE, the node SHALL ignore MGMT Leave Without Rejoin commands. */
+  ZB_ZCL_ATTR_WWAH_MGMT_LEAVE_WITHOUT_REJOIN_ENABLED_ID        = 0x0003,
+  /** This attribute is a fixed value containing the number of Network Level Retries
+   *  the device performs when sending a unicast command, not including APS retries. */
+  ZB_ZCL_ATTR_WWAH_NWK_RETRY_COUNT_ID                          = 0x0004,
+  /** This attribute is a fixed value containing the number of MAC Level Retries the
+   *  device performs when sending a unicast command, not including APS retries. */
+  ZB_ZCL_ATTR_WWAH_MAC_RETRY_COUNT_ID                          = 0x0005,
+  /** This attribute is set to TRUE if the router's check-in algorithm has been enabled
+   *  through the 'Enable Periodic Router Check-Ins' command detailed below. */
+  ZB_ZCL_ATTR_WWAH_ROUTER_CHECK_IN_ENABLED_ID                  = 0x0006,
+  /** This attribute is set to FALSE if support for Touchlink Interpan messages has been
+   *  disabled on the device. */
+  ZB_ZCL_ATTR_WWAH_TOUCHLINK_INTERPAN_ENABLED_ID               = 0x0007,
+  /** If set to TRUE, the device SHALL enable the WWAH Parent Classification
+   *  Advertisements feature. */
+  ZB_ZCL_ATTR_WWAH_WWAH_PARENT_CLASSIFICATION_ENABLED_ID       = 0x0008,
+  /** This attribute is TRUE if the WWAH Application Event Retry Algorithm is enabled. */
+  ZB_ZCL_ATTR_WWAH_WWAH_APP_EVENT_RETRY_ENABLED_ID             = 0x0009,
+  /** This attribute is the queue size for re-delivery attempts in the WWAH Application
+   *  Event Retry Algorithm. */
+  ZB_ZCL_ATTR_WWAH_WWAH_APP_EVENT_RETRY_QUEUE_SIZE_ID          = 0x000A,
+  /** This attribute is set to TRUE if the WWAH Rejoin Algorithm is enabled. */
+  ZB_ZCL_ATTR_WWAH_WWAH_REJOIN_ENABLED_ID                      = 0x000B,
+  /** This attribute is the time in seconds the device waits before retrying a data poll
+   *  when a MAC level data poll fails for any reason. */
+  ZB_ZCL_ATTR_WWAH_MAC_POLL_FAILURE_WAIT_TIME_ID               = 0x000C,
+  /** This attribute indicates whether the device is able to be configured using ZDO
+   *  commands that are not encrypted using the Trust Center Link Key. */
+  ZB_ZCL_ATTR_WWAH_CONFIGURATION_MODE_ENABLED_ID               = 0x000D,
+  /** This attribute contains the ID of the current debug report stored on the node. */
+  ZB_ZCL_ATTR_WWAH_CURRENT_DEBUG_REPORT_ID_ID                  = 0x000E,
+  /** If this attribute is set to TRUE, the node SHALL only process network
+   *  key rotation commands which are sent via unicast and are encrypted by
+   *  the Trust Center Link Key. */
+  ZB_ZCL_ATTR_WWAH_TC_SECURITY_ON_NWK_KEY_ROTATION_ENABLED_ID  = 0x000F,
+  /** If this attribute is set to TRUE, the endpoint device SHALL enable
+   *  the WWAH Bad Parent Recovery feature. */
+  ZB_ZCL_ATTR_WWAH_WWAH_BAD_PARENT_RECOVERY_ENABLED_ID         = 0x0010,
+  /** This attribute contains the channel number of the only channel the device
+   *  SHALL accept in a ZDO Mgmt Network Update command. */
+  ZB_ZCL_ATTR_WWAH_PENDING_NETWORK_UPDATE_CHANNEL_ID           = 0x0011,
+  /** This attribute contains the only short PAN ID the device SHALL accept in
+   *  a NLME Network Update command. */
+  ZB_ZCL_ATTR_WWAH_PENDING_NETWORK_UPDATE_PANID_ID             = 0x0012,
+  /** This attribute contains the maximum time in seconds the device may be unavailable
+   *  after completing its OTA download (while restarting, etc). */
+  ZB_ZCL_ATTR_WWAH_OTA_MAX_OFFLINE_DURATION_ID                 = 0x0013,
 };
 
 /** @brief Minimum value for Cluster Revision attribute */
@@ -229,94 +230,96 @@ enum zb_zcl_wwah_attr_e {
 /*! @brief WWAH cluster command identifiers
     @see WWAH spec
 */
-enum zb_zcl_wwah_cmd_e {
-    /** Enable APS Link Key Authorization command */
-    ZB_ZCL_CMD_WWAH_ENABLE_APS_LINK_KEY_AUTHORIZATION_ID = 0x00,
-    /** Disable APS Link Key Authorization command */
-    ZB_ZCL_CMD_WWAH_DISABLE_APS_LINK_KEY_AUTHORIZATION_ID = 0x01,
-    /** APS Link Key Authorization Query command */
-    ZB_ZCL_CMD_WWAH_APS_LINK_KEY_AUTHORIZATION_QUERY_ID = 0x02,
-    /** Request New APS Link Key command */
-    ZB_ZCL_CMD_WWAH_REQUEST_NEW_APS_LINK_KEY_ID = 0x03,
-    /** Enable WWAH App Event Retry Algorithm command */
-    ZB_ZCL_CMD_WWAH_ENABLE_WWAH_APP_EVENT_RETRY_ALGORITHM_ID = 0x04,
-    /** Disable WWAH App Event Retry Algorithm command */
-    ZB_ZCL_CMD_WWAH_DISABLE_WWAH_APP_EVENT_RETRY_ALGORITHM_ID = 0x05,
-    /** Request Time command */
-    ZB_ZCL_CMD_WWAH_REQUEST_TIME_ID = 0x06,
-    /** Enable WWAH Rejoin Algorithm command */
-    ZB_ZCL_CMD_WWAH_ENABLE_WWAH_REJOIN_ALGORITHM_ID = 0x07,
-    /** Disable WWAH Rejoin Algorithm command */
-    ZB_ZCL_CMD_WWAH_DISABLE_WWAH_REJOIN_ALGORITHM_ID = 0x08,
-    /** Set IAS Zone Enrollment Method command */
-    ZB_ZCL_CMD_WWAH_SET_IAS_ZONE_ENROLLMENT_METHOD_ID = 0x09,
-    /** Clear Binding Table command */
-    ZB_ZCL_CMD_WWAH_CLEAR_BINDING_TABLE_ID = 0x0A,
-    /** Enable Periodic Router Check Ins command */
-    ZB_ZCL_CMD_WWAH_ENABLE_PERIODIC_ROUTER_CHECK_INS_ID = 0x0B,
-    /** Disable Periodic Router Check Ins command */
-    ZB_ZCL_CMD_WWAH_DISABLE_PERIODIC_ROUTER_CHECK_INS_ID = 0x0C,
-    /** Set MAC Poll CCA Wait Time command */
-    ZB_ZCL_CMD_WWAH_SET_MAC_POLL_CCA_WAIT_TIME_ID = 0x0D,
-    /** Set Pending Network Update command */
-    ZB_ZCL_CMD_WWAH_SET_PENDING_NETWORK_UPDATE_ID = 0x0E,
-    /** Require APS ACKs on Unicasts command */
-    ZB_ZCL_CMD_WWAH_REQUIRE_APS_ACKS_ON_UNICASTS_ID = 0x0F,
-    /** Remove APS ACKs on Unicasts Requirement command */
-    ZB_ZCL_CMD_WWAH_REMOVE_APS_ACKS_ON_UNICASTS_REQUIREMENT_ID = 0x10,
-    /** APS ACK Requirement Query command */
-    ZB_ZCL_CMD_WWAH_APS_ACK_REQUIREMENT_QUERY_ID = 0x11,
-    /** Debug Report Query command */
-    ZB_ZCL_CMD_WWAH_DEBUG_REPORT_QUERY_ID = 0x12,
-    /** Survey Beacons command */
-    ZB_ZCL_CMD_WWAH_SURVEY_BEACONS_ID = 0x13,
-    /** Disable OTA Downgrades command */
-    ZB_ZCL_CMD_WWAH_DISABLE_OTA_DOWNGRADES_ID = 0x14,
-    /** Disable MGMT Leave Without Rejoin command */
-    ZB_ZCL_CMD_WWAH_DISABLE_MGMT_LEAVE_WITHOUT_REJOIN_ID = 0x15,
-    /** Disable Touchlink Interpan Message Support command */
-    ZB_ZCL_CMD_WWAH_DISABLE_TOUCHLINK_INTERPAN_MESSAGE_SUPPORT_ID = 0x16,
-    /** Enable WWAH Parent Classification command */
-    ZB_ZCL_CMD_WWAH_ENABLE_WWAH_PARENT_CLASSIFICATION_ID = 0x17,
-    /** Disable WWAH Parent Classification command */
-    ZB_ZCL_CMD_WWAH_DISABLE_WWAH_PARENT_CLASSIFICATION_ID = 0x18,
-    /** Enable TC Security On Nwk Key Rotation command */
-    ZB_ZCL_CMD_WWAH_ENABLE_TC_SECURITY_ON_NWK_KEY_ROTATION_ID = 0x19,
-    /** Enable WWAH Bad Parent Recovery command */
-    ZB_ZCL_CMD_WWAH_ENABLE_WWAH_BAD_PARENT_RECOVERY_ID = 0x1A,
-    /** Disable WWAH Bad Parent Recovery command */
-    ZB_ZCL_CMD_WWAH_DISABLE_WWAH_BAD_PARENT_RECOVERY_ID = 0x1B,
-    /** Enable Configuration Mode command */
-    ZB_ZCL_CMD_WWAH_ENABLE_CONFIGURATION_MODE_ID = 0x1C,
-    /** Disable Configuration Mode command */
-    ZB_ZCL_CMD_WWAH_DISABLE_CONFIGURATION_MODE_ID = 0x1D,
-    /** Use Trust Center for Cluster command */
-    ZB_ZCL_CMD_WWAH_USE_TRUST_CENTER_FOR_CLUSTER_ID = 0x1E,
-    /** Trust Center for Cluster Server Query command */
-    ZB_ZCL_CMD_WWAH_TRUST_CENTER_FOR_CLUSTER_SERVER_QUERY_ID = 0x1F,
+enum zb_zcl_wwah_cmd_e
+{
+  /** Enable APS Link Key Authorization command */
+  ZB_ZCL_CMD_WWAH_ENABLE_APS_LINK_KEY_AUTHORIZATION_ID = 0x00,
+  /** Disable APS Link Key Authorization command */
+  ZB_ZCL_CMD_WWAH_DISABLE_APS_LINK_KEY_AUTHORIZATION_ID = 0x01,
+  /** APS Link Key Authorization Query command */
+  ZB_ZCL_CMD_WWAH_APS_LINK_KEY_AUTHORIZATION_QUERY_ID = 0x02,
+  /** Request New APS Link Key command */
+  ZB_ZCL_CMD_WWAH_REQUEST_NEW_APS_LINK_KEY_ID = 0x03,
+  /** Enable WWAH App Event Retry Algorithm command */
+  ZB_ZCL_CMD_WWAH_ENABLE_WWAH_APP_EVENT_RETRY_ALGORITHM_ID = 0x04,
+  /** Disable WWAH App Event Retry Algorithm command */
+  ZB_ZCL_CMD_WWAH_DISABLE_WWAH_APP_EVENT_RETRY_ALGORITHM_ID = 0x05,
+  /** Request Time command */
+  ZB_ZCL_CMD_WWAH_REQUEST_TIME_ID = 0x06,
+  /** Enable WWAH Rejoin Algorithm command */
+  ZB_ZCL_CMD_WWAH_ENABLE_WWAH_REJOIN_ALGORITHM_ID = 0x07,
+  /** Disable WWAH Rejoin Algorithm command */
+  ZB_ZCL_CMD_WWAH_DISABLE_WWAH_REJOIN_ALGORITHM_ID = 0x08,
+  /** Set IAS Zone Enrollment Method command */
+  ZB_ZCL_CMD_WWAH_SET_IAS_ZONE_ENROLLMENT_METHOD_ID = 0x09,
+  /** Clear Binding Table command */
+  ZB_ZCL_CMD_WWAH_CLEAR_BINDING_TABLE_ID = 0x0A,
+  /** Enable Periodic Router Check Ins command */
+  ZB_ZCL_CMD_WWAH_ENABLE_PERIODIC_ROUTER_CHECK_INS_ID = 0x0B,
+  /** Disable Periodic Router Check Ins command */
+  ZB_ZCL_CMD_WWAH_DISABLE_PERIODIC_ROUTER_CHECK_INS_ID = 0x0C,
+  /** Set MAC Poll CCA Wait Time command */
+  ZB_ZCL_CMD_WWAH_SET_MAC_POLL_CCA_WAIT_TIME_ID = 0x0D,
+  /** Set Pending Network Update command */
+  ZB_ZCL_CMD_WWAH_SET_PENDING_NETWORK_UPDATE_ID = 0x0E,
+  /** Require APS ACKs on Unicasts command */
+  ZB_ZCL_CMD_WWAH_REQUIRE_APS_ACKS_ON_UNICASTS_ID = 0x0F,
+  /** Remove APS ACKs on Unicasts Requirement command */
+  ZB_ZCL_CMD_WWAH_REMOVE_APS_ACKS_ON_UNICASTS_REQUIREMENT_ID = 0x10,
+  /** APS ACK Requirement Query command */
+  ZB_ZCL_CMD_WWAH_APS_ACK_REQUIREMENT_QUERY_ID = 0x11,
+  /** Debug Report Query command */
+  ZB_ZCL_CMD_WWAH_DEBUG_REPORT_QUERY_ID = 0x12,
+  /** Survey Beacons command */
+  ZB_ZCL_CMD_WWAH_SURVEY_BEACONS_ID = 0x13,
+  /** Disable OTA Downgrades command */
+  ZB_ZCL_CMD_WWAH_DISABLE_OTA_DOWNGRADES_ID = 0x14,
+  /** Disable MGMT Leave Without Rejoin command */
+  ZB_ZCL_CMD_WWAH_DISABLE_MGMT_LEAVE_WITHOUT_REJOIN_ID = 0x15,
+  /** Disable Touchlink Interpan Message Support command */
+  ZB_ZCL_CMD_WWAH_DISABLE_TOUCHLINK_INTERPAN_MESSAGE_SUPPORT_ID = 0x16,
+  /** Enable WWAH Parent Classification command */
+  ZB_ZCL_CMD_WWAH_ENABLE_WWAH_PARENT_CLASSIFICATION_ID = 0x17,
+  /** Disable WWAH Parent Classification command */
+  ZB_ZCL_CMD_WWAH_DISABLE_WWAH_PARENT_CLASSIFICATION_ID = 0x18,
+  /** Enable TC Security On Nwk Key Rotation command */
+  ZB_ZCL_CMD_WWAH_ENABLE_TC_SECURITY_ON_NWK_KEY_ROTATION_ID = 0x19,
+  /** Enable WWAH Bad Parent Recovery command */
+  ZB_ZCL_CMD_WWAH_ENABLE_WWAH_BAD_PARENT_RECOVERY_ID = 0x1A,
+  /** Disable WWAH Bad Parent Recovery command */
+  ZB_ZCL_CMD_WWAH_DISABLE_WWAH_BAD_PARENT_RECOVERY_ID = 0x1B,
+  /** Enable Configuration Mode command */
+  ZB_ZCL_CMD_WWAH_ENABLE_CONFIGURATION_MODE_ID = 0x1C,
+  /** Disable Configuration Mode command */
+  ZB_ZCL_CMD_WWAH_DISABLE_CONFIGURATION_MODE_ID = 0x1D,
+  /** Use Trust Center for Cluster command */
+  ZB_ZCL_CMD_WWAH_USE_TRUST_CENTER_FOR_CLUSTER_ID = 0x1E,
+  /** Trust Center for Cluster Server Query command */
+  ZB_ZCL_CMD_WWAH_TRUST_CENTER_FOR_CLUSTER_SERVER_QUERY_ID = 0x1F,
 };
 
-enum zb_zcl_wwah_cmd_resp_e {
-    /** APS Link Key Authorization Query Response command */
-    ZB_ZCL_CMD_WWAH_APS_LINK_KEY_AUTHORIZATION_QUERY_RESPONSE_ID = 0x00,
-    /** Powering Off Notification command */
-    ZB_ZCL_CMD_WWAH_POWERING_OFF_NOTIFICATION_ID = 0x01,
-    /** Powering On Notification command */
-    ZB_ZCL_CMD_WWAH_POWERING_ON_NOTIFICATION_ID = 0x02,
-    /** Short Address Change command */
-    ZB_ZCL_CMD_WWAH_SHORT_ADDRESS_CHANGE_ID = 0x03,
-    /** APS ACK Requirement Query Response command */
-    ZB_ZCL_CMD_WWAH_APS_ACK_REQUIREMENT_QUERY_RESPONSE_ID = 0x04,
-    /** Power Descriptor Change command */
-    ZB_ZCL_CMD_WWAH_POWER_DESCRIPTOR_CHANGE_ID = 0x05,
-    /** New Debug Report Notification command */
-    ZB_ZCL_CMD_WWAH_NEW_DEBUG_REPORT_NOTIFICATION_ID = 0x06,
-    /** Debug Report Query Response command */
-    ZB_ZCL_CMD_WWAH_DEBUG_REPORT_QUERY_RESPONSE_ID = 0x07,
-    /** Trust Center for Cluster Server Query Response command */
-    ZB_ZCL_CMD_WWAH_TRUST_CENTER_FOR_CLUSTER_SERVER_QUERY_RESPONSE_ID = 0x08,
-    /** Survey Beacons Response command */
-    ZB_ZCL_CMD_WWAH_SURVEY_BEACONS_RESPONSE_ID = 0x09,
+enum zb_zcl_wwah_cmd_resp_e
+{
+  /** APS Link Key Authorization Query Response command */
+  ZB_ZCL_CMD_WWAH_APS_LINK_KEY_AUTHORIZATION_QUERY_RESPONSE_ID = 0x00,
+  /** Powering Off Notification command */
+  ZB_ZCL_CMD_WWAH_POWERING_OFF_NOTIFICATION_ID = 0x01,
+  /** Powering On Notification command */
+  ZB_ZCL_CMD_WWAH_POWERING_ON_NOTIFICATION_ID = 0x02,
+  /** Short Address Change command */
+  ZB_ZCL_CMD_WWAH_SHORT_ADDRESS_CHANGE_ID = 0x03,
+  /** APS ACK Requirement Query Response command */
+  ZB_ZCL_CMD_WWAH_APS_ACK_REQUIREMENT_QUERY_RESPONSE_ID = 0x04,
+  /** Power Descriptor Change command */
+  ZB_ZCL_CMD_WWAH_POWER_DESCRIPTOR_CHANGE_ID = 0x05,
+  /** New Debug Report Notification command */
+  ZB_ZCL_CMD_WWAH_NEW_DEBUG_REPORT_NOTIFICATION_ID = 0x06,
+  /** Debug Report Query Response command */
+  ZB_ZCL_CMD_WWAH_DEBUG_REPORT_QUERY_RESPONSE_ID = 0x07,
+  /** Trust Center for Cluster Server Query Response command */
+  ZB_ZCL_CMD_WWAH_TRUST_CENTER_FOR_CLUSTER_SERVER_QUERY_RESPONSE_ID = 0x08,
+  /** Survey Beacons Response command */
+  ZB_ZCL_CMD_WWAH_SURVEY_BEACONS_RESPONSE_ID = 0x09,
 };
 
 
@@ -374,15 +377,15 @@ enum zb_zcl_wwah_cmd_resp_e {
 
 /** @brief Size of APS ACK Exempt Table */
 #define ZB_ZCL_WWAH_APS_ACK_EXEMPT_TABLE_SIZE 10
-ZB_ASSERT_VALUE_ALIGNED_TO_4(ZB_ZCL_WWAH_APS_ACK_EXEMPT_TABLE_SIZE *sizeof(zb_uint16_t));
+ZB_ASSERT_VALUE_ALIGNED_TO_4(ZB_ZCL_WWAH_APS_ACK_EXEMPT_TABLE_SIZE * sizeof(zb_uint16_t));
 
 /** @brief Size of APS Link Key Authorization Table */
 #define ZB_ZCL_WWAH_APS_LINK_KEY_AUTHORIZATION_TABLE_SIZE 10
-ZB_ASSERT_VALUE_ALIGNED_TO_4(ZB_ZCL_WWAH_APS_LINK_KEY_AUTHORIZATION_TABLE_SIZE *sizeof(zb_uint16_t));
+ZB_ASSERT_VALUE_ALIGNED_TO_4(ZB_ZCL_WWAH_APS_LINK_KEY_AUTHORIZATION_TABLE_SIZE * sizeof(zb_uint16_t));
 
 /** @brief Size of Use Trust Center for Cluster Table */
 #define ZB_ZCL_WWAH_USE_TRUST_CENTER_FOR_CLUSTER_TABLE_SIZE 4
-ZB_ASSERT_VALUE_ALIGNED_TO_4(ZB_ZCL_WWAH_USE_TRUST_CENTER_FOR_CLUSTER_TABLE_SIZE *sizeof(zb_uint16_t));
+ZB_ASSERT_VALUE_ALIGNED_TO_4(ZB_ZCL_WWAH_USE_TRUST_CENTER_FOR_CLUSTER_TABLE_SIZE * sizeof(zb_uint16_t));
 
 /** @brief WWAH Cluster arrays "record is free" flag */
 #define ZB_ZCL_WWAH_CLUSTER_ID_FREE_RECORD 0xFFFF
@@ -396,17 +399,19 @@ ZB_ASSERT_VALUE_ALIGNED_TO_4(ZB_ZCL_WWAH_USE_TRUST_CENTER_FOR_CLUSTER_TABLE_SIZE
 
 /** @brief Context WWAH cluster  */
 
-typedef ZB_PACKED_PRE struct zb_zcl_wwah_debug_report_s {
-    zb_uint8_t report_id;   /**< Report ID. 0x00 means lack of report */
-    zb_uint32_t report_size; /**< Report size */
-    zb_char_t *report;     /**< Pointer to report data*/
+typedef ZB_PACKED_PRE struct zb_zcl_wwah_debug_report_s
+{
+  zb_uint8_t report_id;   /**< Report ID. 0x00 means lack of report */
+  zb_uint32_t report_size; /**< Report size */
+  zb_char_t *report;     /**< Pointer to report data*/
 }
 ZB_PACKED_STRUCT zb_zcl_wwah_debug_report_t;
 
-typedef ZB_PACKED_PRE struct zb_zcl_wwah_classification_mask_s {
-    zb_bitfield_t tc_connectivity  : 1; /**< TC Connectivity value */
-    zb_bitfield_t long_uptime : 1; /**< Long Uptime value */
-    zb_bitfield_t reserved : 6; /**< Reserved */
+typedef ZB_PACKED_PRE struct zb_zcl_wwah_classification_mask_s
+{
+  zb_bitfield_t tc_connectivity  :1; /**< TC Connectivity value */
+  zb_bitfield_t long_uptime :1; /**< Long Uptime value */
+  zb_bitfield_t reserved :6; /**< Reserved */
 }
 ZB_PACKED_STRUCT
 zb_zcl_wwah_classification_mask_t;
@@ -418,41 +423,45 @@ zb_zcl_wwah_classification_mask_t;
 #define ZB_ZCL_WWAH_PERIODIC_CHECKINS_READ_CLUSTER_REVISION 1
 #define ZB_ZCL_WWAH_PERIODIC_CHECKINS_NOT_SUPPORTED 2
 
-typedef ZB_PACKED_PRE struct zb_zcl_wwah_periodic_checkins_data_s {
-    zb_uint8_t poll_method;
-    zb_uint8_t tsn;
-    zb_uint8_t endpoint;
-    zb_uint8_t failure_cnt;
-    zb_uint32_t countdown;
-    zb_uint16_t keepalive_base; /* Base timeout in seconds*/
-    zb_uint16_t keepalive_jitter;
+typedef ZB_PACKED_PRE struct zb_zcl_wwah_periodic_checkins_data_s
+{
+  zb_uint8_t poll_method;
+  zb_uint8_t tsn;
+  zb_uint8_t endpoint;
+  zb_uint8_t failure_cnt;
+  zb_uint32_t countdown;
+  zb_uint16_t keepalive_base; /* Base timeout in seconds*/
+  zb_uint16_t keepalive_jitter;
 } ZB_PACKED_STRUCT zb_zcl_wwah_periodic_checkins_data_t;
 
-typedef enum zb_zcl_wwah_bad_parent_recovery_signal_e {
-    ZB_ZCL_WWAH_BAD_PARENT_RECOVERY_RSSI_WITH_PARENT_BAD = 0,
-    ZB_ZCL_WWAH_BAD_PARENT_RECOVERY_RSSI_WITH_PARENT_OK,
+typedef enum zb_zcl_wwah_bad_parent_recovery_signal_e
+{
+  ZB_ZCL_WWAH_BAD_PARENT_RECOVERY_RSSI_WITH_PARENT_BAD = 0,
+  ZB_ZCL_WWAH_BAD_PARENT_RECOVERY_RSSI_WITH_PARENT_OK,
 
-    ZB_ZCL_WWAH_BAD_PARENT_RECOVERY_APS_ACK_FAILED,
-    ZB_ZCL_WWAH_BAD_PARENT_RECOVERY_APS_ACK_OK,
+  ZB_ZCL_WWAH_BAD_PARENT_RECOVERY_APS_ACK_FAILED,
+  ZB_ZCL_WWAH_BAD_PARENT_RECOVERY_APS_ACK_OK,
 
-    ZB_ZCL_WWAH_BAD_PARENT_RECOVERY_POLL_CONTROL_CHECK_IN_FAILED,
-    ZB_ZCL_WWAH_BAD_PARENT_RECOVERY_POLL_CONTROL_CHECK_IN_OK,
+  ZB_ZCL_WWAH_BAD_PARENT_RECOVERY_POLL_CONTROL_CHECK_IN_FAILED,
+  ZB_ZCL_WWAH_BAD_PARENT_RECOVERY_POLL_CONTROL_CHECK_IN_OK,
 
-    ZB_ZCL_WWAH_BAD_PARENT_RECOVERY_RESERVED
+  ZB_ZCL_WWAH_BAD_PARENT_RECOVERY_RESERVED
 } zb_zcl_wwah_bad_parent_recovery_signal_t;
 
-typedef ZB_PACKED_PRE struct zb_zcl_wwah_bad_parent_recovery_data_s {
-    zb_bitfield_t started: 1;
-    zb_bitfield_t poll_control_checkin_failed_cnt: 2;
-    zb_bitfield_t reserved: 5;
+typedef ZB_PACKED_PRE struct zb_zcl_wwah_bad_parent_recovery_data_s
+{
+  zb_bitfield_t started:1;
+  zb_bitfield_t poll_control_checkin_failed_cnt:2;
+  zb_bitfield_t reserved:5;
 } ZB_PACKED_STRUCT zb_zcl_wwah_bad_parent_recovery_data_t;
 
-typedef enum zb_zcl_wwah_behavior_e {
-    ZB_ZCL_WWAH_BEHAVIOR_OFF = 0,
-    ZB_ZCL_WWAH_BEHAVIOR_CLIENT,
-    ZB_ZCL_WWAH_BEHAVIOR_SERVER,
+typedef enum zb_zcl_wwah_behavior_e
+{
+  ZB_ZCL_WWAH_BEHAVIOR_OFF = 0,
+  ZB_ZCL_WWAH_BEHAVIOR_CLIENT,
+  ZB_ZCL_WWAH_BEHAVIOR_SERVER,
 
-    ZB_ZCL_WWAH_BEHAVIOR_RESERVED
+  ZB_ZCL_WWAH_BEHAVIOR_RESERVED
 } zb_zcl_wwah_behavior_t;
 
 /*! @} */ /* WWAH cluster commands */
@@ -608,9 +617,10 @@ typedef enum zb_zcl_wwah_behavior_e {
   (void*) data_ptr                                                                              \
 }
 
-typedef ZB_PACKED_PRE struct zb_zcl_wwah_cluster_list_s {
-    zb_uint8_t number_of_clusters; /**< Number of Clusters */
-    zb_uint16_t *cluster_id;       /**< Cluster ID */
+typedef ZB_PACKED_PRE struct zb_zcl_wwah_cluster_list_s
+{
+  zb_uint8_t number_of_clusters; /**< Number of Clusters */
+  zb_uint16_t *cluster_id;       /**< Cluster ID */
 }
 ZB_PACKED_STRUCT zb_zcl_wwah_cluster_list_t;
 
@@ -673,11 +683,12 @@ ZB_PACKED_STRUCT zb_zcl_wwah_cluster_list_t;
 }
 
 /** @brief Enable WWAH App Event Retry Algorithm command structure */
-typedef ZB_PACKED_PRE struct zb_zcl_wwah_enable_wwah_app_event_retry_algorithm_s {
-    zb_uint8_t first_backoff_time_in_seconds;          /**< First Backoff Time In Seconds */
-    zb_uint8_t backoff_sequence_common_ratio;          /**< Backoff Sequence Common Ratio */
-    zb_uint32_t max_backoff_time_in_seconds;           /**< Max Backoff Time In Seconds */
-    zb_uint8_t max_re_delivery_attempts;               /**< Max Re-Delivery Attempts */
+typedef ZB_PACKED_PRE struct zb_zcl_wwah_enable_wwah_app_event_retry_algorithm_s
+{
+  zb_uint8_t first_backoff_time_in_seconds;          /**< First Backoff Time In Seconds */
+  zb_uint8_t backoff_sequence_common_ratio;          /**< Backoff Sequence Common Ratio */
+  zb_uint32_t max_backoff_time_in_seconds;           /**< Max Backoff Time In Seconds */
+  zb_uint8_t max_re_delivery_attempts;               /**< Max Re-Delivery Attempts */
 }
 ZB_PACKED_STRUCT
 zb_zcl_wwah_enable_wwah_app_event_retry_algorithm_t;
@@ -707,12 +718,13 @@ zb_zcl_wwah_enable_wwah_app_event_retry_algorithm_t;
 }
 
 /** @brief Enable WWAH Rejoin Algorithm command structure */
-typedef ZB_PACKED_PRE struct zb_zcl_wwah_enable_wwah_rejoin_algorithm_s {
-    zb_uint16_t fast_rejoin_timeout_in_seconds;           /**< Fast Rejoin Timeout In Seconds */
-    zb_uint16_t duration_between_each_rejoin_in_seconds;  /**< Duration Between Each Rejoin In Seconds */
-    zb_uint16_t fast_rejoin_first_backoff_in_seconds;     /**< Fast Rejoin First Backoff In Seconds */
-    zb_uint16_t rejoin_max_backoff_time_in_seconds;       /**< Max Backoff Time In Seconds */
-    zb_uint16_t max_backoff_iterations;                   /**< Max Backoff Iterations */
+typedef ZB_PACKED_PRE struct zb_zcl_wwah_enable_wwah_rejoin_algorithm_s
+{
+  zb_uint16_t fast_rejoin_timeout_in_seconds;           /**< Fast Rejoin Timeout In Seconds */
+  zb_uint16_t duration_between_each_rejoin_in_seconds;  /**< Duration Between Each Rejoin In Seconds */
+  zb_uint16_t fast_rejoin_first_backoff_in_seconds;     /**< Fast Rejoin First Backoff In Seconds */
+  zb_uint16_t rejoin_max_backoff_time_in_seconds;       /**< Max Backoff Time In Seconds */
+  zb_uint16_t max_backoff_iterations;                   /**< Max Backoff Iterations */
 }
 ZB_PACKED_STRUCT
 zb_zcl_wwah_enable_wwah_rejoin_algorithm_t;
@@ -831,9 +843,10 @@ zb_zcl_wwah_enable_wwah_rejoin_algorithm_t;
 }
 
 /** @brief Set Pending Network Update command structure */
-typedef ZB_PACKED_PRE struct zb_zcl_wwah_set_pending_network_update_s {
-    zb_uint8_t channel;  /**< Channel */
-    zb_uint16_t pan_id;  /**< PAN ID */
+typedef ZB_PACKED_PRE struct zb_zcl_wwah_set_pending_network_update_s
+{
+  zb_uint8_t channel;  /**< Channel */
+  zb_uint16_t pan_id;  /**< PAN ID */
 }
 ZB_PACKED_STRUCT
 zb_zcl_wwah_set_pending_network_update_t;
@@ -911,9 +924,10 @@ zb_zcl_wwah_set_pending_network_update_t;
 }
 
 /** @brief APS Link Key Authorization Query Response command structure */
-typedef ZB_PACKED_PRE struct zb_zcl_wwah_aps_link_key_authorization_query_response_s {
-    zb_uint16_t cluster_id;                        /**< Cluster ID */
-    zb_uint8_t aps_link_key_authorization_status;  /**< APS Link Key Authorization Status  */
+typedef ZB_PACKED_PRE struct zb_zcl_wwah_aps_link_key_authorization_query_response_s
+{
+  zb_uint16_t cluster_id;                        /**< Cluster ID */
+  zb_uint8_t aps_link_key_authorization_status;  /**< APS Link Key Authorization Status  */
 }
 ZB_PACKED_STRUCT
 zb_zcl_wwah_aps_link_key_authorization_query_response_t;
@@ -943,9 +957,10 @@ zb_zcl_wwah_aps_link_key_authorization_query_response_t;
 }
 
 /** @brief Short Address Change command structure */
-typedef ZB_PACKED_PRE struct zb_zcl_wwah_short_address_change_s {
-    zb_ieee_addr_t device_eui64;  /**< DeviceEUI64 */
-    zb_uint16_t device_short;     /**< DeviceShort */
+typedef ZB_PACKED_PRE struct zb_zcl_wwah_short_address_change_s
+{
+  zb_ieee_addr_t device_eui64;  /**< DeviceEUI64 */
+  zb_uint16_t device_short;     /**< DeviceShort */
 }
 ZB_PACKED_STRUCT
 zb_zcl_wwah_short_address_change_t;
@@ -975,11 +990,12 @@ zb_zcl_wwah_short_address_change_t;
 }
 
 /** @brief Power Descriptor Change command structure */
-typedef ZB_PACKED_PRE struct zb_zcl_wwah_power_descriptor_change_s {
-    zb_uint32_t current_power_mode;         /**< Current power mode */
-    zb_uint32_t available_power_sources;    /**< Available power sources */
-    zb_uint32_t current_power_source;       /**< Current power source */
-    zb_uint32_t current_power_source_level; /**< Current power source level */
+typedef ZB_PACKED_PRE struct zb_zcl_wwah_power_descriptor_change_s
+{
+  zb_uint32_t current_power_mode;         /**< Current power mode */
+  zb_uint32_t available_power_sources;    /**< Available power sources */
+  zb_uint32_t current_power_source;       /**< Current power source */
+  zb_uint32_t current_power_source_level; /**< Current power source level */
 }
 ZB_PACKED_STRUCT
 zb_zcl_wwah_power_descriptor_change_t;
@@ -1009,11 +1025,12 @@ zb_zcl_wwah_power_descriptor_change_t;
 }
 
 /** @brief Powering On/Off Notification command structure */
-typedef ZB_PACKED_PRE struct zb_zcl_wwah_powering_on_off_notification_s {
-    zb_uint8_t power_notification_reason;  /**< PowerNotificationReason */
-    zb_uint16_t manufacturer_id;  /**< Manufacturer ID */
-    zb_uint8_t manufacturer_power_notification_reason_length;  /**< Manufacturer Power Notification Reason Length */
-    zb_uint8_t *manufacturer_power_notification_reason;  /**< Manufacturer Power Notification Reason */
+typedef ZB_PACKED_PRE struct zb_zcl_wwah_powering_on_off_notification_s
+{
+  zb_uint8_t power_notification_reason;  /**< PowerNotificationReason */
+  zb_uint16_t manufacturer_id;  /**< Manufacturer ID */
+  zb_uint8_t manufacturer_power_notification_reason_length;  /**< Manufacturer Power Notification Reason Length */
+  zb_uint8_t *manufacturer_power_notification_reason;  /**< Manufacturer Power Notification Reason */
 }
 ZB_PACKED_STRUCT
 zb_zcl_wwah_powering_on_off_notification_t;
@@ -1052,9 +1069,10 @@ zb_zcl_wwah_powering_on_off_notification_t;
 }
 
 /** @brief New Debug Report Notification command structure */
-typedef ZB_PACKED_PRE struct zb_zcl_wwah_new_debug_report_notification_s {
-    zb_uint8_t debug_report_id;  /**< Debug Report ID */
-    zb_uint32_t size_of_report;  /**< Size of Report */
+typedef ZB_PACKED_PRE struct zb_zcl_wwah_new_debug_report_notification_s
+{
+  zb_uint8_t debug_report_id;  /**< Debug Report ID */
+  zb_uint32_t size_of_report;  /**< Size of Report */
 }
 ZB_PACKED_STRUCT
 zb_zcl_wwah_new_debug_report_notification_t;
@@ -1084,9 +1102,10 @@ zb_zcl_wwah_new_debug_report_notification_t;
 }
 
 /** @brief Debug Report Query Response command structure */
-typedef ZB_PACKED_PRE struct zb_zcl_wwah_debug_report_query_response_s {
-    zb_uint8_t debug_report_id;  /**< Debug Report ID */
-    zb_uint8_t *report_data;  /**< Report data */
+typedef ZB_PACKED_PRE struct zb_zcl_wwah_debug_report_query_response_s
+{
+  zb_uint8_t debug_report_id;  /**< Debug Report ID */
+  zb_uint8_t *report_data;  /**< Report data */
 }
 ZB_PACKED_STRUCT
 zb_zcl_wwah_debug_report_query_response_t;
@@ -1112,26 +1131,27 @@ zb_zcl_wwah_debug_report_query_response_t;
 }
 
 /*! @brief Structure saved all WWAH attributes */
-typedef struct zb_zcl_wwah_attr_s {
-    zb_uint16_t cluster_revision;
-    zb_bool_t disable_ota_downgrades;
-    zb_bool_t mgmt_leave_without_rejoin_enabled;
-    zb_uint8_t nwk_retry_count;
-    zb_uint8_t mac_retry_count;
-    zb_bool_t router_check_in_enabled;
-    zb_bool_t touchlink_interpan_enabled;
-    zb_bool_t wwah_parent_classification_enabled;
-    zb_bool_t wwah_app_event_retry_enabled;
-    zb_uint8_t wwah_app_event_retry_queue_size;
-    zb_bool_t wwah_rejoin_enabled;
-    zb_uint8_t mac_poll_failure_wait_time;
-    zb_bool_t configuration_mode_enabled;
-    zb_uint8_t current_debug_report_id;
-    zb_bool_t tc_security_on_nwk_key_rotation_enabled;
-    zb_bool_t wwah_bad_parent_recovery_enabled;
-    zb_uint8_t pending_network_update_channel;
-    zb_uint16_t pending_network_update_panid;
-    zb_uint16_t ota_max_offline_duration;
+typedef struct zb_zcl_wwah_attr_s
+{
+  zb_uint16_t cluster_revision;
+  zb_bool_t disable_ota_downgrades;
+  zb_bool_t mgmt_leave_without_rejoin_enabled;
+  zb_uint8_t nwk_retry_count;
+  zb_uint8_t mac_retry_count;
+  zb_bool_t router_check_in_enabled;
+  zb_bool_t touchlink_interpan_enabled;
+  zb_bool_t wwah_parent_classification_enabled;
+  zb_bool_t wwah_app_event_retry_enabled;
+  zb_uint8_t wwah_app_event_retry_queue_size;
+  zb_bool_t wwah_rejoin_enabled;
+  zb_uint8_t mac_poll_failure_wait_time;
+  zb_bool_t configuration_mode_enabled;
+  zb_uint8_t current_debug_report_id;
+  zb_bool_t tc_security_on_nwk_key_rotation_enabled;
+  zb_bool_t wwah_bad_parent_recovery_enabled;
+  zb_uint8_t pending_network_update_channel;
+  zb_uint16_t pending_network_update_panid;
+  zb_uint16_t ota_max_offline_duration;
 } zb_zcl_wwah_attr_t;
 
 extern zb_zcl_wwah_attr_t wwah_attr;
@@ -1168,7 +1188,7 @@ extern zb_zcl_wwah_attr_t wwah_attr;
   ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_ATTR_WWAH_OTA_MAX_OFFLINE_DURATION_ID, &(wwah_attr.ota_max_offline_duration)) \
   ZB_ZCL_FINISH_DECLARE_ATTRIB_LIST
 
-/* Declare Cluster Revision Attribute */
+  /* Declare Cluster Revision Attribute */
 #define ZB_ZCL_DECLARE_WWAH_CLIENT_ATTRIB_LIST(attr_list) \
   ZB_ZCL_START_DECLARE_ATTRIB_LIST(attr_list)      \
   ZB_ZCL_FINISH_DECLARE_ATTRIB_LIST                \
@@ -1190,73 +1210,77 @@ extern zb_zcl_wwah_attr_t wwah_attr;
  *  If no suitable parents exist in the Good Link Quality group, then the End
  *  Device shall examine all beacons in the Marginal Link Quality group.
  */
-typedef enum zb_zcl_wwah_parent_priority_e {
-    /*! Invalid value for parent priority */
-    ZB_ZCL_WWAH_PARENT_PRIORITY_INVALID   = 0,
+typedef enum zb_zcl_wwah_parent_priority_e
+{
+  /*! Invalid value for parent priority */
+  ZB_ZCL_WWAH_PARENT_PRIORITY_INVALID   = 0,
 
-    /*! 0b00 - no TC connectivity and Short Uptime or no WWAH parent */
-    ZB_ZCL_WWAH_PARENT_PRIORITY_VERY_LOW  = 1,
+  /*! 0b00 - no TC connectivity and Short Uptime or no WWAH parent */
+  ZB_ZCL_WWAH_PARENT_PRIORITY_VERY_LOW  = 1,
 
-    /*! 0b01 - no TC connectivity and Long Uptime */
-    ZB_ZCL_WWAH_PARENT_PRIORITY_LOW       = 2,
+  /*! 0b01 - no TC connectivity and Long Uptime */
+  ZB_ZCL_WWAH_PARENT_PRIORITY_LOW       = 2,
 
-    /*! 0b10 - TC connectivity and Short Uptime */
-    ZB_ZCL_WWAH_PARENT_PRIORITY_HIGH      = 3,
+  /*! 0b10 - TC connectivity and Short Uptime */
+  ZB_ZCL_WWAH_PARENT_PRIORITY_HIGH      = 3,
 
-    /*! 0b11 - TC connectivity and Long Uptime */
-    ZB_ZCL_WWAH_PARENT_PRIORITY_VERY_HIGH = 4
+  /*! 0b11 - TC connectivity and Long Uptime */
+  ZB_ZCL_WWAH_PARENT_PRIORITY_VERY_HIGH = 4
 }
 zb_zcl_wwah_parent_priority_t;
 
-typedef ZB_PACKED_PRE struct zb_zcl_wwah_beacon_survey_s {
-    /*! The DeviceShort field contains the 16 bit short address of the beaconing device. */
-    zb_uint16_t device_short;
-    /*! This is the RSSI of the beacon, expressed in dBm. */
-    zb_int8_t rssi;
-    /*! This is the parent classification mask. */
-    zb_uint8_t classification_mask;
+typedef ZB_PACKED_PRE struct zb_zcl_wwah_beacon_survey_s
+{
+  /*! The DeviceShort field contains the 16 bit short address of the beaconing device. */
+  zb_uint16_t device_short;
+  /*! This is the RSSI of the beacon, expressed in dBm. */
+  zb_int8_t rssi;
+  /*! This is the parent classification mask. */
+  zb_uint8_t classification_mask;
 } ZB_PACKED_STRUCT zb_zcl_wwah_beacon_survey_t;
 
 /*! @brief The PowerNotificationReason field is an enum containing all possible reasons for the power notification.
  */
-enum zb_zcl_wwah_power_notification_reason_e {
-    /*! Unknown value */
-    ZB_ZCL_WWAH_POWER_NOTIFICATION_REASON_UNKNOWN                 = 0x00,
-    /*! Battery value */
-    ZB_ZCL_WWAH_POWER_NOTIFICATION_REASON_BATTERY                 = 0x01,
-    /*! Brownout value */
-    ZB_ZCL_WWAH_POWER_NOTIFICATION_REASON_BROWNOUT                = 0x02,
-    /*! Watchdog value */
-    ZB_ZCL_WWAH_POWER_NOTIFICATION_REASON_WATCHDOG                = 0x03,
-    /*! Reset Pin value */
-    ZB_ZCL_WWAH_POWER_NOTIFICATION_REASON_RESET_PIN               = 0x04,
-    /*! Memory/HW Fault value */
-    ZB_ZCL_WWAH_POWER_NOTIFICATION_REASON_MEMORY_OR_HW_FAULT      = 0x05,
-    /*! Software Exception value */
-    ZB_ZCL_WWAH_POWER_NOTIFICATION_REASON_SOFTWARE_EXCEPTION      = 0x06,
-    /*! OTA / Bootload Success value */
-    ZB_ZCL_WWAH_POWER_NOTIFICATION_REASON_OTA_OR_BOOTLOAD_SUCCESS = 0x07,
-    /*! Software Reset value */
-    ZB_ZCL_WWAH_POWER_NOTIFICATION_REASON_SOFTWARE_RESET          = 0x08,
-    /*! Power Button value */
-    ZB_ZCL_WWAH_POWER_NOTIFICATION_REASON_POWER_BUTTON            = 0x09,
-    /*! Temperature value */
-    ZB_ZCL_WWAH_POWER_NOTIFICATION_REASON_TEMPERATURE             = 0x0A,
-    /*! Bootload Failure value */
-    ZB_ZCL_WWAH_POWER_NOTIFICATION_REASON_BOOTLOAD_FAILURE        = 0x0B,
+enum zb_zcl_wwah_power_notification_reason_e
+{
+  /*! Unknown value */
+  ZB_ZCL_WWAH_POWER_NOTIFICATION_REASON_UNKNOWN                 = 0x00,
+  /*! Battery value */
+  ZB_ZCL_WWAH_POWER_NOTIFICATION_REASON_BATTERY                 = 0x01,
+  /*! Brownout value */
+  ZB_ZCL_WWAH_POWER_NOTIFICATION_REASON_BROWNOUT                = 0x02,
+  /*! Watchdog value */
+  ZB_ZCL_WWAH_POWER_NOTIFICATION_REASON_WATCHDOG                = 0x03,
+  /*! Reset Pin value */
+  ZB_ZCL_WWAH_POWER_NOTIFICATION_REASON_RESET_PIN               = 0x04,
+  /*! Memory/HW Fault value */
+  ZB_ZCL_WWAH_POWER_NOTIFICATION_REASON_MEMORY_OR_HW_FAULT      = 0x05,
+  /*! Software Exception value */
+  ZB_ZCL_WWAH_POWER_NOTIFICATION_REASON_SOFTWARE_EXCEPTION      = 0x06,
+  /*! OTA / Bootload Success value */
+  ZB_ZCL_WWAH_POWER_NOTIFICATION_REASON_OTA_OR_BOOTLOAD_SUCCESS = 0x07,
+  /*! Software Reset value */
+  ZB_ZCL_WWAH_POWER_NOTIFICATION_REASON_SOFTWARE_RESET          = 0x08,
+  /*! Power Button value */
+  ZB_ZCL_WWAH_POWER_NOTIFICATION_REASON_POWER_BUTTON            = 0x09,
+  /*! Temperature value */
+  ZB_ZCL_WWAH_POWER_NOTIFICATION_REASON_TEMPERATURE             = 0x0A,
+  /*! Bootload Failure value */
+  ZB_ZCL_WWAH_POWER_NOTIFICATION_REASON_BOOTLOAD_FAILURE        = 0x0B,
 };
 
 /*! @brief The Enrollment Mode field is an enum containing the possible enrollment methods for an IAS Zone server.
  */
 
 
-enum zb_zcl_wwah_enrollment_mode_e {
-    /*! Trip-to-pair value */
-    ZB_ZCL_WWAH_ENROLLMENT_MODE_TRIP_TO_PAIR         = 0x00,
-    /*! Auto-Enroll-Response value */
-    ZB_ZCL_WWAH_ENROLLMENT_MODE_AUTO_ENROLL_RESPONSE = 0x01,
-    /*! Auto-Enroll-Request value */
-    ZB_ZCL_WWAH_ENROLLMENT_MODE_AUTO_ENROLL_REQUEST  = 0x02
+enum zb_zcl_wwah_enrollment_mode_e
+{
+  /*! Trip-to-pair value */
+  ZB_ZCL_WWAH_ENROLLMENT_MODE_TRIP_TO_PAIR         = 0x00,
+  /*! Auto-Enroll-Response value */
+  ZB_ZCL_WWAH_ENROLLMENT_MODE_AUTO_ENROLL_RESPONSE = 0x01,
+  /*! Auto-Enroll-Request value */
+  ZB_ZCL_WWAH_ENROLLMENT_MODE_AUTO_ENROLL_REQUEST  = 0x02
 };
 
 /*! @}
@@ -2517,43 +2541,44 @@ zb_ret_t zb_zcl_wwah_get_rejoin_tmo(zb_uint16_t attempt, zb_time_t *tmo);
 #define ZB_ZCL_WWAH_REPORT_ATTR_COUNT 0
 
 #if (defined ZB_ZCL_SUPPORT_CLUSTER_WWAH && (defined ZB_ZCL_ENABLE_WWAH_SERVER || defined ZB_ZCL_ENABLE_WWAH_CLIENT))
-typedef ZB_PACKED_PRE struct zb_zcl_wwah_context_s {
-    zb_uint8_t wwah_behavior;
+typedef ZB_PACKED_PRE struct zb_zcl_wwah_context_s
+{
+  zb_uint8_t wwah_behavior;
 #ifdef ZB_ZCL_ENABLE_WWAH_SERVER
-    zb_uint8_t wwah_hub_endpoint;
-    zb_uint16_t wwah_hub_address;
-    zb_uint16_t time_server_addr;
-    zb_uint8_t time_server_endpoint;
+  zb_uint8_t wwah_hub_endpoint;
+  zb_uint16_t wwah_hub_address;
+  zb_uint16_t time_server_addr;
+  zb_uint8_t time_server_endpoint;
 
-    zb_uint8_t aps_ack_exempt_table_cnt;
-    /* This is a list of clusters that should be exempt from requiring APS ACKs on unicasts. */
-    zb_uint16_t aps_ack_exempt_table[ZB_ZCL_WWAH_APS_ACK_EXEMPT_TABLE_SIZE];
+  zb_uint8_t aps_ack_exempt_table_cnt;
+  /* This is a list of clusters that should be exempt from requiring APS ACKs on unicasts. */
+  zb_uint16_t aps_ack_exempt_table[ZB_ZCL_WWAH_APS_ACK_EXEMPT_TABLE_SIZE];
 
-    /* ZB_TRUE - enforces that all cluster commands for the cluster have APS level security
-     * except for those in the exemption list*/
-    /* ZB_FALSE - enforces that all cluster commands for the cluster doesn't have APS level security
-     * except for those in the exemption list. This is default value*/
-    zb_bool_t aps_link_key_enabled_by_default;
+  /* ZB_TRUE - enforces that all cluster commands for the cluster have APS level security
+   * except for those in the exemption list*/
+  /* ZB_FALSE - enforces that all cluster commands for the cluster doesn't have APS level security
+   * except for those in the exemption list. This is default value*/
+  zb_bool_t aps_link_key_enabled_by_default;
 
-    zb_uint8_t aps_link_key_authorization_table_cnt;
-    /* This is a exemption list of clusters for requiring APS level security */
-    zb_uint16_t aps_link_key_authorization_table[ZB_ZCL_WWAH_APS_LINK_KEY_AUTHORIZATION_TABLE_SIZE];
+  zb_uint8_t aps_link_key_authorization_table_cnt;
+  /* This is a exemption list of clusters for requiring APS level security */
+  zb_uint16_t aps_link_key_authorization_table[ZB_ZCL_WWAH_APS_LINK_KEY_AUTHORIZATION_TABLE_SIZE];
 
-    zb_uint8_t use_trust_center_for_cluster_table_cnt;
-    /* This is a list of clusters that should be forced to use the Trust Center. */
-    zb_uint16_t use_trust_center_for_cluster_table[ZB_ZCL_WWAH_USE_TRUST_CENTER_FOR_CLUSTER_TABLE_SIZE];
+  zb_uint8_t use_trust_center_for_cluster_table_cnt;
+  /* This is a list of clusters that should be forced to use the Trust Center. */
+  zb_uint16_t use_trust_center_for_cluster_table[ZB_ZCL_WWAH_USE_TRUST_CENTER_FOR_CLUSTER_TABLE_SIZE];
 
-    /* ======= Survey Beacon related context ======= */
-    zb_uint8_t survey_beacons_seq_number;
-    zb_uint8_t survey_beacons_in_progress;
+  /* ======= Survey Beacon related context ======= */
+  zb_uint8_t survey_beacons_seq_number;
+  zb_uint8_t survey_beacons_in_progress;
 
-    zb_zcl_wwah_periodic_checkins_data_t periodic_checkins;
+  zb_zcl_wwah_periodic_checkins_data_t periodic_checkins;
 
-    zb_zcl_wwah_enable_wwah_rejoin_algorithm_t rejoin_alg;
-    zb_zcl_wwah_bad_parent_recovery_data_t bad_parent_recovery;
+  zb_zcl_wwah_enable_wwah_rejoin_algorithm_t rejoin_alg;
+  zb_zcl_wwah_bad_parent_recovery_data_t bad_parent_recovery;
 #endif
 #if !(defined ZB_ZCL_ENABLE_WWAH_SERVER || defined ZB_ZCL_ENABLE_WWAH_CLIENT)
-    zb_uint8_t make_iso_compiler_happy;
+  zb_uint8_t make_iso_compiler_happy;
 #endif
 } zb_zcl_wwah_context_t;
 #endif
