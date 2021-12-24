@@ -62,22 +62,23 @@
  */
 
 /** DRLC Client attributes. @see SE spec, subclause D.2.3.2 */
-typedef enum zb_zcl_drlc_cli_attr_e {
-    ZB_ZCL_ATTR_DRLC_UTILITY_ENROLLMENT_GROUP        = 0x0000,   /**< UtilityEnrollmentGroup attribute.
+typedef enum zb_zcl_drlc_cli_attr_e
+{
+  ZB_ZCL_ATTR_DRLC_UTILITY_ENROLLMENT_GROUP        = 0x0000,   /**< UtilityEnrollmentGroup attribute.
                                                                * Provides for utilities to assign devices to groups.
                                                                */
 
-    ZB_ZCL_ATTR_DRLC_START_RANDOMIZATION_MINUTES     = 0x0001,   /**< StartRandomizationMinutes attribute.
+  ZB_ZCL_ATTR_DRLC_START_RANDOMIZATION_MINUTES     = 0x0001,   /**< StartRandomizationMinutes attribute.
                                                                * Represents the maximum number of minutes to be used
                                                                * when randomizing the start of an event.
                                                                */
 
-    ZB_ZCL_ATTR_DRLC_DURATION_RANDOMIZATION_MINUTES  = 0x0002,   /**< DurationRandomizationMinutes attribute.
+  ZB_ZCL_ATTR_DRLC_DURATION_RANDOMIZATION_MINUTES  = 0x0002,   /**< DurationRandomizationMinutes attribute.
                                                                * Represents the maximum number of minutes to be used
                                                                * when randomizing the duration of an event.
                                                                */
 
-    ZB_ZCL_ATTR_DRLC_DEVICE_CLASS_VALUE              = 0x0003,   /**< DeviceClassValue attribute.
+  ZB_ZCL_ATTR_DRLC_DEVICE_CLASS_VALUE              = 0x0003,   /**< DeviceClassValue attribute.
                                                                * Identifies which bits the device will match in the
                                                                * Device Class fields.
                                                                */
@@ -87,69 +88,73 @@ typedef enum zb_zcl_drlc_cli_attr_e {
 /** Criticality Level value applied by the device.
  * @see SE spec, Table D-3
  */
-typedef enum zb_zcl_drlc_criticality_levels_e {
-    ZB_ZCL_DRLC_CRITICALITY_LEVEL_0 = 0x00, /**< Reserved */
-    ZB_ZCL_DRLC_CRITICALITY_LEVEL_1,        /**< Green */
-    ZB_ZCL_DRLC_CRITICALITY_LEVEL_2,        /**< Level 1 */
-    ZB_ZCL_DRLC_CRITICALITY_LEVEL_3,        /**< Level 2 */
-    ZB_ZCL_DRLC_CRITICALITY_LEVEL_4,        /**< Level 3 */
-    ZB_ZCL_DRLC_CRITICALITY_LEVEL_5,        /**< Level 4 */
-    ZB_ZCL_DRLC_CRITICALITY_LEVEL_6,        /**< Level 5 */
-    ZB_ZCL_DRLC_CRITICALITY_LEVEL_7,        /**< Emergency */
-    ZB_ZCL_DRLC_CRITICALITY_LEVEL_8,        /**< Planned Outage */
-    ZB_ZCL_DRLC_CRITICALITY_LEVEL_9         /**< Service Disconnect */
+typedef enum zb_zcl_drlc_criticality_levels_e
+{
+  ZB_ZCL_DRLC_CRITICALITY_LEVEL_0 = 0x00, /**< Reserved */
+  ZB_ZCL_DRLC_CRITICALITY_LEVEL_1,        /**< Green */
+  ZB_ZCL_DRLC_CRITICALITY_LEVEL_2,        /**< Level 1 */
+  ZB_ZCL_DRLC_CRITICALITY_LEVEL_3,        /**< Level 2 */
+  ZB_ZCL_DRLC_CRITICALITY_LEVEL_4,        /**< Level 3 */
+  ZB_ZCL_DRLC_CRITICALITY_LEVEL_5,        /**< Level 4 */
+  ZB_ZCL_DRLC_CRITICALITY_LEVEL_6,        /**< Level 5 */
+  ZB_ZCL_DRLC_CRITICALITY_LEVEL_7,        /**< Emergency */
+  ZB_ZCL_DRLC_CRITICALITY_LEVEL_8,        /**< Planned Outage */
+  ZB_ZCL_DRLC_CRITICALITY_LEVEL_9         /**< Service Disconnect */
 } zb_zcl_drlc_criticality_levels_t;
 
 /** DRLC device classes enumeration.
  * @see SE spec, Table D-2.
  */
-typedef enum zb_zcl_drlc_device_class_e {
-    ZB_ZCL_DRLC_DEVICE_CLASS_HVAC               = 1 << 0,  /**< HVAC Compressor or Furnace */
-    ZB_ZCL_DRLC_DEVICE_CLASS_STRIP_HEATER       = 1 << 1,  /**< Strip Heaters/Baseboard Heaters */
-    ZB_ZCL_DRLC_DEVICE_CLASS_WATER_HEATER       = 1 << 2,  /**< Water Heater */
-    ZB_ZCL_DRLC_DEVICE_CLASS_POOL_PUMP          = 1 << 3,  /**< Pool Pump/Spa/Jacuzzi */
-    ZB_ZCL_DRLC_DEVICE_CLASS_SMART_APPLIANCE    = 1 << 4,  /**< Smart Appliances */
-    ZB_ZCL_DRLC_DEVICE_CLASS_IRRIGATION_PUMP    = 1 << 5,  /**< Irrigation Pump */
-    ZB_ZCL_DRLC_DEVICE_CLASS_MCI_LOADS          = 1 << 6,  /**< Managed Commercial & Industrial (C&I) loads */
-    ZB_ZCL_DRLC_DEVICE_CLASS_SIMPLE_LOADS       = 1 << 7,  /**< Simple misc. (Residential On/Off) loads */
-    ZB_ZCL_DRLC_DEVICE_CLASS_EXTERIOR_LIGHTNING = 1 << 8,  /**< Exterior Lighting */
-    ZB_ZCL_DRLC_DEVICE_CLASS_INTERIOR_LIGHTNING = 1 << 9,  /**< Interior Lighting */
-    ZB_ZCL_DRLC_DEVICE_CLASS_ELECTRIC_VEHICLE   = 1 << 10, /**< Electric Vehicle */
-    ZB_ZCL_DRLC_DEVICE_CLASS_GENERATION_SYSTEMS = 1 << 11  /**< Generation Systems */
+typedef enum zb_zcl_drlc_device_class_e
+{
+  ZB_ZCL_DRLC_DEVICE_CLASS_HVAC               = 1 << 0,  /**< HVAC Compressor or Furnace */
+  ZB_ZCL_DRLC_DEVICE_CLASS_STRIP_HEATER       = 1 << 1,  /**< Strip Heaters/Baseboard Heaters */
+  ZB_ZCL_DRLC_DEVICE_CLASS_WATER_HEATER       = 1 << 2,  /**< Water Heater */
+  ZB_ZCL_DRLC_DEVICE_CLASS_POOL_PUMP          = 1 << 3,  /**< Pool Pump/Spa/Jacuzzi */
+  ZB_ZCL_DRLC_DEVICE_CLASS_SMART_APPLIANCE    = 1 << 4,  /**< Smart Appliances */
+  ZB_ZCL_DRLC_DEVICE_CLASS_IRRIGATION_PUMP    = 1 << 5,  /**< Irrigation Pump */
+  ZB_ZCL_DRLC_DEVICE_CLASS_MCI_LOADS          = 1 << 6,  /**< Managed Commercial & Industrial (C&I) loads */
+  ZB_ZCL_DRLC_DEVICE_CLASS_SIMPLE_LOADS       = 1 << 7,  /**< Simple misc. (Residential On/Off) loads */
+  ZB_ZCL_DRLC_DEVICE_CLASS_EXTERIOR_LIGHTNING = 1 << 8,  /**< Exterior Lighting */
+  ZB_ZCL_DRLC_DEVICE_CLASS_INTERIOR_LIGHTNING = 1 << 9,  /**< Interior Lighting */
+  ZB_ZCL_DRLC_DEVICE_CLASS_ELECTRIC_VEHICLE   = 1 << 10, /**< Electric Vehicle */
+  ZB_ZCL_DRLC_DEVICE_CLASS_GENERATION_SYSTEMS = 1 << 11  /**< Generation Systems */
 } zb_zcl_drlc_device_class_t;
 
 /** DRLC Event Status enum
  * @see SE spec, Table D-9
  */
-typedef enum zb_zcl_drlc_event_status_e {
-    ZB_ZCL_DRLC_EVENT_RESERVED_00 = 0x00,               /**< Reserved for future use. */
-    ZB_ZCL_DRLC_EVENT_LCE_RECEIVED,                     /**< Load Control Event command received */
-    ZB_ZCL_DRLC_EVENT_EVENT_STARTED,                    /**< Event started */
-    ZB_ZCL_DRLC_EVENT_EVENT_COMPLETED,                  /**< Event completed */
-    ZB_ZCL_DRLC_EVENT_OPT_OUT,                          /**< User has chosen to “Opt-Out”, user will not participate in this event */
-    ZB_ZCL_DRLC_EVENT_OPT_IN,                           /**< User has chosen to “Opt-In”, user will participate in this event */
-    ZB_ZCL_DRLC_EVENT_EVENT_CANCELLED,                  /**< The event has been cancelled */
-    ZB_ZCL_DRLC_EVENT_EVENT_SUPERSEDED,                 /**< The event has been superseded */
-    ZB_ZCL_DRLC_EVENT_EVENT_PARTIALLY_OPT_OUT,          /**< Event partially completed with User “Opt-Out”. */
-    ZB_ZCL_DRLC_EVENT_EVENT_PARTIALLY_OPT_IN,           /**< Event partially completed due to User “Opt-In”. */
-    ZB_ZCL_DRLC_EVENT_EVENT_COMPLETED_NO_USER,          /**< Event completed, no User participation (Previous “Opt-Out”). */
-    ZB_ZCL_DRLC_EVENT_RESERVED_0B,                      /**< Reserved for future use. */
-    ZB_ZCL_DRLC_EVENT_RESERVED_F7 = 0xF7,               /**< Reserved for future use. */
-    ZB_ZCL_DRLC_EVENT_REJECTED_INVALID_CANCEL_CMD,      /**< Rejected - Invalid Cancel Command (Default) */
-    ZB_ZCL_DRLC_EVENT_REJECTED_INVALID_EFFECTIVE_TIME,  /**< Rejected - Invalid Cancel Command (Invalid Effective Time) */
-    ZB_ZCL_DRLC_EVENT_RESERVED_FA,                      /**< Reserved */
-    ZB_ZCL_DRLC_EVENT_REJECTED_EXPIRED,                 /**< Rejected - Event was received after it had expired@n (Current Time > Start Time + Duration) */
-    ZB_ZCL_DRLC_EVENT_RESERVED_FC,                      /**< Reserved for future use. */
-    ZB_ZCL_DRLC_EVENT_REJECTED_UNDEFINED_EVENT,         /**< Rejected - Invalid Cancel Command (Undefined Event) */
-    ZB_ZCL_DRLC_EVENT_REJECTED,                         /**< Load Control Event command Rejected */
-    ZB_ZCL_DRLC_EVENT_RESERVED_FF                       /**< Reserved for future use. */
+typedef enum zb_zcl_drlc_event_status_e
+{
+  ZB_ZCL_DRLC_EVENT_RESERVED_00 = 0x00,               /**< Reserved for future use. */
+  ZB_ZCL_DRLC_EVENT_LCE_RECEIVED,                     /**< Load Control Event command received */
+  ZB_ZCL_DRLC_EVENT_EVENT_STARTED,                    /**< Event started */
+  ZB_ZCL_DRLC_EVENT_EVENT_COMPLETED,                  /**< Event completed */
+  ZB_ZCL_DRLC_EVENT_OPT_OUT,                          /**< User has chosen to “Opt-Out”, user will not participate in this event */
+  ZB_ZCL_DRLC_EVENT_OPT_IN,                           /**< User has chosen to “Opt-In”, user will participate in this event */
+  ZB_ZCL_DRLC_EVENT_EVENT_CANCELLED,                  /**< The event has been cancelled */
+  ZB_ZCL_DRLC_EVENT_EVENT_SUPERSEDED,                 /**< The event has been superseded */
+  ZB_ZCL_DRLC_EVENT_EVENT_PARTIALLY_OPT_OUT,          /**< Event partially completed with User “Opt-Out”. */
+  ZB_ZCL_DRLC_EVENT_EVENT_PARTIALLY_OPT_IN,           /**< Event partially completed due to User “Opt-In”. */
+  ZB_ZCL_DRLC_EVENT_EVENT_COMPLETED_NO_USER,          /**< Event completed, no User participation (Previous “Opt-Out”). */
+  ZB_ZCL_DRLC_EVENT_RESERVED_0B,                      /**< Reserved for future use. */
+  ZB_ZCL_DRLC_EVENT_RESERVED_F7 = 0xF7,               /**< Reserved for future use. */
+  ZB_ZCL_DRLC_EVENT_REJECTED_INVALID_CANCEL_CMD,      /**< Rejected - Invalid Cancel Command (Default) */
+  ZB_ZCL_DRLC_EVENT_REJECTED_INVALID_EFFECTIVE_TIME,  /**< Rejected - Invalid Cancel Command (Invalid Effective Time) */
+  ZB_ZCL_DRLC_EVENT_RESERVED_FA,                      /**< Reserved */
+  ZB_ZCL_DRLC_EVENT_REJECTED_EXPIRED,                 /**< Rejected - Event was received after it had expired@n (Current Time > Start Time + Duration) */
+  ZB_ZCL_DRLC_EVENT_RESERVED_FC,                      /**< Reserved for future use. */
+  ZB_ZCL_DRLC_EVENT_REJECTED_UNDEFINED_EVENT,         /**< Rejected - Invalid Cancel Command (Undefined Event) */
+  ZB_ZCL_DRLC_EVENT_REJECTED,                         /**< Load Control Event command Rejected */
+  ZB_ZCL_DRLC_EVENT_RESERVED_FF                       /**< Reserved for future use. */
 } zb_zcl_drlc_event_status_t;
 
 /** DRLC signature type enum */
-typedef enum zb_zcl_drlc_signature_type_e {
-    ZB_ZCL_DRLC_LCE_NO_SIGNATURE = 0x00,  /**< No Signature */
-    ZB_ZCL_DRLC_LCE_SIGNATURE_ECDSA,      /**< ECDSA */
-    ZB_ZCL_DRLC_LCE_SIGNATURE_RESERVED    /**< Reserved */
+typedef enum zb_zcl_drlc_signature_type_e
+{
+  ZB_ZCL_DRLC_LCE_NO_SIGNATURE = 0x00,  /**< No Signature */
+  ZB_ZCL_DRLC_LCE_SIGNATURE_ECDSA,      /**< ECDSA */
+  ZB_ZCL_DRLC_LCE_SIGNATURE_RESERVED    /**< Reserved */
 } zb_zcl_drlc_signature_type_t;
 
 /** @} */ /* ZB_ZCL_DRLC_ATTRS_AND_ENUMS */
@@ -165,21 +170,22 @@ typedef enum zb_zcl_drlc_signature_type_e {
 /** Commands are generated by DRLC Server.
  * @see SE spec, Table D-1
  */
-typedef enum zb_zcl_drlc_srv_cmd_e {
-    ZB_ZCL_DRLC_SRV_CMD_LOAD_CONTROL_EVENT              = 0x00,  /**< LoadControlEvent is generated when the ESI wants to control one or more
+typedef enum zb_zcl_drlc_srv_cmd_e
+{
+  ZB_ZCL_DRLC_SRV_CMD_LOAD_CONTROL_EVENT              = 0x00,  /**< LoadControlEvent is generated when the ESI wants to control one or more
                                                                 * load control devices usually as the result of an energy curtailment
                                                                 * command from the Smart Energy Network.
                                                                 * @see zb_zcl_drlc_lce_payload_s
                                                                 */
 
-    ZB_ZCL_DRLC_SRV_CMD_CANCEL_LOAD_CONTROL_EVENT       = 0x01,  /**< CancelLoadControlEvent is generated when the ESI wants to cancel
+  ZB_ZCL_DRLC_SRV_CMD_CANCEL_LOAD_CONTROL_EVENT       = 0x01,  /**< CancelLoadControlEvent is generated when the ESI wants to cancel
                                                                 * previously scheduled control of one or more load control devices, usually
                                                                 * as the result of an energy curtailment command from the Smart Energy
                                                                 * Network
                                                                 * @see zb_zcl_drlc_cancel_lce_payload_s
                                                                 */
 
-    ZB_ZCL_DRLC_SRV_CMD_CANCEL_ALL_LOAD_CONTROL_EVENTS  = 0x02,   /**< CancellAllLoadControlEvents is generated when the ESI wants to cancel all
+  ZB_ZCL_DRLC_SRV_CMD_CANCEL_ALL_LOAD_CONTROL_EVENTS  = 0x02,   /**< CancellAllLoadControlEvents is generated when the ESI wants to cancel all
                                                                  * events for control device(s)
                                                                  */
 } zb_zcl_drlc_srv_cmd_t;
@@ -188,13 +194,14 @@ typedef enum zb_zcl_drlc_srv_cmd_e {
 /** Commands are generated by DRLC Client.
  * @see SE spec, Table D-8
  */
-typedef enum zb_zcl_drlc_cli_cmd_e {
-    ZB_ZCL_DRLC_CLI_CMD_REPORT_EVENT_STATUS             = 0x00,  /**< ReportEventStatus is generated when the client device detects a change of
+typedef enum zb_zcl_drlc_cli_cmd_e
+{
+  ZB_ZCL_DRLC_CLI_CMD_REPORT_EVENT_STATUS             = 0x00,  /**< ReportEventStatus is generated when the client device detects a change of
                                                                 * state for an active LoadControl event.
                                                                 * @see zb_zcl_drlc_report_event_status_payload_s
                                                                 */
 
-    ZB_ZCL_DRLC_CLI_CMD_GET_SCHEDULED_EVENTS            = 0x01,  /**< GetScheduledEvents is generated when the client device wishes to verify
+  ZB_ZCL_DRLC_CLI_CMD_GET_SCHEDULED_EVENTS            = 0x01,  /**< GetScheduledEvents is generated when the client device wishes to verify
                                                                 * the available LoadControl events.
                                                                 * @see zb_zcl_drlc_get_scheduled_events_payload_s
                                                                 */
@@ -224,67 +231,67 @@ typedef enum zb_zcl_drlc_cli_cmd_e {
  */
 typedef ZB_PACKED_PRE struct zb_zcl_drlc_lce_payload_s {
 
-    /** Unique identifier generated by the Energy provider.
-     * The value of this field allows matching of Event reports
-     * with a specific Demand Response and Load Control event.
-     */
-    zb_uint32_t issuer_event_id;                       /* (M) */
+  /** Unique identifier generated by the Energy provider.
+   * The value of this field allows matching of Event reports
+   * with a specific Demand Response and Load Control event.
+   */
+  zb_uint32_t issuer_event_id;                       /* (M) */
 
-    /** Bit encoded field representing the Device Class to apply the
-     * current Load Control Event. Each bit, if set individually or
-     * in combination, indicates the class device(s) needing to
-     * participate in the event.
-     */
-    zb_uint16_t device_class;                          /* (M) */
+  /** Bit encoded field representing the Device Class to apply the
+   * current Load Control Event. Each bit, if set individually or
+   * in combination, indicates the class device(s) needing to
+   * participate in the event.
+   */
+  zb_uint16_t device_class;                          /* (M) */
 
-    /** This field can be used in conjunction with the Device Class bits
-      * for providing a mechanism to direct Load Control Events
-      * to groups of Devices.
-      */
-    zb_uint8_t utility_enrollment_group;               /* (M) */
+  /** This field can be used in conjunction with the Device Class bits
+    * for providing a mechanism to direct Load Control Events
+    * to groups of Devices.
+    */
+  zb_uint8_t utility_enrollment_group;               /* (M) */
 
-    /** UTC Timestamp representing when the event is scheduled to start.
-      * A start time of 0x00000000 is a special time denoting “now.”
-      */
-    zb_uint32_t start_time;                            /* (M) */
+  /** UTC Timestamp representing when the event is scheduled to start.
+    * A start time of 0x00000000 is a special time denoting “now.”
+    */
+  zb_uint32_t start_time;                            /* (M) */
 
-    /** Duration of this event in number of minutes.
-      * Maximum value is 1440 (one day).
-      */
-    zb_uint16_t duration_in_minutes;                   /* (M) */
+  /** Duration of this event in number of minutes.
+    * Maximum value is 1440 (one day).
+    */
+  zb_uint16_t duration_in_minutes;                   /* (M) */
 
-    /** This field defines the level of criticality of event. The
-      * action for an event can be solely based on this value,
-      * or combination with other Load Control Event fields.
-      */
-    zb_uint8_t criticality_level;                      /* (M) */
+  /** This field defines the level of criticality of event. The
+    * action for an event can be solely based on this value,
+    * or combination with other Load Control Event fields.
+    */
+  zb_uint8_t criticality_level;                      /* (M) */
 
-    /** Requested offset to apply to the normal cooling setpoint
-      * at the time of the start of the event in + 0.1 Celsius.
-      */
-    zb_uint8_t cooling_temperature_offset;             /* (O) - use 0xff if optional */
+  /** Requested offset to apply to the normal cooling setpoint
+    * at the time of the start of the event in + 0.1 Celsius.
+    */
+  zb_uint8_t cooling_temperature_offset;             /* (O) - use 0xff if optional */
 
-    /** Requested offset to apply to the normal heating setpoint
-      * at the time of the start of the event in + 0.1 Celsius.
-      */
-    zb_uint8_t heating_temperature_offset;             /* (O) - use 0xff if optional */
+  /** Requested offset to apply to the normal heating setpoint
+    * at the time of the start of the event in + 0.1 Celsius.
+    */
+  zb_uint8_t heating_temperature_offset;             /* (O) - use 0xff if optional */
 
-    /** Requested cooling set point in 0.01 degrees Celsius. */
-    zb_int16_t cooling_temperature_set_point;          /* (O) - use 0x8000 if optional */
+  /** Requested cooling set point in 0.01 degrees Celsius. */
+  zb_int16_t cooling_temperature_set_point;          /* (O) - use 0x8000 if optional */
 
-    /** Requested heating set point in 0.01 degrees Celsius. */
-    zb_int16_t heating_temperature_set_point;          /* (O) - use 0x8000 if optional */
+  /** Requested heating set point in 0.01 degrees Celsius. */
+  zb_int16_t heating_temperature_set_point;          /* (O) - use 0x8000 if optional */
 
-    /** Defines a maximum energy usage limit as a percentage of
-      * the client implementations specific average energy usage.
-      */
-    zb_int8_t average_load_adjustment_percentage;      /* (O) */
+  /** Defines a maximum energy usage limit as a percentage of
+    * the client implementations specific average energy usage.
+    */
+  zb_int8_t average_load_adjustment_percentage;      /* (O) */
 
-    /** Defines the maximum on state duty cycle as a percentage of time. */
-    zb_uint8_t duty_cycle;                             /* (O) */
+  /** Defines the maximum on state duty cycle as a percentage of time. */
+  zb_uint8_t duty_cycle;                             /* (O) */
 
-    /** Identifies additional control options for the event. */
-    zb_uint8_t event_control;                          /* (M) */
+  /** Identifies additional control options for the event. */
+  zb_uint8_t event_control;                          /* (M) */
 } ZB_PACKED_STRUCT zb_zcl_drlc_lce_payload_t;
 
 
@@ -292,91 +299,91 @@ typedef ZB_PACKED_PRE struct zb_zcl_drlc_lce_payload_s {
  * @see SE spec, Figure D-3
  */
 typedef ZB_PACKED_PRE struct zb_zcl_drlc_cancel_lce_payload_s {
-    /* Mandatory fields. */
+  /* Mandatory fields. */
 
-    /** Unique identifier generated by the Energy provider. The value of
-      * this field allows matching of Event reports with a specific Demand Response
-      * and Load Control event.
-      */
-    zb_uint32_t issuer_event_id;                       /* (M) */
+  /** Unique identifier generated by the Energy provider. The value of
+    * this field allows matching of Event reports with a specific Demand Response
+    * and Load Control event.
+    */
+  zb_uint32_t issuer_event_id;                       /* (M) */
 
-    /** Bit encoded field representing the Device Class to apply the
-      * current Load Control Event. Each bit, if set individually or in combination,
-      * indicates the class device(s) needing to participate in the event.
-      */
-    zb_uint16_t device_class;                          /* (M) */
+  /** Bit encoded field representing the Device Class to apply the
+    * current Load Control Event. Each bit, if set individually or in combination,
+    * indicates the class device(s) needing to participate in the event.
+    */
+  zb_uint16_t device_class;                          /* (M) */
 
-    /** This field can be used in conjunction with the Device Class bits
-      * for providing a mechanism to direct Load Control Events
-      * to groups of Devices.
-      */
-    zb_uint8_t utility_enrollment_group;               /* (M) */
+  /** This field can be used in conjunction with the Device Class bits
+    * for providing a mechanism to direct Load Control Events
+    * to groups of Devices.
+    */
+  zb_uint8_t utility_enrollment_group;               /* (M) */
 
-    /** This field is used to indicate that the Event is currently in process and
-      * a cancel command is received.*/
-    zb_uint8_t cancel_control;                         /* (M) */
+  /** This field is used to indicate that the Event is currently in process and
+    * a cancel command is received.*/
+  zb_uint8_t cancel_control;                         /* (M) */
 
-    /** UTC Timestamp representing when the canceling of the event is
-      * scheduled to start. An effective time of 0x00000000 is a special
-      * time denoting “now.”
-      */
-    zb_uint32_t effective_time;                        /* (M) */
+  /** UTC Timestamp representing when the canceling of the event is
+    * scheduled to start. An effective time of 0x00000000 is a special
+    * time denoting “now.”
+    */
+  zb_uint32_t effective_time;                        /* (M) */
 } ZB_PACKED_STRUCT zb_zcl_drlc_cancel_lce_payload_t;
 
 /** @ref ZB_ZCL_DRLC_CLI_CMD_REPORT_EVENT_STATUS "ReportEventStatus" command payload
  * @see SE spec, Figure D-5
  */
 typedef ZB_PACKED_PRE struct zb_zcl_drlc_report_event_status_payload_s {
-    /* Mandatory fields. */
+  /* Mandatory fields. */
 
-    /** Unique identifier generated by the Energy provider. The value of
-      * this field allows matching of Event reports with a specific Demand Response
-      * and Load Control event.
-      */
-    zb_uint32_t issuer_event_id;                          /* (M) */
+  /** Unique identifier generated by the Energy provider. The value of
+    * this field allows matching of Event reports with a specific Demand Response
+    * and Load Control event.
+    */
+  zb_uint32_t issuer_event_id;                          /* (M) */
 
-    /** This field stores value from set of event statuses*/
-    zb_uint8_t event_status;                              /* (M) */
+  /** This field stores value from set of event statuses*/
+  zb_uint8_t event_status;                              /* (M) */
 
-    /** UTC Timestamp representing when the event status
-      * occurred. This field shall not use the value of 0x00000000.
-      */
-    zb_uint32_t event_status_time;                        /* (M) */
+  /** UTC Timestamp representing when the event status
+    * occurred. This field shall not use the value of 0x00000000.
+    */
+  zb_uint32_t event_status_time;                        /* (M) */
 
-    /** Criticality Level value applied by the device */
-    zb_uint8_t criticality_level_applied;                 /* (M) */
+  /** Criticality Level value applied by the device */
+  zb_uint8_t criticality_level_applied;                 /* (M) */
 
-    /** Defines Cooling Temperature Set Point value applied by the device.
-      * The value 0x8000 means that this field has not been used by the end device.
-      */
-    zb_uint16_t cooling_temperature_set_point_applied;    /* (O) */
+  /** Defines Cooling Temperature Set Point value applied by the device.
+    * The value 0x8000 means that this field has not been used by the end device.
+    */
+  zb_uint16_t cooling_temperature_set_point_applied;    /* (O) */
 
-    /** Defines Heating Temperature Set Point value applied by the device.
-      * The value 0x8000 means that this field has not been used by
-      * the end device.
-      */
-    zb_uint16_t heating_temperature_set_point_applied;    /* (O) */
+  /** Defines Heating Temperature Set Point value applied by the device.
+    * The value 0x8000 means that this field has not been used by
+    * the end device.
+    */
+  zb_uint16_t heating_temperature_set_point_applied;    /* (O) */
 
-    /** Defines Average Load Adjustment Percentage value applied by the device.
-      * The value 0x80 means that this field has not been used by the end device.
-      */
-    zb_int8_t average_load_adjustment_percentage_applied; /* (O) */
+  /** Defines Average Load Adjustment Percentage value applied by the device.
+    * The value 0x80 means that this field has not been used by the end device.
+    */
+  zb_int8_t average_load_adjustment_percentage_applied; /* (O) */
 
-    /** Defines the maximum on state duty cycle applied by the device.
-      * The value 0xFF means that this field has not been used by the end device.
-      */
-    zb_uint8_t duty_cycle_applied;                        /* (O) */
+  /** Defines the maximum on state duty cycle applied by the device.
+    * The value 0xFF means that this field has not been used by the end device.
+    */
+  zb_uint8_t duty_cycle_applied;                        /* (O) */
 
-    /** Identifies additional control options for the event. */
-    zb_uint8_t event_control;                             /* (M) */
+  /** Identifies additional control options for the event. */
+  zb_uint8_t event_control;                             /* (M) */
 
-    /** This field is used to enumerate the type of algorithm use to create the signature.*/
-    zb_uint8_t signature_type;                            /* (M) */
+  /** This field is used to enumerate the type of algorithm use to create the signature.*/
+  zb_uint8_t signature_type;                            /* (M) */
 
-    /** A non-repudiation signature created by using the Matyas-Meyer-Oseas
-      * hash function used in conjunction with ECDSA.
-      */
-    zb_uint8_t signature[42];                             /* (O) */
+  /** A non-repudiation signature created by using the Matyas-Meyer-Oseas
+    * hash function used in conjunction with ECDSA.
+    */
+  zb_uint8_t signature[42];                             /* (O) */
 } ZB_PACKED_STRUCT zb_zcl_drlc_report_event_status_payload_t;
 
 
@@ -384,24 +391,24 @@ typedef ZB_PACKED_PRE struct zb_zcl_drlc_report_event_status_payload_s {
  * @see SE spec, Figure D-6
  */
 typedef ZB_PACKED_PRE struct zb_zcl_drlc_get_scheduled_events_payload_s {
-    /* Mandatory fields. */
+  /* Mandatory fields. */
 
-    /** UTC Timestamp representing the minimum Start Time of events that shall be
-      * matched and sent by the Server. A Start Time of 0x00000000 has no special
-      * meaning.
-      */
-    zb_uint32_t start_time;                        /* (M) */
+  /** UTC Timestamp representing the minimum Start Time of events that shall be
+    * matched and sent by the Server. A Start Time of 0x00000000 has no special
+    * meaning.
+    */
+  zb_uint32_t start_time;                        /* (M) */
 
-    /** Represents the maximum number of events to be sent. A value of 0 indicates
-      * no maximum limit.
-      */
-    zb_uint8_t number_of_events;                   /* (M) */
+  /** Represents the maximum number of events to be sent. A value of 0 indicates
+    * no maximum limit.
+    */
+  zb_uint8_t number_of_events;                   /* (M) */
 
-    /** Represents the minimum Issuer Event ID of events to be matched and sent
-      * by the server with the same Start Time as the Get Scheduled Events command.
-      * A value of 0xFFFFFFFF indicates this field will not be used.
-      */
-    zb_uint32_t issuer_event_id;                   /* (O) */
+  /** Represents the minimum Issuer Event ID of events to be matched and sent
+    * by the server with the same Start Time as the Get Scheduled Events command.
+    * A value of 0xFFFFFFFF indicates this field will not be used.
+    */
+  zb_uint32_t issuer_event_id;                   /* (O) */
 } ZB_PACKED_STRUCT zb_zcl_drlc_get_scheduled_events_payload_t;
 
 
@@ -468,8 +475,8 @@ typedef ZB_PACKED_PRE struct zb_zcl_drlc_get_scheduled_events_payload_s {
  * @snippet se/energy_service_interface/se_esi_zc.c esi_dev_cmd_send_lce_event1
  */
 void zb_drlc_server_send_load_control_event(zb_uint8_t param,
-        zb_addr_u *dst_addr, zb_aps_addr_mode_t dst_addr_mode, zb_uint8_t dst_ep,
-        zb_uint8_t src_ep, zb_zcl_drlc_lce_payload_t *payload, zb_callback_t cb);
+  zb_addr_u *dst_addr, zb_aps_addr_mode_t dst_addr_mode, zb_uint8_t dst_ep,
+  zb_uint8_t src_ep, zb_zcl_drlc_lce_payload_t *payload, zb_callback_t cb);
 
 
 /** Function for send @ref ZB_ZCL_DRLC_SRV_CMD_CANCEL_LOAD_CONTROL_EVENT "CancelLoadControlEvent" command.
@@ -487,8 +494,8 @@ void zb_drlc_server_send_load_control_event(zb_uint8_t param,
  * @snippet se/energy_service_interface/se_esi_zc.c esi_dev_cmd_send_lce_event2
  */
 void zb_drlc_server_send_cancel_load_control_event(zb_uint8_t param,
-        zb_addr_u *dst_addr, zb_aps_addr_mode_t dst_addr_mode, zb_uint8_t dst_ep,
-        zb_uint8_t src_ep, zb_zcl_drlc_cancel_lce_payload_t *payload, zb_callback_t cb);
+  zb_addr_u *dst_addr, zb_aps_addr_mode_t dst_addr_mode, zb_uint8_t dst_ep,
+  zb_uint8_t src_ep, zb_zcl_drlc_cancel_lce_payload_t *payload, zb_callback_t cb);
 
 
 /** Function for send @ref ZB_ZCL_DRLC_SRV_CMD_CANCEL_ALL_LOAD_CONTROL_EVENTS "CancellAllLoadControlEvents" command.
@@ -507,8 +514,8 @@ void zb_drlc_server_send_cancel_load_control_event(zb_uint8_t param,
  * @snippet se/energy_service_interface/se_esi_zc.c esi_dev_cmd_send_lce_event3
  */
 void zb_drlc_server_send_cancel_all_load_control_events(zb_uint8_t param,
-        zb_addr_u *dst_addr, zb_aps_addr_mode_t dst_addr_mode, zb_uint8_t dst_ep,
-        zb_uint8_t src_ep, zb_uint8_t *payload, zb_callback_t cb);
+  zb_addr_u *dst_addr, zb_aps_addr_mode_t dst_addr_mode, zb_uint8_t dst_ep,
+  zb_uint8_t src_ep, zb_uint8_t *payload, zb_callback_t cb);
 
 
 /** Function for send @ref  ZB_ZCL_DRLC_CLI_CMD_REPORT_EVENT_STATUS "ReportEventStatus" command.
@@ -533,8 +540,8 @@ void zb_drlc_server_send_cancel_all_load_control_events(zb_uint8_t param,
  * @snippet se/in_home_display/se_ihd_zr.c ihd_send_report_event_status
  */
 void zb_drlc_client_send_report_event_status(zb_uint8_t param,
-        zb_addr_u *dst_addr, zb_aps_addr_mode_t dst_addr_mode, zb_uint8_t dst_ep,
-        zb_uint8_t src_ep, zb_zcl_drlc_report_event_status_payload_t *payload, zb_callback_t cb);
+  zb_addr_u *dst_addr, zb_aps_addr_mode_t dst_addr_mode, zb_uint8_t dst_ep,
+  zb_uint8_t src_ep, zb_zcl_drlc_report_event_status_payload_t *payload, zb_callback_t cb);
 
 
 /** Function for send @ref ZB_ZCL_DRLC_CLI_CMD_GET_SCHEDULED_EVENTS "GetScheduledEvents" command.
@@ -552,8 +559,8 @@ void zb_drlc_client_send_report_event_status(zb_uint8_t param,
  * @snippet se/in_home_display/se_ihd_zr.c ihd_dev_cmd_get_scheduled_events
  */
 void zb_drlc_client_send_get_scheduled_events(zb_uint8_t param,
-        zb_addr_u *dst_addr, zb_aps_addr_mode_t dst_addr_mode, zb_uint8_t dst_ep,
-        zb_uint8_t src_ep, zb_zcl_drlc_get_scheduled_events_payload_t *payload, zb_callback_t cb);
+  zb_addr_u *dst_addr, zb_aps_addr_mode_t dst_addr_mode, zb_uint8_t dst_ep,
+  zb_uint8_t src_ep, zb_zcl_drlc_get_scheduled_events_payload_t *payload, zb_callback_t cb);
 
 /** Macro for call @ref zb_drlc_server_send_load_control_event function
  */
@@ -600,7 +607,7 @@ void zb_drlc_client_send_get_scheduled_events(zb_uint8_t param,
  *  @param[in] duration_randomization_minutes - pointer to variable to store @ref ZB_ZCL_ATTR_DRLC_DURATION_RANDOMIZATION_MINUTES value
  *  @param[in] device_class - pointer to variable to store @ref ZB_ZCL_ATTR_DRLC_DEVICE_CLASS_VALUE value
  */
-#define ZB_ZCL_DECLARE_DRLC_ATTRIB_LIST(attr_list, utility_enrollment_group,   \
+ #define ZB_ZCL_DECLARE_DRLC_ATTRIB_LIST(attr_list, utility_enrollment_group,   \
   start_randomization_munutes, duration_randomization_minutes, device_class)    \
   ZB_ZCL_START_DECLARE_ATTRIB_LIST(attr_list)                                   \
   ZB_ZCL_SET_ATTR_DESC_M(ZB_ZCL_ATTR_DRLC_UTILITY_ENROLLMENT_GROUP, (utility_enrollment_group), ZB_ZCL_ATTR_TYPE_8BIT, ZB_ZCL_ATTR_ACCESS_READ_WRITE) \
@@ -621,26 +628,27 @@ void zb_drlc_client_send_get_scheduled_events(zb_uint8_t param,
 /**
  *  @brief DRLC client cluster attributes
  */
-typedef struct zb_zcl_drlc_client_attrs_s {
-    /** @copydoc ZB_ZCL_ATTR_DRLC_UTILITY_ENROLLMENT_GROUP
-     * @see ZB_ZCL_ATTR_DRLC_UTILITY_ENROLLMENT_GROUP
-     */
-    zb_uint8_t utility_enrollment_group;
+typedef struct zb_zcl_drlc_client_attrs_s
+{
+  /** @copydoc ZB_ZCL_ATTR_DRLC_UTILITY_ENROLLMENT_GROUP
+   * @see ZB_ZCL_ATTR_DRLC_UTILITY_ENROLLMENT_GROUP
+   */
+  zb_uint8_t utility_enrollment_group;
 
-    /** @copydoc ZB_ZCL_ATTR_DRLC_START_RANDOMIZATION_MINUTES
-     * @see ZB_ZCL_ATTR_DRLC_START_RANDOMIZATION_MINUTES
-     */
-    zb_uint8_t start_randomization_munutes;
+  /** @copydoc ZB_ZCL_ATTR_DRLC_START_RANDOMIZATION_MINUTES
+   * @see ZB_ZCL_ATTR_DRLC_START_RANDOMIZATION_MINUTES
+   */
+  zb_uint8_t start_randomization_munutes;
 
-    /** @copydoc ZB_ZCL_ATTR_DRLC_DURATION_RANDOMIZATION_MINUTES
-     * @see ZB_ZCL_ATTR_DRLC_DURATION_RANDOMIZATION_MINUTES
-     */
-    zb_uint8_t duration_randomization_minutes;
+  /** @copydoc ZB_ZCL_ATTR_DRLC_DURATION_RANDOMIZATION_MINUTES
+   * @see ZB_ZCL_ATTR_DRLC_DURATION_RANDOMIZATION_MINUTES
+   */
+  zb_uint8_t duration_randomization_minutes;
 
-    /** @copydoc ZB_ZCL_ATTR_DRLC_DEVICE_CLASS_VALUE
-     * @see ZB_ZCL_ATTR_DRLC_DEVICE_CLASS_VALUE
-     */
-    zb_uint16_t device_class_value;
+  /** @copydoc ZB_ZCL_ATTR_DRLC_DEVICE_CLASS_VALUE
+   * @see ZB_ZCL_ATTR_DRLC_DEVICE_CLASS_VALUE
+   */
+  zb_uint16_t device_class_value;
 } zb_zcl_drlc_client_attrs_t;
 
 

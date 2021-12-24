@@ -1,6 +1,5 @@
 /*
- * Copyright (c) 2012-2021 DSR Corporation, Denver CO, USA
- * Copyright (c) 2021 Espressif Systems (Shanghai) PTE LTD
+ * Copyright (c) 2021 Espressif Systems (Shanghai) CO LTD
  * All rights reserved.
  *
  *
@@ -36,11 +35,11 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-
-
 #pragma once
 
 #include "sdkconfig.h"
+#include "hal/uart_types.h"
+#include "driver/uart.h"
 
 #define ZB_ESP
 #define ZB_CONFIG_ESP
@@ -50,24 +49,13 @@
 #define ZB_USE_BUTTONS
 #define ZB_SOFT_SECURITY
 
-/* trace */
-#ifdef ZB_TRACE_LEVEL
-#define ZB_TRACE_TO_PORT
-#define ZB_TRACE_FROM_INTR
-#define ZB_BINARY_TRACE
-#define ZB_TRAFFIC_DUMP_ON
-#ifndef ZB_TRACE_OVER_JTAG
-#define ZB_TRACE_OVER_USART
-#define ZB_HAVE_SERIAL
-#endif  /* not over jtag */
-#endif  /* if trace */
-
 #define MAC_TRANSPORT_USES_SELECT
 
 #define ZB_LITTLE_ENDIAN
 #define ZB_NEED_ALIGN
 
 /* our MAC */
+#define ZB_MANUAL_ACK
 #define ZB_AUTO_ACK_TX
 #define ZB_MAC_AUTO_ACK_RECV
 #define ZB_MAC_RX_QUEUE_CAP 4
@@ -83,4 +71,55 @@
    2 * ZB_MAC_A_UNIT_BACKOFF_PERIOD * ZB_SYMBOL_DURATION_USEC \
    - 900)
 
+typedef enum {
+    RADIO_MODE_INIT_UART = 0x0,
+    HOST_MODE_INIT_UART  = 0x1,
+} zb_esp_uart_init_mode;
 
+typedef enum {
+    RADIO_MODE_NATIVE   = 0x0,      /* Use the native 15.4 radio */
+    RADIO_MODE_UART_RCP = 0x1,      /* UART connection to a 15.4 capable radio co - processor (RCP) */
+    RADIO_MODE_SPI_RCP  = 0x2,      /* SPI connection to a 15.4 capable radio co - processor (RCP) */
+} zb_esp_radio_mode_t;
+
+typedef enum {
+    HOST_CONNECTION_MODE_NONE       = 0x0, /* < Disable host connection */
+    HOST_CONNECTION_MODE_CLI_UART   = 0x1, /* < CLI UART connection to the host */
+    HOST_CONNECTION_MODE_RCP_UART   = 0x2, /* < RCP UART connection to the host */
+} zb_esp_host_connection_mode_t;
+
+typedef enum {
+    SERIAL_MODE_DISABLE   = 0x0,      /* disable osif serial mode  */
+    SERIAL_MODE_UART      = 0x1,      /* osif serial mode through uart */
+} zb_esp_serial_mode_t;
+
+typedef struct {
+    uart_port_t port;               /* UART port number */
+    uart_config_t uart_config;      /* UART configuration, see uart_config_t docs */
+    int rx_pin;                     /* UART RX pin */
+    int tx_pin;                     /* UART TX pin */
+} zb_esp_uart_config_t;
+
+typedef struct {
+    zb_esp_serial_mode_t             serial_mode;                   /* The osif serial connection mode */
+    zb_esp_uart_config_t             osif_serial_uart_config;       /* The uart configuration to osif serial */
+} zb_esp_serial_config_t;
+
+typedef struct {
+    zb_esp_radio_mode_t     radio_mode;         /* The radio mode */
+    zb_esp_uart_config_t    radio_uart_config;  /* The uart configuration to RCP */
+} zb_esp_radio_config_t;
+
+typedef struct {
+    zb_esp_host_connection_mode_t   host_connection_mode;   /* The host connection mode */
+    zb_esp_uart_config_t            host_uart_config;       /* The uart configuration to host */
+} zb_esp_host_config_t;
+
+typedef struct {
+    zb_esp_radio_config_t               radio_config;   /* The radio configuration */
+    zb_esp_host_config_t                host_config;    /* The host connection configuration */
+}  zb_esp_platform_config_t;
+
+extern zb_esp_platform_config_t s_platform_config;
+esp_err_t zb_esp_platform_config(zb_esp_platform_config_t *config);
+esp_err_t zb_esp_platform_serial_config_set(zb_esp_serial_config_t *serial_config);

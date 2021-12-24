@@ -195,7 +195,7 @@
       {                                                         \
         ep_id,                                                  \
         ZB_AF_HA_PROFILE_ID,                                    \
-        ZB_HA_IAS_ZONE_ID, /* TODO: actualy, device id should be changed */ \
+        ZB_HA_IAS_ZONE_ID, /* TODO: actually, device id should be changed */ \
         ZB_HA_COMCAST_SECURITY_SENSOR_VER,                         \
         0,                                                      \
         in_clust_num,                                           \

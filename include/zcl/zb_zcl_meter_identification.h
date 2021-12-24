@@ -181,7 +181,7 @@ typedef enum zb_zcl_meter_identification_data_quality_e
 /** @brief Max length of Company Name attribute */
 #define ZB_ZCl_ATTR_METER_IDENTIFICATION_COMPANY_NAME_MAX_LENGTH 16
 
-/** @brief Max length of POD (Poinf of Delivery) attribute */
+/** @brief Max length of POD (Point of Delivery) attribute */
 #define ZB_ZCl_ATTR_METER_IDENTIFICATION_POD_MAX_LENGTH 16
 
 /** @brief Declare attribute list for Thermostat cluster

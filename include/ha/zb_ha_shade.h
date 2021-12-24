@@ -78,10 +78,6 @@
         @snippet HA_samples/shade/sample_zc.c ZCL_COMMAND_HANDLER
 
     @par
-
-    @cond ZBOSS_SAMPLES_API_DOC_LINE
-    See Shade device sample in application/HA_samples/shade
-    @endcond
 */
 
 #define ZB_HA_DEVICE_VER_SHADE 0  /*!< Shade device version */
@@ -198,7 +194,7 @@
       ZB_ZCL_CLUSTER_ID_BASIC,                                                        \
       ZB_ZCL_CLUSTER_ID_IDENTIFY,                                                     \
       ZB_ZCL_CLUSTER_ID_SHADE_CONFIG,                                                 \
-        ZB_ZCL_CLUSTER_ID_SCENES,                                                       \
+	    ZB_ZCL_CLUSTER_ID_SCENES,                                                       \
       ZB_ZCL_CLUSTER_ID_GROUPS,                                                       \
       ZB_ZCL_CLUSTER_ID_ON_OFF,                                                       \
       ZB_ZCL_CLUSTER_ID_LEVEL_CONTROL                                                 \

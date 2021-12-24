@@ -77,6 +77,8 @@
 #include "ha/zb_ha_thermostat.h"
 
 #include "ha/zb_ha_test_device.h"
-#endif
 
+#include "ha/zb_ha_erl_device_interface.h"
+#include "ha/zb_ha_erl_gw_device.h"
+#endif
 #endif /* ZB_HA_H */

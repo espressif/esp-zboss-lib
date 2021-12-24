@@ -57,9 +57,8 @@
  *
  *   @param param - callback parameter - usually, but not always, ref to packet buf
  *
- *   See any sample
  */
-typedef void (ZB_CODE *zb_callback_t)(zb_uint8_t param);
+typedef void (ZB_CODE * zb_callback_t)(zb_uint8_t param);
 
 /**
  *   Callback function with 2 parameters typedef.
@@ -68,9 +67,8 @@ typedef void (ZB_CODE *zb_callback_t)(zb_uint8_t param);
  *   @param param - callback parameter - usually, but not always, ref to packet buf
  *   @param cb_param - additional 2-byte callback parameter, user data.
  *
- *   See any sample
  */
-typedef void (ZB_CODE *zb_callback2_t)(zb_uint8_t param, zb_uint16_t cb_param);
+typedef void (ZB_CODE * zb_callback2_t)(zb_uint8_t param, zb_uint16_t cb_param);
 /*! @} */
 
 
@@ -100,26 +98,26 @@ typedef void (ZB_CODE *zb_callback2_t)(zb_uint8_t param, zb_uint16_t cb_param);
  */
 
 #ifdef ZB_TIMER_32
-typedef zb_uint32_t zb_time_t;
+  typedef zb_uint32_t zb_time_t;
 /**
  * Maximum timer value, if 32-bit timer is used.
  */
-#define ZB_MAX_TIME_VAL ZB_UINT32_MAX
+  #define ZB_MAX_TIME_VAL ZB_UINT32_MAX
 /**
  * Minimum timer value, if 32-bit timer is used.
  */
-#define ZB_MIN_TIME_VAL ZB_UINT32_MIN
+  #define ZB_MIN_TIME_VAL ZB_UINT32_MIN
 #else
 /* 16 bits for 8051 - it will be hw timer value. */
-typedef zb_uint16_t zb_time_t;
+  typedef zb_uint16_t zb_time_t;
 /**
  * Maximum timer value, if 16-bit timer is used.
  */
-#define ZB_MAX_TIME_VAL ZB_UINT16_MAX
+  #define ZB_MAX_TIME_VAL ZB_UINT16_MAX
 /**
  * Minimum timer value, if 16-bit timer is used.
  */
-#define ZB_MIN_TIME_VAL ZB_UINT16_MIN
+ #define ZB_MIN_TIME_VAL ZB_UINT16_MIN
 #endif
 
 /**
@@ -192,17 +190,37 @@ zb_time_t zb_timer_get(void);
 
 
 #ifdef ZB_TIMER_32
+
 /**
-  Convert time from milliseconds to beacon intervals (32-bit platforms).
+  Convert time from milliseconds to beacon intervals (32-bit platforms). Round the result up.
 */
-#define ZB_MILLISECONDS_TO_BEACON_INTERVAL(ms) (((zb_time_t)(ms) * 1000U + (ZB_BEACON_INTERVAL_USEC - 1U)) / ZB_BEACON_INTERVAL_USEC)
+#define ZB_MILLISECONDS_TO_BEACON_INTERVAL_CEIL(ms) (((zb_time_t)(ms) * 1000U + (ZB_BEACON_INTERVAL_USEC - 1U)) / ZB_BEACON_INTERVAL_USEC)
+
+/**
+  Convert time from milliseconds to beacon intervals (32-bit platforms). Round the result down.
+*/
+#define ZB_MILLISECONDS_TO_BEACON_INTERVAL_FLOOR(ms) ((zb_time_t)(ms) * 1000U / ZB_BEACON_INTERVAL_USEC)
+
 #else
 /**
   Convert time from milliseconds to beacon intervals
-  Try to not cause overflow in 16-bit arithmetic (with some precision lost...)
+  Try to not cause overflow in 16-bit arithmetic (with some precision lost...).
+  Round the result down.
 */
-#define ZB_MILLISECONDS_TO_BEACON_INTERVAL(ms) (((10UL * (zb_time_t)(ms) + (ZB_BEACON_INTERVAL_USEC / 100U - 1U)) / (ZB_BEACON_INTERVAL_USEC / 100U)))
+#define ZB_MILLISECONDS_TO_BEACON_INTERVAL_FLOOR(ms) (((10UL * (zb_time_t)(ms) + 0U) / (ZB_BEACON_INTERVAL_USEC / 100U)))
+
+/**
+  Convert time from milliseconds to beacon intervals
+  Try to not cause overflow in 16-bit arithmetic (with some precision lost...).
+  Round the result up.
+*/
+#define ZB_MILLISECONDS_TO_BEACON_INTERVAL_CEIL(ms) (((10UL * (zb_time_t)(ms) + (ZB_BEACON_INTERVAL_USEC / 100U - 1U)) / (ZB_BEACON_INTERVAL_USEC / 100U)))
 #endif
+
+/**
+  Convert time from milliseconds to beacon intervals.
+*/
+#define ZB_MILLISECONDS_TO_BEACON_INTERVAL(ms) ZB_MILLISECONDS_TO_BEACON_INTERVAL_CEIL(ms)
 
 /**
  * Beacon interval in microseconds
@@ -300,7 +318,6 @@ zb_time_t zb_timer_get(void);
 
     @return RET_OK or error code.
 
-    See sched sample
 */
 zb_ret_t zb_schedule_app_callback(zb_callback_t func, zb_uint8_t param);
 /** @endcond */ /* internals_doc */
@@ -314,7 +331,6 @@ zb_ret_t zb_schedule_app_callback(zb_callback_t func, zb_uint8_t param);
 
    @return RET_OK or RET_OVERFLOW.
 
-   See sched sample
  */
 #ifndef ZB_SCHEDULE_APP_CALLBACK
 #define ZB_SCHEDULE_APP_CALLBACK(func, param) zb_schedule_app_callback(func, param)
@@ -344,7 +360,6 @@ zb_ret_t zb_schedule_app_callback2(zb_callback2_t func, zb_uint8_t param, zb_uin
    @param user_param - zb_uint16_t user parameter - usually, but not always short address
 
    @return RET_OK or RET_OVERFLOW.
-   See sched sample
  */
 #ifndef ZB_SCHEDULE_APP_CALLBACK2
 #define ZB_SCHEDULE_APP_CALLBACK2(func, param, user_param) zb_schedule_app_callback2(func, param, user_param)
@@ -367,7 +382,6 @@ zb_ret_t zb_schedule_app_alarm(zb_callback_t func, zb_uint8_t param, zb_time_t r
    @param timeout_bi - timeout, in beacon intervals
    @return RET_OK or RET_OVERFLOW
 
-   See any sample
  */
 #ifndef ZB_SCHEDULE_APP_ALARM
 #define ZB_SCHEDULE_APP_ALARM(func, param, timeout_bi) zb_schedule_app_alarm(func, param, timeout_bi)
@@ -399,7 +413,6 @@ zb_ret_t zb_schedule_app_alarm(zb_callback_t func, zb_uint8_t param, zb_time_t r
    @param p_param - [out] pointer of ref buffer from cancelled flag: free buffer if its alarm will be cancel
    @return RET_OK or error code
 
-   See reporting_srv sample
  */
 zb_ret_t zb_schedule_alarm_cancel(zb_callback_t func, zb_uint8_t param, zb_uint8_t *p_param);
 /** @endcond */ /* internals_doc */
@@ -413,7 +426,6 @@ zb_ret_t zb_schedule_alarm_cancel(zb_callback_t func, zb_uint8_t param, zb_uint8
    @param param - parameter to cancel. \see ZB_ALARM_ANY_PARAM. \see ZB_ALARM_ALL_CB
    @return RET_OK or RET_OVERFLOW
 
-   See reporting_srv sample
  */
 #ifndef ZB_SCHEDULE_APP_ALARM_CANCEL
 #define ZB_SCHEDULE_APP_ALARM_CANCEL(func, param) zb_schedule_alarm_cancel((func), (param), NULL)
@@ -441,6 +453,22 @@ zb_ret_t zb_schedule_get_alarm_time(zb_callback_t func, zb_uint8_t param, zb_tim
    @return RET_OK or error code
 */
 #define ZB_SCHEDULE_GET_ALARM_TIME(func, param, timeout_bi) zb_schedule_get_alarm_time(func, param, timeout_bi)
+
+/** @cond internals_doc */
+/**
+   Is scheduler stop - Is scheduler running now
+
+   @return ZB_TRUE in case of scheduler is stopped or ZB_FALSE otherwise
+ */
+zb_bool_t zb_scheduler_is_stop(void);
+/** @endcond */ /* internals_doc */
+
+/**
+   Is scheduler stop - Is scheduler running now
+
+   @return ZB_TRUE in case of scheduler is stopped or ZB_FALSE otherwise
+*/
+#define ZB_SCHEDULER_IS_STOP() zb_scheduler_is_stop()
 
 /*! @} */
 
@@ -497,13 +525,20 @@ zb_uint32_t zb_random_val(zb_uint32_t max_value);
  */
 void zb_bzero_volatile(volatile void *s, zb_uint_t size);
 
+/** @brief Fill in memory with PRBS9 pattern using linear-feedback shift registers.
+    @param dest - Pointer to the block of memory to fill.
+    @param cnt - Number of bytes to be set.
+    @param seed - Random seed
+ */
+void zb_generate_prbs9(zb_uint8_t *dest, zb_uint16_t cnt, zb_uint16_t seed);
+
 /*! @} */
 
 /** @cond internals_doc */
 /**
    Copy 8 byte array (i.e. long address).
  */
-void zb_memcpy8(zb_uint8_t *ptr, zb_uint8_t *src);
+void zb_memcpy8(void *vptr, void *vsrc);
 /** @endcond */ /* internals_doc */
 
 /**

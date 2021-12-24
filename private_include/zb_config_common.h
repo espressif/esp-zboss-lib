@@ -229,7 +229,7 @@ key. They use same algorithm.
 /*!
    Maximum MAC packet waiting time to expire
  */
-#define ZB_MAC_INDIRECT_POLL_EXPIRE_TMO ZB_MILLISECONDS_TO_BEACON_INTERVAL(7680U)
+  #define ZB_MAC_INDIRECT_POLL_EXPIRE_TMO ZB_MILLISECONDS_TO_BEACON_INTERVAL(7680U)
 
 
 
@@ -249,7 +249,7 @@ key. They use same algorithm.
  *
  * @note This is a default value of the define. This value can be changed by user.
  */
-#define ZB_N_APS_RETRANS_ENTRIES   ((ZB_IOBUF_POOL_SIZE / 3U) > 0U ? (ZB_IOBUF_POOL_SIZE / 3U) : (ZB_IOBUF_POOL_SIZE / 2U))
+  #define ZB_N_APS_RETRANS_ENTRIES   ((ZB_IOBUF_POOL_SIZE / 3U) > 0U ? (ZB_IOBUF_POOL_SIZE / 3U) : (ZB_IOBUF_POOL_SIZE / 2U))
 #endif
 
 /**
@@ -257,24 +257,24 @@ key. They use same algorithm.
  *
  * See Zigbee specification revision 22 section 2.2.7.1 APS Constants
 */
-#define ZB_N_APS_MAX_FRAME_RETRIES 3U
+  #define ZB_N_APS_MAX_FRAME_RETRIES 3U
 
 
 /*!
  APS: APS ACK wait time from Sleepy devices. After this timeout resend APS packet
       see Zigbee specification revision 22 section 2.2.7.1 APS Constants
 */
-#define ZB_N_APS_ACK_WAIT_DURATION_FROM_SLEEPY (10U*ZB_TIME_ONE_SECOND)
+  #define ZB_N_APS_ACK_WAIT_DURATION_FROM_SLEEPY (10U*ZB_TIME_ONE_SECOND)
 /** @cond internals_doc */
 /*!
  APS: The base amount of delay before each broadcast parent announce is sent.
  */
-#define ZB_APS_PARENT_ANNOUNCE_BASE_TIMER  (10U * ZB_TIME_ONE_SECOND)
+#define ZB_APS_PARENT_ANNOUNCE_BASE_TIMER (ZB_SECONDS_TO_BEACON_INTERVAL(10U))
 
 /*!
 The max amount of jitter that is added to the apsParentAnnounceBaseTimer before each broadcast parent announce is sent.
 */
-#define ZB_APS_PARENT_ANNOUNCE_JITTER_MAX (10U * ZB_TIME_ONE_SECOND)
+#define ZB_APS_PARENT_ANNOUNCE_JITTER_MAX (ZB_SECONDS_TO_BEACON_INTERVAL(10U) - 2U)
 /** @endcond */ /*internals_doc*/
 
 /**
@@ -282,20 +282,20 @@ The max amount of jitter that is added to the apsParentAnnounceBaseTimer before 
  *
  *  See Zigbee specification revision 22 section 2.2.7.1 APS Constants
 */
-/* Some devices send APS_ACK to AF and ZDO commands after sending appropriate response or
- * DefaultResponse. For example, ZCL On/Off command can be done within 5-7 seconds,
- * so 2 seconds for wail duration is insufficiently. */
-#define ZB_N_APS_ACK_WAIT_DURATION_FROM_NON_SLEEPY (3U*ZB_TIME_ONE_SECOND)
+  /* Some devices send APS_ACK to AF and ZDO commands after sending appropriate response or
+   * DefaultResponse. For example, ZCL On/Off command can be done within 5-7 seconds,
+   * so 2 seconds for wail duration is insufficiently. */
+  #define ZB_N_APS_ACK_WAIT_DURATION_FROM_NON_SLEEPY (3U*ZB_TIME_ONE_SECOND)
 
 /**
  APS: maximum number of tables with information from a binding table to be sent to the devices
 */
-#define ZB_N_APS_BINDTRANS_ARR_MAX_SIZE            5U
+  #define ZB_N_APS_BINDTRANS_ARR_MAX_SIZE            5U
 
 /**
  * APS: maximum number of elements in array with index from dst array in bind table
 */
-#define ZB_N_APS_BINDTRANS_DST_INDEX_ARR_MAX_SIZE  ZB_APS_DST_BINDING_TABLE_SIZE
+  #define ZB_N_APS_BINDTRANS_DST_INDEX_ARR_MAX_SIZE  ZB_APS_DST_BINDING_TABLE_SIZE
 
 /** @cond internals_doc */
 /* Origin of this tweak is R21 version of core stack */
@@ -328,33 +328,6 @@ At the worst case our NWK can skip long address at tx: 8 bytes of reserve.
 
  */
 /**@cond internals_doc*/
-/*! Maximum broadcast APS payload size */
-#define ZB_APS_MAX_BROADCAST_PAYLOAD_SIZE 74U
-/**
-   Maximum broadcast APS payload size supposing NWK encryption only, no long
-   address in NWK header. That means definitely the largest possible size.
- */
-#define ZB_APS_MAX_MAX_BROADCAST_PAYLOAD_SIZE (74U + 8U)
-
-/**
-   MAC hdr:
-   3 (hdr, seq num) + 2 * 3  (short dst and src; dst panid)
-   NWK hdr:
-   4 + 2*2 (dst, src short) + 8*2 (dst, src long)
-   NWK security:  18
-   APS hdr: 8 (max, without ext header and security)
-   MAC footer: 2
-
-   Total: 69 bytes
-   So we can send: 127-69 = 58 bytes
-*/
-#define ZB_APS_GUARANTEED_PAYLOAD_SIZE_WO_SECURITY 58U
-
-/**
-   Maximum number of bytes that is additionally occupied by APS security (in case of extended nonce)
-*/
-#define ZB_APS_MAX_APS_SECURITY_SIZE 17U
-
 /**
    Maximal frame size
  */
@@ -402,7 +375,17 @@ At the worst case our NWK can skip long address at tx: 8 bytes of reserve.
  * MAC (short source, short destination): MAX_MAC_OVERHEAD_SHORT_ADDRS bytes
  * NWK (broadcast, no destination IEEE): 16 bytes header + 18 bytes security
  * Total length: 127-(11+16+18) = 82 bytes  */
-/* nwk hdr include source IEEE address */
+ /* nwk hdr include source IEEE address */
+
+/**
+ * NWK base header: 8b
+ *   2b - fcf
+ *   2b - dst short addr
+ *   2b - src short addr
+ *   1b - radius
+ *   1b - seq num
+ */
+#define ZB_NWK_BASE_HDR_SIZE 8U
 
 /*! Maximum broadcast NWK header size */
 #define ZB_NWK_MAX_BROADCAST_HDR_SIZE 16U
@@ -412,13 +395,8 @@ At the worst case our NWK can skip long address at tx: 8 bytes of reserve.
 #define ZB_NWK_MAX_BROADCAST_PAYLOAD_SIZE (MAX_PHY_FRM_SIZE - (MAX_MAC_OVERHEAD_SHORT_ADDRS + \
   ZB_NWK_MAX_BROADCAST_HDR_SIZE + ZB_NWK_MAX_SECURITY_HDR_SIZE))
 /** @endcond */ /* internals_doc */
-/*!
- * Maximum unicast APS payload size, if no APS encryption is provided
- */
-#define ZB_APS_MAX_PAYLOAD_SIZE (ZB_APS_MAX_BROADCAST_PAYLOAD_SIZE - 8U)
+
 /** @cond internals_doc */
-/*! Maximum ZDO payload size */
-#define ZB_ZDO_MAX_PAYLOAD_SIZE (ZB_APS_MAX_PAYLOAD_SIZE-1U)
 /*! The size of the MAC header used by the Zigbee NWK layer. */
 #define ZB_NWKC_MAC_FRAME_OVERHEAD 0xBU
 /*! The minimum number of octets added by the NWK layer to an NSDU. */
@@ -456,22 +434,99 @@ At the worst case our NWK can skip long address at tx: 8 bytes of reserve.
  * EE: Can't we assert in zb_zdo_nwk_upd_notify()? You can define 2 constants: fragmented and not.
  */
 
-/*  2 stands for  fc + aps counter( Packet either has dest and src endpoints (1+1 byte) if not group
-* addressing or Group address elsewhere - so 2 anyway)
-* + 2(cluster ID, profile ID)*
-* + 4(fragmentation and Extended header are NOT included
-*     TODO: handle fragmentation and Extended header.*)
-* + 1(Security control field)
-* + 4(Frame Counter)
-* + 4(Message Integrity Code)
-* + 0
-*/
+/*! Maximum broadcast APS payload size */
+#define ZB_APS_MAX_BROADCAST_PAYLOAD_SIZE 74U
+/**
+   Maximum broadcast APS payload size supposing NWK encryption only, no long
+   address in NWK header. That means definitely the largest possible size.
+ */
+#define ZB_APS_MAX_MAX_BROADCAST_PAYLOAD_SIZE (74U + 8U)
 
+/**
+ * APS base header: 8b
+ *   1b - FCF
+ *   1b - dst ep
+ *   2b - cluster id
+ *   2b - profile id
+ *   1b - src ep
+ *   1b - counter
+ */
+#define ZB_APS_BASE_HDR_SIZE 8U
+
+/**
+   Ext frame control: 1 byte
+   Block number: 1 byte
+   ACK bitfield: 1 byte - for acks only; for data packets it doesn't matter
+ */
+#define ZB_APS_EXT_HDR_SIZE_DATA_PKT 2U
+
+#define ZB_APS_EXT_HDR_SIZE_ACK_PKT ((ZB_APS_EXT_HDR_SIZE_DATA_PKT) + 1U)
+
+/**
+   MAC hdr: 9
+   3 (hdr, seq num) + 2 * 3  (short dst and src; dst panid)
+   NWK hdr: 8
+   4 + 2*2 (dst, src short)
+   NWK security:  18
+   APS hdr: 8 (max, without ext header and security)
+   MAC footer: 2
+
+   Total: 9 + 8 + 18 + 8 + 2 = 45 bytes
+   So we can send: 127 - 45 = 82 bytes
+*/
+#define ZB_APS_GUARANTEED_PAYLOAD_SIZE_WO_SECURITY     \
+  ((MAX_PHY_FRM_SIZE)                                  \
+   - ((MAX_MAC_OVERHEAD_SHORT_ADDRS)                   \
+      + (ZB_NWK_BASE_HDR_SIZE)                         \
+      + (ZB_NWK_MAX_SECURITY_HDR_SIZE)                 \
+      + (ZB_APS_BASE_HDR_SIZE)))
+
+/**
+ * 1b - sec control field
+ * 4b - frame counter
+ * 4b - message integrity code
+ */
+#define ZB_APS_MIN_APS_SECURITY_SIZE 9U
+
+/**
+ * ext src addr when ext nonce flag is true
+ */
+#define ZB_APS_SECURITY_EXT_SRC_SIZE ((zb_uint8_t)sizeof(zb_ieee_addr_t))
+
+/**
+ * Maximum number of bytes that is additionally occupied by APS security (in case of extended nonce)
+ */
+#define ZB_APS_MAX_APS_SECURITY_SIZE ((ZB_APS_MIN_APS_SECURITY_SIZE) + (ZB_APS_SECURITY_EXT_SRC_SIZE))
+
+/* APS base header: 8b
+ *   1b - FCF
+ *   1b - dst ep
+ *   2b - cluster id
+ *   2b - profile id
+ *   1b - src ep
+ *   1b - counter
+ *
+ * ext FC: 2b
+ *   1b - fragmentation
+ *   1b - block number
+ *   1b - ACK bitfield - it doesn't matter for data packets
+ *
+ * security: 17b
+ *   1b - control field
+ *   4b - frame counter
+ *   4b - message integrity code
+ *   8b - ieee addr
+ *
+ * total: 8b + 2b + 17b = 27b
+ */
 /*! Maximum length of APS header */
-#define ZB_APS_HEADER_MAX_LEN (17U)
+#define ZB_APS_HEADER_MAX_LEN                   \
+   ((ZB_APS_BASE_HDR_SIZE)                      \
+    + (ZB_APS_EXT_HDR_SIZE_DATA_PKT)            \
+    + (ZB_APS_MAX_APS_SECURITY_SIZE))
 
 /*! Maximum length of an APS payload.*/
-#define ZB_APS_PAYLOAD_MAX_LEN (ZB_ASDU_MAX_LEN - ZB_APS_HEADER_MAX_LEN)
+#define ZB_APS_PAYLOAD_MAX_LEN ((ZB_ASDU_MAX_LEN) - (ZB_APS_HEADER_MAX_LEN))
 
 /* 01/24/2018 EE CR:MINOR Better move it out of zb_config.common.h */
 /* Value 3 in this define comes for fragmentation and ext header  */
@@ -500,9 +555,19 @@ At the worst case our NWK can skip long address at tx: 8 bytes of reserve.
 */
 #define ZB_APS_MAX_FRAGMENT_NUM_IN_WINDOW 8U
 /** @endcond *//* internals_doc */
+
+/*!
+ * Maximum unicast APS payload size, if no APS encryption is provided
+ */
+#define ZB_APS_MAX_PAYLOAD_SIZE ZB_APS_GUARANTEED_PAYLOAD_SIZE_WO_SECURITY
+
 /** Maximum buffer size for APS fragmentation. Bigger buffer will not be created for APS fragmentation */
 #define APS_IN_FRAG_MAX_BUF_SIZE 1500U
 
+/** @cond internals_doc */
+/*! Maximum ZDO payload size */
+#define ZB_ZDO_MAX_PAYLOAD_SIZE (ZB_APS_MAX_PAYLOAD_SIZE-1U)
+/** @endcond *//* internals_doc */
 
 /****************************NWK layer options**************************/
 /** @cond internals_doc */
@@ -539,7 +604,7 @@ At the worst case our NWK can skip long address at tx: 8 bytes of reserve.
    NWK Mesh route stuff: route discovery table size
 */
 #ifndef ZB_NWK_ROUTE_DISCOVERY_TABLE_SIZE
-#define ZB_NWK_ROUTE_DISCOVERY_TABLE_SIZE 5U
+#define ZB_NWK_ROUTE_DISCOVERY_TABLE_SIZE 6U
 #endif
 
 /* nwkcRouteDiscoveryTime == 0x2710 ms == 10 sec. Expiry function called once
@@ -607,7 +672,7 @@ At the worst case our NWK can skip long address at tx: 8 bytes of reserve.
 #endif
 
 /* 01/15/2019 EE CR:MINOR Can't it be better to keep ZB_NWK_MAX_BROADCAST_JITTER_INTERVAL define but internally define it using octets?
-   In such case you minimize code modifications. same for all similar cases. Why movve "octets" to the upper layer? */
+   In such case you minimize code modifications. same for all similar cases. Why move "octets" to the upper layer? */
 /* nwkcMaxBroadcastJitter */
 /* 01/15/2019 EE CR:MINOR Add reference to the specification: here and in similar cases */
 #define ZB_NWKC_MAX_BROADCAST_JITTER_OCTETS 0x7d0U
@@ -755,9 +820,9 @@ nwkMaxBroadcastRetries
 */
 #define ZB_TC_REJOIN_ENABLE
 
-/*!
-  Define policy of ignoring assoc. permit and corresponding flags during rejoin
-*/
+ /*!
+   Define policy of ignoring assoc. permit and corresponding flags during rejoin
+ */
 #define  ZB_REJOIN_IGNORES_FLAGS
 
 /*!
@@ -767,7 +832,7 @@ Workaround for secure rejoin
 
 //#define ZB_MULTILEAVE_HACK
 
-/*! If the macro is defined, the device leaves the network according to application callback*/
+ /*! If the macro is defined, the device leaves the network according to application callback*/
 #define ZB_LEAVE_USE_APP_CALLBACK
 /** @endcond *//* internals_doc */
 /**@cond DOXYGEN_MULTIMAC_SECTION */
@@ -783,9 +848,9 @@ Workaround for secure rejoin
 /** @endcond *//* DOXYGEN_MULTIMAC_SECTION */
 /********************ZDO layer options*********************************/
 /**@cond internals_doc*/
-/*!
-  ZDO Indirect poll timer
-*/
+ /*!
+   ZDO Indirect poll timer
+ */
 #define ZB_ZDO_INDIRECT_POLL_TIMER (5U*ZB_TIME_ONE_SECOND) /* ZB_TIME_ONE_SECOND*10 */
 
 /*!
@@ -832,7 +897,7 @@ Workaround for secure rejoin
 #define ZB_ZDO_1_MIN_TIMEOUT (ZB_TIME_ONE_SECOND * 60U)
 
 /* Default values: see HA spec 9.6.4.2 Attribute Settings and Battery Life Considerations */
-/** @endcond *//* intrenals_doc */
+/** @endcond *//* internals_doc */
 /*!
    Default fast poll timeout
  */
@@ -1087,8 +1152,8 @@ See IEEE Standard for Low-Rate Wireless Networks, section 5.7.3 Frame structure.
 #define ZB_MAC_FRAME_PPDU_HDR_LEN (ZB_MAC_PREAMBLE_LEN + ZB_MAC_SFD_LEN + ZB_MAC_PHR_LEN)
 
 
-/* See D.10.1.1 PPDU Format for European Sub-GHz FSK */
-/*! MAC SUB GHZ preamble length */
+ /* See D.10.1.1 PPDU Format for European Sub-GHz FSK */
+ /*! MAC SUB GHZ preamble length */
 #define ZB_MAC_SUBG_PREAMBLE_LEN 8U
 /*! MAC SUB GHZ start of frame delimiter length*/
 #define ZB_MAC_SUBG_SFD_LEN     2U
@@ -1162,12 +1227,28 @@ The CCA detection time shall be equal to 8 symbol periods.
 /*! Percentage of failures. Use it as divider to get 25 % */
 #define ZB_FAILS_PERCENTAGE   4U
 /*! MAC queue size */
+/* Since the ZB_MAC_RX_QUEUE_CAP can be configured by the Vendor, the ZB_MAC_QUEUE_SIZE
+ * should be configurable too.
+ *
+ * If ZB_MAC_RX_QUEUE_CAP is larger than ZB_MAC_QUEUE_SIZE and the node is flooded
+ * with requests, that require a response to be sent, the node enters a weird state:
+ *  - For each request a response is generated.
+ *  - Each response is scheduled.
+ *  - Part of the responses are not sent and the error -774 is returned in the callback for the response packet.
+ * This is a totally valid behavior, but there is no clean way of handling this case
+ * in the application logic.
+ *
+ * If the ZB_MAC_RX_QUEUE_CAP is smaller than ZB_MAC_QUEUE_SIZE this situation is avoided,
+ * since the node stops sending MAC ACKs for frames that it cannot send a response to immediately.
+ */
+#ifndef ZB_MAC_QUEUE_SIZE
 #if defined ZB_SUBGHZ_ONLY_MODE || defined ZB_R22_MULTIMAC_MODE
 /* Increased MAC queue size for Sub-GHz because the LBT mechanism periodically blocks the radio */
 #define ZB_MAC_QUEUE_SIZE 7U
 #else
 #define ZB_MAC_QUEUE_SIZE 5U
 #endif
+#endif /* ZB_MAC_QUEUE_SIZE */
 
 /*
 The maximum time, in
@@ -1330,7 +1411,7 @@ request command frame.
  */
 #define ZB_MAC_SUB_GHZ_PHR_LEN_BYTES 2U
 
-/* @breief CCA period for Sub-GHz PHY in symbols */
+/* @brief CCA period for Sub-GHz PHY in symbols */
 #define ZB_MAC_SUB_GHZ_CCA_PERIOD_SYMBOLS 16U
 
 /* IMPORTANT!!!
@@ -1372,6 +1453,47 @@ request command frame.
 #define ZB_MAC_GB_EU_FSK_LBT_GRANULARITY_SYMBOLS 50U
 #define ZB_MAC_NA_FSK_LBT_GRANULARITY_SYMBOLS    200U
 
+/* aLBTAckWindowStart */
+/* 450 us */
+/*!
+*   The minimum pause before acknowledging a received packet.
+*   This is to allow a transmitting device to change from
+*   transmit to receive mode. Starting an ACK before this time
+*   may result in the transmitter missing the ACK.
+*/
+#define ZB_MAC_GB_EU_FSK_LBT_ACK_WINDOW_START_SYMBOLS 45U
+#define ZB_MAC_NA_FSK_LBT_ACK_WINDOW_START_SYMBOLS    225U
+
+/* aLBTAckWindow */
+/* 1ms */
+/*!
+*   The maximum wait time before acknowledging a received
+*   packet (includes @ref ZB_MAC_LBT_ACK_WINDOW_START_SYMBOLS).
+*   This time MUST be shorter than @ref ZB_MAC_LBT_MIN_FREE_SYMBOLS otherwise other
+*   devices could interpret the quiet as an opportunity to transmit.
+*/
+#define ZB_MAC_GB_EU_FSK_LBT_ACK_WINDOW_SYMBOLS 100U
+#define ZB_MAC_NA_FSK_LBT_ACK_WINDOW_SYMBOLS 500U
+
+/*aTxRxTurnAround */
+/*!
+*  Time for radio to switch between transmit and receive
+*/
+#define ZB_MAC_GB_EU_FSK_LBT_TX_RX_SWITCH_TIME_SYMBOLS 45U
+#define ZB_MAC_NA_FSK_LBT_TX_RX_SWITCH_TIME_SYMBOLS 225U
+
+/* aLBTTimeout */
+/* 6 ms */
+/*!
+*   Time before aborting LBT if it cannot find a free slot.
+*   This value should be set to at least
+*   [@ref ZB_MAC_LBT_MIN_FREE_SYMBOLS  + @ref ZB_MAC_LBT_MAX_TX_RETRIES * (@ref ZB_MAC_LBT_MIN_FREE_SYMBOLS + @ref ZB_MAC_LBT_MAX_RANDOM_SYMBOLS) + @ref ZB_MAC_LBT_TX_RX_SWITCH_TIME_SYMBOLS )]
+*   to ensure that all re-tries can occur.
+*/
+#define ZB_MAC_GB_EU_FSK_LBT_TIMEOUT_SYMBOLS 6000UL
+#define ZB_MAC_NA_FSK_LBT_TIMEOUT_SYMBOLS 30000U
+
+
 /* aLBTThresholdLevelLp */
 /*!
 *   The level (in dBm) at which the receiver determines whether there
@@ -1396,41 +1518,6 @@ request command frame.
  * See Zigbee Specification revision 22 Table D-23 LBT MAC Sublayer Constants - Implementation.
 */
 #define ZB_MAC_LBT_MAX_TX_RETRIES 3U
-
-/* aLBTAckWindowStart */
-/* 450 us */
-/*!
-*   The minimum pause before acknowledging a received packet.
-*   This is to allow a transmitting device to change from
-*   transmit to receive mode. Starting an ACK before this time
-*   may result in the transmitter missing the ACK.
-*/
-#define ZB_MAC_LBT_ACK_WINDOW_START_SYMBOLS 45U
-
-/* aLBTAckWindow */
-/* 1ms */
-/*!
-*   The maximum wait time before acknowledging a received
-*   packet (includes @ref ZB_MAC_LBT_ACK_WINDOW_START_SYMBOLS).
-*   This time MUST be shorter than @ref ZB_MAC_LBT_MIN_FREE_SYMBOLS otherwise other
-*   devices could interpret the quiet as an opportunity to transmit.
-*/
-#define ZB_MAC_LBT_ACK_WINDOW_SYMBOLS 100U
-
-/*aTxRxTurnAround */
-/*!
-*  Time for radio to switch between transmit and receive
-*/
-#define ZB_MAC_LBT_TX_RX_SWITCH_TIME_SYMBOLS 45U
-/* aLBTTimeout */
-/* 6 ms */
-/*!
-*   Time before aborting LBT if it cannot find a free slot.
-*   This value should be set to at least
-*   [@ref ZB_MAC_LBT_MIN_FREE_SYMBOLS  + @ref ZB_MAC_LBT_MAX_TX_RETRIES * (@ref ZB_MAC_LBT_MIN_FREE_SYMBOLS + @ref ZB_MAC_LBT_MAX_RANDOM_SYMBOLS) + @ref ZB_MAC_LBT_TX_RX_SWITCH_TIME_SYMBOLS )]
-*   to ensure that all re-tries can occur.
-*/
-#define ZB_MAC_LBT_TIMEOUT_SYMBOLS 6000UL
 
 /* Tuned to fit to 2 beacon intervals */
 /*! LBT transmition wait period in ms */
@@ -1499,7 +1586,7 @@ request command frame.
 *
 *   See reference document 05-3474-22 section D.9.2.4.2. Zigbee Specification R22
  */
-#define ZB_MAC_POWER_CONTROL_OPT_SIGNAL_LEVEL (ZB_EU_FSK_REFERENCE_SENSITIVITY + 20U)
+#define ZB_MAC_POWER_CONTROL_OPT_SIGNAL_LEVEL (ZB_EU_FSK_REFERENCE_SENSITIVITY + 20)
 
 
 #ifndef ZB_MAC_DEFAULT_TX_POWER_GB_EU_SUB_GHZ
@@ -1637,8 +1724,8 @@ request command frame.
 /* 5.3.8 APS Fragmentation Parameters
    For  the Smart Energy Profile the default value shall be set to 128 bytes. */
 #define ZB_APS_MSG_MAX_SIZE 1536U
-#define ZB_ASDU_MAX_LEN_MULTIPLIER ((ZB_APS_MSG_MAX_SIZE + sizeof(zb_apsde_data_indication_t) +  ZB_APS_HEADER_MAX_LEN + 3U)/ZB_IO_BUF_SIZE + 1U)
-#define ZB_ASDU_MAX_FRAG_LEN (ZB_ASDU_MAX_LEN_MULTIPLIER*ZB_IO_BUF_SIZE - sizeof(zb_apsde_data_indication_t) - ZB_APS_HEADER_MAX_LEN - 3U)
+#define ZB_ASDU_MAX_LEN_MULTIPLIER ((ZB_APS_MSG_MAX_SIZE + sizeof(zb_apsde_data_indication_t) + ZB_APS_HEADER_MAX_LEN)/ZB_IO_BUF_SIZE + 1U)
+#define ZB_ASDU_MAX_FRAG_LEN (ZB_ASDU_MAX_LEN_MULTIPLIER*ZB_IO_BUF_SIZE - sizeof(zb_apsde_data_indication_t) - ZB_APS_HEADER_MAX_LEN)
 #define ZB_APS_MAX_WINDOW_SIZE 1U
 #define ZB_APS_INTERFRAME_DELAY 50U /* milliseconds */
 

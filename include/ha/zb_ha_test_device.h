@@ -172,7 +172,6 @@
 #endif /* defined ZB_HA_DEFINE_DEVICE_TEST_DEVICE || defined DOXYGEN */
 
 /** @} */ /* ha_api */
-/** @endcond */
 
 /** @endcond */ /* DOXYGEN_HA_SECTION */
 

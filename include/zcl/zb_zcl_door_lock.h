@@ -67,7 +67,6 @@
  *    Send Door Unlock command:
  *    @snippet HA_samples/door_lock/sample_zed.c send_door_lock_unlock_req
  *
- *    For more information see HA_samples/door_lock and HA_samples/door_lock_controller samples
  */
 
 /*! @name Door Lock cluster attributes
@@ -77,123 +76,125 @@
 /*! @brief Door Lock cluster attribute identifiers
     @see ZCL spec, subclause 7.3.2.2
 */
-enum zb_zcl_door_lock_attr_e {
-    /** @brief LockState attribute */
-    ZB_ZCL_ATTR_DOOR_LOCK_LOCK_STATE_ID                = 0x0000,
-    /** @brief LockType attribute */
-    ZB_ZCL_ATTR_DOOR_LOCK_LOCK_TYPE_ID                 = 0x0001,
-    /** @brief ActuatorEnabled attribute */
-    ZB_ZCL_ATTR_DOOR_LOCK_ACTUATOR_ENABLED_ID          = 0x0002,
-    /** @brief DoorState attribute */
-    ZB_ZCL_ATTR_DOOR_LOCK_DOOR_STATE_ID                = 0x0003,
-    /** @brief DoorOpenEvents attribute */
-    ZB_ZCL_ATTR_DOOR_LOCK_NUM_OF_DOOR_OPEN_EVENTS_ID   = 0x0004,
-    /** @brief DoorClosedEvents attribute */
-    ZB_ZCL_ATTR_DOOR_LOCK_NUM_OF_DOOR_CLOSED_EVENTS_ID = 0x0005,
-    /** @brief OpenPeriod attribute */
-    ZB_ZCL_ATTR_DOOR_LOCK_OPEN_PERIOD_ID                    = 0x0006,
-    /** The number of available log records. */
-    ZB_ZCL_ATTR_DOOR_LOCK_NUMBER_OF_LOG_RECORDS_SUPPORTED_ID  = 0x0010,
-    /** @brief NumberOfTotalUsersSupported attribute */
-    ZB_ZCL_ATTR_DOOR_LOCK_NUM_TOTAL_USERS_ID                = 0x0011,
-    /** @brief NumberOfPINUsersSupported attribute */
-    ZB_ZCL_ATTR_DOOR_LOCK_NUM_PIN_USERS_ID                  = 0x0012,
-    /** The number of RFID users supported. */
-    ZB_ZCL_ATTR_DOOR_LOCK_NUMBER_OF_RFID_USERS_SUPPORTED_ID   = 0x0013,
-    /** @brief NumberOfWeekDaySchedulesSupportedPerUser attribute */
-    ZB_ZCL_ATTR_DOOR_LOCK_NUM_WEEK_DAY_SCHEDULE_PER_USER_ID = 0x0014,
-    /** @brief NumberOfYearDaySchedulesSupportedPerUser attribute */
-    ZB_ZCL_ATTR_DOOR_LOCK_NUM_YEAR_DAY_SCHEDULE_PER_USER_ID = 0x0015,
-    /** @brief NumberOfHolidaySchedulesSupported attribute */
-    ZB_ZCL_ATTR_DOOR_LOCK_NUM_HOLIDAY_SCHEDULE_ID           = 0x0016,
-    /** @brief Max PIN code length attribute */
-    ZB_ZCL_ATTR_DOOR_LOCK_MAX_PIN_LEN_ID                    = 0x0017,
-    /** @brief Min PIN code length attribute */
-    ZB_ZCL_ATTR_DOOR_LOCK_MIN_PIN_LEN_ID                    = 0x0018,
-    /** An 8-bit value indicates the maximum length in bytes of a RFID Code
-     *  on this device. */
-    ZB_ZCL_ATTR_DOOR_LOCK_MAX_RFID_CODE_LENGTH_ID             = 0x0019,
-    /** An 8-bit value indicates the minimum length in bytes of a RFID Code
-     *  on this device. */
-    ZB_ZCL_ATTR_DOOR_LOCK_MIN_RFID_CODE_LENGTH_ID             = 0x001A,
-    /** Enable/disable event logging. */
-    ZB_ZCL_ATTR_DOOR_LOCK_ENABLE_LOGGING_ID                   = 0x0020,
-    /** Modifies the language for the on-screen or audible user interface using
-     *  three bytes from ISO-639-1. */
-    ZB_ZCL_ATTR_DOOR_LOCK_LANGUAGE_ID                         = 0x0021,
-    /** The settings for the LED support three different modes. */
-    ZB_ZCL_ATTR_DOOR_LOCK_LED_SETTINGS_ID                     = 0x0022,
-    /** The number of seconds to wait after unlocking a lock before it automatically
-     *  locks again. */
-    ZB_ZCL_ATTR_DOOR_LOCK_AUTO_RELOCK_TIME_ID                 = 0x0023,
-    /** The sound volume on a door lock has three possible settings: silent, low
-     *  and high volumes. */
-    ZB_ZCL_ATTR_DOOR_LOCK_SOUND_VOLUME_ID                     = 0x0024,
-    /** @brief OperatingMode attribute */
-    ZB_ZCL_ATTR_DOOR_LOCK_OPERATING_MODE_ID                 = 0x0025,
-    /** @brief SupportedOperatingModes attribute */
-    ZB_ZCL_ATTR_DOOR_LOCK_OPERATION_MODES_SUPPORTED_ID      = 0x0026,
-    /** This attribute represents the default configurations as they are physically
-     *  set on the device (example: hardware dip switch setting, etc) and represents
-     *  the default setting for some of the attributes within this Operational Setting
-     *  Attribute Set (for example: LED, Auto Lock, Sound Volume, and Operating Mode
-     *  attributes). */
-    ZB_ZCL_ATTR_DOOR_LOCK_DEFAULT_CONFIGURATION_REGISTER_ID   = 0x0027,
-    /** @brief EnableLocalProgramming attribute */
-    ZB_ZCL_ATTR_DOOR_LOCK_ENABLE_LOCAL_PROGRAMMING_ID       = 0x0028,
-    /** Enable/disable the ability to lock the door lock with a single touch on
-     *  the door lock. */
-    ZB_ZCL_ATTR_DOOR_LOCK_ENABLE_ONE_TOUCH_LOCKING_ID         = 0x0029,
-    /** Enable/disable an inside LED that allows the user to see at a glance
-     *  if the door is locked. */
-    ZB_ZCL_ATTR_DOOR_LOCK_ENABLE_INSIDE_STATUS_LED_ID         = 0x002A,
-    /** Enable/disable a button inside the door that is used to put the lock
-     *  into privacy mode. */
-    ZB_ZCL_ATTR_DOOR_LOCK_ENABLE_PRIVACY_MODE_BUTTON_ID       = 0x002B,
-    /** The number of incorrect codes or RFID presentment attempts a user
-     *  is allowed to enter before the door will enter a lockout state. */
-    ZB_ZCL_ATTR_DOOR_LOCK_WRONG_CODE_ENTRY_LIMIT_ID           = 0x0030,
-    /** The number of seconds that the lock shuts down following wrong code entry. */
-    ZB_ZCL_ATTR_DOOR_LOCK_USER_CODE_TEMPORARY_DISABLE_TIME_ID = 0x0031,
-    /** Boolean set to True if it is ok for the door lock server to send PINs
-     *  over the air. */
-    ZB_ZCL_ATTR_DOOR_LOCK_SEND_PIN_OVER_THE_AIR_ID            = 0x0032,
-    /** @brief Require PIN for RF operation attribute */
-    ZB_ZCL_ATTR_DOOR_LOCK_REQUIRE_PIN_RF_ID                 = 0x0033,
-    /** The Security Level attribute allows the door lock manufacturer to indicate
-     *  what level of security the door lock requires. */
-    ZB_ZCL_ATTR_DOOR_LOCK_SECURITY_LEVEL_ID                   = 0x0034,
-    /** The alarm mask is used to turn on/off alarms for particular functions */
-    ZB_ZCL_ATTR_DOOR_LOCK_ALARM_MASK_ID                       = 0x0040,
-    /** Event mask used to turn on and off the transmission of keypad operation events. */
-    ZB_ZCL_ATTR_DOOR_LOCK_KEYPAD_OPERATION_EVENT_MASK_ID      = 0x0041,
-    /** Event mask used to turn on and off the transmission of RF operation events. */
-    ZB_ZCL_ATTR_DOOR_LOCK_RF_OPERATION_EVENT_MASK_ID          = 0x0042,
-    /** Event mask used to turn on and off manual operation events. */
-    ZB_ZCL_ATTR_DOOR_LOCK_MANUAL_OPERATION_EVENT_MASK_ID      = 0x0043,
-    /** Event mask used to turn on and off RFID operation events. */
-    ZB_ZCL_ATTR_DOOR_LOCK_RFID_OPERATION_EVENT_MASK_ID        = 0x0044,
-    /** Event mask used to turn on and off keypad programming events. */
-    ZB_ZCL_ATTR_DOOR_LOCK_KEYPAD_PROGRAMMING_EVENT_MASK_ID    = 0x0045,
-    /** Event mask used to turn on and off RF programming events. */
-    ZB_ZCL_ATTR_DOOR_LOCK_RF_PROGRAMMING_EVENT_MASK_ID        = 0x0046,
-    /** Event mask used to turn on and off RFID programming events. */
-    ZB_ZCL_ATTR_DOOR_LOCK_RFID_PROGRAMMING_EVENT_MASK_ID      = 0x0047,
+enum zb_zcl_door_lock_attr_e
+{
+  /** @brief LockState attribute */
+  ZB_ZCL_ATTR_DOOR_LOCK_LOCK_STATE_ID                = 0x0000,
+  /** @brief LockType attribute */
+  ZB_ZCL_ATTR_DOOR_LOCK_LOCK_TYPE_ID                 = 0x0001,
+  /** @brief ActuatorEnabled attribute */
+  ZB_ZCL_ATTR_DOOR_LOCK_ACTUATOR_ENABLED_ID          = 0x0002,
+  /** @brief DoorState attribute */
+  ZB_ZCL_ATTR_DOOR_LOCK_DOOR_STATE_ID                = 0x0003,
+  /** @brief DoorOpenEvents attribute */
+  ZB_ZCL_ATTR_DOOR_LOCK_NUM_OF_DOOR_OPEN_EVENTS_ID   = 0x0004,
+  /** @brief DoorClosedEvents attribute */
+  ZB_ZCL_ATTR_DOOR_LOCK_NUM_OF_DOOR_CLOSED_EVENTS_ID = 0x0005,
+  /** @brief OpenPeriod attribute */
+  ZB_ZCL_ATTR_DOOR_LOCK_OPEN_PERIOD_ID                    = 0x0006,
+  /** The number of available log records. */
+  ZB_ZCL_ATTR_DOOR_LOCK_NUMBER_OF_LOG_RECORDS_SUPPORTED_ID  = 0x0010,
+  /** @brief NumberOfTotalUsersSupported attribute */
+  ZB_ZCL_ATTR_DOOR_LOCK_NUM_TOTAL_USERS_ID                = 0x0011,
+  /** @brief NumberOfPINUsersSupported attribute */
+  ZB_ZCL_ATTR_DOOR_LOCK_NUM_PIN_USERS_ID                  = 0x0012,
+  /** The number of RFID users supported. */
+  ZB_ZCL_ATTR_DOOR_LOCK_NUMBER_OF_RFID_USERS_SUPPORTED_ID   = 0x0013,
+  /** @brief NumberOfWeekDaySchedulesSupportedPerUser attribute */
+  ZB_ZCL_ATTR_DOOR_LOCK_NUM_WEEK_DAY_SCHEDULE_PER_USER_ID = 0x0014,
+  /** @brief NumberOfYearDaySchedulesSupportedPerUser attribute */
+  ZB_ZCL_ATTR_DOOR_LOCK_NUM_YEAR_DAY_SCHEDULE_PER_USER_ID = 0x0015,
+  /** @brief NumberOfHolidaySchedulesSupported attribute */
+  ZB_ZCL_ATTR_DOOR_LOCK_NUM_HOLIDAY_SCHEDULE_ID           = 0x0016,
+  /** @brief Max PIN code length attribute */
+  ZB_ZCL_ATTR_DOOR_LOCK_MAX_PIN_LEN_ID                    = 0x0017,
+  /** @brief Min PIN code length attribute */
+  ZB_ZCL_ATTR_DOOR_LOCK_MIN_PIN_LEN_ID                    = 0x0018,
+  /** An 8-bit value indicates the maximum length in bytes of a RFID Code
+   *  on this device. */
+  ZB_ZCL_ATTR_DOOR_LOCK_MAX_RFID_CODE_LENGTH_ID             = 0x0019,
+  /** An 8-bit value indicates the minimum length in bytes of a RFID Code
+   *  on this device. */
+  ZB_ZCL_ATTR_DOOR_LOCK_MIN_RFID_CODE_LENGTH_ID             = 0x001A,
+  /** Enable/disable event logging. */
+  ZB_ZCL_ATTR_DOOR_LOCK_ENABLE_LOGGING_ID                   = 0x0020,
+  /** Modifies the language for the on-screen or audible user interface using
+   *  three bytes from ISO-639-1. */
+  ZB_ZCL_ATTR_DOOR_LOCK_LANGUAGE_ID                         = 0x0021,
+  /** The settings for the LED support three different modes. */
+  ZB_ZCL_ATTR_DOOR_LOCK_LED_SETTINGS_ID                     = 0x0022,
+  /** The number of seconds to wait after unlocking a lock before it automatically
+   *  locks again. */
+  ZB_ZCL_ATTR_DOOR_LOCK_AUTO_RELOCK_TIME_ID                 = 0x0023,
+  /** The sound volume on a door lock has three possible settings: silent, low
+   *  and high volumes. */
+  ZB_ZCL_ATTR_DOOR_LOCK_SOUND_VOLUME_ID                     = 0x0024,
+  /** @brief OperatingMode attribute */
+  ZB_ZCL_ATTR_DOOR_LOCK_OPERATING_MODE_ID                 = 0x0025,
+  /** @brief SupportedOperatingModes attribute */
+  ZB_ZCL_ATTR_DOOR_LOCK_OPERATION_MODES_SUPPORTED_ID      = 0x0026,
+  /** This attribute represents the default configurations as they are physically
+   *  set on the device (example: hardware dip switch setting, etc) and represents
+   *  the default setting for some of the attributes within this Operational Setting
+   *  Attribute Set (for example: LED, Auto Lock, Sound Volume, and Operating Mode
+   *  attributes). */
+  ZB_ZCL_ATTR_DOOR_LOCK_DEFAULT_CONFIGURATION_REGISTER_ID   = 0x0027,
+  /** @brief EnableLocalProgramming attribute */
+  ZB_ZCL_ATTR_DOOR_LOCK_ENABLE_LOCAL_PROGRAMMING_ID       = 0x0028,
+  /** Enable/disable the ability to lock the door lock with a single touch on
+   *  the door lock. */
+  ZB_ZCL_ATTR_DOOR_LOCK_ENABLE_ONE_TOUCH_LOCKING_ID         = 0x0029,
+  /** Enable/disable an inside LED that allows the user to see at a glance
+   *  if the door is locked. */
+  ZB_ZCL_ATTR_DOOR_LOCK_ENABLE_INSIDE_STATUS_LED_ID         = 0x002A,
+  /** Enable/disable a button inside the door that is used to put the lock
+   *  into privacy mode. */
+  ZB_ZCL_ATTR_DOOR_LOCK_ENABLE_PRIVACY_MODE_BUTTON_ID       = 0x002B,
+  /** The number of incorrect codes or RFID presentment attempts a user
+   *  is allowed to enter before the door will enter a lockout state. */
+  ZB_ZCL_ATTR_DOOR_LOCK_WRONG_CODE_ENTRY_LIMIT_ID           = 0x0030,
+  /** The number of seconds that the lock shuts down following wrong code entry. */
+  ZB_ZCL_ATTR_DOOR_LOCK_USER_CODE_TEMPORARY_DISABLE_TIME_ID = 0x0031,
+  /** Boolean set to True if it is ok for the door lock server to send PINs
+   *  over the air. */
+  ZB_ZCL_ATTR_DOOR_LOCK_SEND_PIN_OVER_THE_AIR_ID            = 0x0032,
+  /** @brief Require PIN for RF operation attribute */
+  ZB_ZCL_ATTR_DOOR_LOCK_REQUIRE_PIN_RF_ID                 = 0x0033,
+  /** The Security Level attribute allows the door lock manufacturer to indicate
+   *  what level of security the door lock requires. */
+  ZB_ZCL_ATTR_DOOR_LOCK_SECURITY_LEVEL_ID                   = 0x0034,
+  /** The alarm mask is used to turn on/off alarms for particular functions */
+  ZB_ZCL_ATTR_DOOR_LOCK_ALARM_MASK_ID                       = 0x0040,
+  /** Event mask used to turn on and off the transmission of keypad operation events. */
+  ZB_ZCL_ATTR_DOOR_LOCK_KEYPAD_OPERATION_EVENT_MASK_ID      = 0x0041,
+  /** Event mask used to turn on and off the transmission of RF operation events. */
+  ZB_ZCL_ATTR_DOOR_LOCK_RF_OPERATION_EVENT_MASK_ID          = 0x0042,
+  /** Event mask used to turn on and off manual operation events. */
+  ZB_ZCL_ATTR_DOOR_LOCK_MANUAL_OPERATION_EVENT_MASK_ID      = 0x0043,
+  /** Event mask used to turn on and off RFID operation events. */
+  ZB_ZCL_ATTR_DOOR_LOCK_RFID_OPERATION_EVENT_MASK_ID        = 0x0044,
+  /** Event mask used to turn on and off keypad programming events. */
+  ZB_ZCL_ATTR_DOOR_LOCK_KEYPAD_PROGRAMMING_EVENT_MASK_ID    = 0x0045,
+  /** Event mask used to turn on and off RF programming events. */
+  ZB_ZCL_ATTR_DOOR_LOCK_RF_PROGRAMMING_EVENT_MASK_ID        = 0x0046,
+  /** Event mask used to turn on and off RFID programming events. */
+  ZB_ZCL_ATTR_DOOR_LOCK_RFID_PROGRAMMING_EVENT_MASK_ID      = 0x0047,
 };
 
 
 /** @brief Values for LockState attribute
   * @see ZCL spec, subclause 7.3.2.2.1
   */
-enum zb_zcl_door_lock_lock_state_e {
-    /*! "Not fully locked" value */
-    ZB_ZCL_ATTR_DOOR_LOCK_LOCK_STATE_NOT_FULLY_LOCKED  = 0x00,
-    /*! "Locked" value */
-    ZB_ZCL_ATTR_DOOR_LOCK_LOCK_STATE_LOCKED            = 0x01,
-    /*! "Unlocked" value */
-    ZB_ZCL_ATTR_DOOR_LOCK_LOCK_STATE_UNLOCKED          = 0x02,
-    /*! "Not Defined" value */
-    ZB_ZCL_ATTR_DOOR_LOCK_LOCK_STATE_UNDEFINED         = 0xff
+enum zb_zcl_door_lock_lock_state_e
+{
+  /*! "Not fully locked" value */
+  ZB_ZCL_ATTR_DOOR_LOCK_LOCK_STATE_NOT_FULLY_LOCKED  = 0x00,
+  /*! "Locked" value */
+  ZB_ZCL_ATTR_DOOR_LOCK_LOCK_STATE_LOCKED            = 0x01,
+  /*! "Unlocked" value */
+  ZB_ZCL_ATTR_DOOR_LOCK_LOCK_STATE_UNLOCKED          = 0x02,
+  /*! "Not Defined" value */
+  ZB_ZCL_ATTR_DOOR_LOCK_LOCK_STATE_UNDEFINED         = 0xff
 };
 
 /** @brief Default value for Lock State attribute. */
@@ -202,15 +203,16 @@ enum zb_zcl_door_lock_lock_state_e {
 /** @brief Values for LockType attribute
   * @see ZCL spec, subclause 7.3.2.2.2
   */
-enum zb_zcl_door_lock_lock_type_e {
-    /*! "Deadbolt" value */
-    ZB_ZCL_ATTR_DOOR_LOCK_LOCK_TYPE_DEADBOLT     = 0x00,
-    /*! "Magnetic" value */
-    ZB_ZCL_ATTR_DOOR_LOCK_LOCK_TYPE_MAGNETIC     = 0x01,
-    /*! "Other" value */
-    ZB_ZCL_ATTR_DOOR_LOCK_LOCK_TYPE_OTHER        = 0x02,
-    /*! "Not Defined" value */
-    ZB_ZCL_ATTR_DOOR_LOCK_LOCK_TYPE_UNDEFINED    = 0xff
+enum zb_zcl_door_lock_lock_type_e
+{
+  /*! "Deadbolt" value */
+  ZB_ZCL_ATTR_DOOR_LOCK_LOCK_TYPE_DEADBOLT     = 0x00,
+  /*! "Magnetic" value */
+  ZB_ZCL_ATTR_DOOR_LOCK_LOCK_TYPE_MAGNETIC     = 0x01,
+  /*! "Other" value */
+  ZB_ZCL_ATTR_DOOR_LOCK_LOCK_TYPE_OTHER        = 0x02,
+  /*! "Not Defined" value */
+  ZB_ZCL_ATTR_DOOR_LOCK_LOCK_TYPE_UNDEFINED    = 0xff
 };
 
 /** @brief Default value for Lock Type attribute. */
@@ -219,11 +221,12 @@ enum zb_zcl_door_lock_lock_type_e {
 /** @brief Values for ActuatorEnabled attribute
   * @see ZCL spec, subclause 7.3.2.2.3
   */
-enum zb_zcl_door_lock_actuator_enabled_e {
-    /*! "Disabled" value */
-    ZB_ZCL_ATTR_DOOR_LOCK_ACTUATOR_ENABLED_DISABLED  = 0x0b0,
-    /*! "Enabled" value */
-    ZB_ZCL_ATTR_DOOR_LOCK_ACTUATOR_ENABLED_ENABLED   = 0x0b1
+enum zb_zcl_door_lock_actuator_enabled_e
+{
+  /*! "Disabled" value */
+  ZB_ZCL_ATTR_DOOR_LOCK_ACTUATOR_ENABLED_DISABLED  = 0x0b0,
+  /*! "Enabled" value */
+  ZB_ZCL_ATTR_DOOR_LOCK_ACTUATOR_ENABLED_ENABLED   = 0x0b1
 };
 
 /** @brief Default value for Actuator Enabled attribute. */
@@ -233,17 +236,18 @@ enum zb_zcl_door_lock_actuator_enabled_e {
 /** @brief Values for DoorState attribute
   * @see ZCL spec, subclause 7.3.2.2.4
   */
-enum zb_zcl_door_lock_door_state_e {
-    /*! "Open" value */
-    ZB_ZCL_ATTR_DOOR_LOCK_DOOR_STATE_OPEN              = 0x00,
-    /*! "Closed" value */
-    ZB_ZCL_ATTR_DOOR_LOCK_DOOR_STATE_CLOSED            = 0x01,
-    /*! "Error (jammed)" value */
-    ZB_ZCL_ATTR_DOOR_LOCK_DOOR_STATE_ERROR_JAMMED      = 0x02,
-    /*! "Error (forced open)" value */
-    ZB_ZCL_ATTR_DOOR_LOCK_DOOR_STATE_ERROR_FORCED_OPEN = 0x03,
-    /*! "Error (unspecified)" value */
-    ZB_ZCL_ATTR_DOOR_LOCK_DOOR_STATE_ERROR_UNSPECIFIED = 0x04
+enum zb_zcl_door_lock_door_state_e
+{
+  /*! "Open" value */
+  ZB_ZCL_ATTR_DOOR_LOCK_DOOR_STATE_OPEN              = 0x00,
+  /*! "Closed" value */
+  ZB_ZCL_ATTR_DOOR_LOCK_DOOR_STATE_CLOSED            = 0x01,
+  /*! "Error (jammed)" value */
+  ZB_ZCL_ATTR_DOOR_LOCK_DOOR_STATE_ERROR_JAMMED      = 0x02,
+  /*! "Error (forced open)" value */
+  ZB_ZCL_ATTR_DOOR_LOCK_DOOR_STATE_ERROR_FORCED_OPEN = 0x03,
+  /*! "Error (unspecified)" value */
+  ZB_ZCL_ATTR_DOOR_LOCK_DOOR_STATE_ERROR_UNSPECIFIED = 0x04
 };
 
 /** @brief Declare attribute list for Door Lock cluster
@@ -271,133 +275,136 @@ enum zb_zcl_door_lock_door_state_e {
 /*! @brief Door Lock cluster commands
     @see ZCL spec, subclause 7.3.2.3 Commands Received
 */
-enum zb_zcl_door_lock_cmd_e {
-    /** This command causes the lock device to lock the door. */
-    ZB_ZCL_CMD_DOOR_LOCK_LOCK_DOOR      = 0x00,
-    /** This command causes the lock device to unlock the door. */
-    ZB_ZCL_CMD_DOOR_LOCK_UNLOCK_DOOR    = 0x01,
-    /** Request the status of the lock. */
-    ZB_ZCL_CMD_DOOR_LOCK_TOGGLE                           = 0x02,
-    /** This command causes the lock device to unlock the door with a timeout parameter. */
-    ZB_ZCL_CMD_DOOR_LOCK_UNLOCK_WITH_TIMEOUT              = 0x03,
-    /** Request a log record. */
-    ZB_ZCL_CMD_DOOR_LOCK_GET_LOG_RECORD                   = 0x04,
-    /** Set a PIN into the lock. */
-    ZB_ZCL_CMD_DOOR_LOCK_SET_PIN_CODE                     = 0x05,
-    /** Retrieve a PIN Code. */
-    ZB_ZCL_CMD_DOOR_LOCK_GET_PIN_CODE                     = 0x06,
-    /** Delete a PIN. */
-    ZB_ZCL_CMD_DOOR_LOCK_CLEAR_PIN_CODE                   = 0x07,
-    /** Clear out all PINs on the lock. */
-    ZB_ZCL_CMD_DOOR_LOCK_CLEAR_ALL_PIN_CODES              = 0x08,
-    /** Set the status of a user ID. */
-    ZB_ZCL_CMD_DOOR_LOCK_SET_USER_STATUS                  = 0x09,
-    /** Get the status of a user. */
-    ZB_ZCL_CMD_DOOR_LOCK_GET_USER_STATUS                  = 0x0A,
-    /** Set a weekly repeating schedule for a specified user. */
-    ZB_ZCL_CMD_DOOR_LOCK_SET_WEEKDAY_SCHEDULE             = 0x0B,
-    /** Retrieve the specific weekly schedule for the specific user. */
-    ZB_ZCL_CMD_DOOR_LOCK_GET_WEEKDAY_SCHEDULE             = 0x0C,
-    /** Clear the specific weekly schedule for the specific user. */
-    ZB_ZCL_CMD_DOOR_LOCK_CLEAR_WEEKDAY_SCHEDULE           = 0x0D,
-    /** Set a time-specific schedule ID for a specified user. */
-    ZB_ZCL_CMD_DOOR_LOCK_SET_YEAR_DAY_SCHEDULE            = 0x0E,
-    /** Retrieve the specific year day schedule for the specific user. */
-    ZB_ZCL_CMD_DOOR_LOCK_GET_YEAR_DAY_SCHEDULE            = 0x0F,
-    /** Clears the specific year day schedule for the specific user. */
-    ZB_ZCL_CMD_DOOR_LOCK_CLEAR_YEAR_DAY_SCHEDULE          = 0x10,
-    /** Set the holiday Schedule by specifying local start time and local end time
-     *  with respect to any Lock Operating Mode. */
-    ZB_ZCL_CMD_DOOR_LOCK_SET_HOLIDAY_SCHEDULE             = 0x11,
-    /** Get the holiday Schedule by specifying Holiday ID. */
-    ZB_ZCL_CMD_DOOR_LOCK_GET_HOLIDAY_SCHEDULE             = 0x12,
-    /** Clear the holiday Schedule by specifying Holiday ID. */
-    ZB_ZCL_CMD_DOOR_LOCK_CLEAR_HOLIDAY_SCHEDULE           = 0x13,
-    /** Set the type byte for a specified user. */
-    ZB_ZCL_CMD_DOOR_LOCK_SET_USER_TYPE                    = 0x14,
-    /** Retrieve the type byte for a specific user. */
-    ZB_ZCL_CMD_DOOR_LOCK_GET_USER_TYPE                    = 0x15,
-    /** Set an ID for RFID access into the lock. */
-    ZB_ZCL_CMD_DOOR_LOCK_SET_RFID_CODE                    = 0x16,
-    /** Retrieve an ID. */
-    ZB_ZCL_CMD_DOOR_LOCK_GET_RFID_CODE                    = 0x17,
-    /** Delete an ID. */
-    ZB_ZCL_CMD_DOOR_LOCK_CLEAR_RFID_CODE                  = 0x18,
-    /** Clear out all RFIDs on the lock. */
-    ZB_ZCL_CMD_DOOR_LOCK_CLEAR_ALL_RFID_CODES             = 0x19,
+enum zb_zcl_door_lock_cmd_e
+{
+  /** This command causes the lock device to lock the door. */
+  ZB_ZCL_CMD_DOOR_LOCK_LOCK_DOOR      = 0x00,
+  /** This command causes the lock device to unlock the door. */
+  ZB_ZCL_CMD_DOOR_LOCK_UNLOCK_DOOR    = 0x01,
+  /** Request the status of the lock. */
+  ZB_ZCL_CMD_DOOR_LOCK_TOGGLE                           = 0x02,
+  /** This command causes the lock device to unlock the door with a timeout parameter. */
+  ZB_ZCL_CMD_DOOR_LOCK_UNLOCK_WITH_TIMEOUT              = 0x03,
+  /** Request a log record. */
+  ZB_ZCL_CMD_DOOR_LOCK_GET_LOG_RECORD                   = 0x04,
+  /** Set a PIN into the lock. */
+  ZB_ZCL_CMD_DOOR_LOCK_SET_PIN_CODE                     = 0x05,
+  /** Retrieve a PIN Code. */
+  ZB_ZCL_CMD_DOOR_LOCK_GET_PIN_CODE                     = 0x06,
+  /** Delete a PIN. */
+  ZB_ZCL_CMD_DOOR_LOCK_CLEAR_PIN_CODE                   = 0x07,
+  /** Clear out all PINs on the lock. */
+  ZB_ZCL_CMD_DOOR_LOCK_CLEAR_ALL_PIN_CODES              = 0x08,
+  /** Set the status of a user ID. */
+  ZB_ZCL_CMD_DOOR_LOCK_SET_USER_STATUS                  = 0x09,
+  /** Get the status of a user. */
+  ZB_ZCL_CMD_DOOR_LOCK_GET_USER_STATUS                  = 0x0A,
+  /** Set a weekly repeating schedule for a specified user. */
+  ZB_ZCL_CMD_DOOR_LOCK_SET_WEEKDAY_SCHEDULE             = 0x0B,
+  /** Retrieve the specific weekly schedule for the specific user. */
+  ZB_ZCL_CMD_DOOR_LOCK_GET_WEEKDAY_SCHEDULE             = 0x0C,
+  /** Clear the specific weekly schedule for the specific user. */
+  ZB_ZCL_CMD_DOOR_LOCK_CLEAR_WEEKDAY_SCHEDULE           = 0x0D,
+  /** Set a time-specific schedule ID for a specified user. */
+  ZB_ZCL_CMD_DOOR_LOCK_SET_YEAR_DAY_SCHEDULE            = 0x0E,
+  /** Retrieve the specific year day schedule for the specific user. */
+  ZB_ZCL_CMD_DOOR_LOCK_GET_YEAR_DAY_SCHEDULE            = 0x0F,
+  /** Clears the specific year day schedule for the specific user. */
+  ZB_ZCL_CMD_DOOR_LOCK_CLEAR_YEAR_DAY_SCHEDULE          = 0x10,
+  /** Set the holiday Schedule by specifying local start time and local end time
+   *  with respect to any Lock Operating Mode. */
+  ZB_ZCL_CMD_DOOR_LOCK_SET_HOLIDAY_SCHEDULE             = 0x11,
+  /** Get the holiday Schedule by specifying Holiday ID. */
+  ZB_ZCL_CMD_DOOR_LOCK_GET_HOLIDAY_SCHEDULE             = 0x12,
+  /** Clear the holiday Schedule by specifying Holiday ID. */
+  ZB_ZCL_CMD_DOOR_LOCK_CLEAR_HOLIDAY_SCHEDULE           = 0x13,
+  /** Set the type byte for a specified user. */
+  ZB_ZCL_CMD_DOOR_LOCK_SET_USER_TYPE                    = 0x14,
+  /** Retrieve the type byte for a specific user. */
+  ZB_ZCL_CMD_DOOR_LOCK_GET_USER_TYPE                    = 0x15,
+  /** Set an ID for RFID access into the lock. */
+  ZB_ZCL_CMD_DOOR_LOCK_SET_RFID_CODE                    = 0x16,
+  /** Retrieve an ID. */
+  ZB_ZCL_CMD_DOOR_LOCK_GET_RFID_CODE                    = 0x17,
+  /** Delete an ID. */
+  ZB_ZCL_CMD_DOOR_LOCK_CLEAR_RFID_CODE                  = 0x18,
+  /** Clear out all RFIDs on the lock. */
+  ZB_ZCL_CMD_DOOR_LOCK_CLEAR_ALL_RFID_CODES             = 0x19,
 };
 
 /*! @brief Door Lock cluster commands response
     @see ZCL spec, subclause 7.3.2.4 Commands Generated
 */
-enum zb_zcl_door_lock_cmd_resp_e {
-    /** This command is sent in response to a Lock command with one status byte payload. */
-    ZB_ZCL_CMD_DOOR_LOCK_LOCK_DOOR_RES    = 0x00,
-    /** This command is sent in response to a Unlock command with one status byte payload. */
-    ZB_ZCL_CMD_DOOR_LOCK_UNLOCK_DOOR_RES                 = 0x01,
-    /** This command is sent in response to a Toggle command with one status byte payload. */
-    ZB_ZCL_CMD_DOOR_LOCK_TOGGLE_RESPONSE                  = 0x02,
-    /** This command is sent in response to an Unlock with Timeout command
-     *  with one status byte payload. */
-    ZB_ZCL_CMD_DOOR_LOCK_UNLOCK_WITH_TIMEOUT_RESPONSE     = 0x03,
-    /** Returns the specified log record. */
-    ZB_ZCL_CMD_DOOR_LOCK_GET_LOG_RECORD_RESPONSE          = 0x04,
-    /** Returns status of the PIN set command. */
-    ZB_ZCL_CMD_DOOR_LOCK_SET_PIN_CODE_RESPONSE            = 0x05,
-    /** Returns the PIN for the specified user ID. */
-    ZB_ZCL_CMD_DOOR_LOCK_GET_PIN_CODE_RESPONSE            = 0x06,
-    /** Returns pass/fail of the command. */
-    ZB_ZCL_CMD_DOOR_LOCK_CLEAR_PIN_CODE_RESPONSE          = 0x07,
-    /** Returns pass/fail of the command. */
-    ZB_ZCL_CMD_DOOR_LOCK_CLEAR_ALL_PIN_CODES_RESPONSE     = 0x08,
-    /** Returns the pass or fail value for the setting of the user status. */
-    ZB_ZCL_CMD_DOOR_LOCK_SET_USER_STATUS_RESPONSE         = 0x09,
-    /** Returns the user status for the specified user ID. */
-    ZB_ZCL_CMD_DOOR_LOCK_GET_USER_STATUS_RESPONSE         = 0x0A,
-    /** Returns pass/fail of the command. */
-    ZB_ZCL_CMD_DOOR_LOCK_SET_WEEKDAY_SCHEDULE_RESPONSE    = 0x0B,
-    /** Returns the weekly repeating schedule data for the specified schedule ID. */
-    ZB_ZCL_CMD_DOOR_LOCK_GET_WEEKDAY_SCHEDULE_RESPONSE    = 0x0C,
-    /** Returns pass/fail of the command. */
-    ZB_ZCL_CMD_DOOR_LOCK_CLEAR_WEEKDAY_SCHEDULE_RESPONSE  = 0x0D,
-    /** Returns pass/fail of the command. */
-    ZB_ZCL_CMD_DOOR_LOCK_SET_YEAR_DAY_SCHEDULE_RESPONSE   = 0x0E,
-    /** Returns the weekly repeating schedule data for the specified schedule ID. */
-    ZB_ZCL_CMD_DOOR_LOCK_GET_YEAR_DAY_SCHEDULE_RESPONSE   = 0x0F,
-    /** Returns pass/fail of the command. */
-    ZB_ZCL_CMD_DOOR_LOCK_CLEAR_YEAR_DAY_SCHEDULE_RESPONSE = 0x10,
-    /** Returns pass/fail of the command. */
-    ZB_ZCL_CMD_DOOR_LOCK_SET_HOLIDAY_SCHEDULE_RESPONSE    = 0x11,
-    /** Returns the Holiday Schedule Entry for the specified Holiday ID. */
-    ZB_ZCL_CMD_DOOR_LOCK_GET_HOLIDAY_SCHEDULE_RESPONSE    = 0x12,
-    /** Returns pass/fail of the command. */
-    ZB_ZCL_CMD_DOOR_LOCK_CLEAR_HOLIDAY_SCHEDULE_RESPONSE  = 0x13,
-    /** Returns the pass or fail value for the setting of the user type. */
-    ZB_ZCL_CMD_DOOR_LOCK_SET_USER_TYPE_RESPONSE           = 0x14,
-    /** Returns the user type for the specified user ID. */
-    ZB_ZCL_CMD_DOOR_LOCK_GET_USER_TYPE_RESPONSE           = 0x15,
-    /** Returns status of the Set RFID Code command. */
-    ZB_ZCL_CMD_DOOR_LOCK_SET_RFID_CODE_RESPONSE           = 0x16,
-    /** Returns the RFID code for the specified user ID. */
-    ZB_ZCL_CMD_DOOR_LOCK_GET_RFID_CODE_RESPONSE           = 0x17,
-    /** Returns pass/fail of the command. */
-    ZB_ZCL_CMD_DOOR_LOCK_CLEAR_RFID_CODE_RESPONSE         = 0x18,
-    /** Returns pass/fail of the command. */
-    ZB_ZCL_CMD_DOOR_LOCK_CLEAR_ALL_RFID_CODES_RESPONSE    = 0x19,
-    /** The door lock server sends out operation event notification when the
-     *  event is triggered by the various event sources. */
-    ZB_ZCL_CMD_DOOR_LOCK_OPERATION_EVENT_NOTIFICATION_ID = 0x20,
-    /** The door lock server sends out a programming event notification
-     *   whenever a programming event takes place on the door lock. */
-    ZB_ZCL_CMD_DOOR_LOCK_PROGRAMMING_EVENT_NOTIFICATION   = 0x21,
+enum zb_zcl_door_lock_cmd_resp_e
+{
+  /** This command is sent in response to a Lock command with one status byte payload. */
+  ZB_ZCL_CMD_DOOR_LOCK_LOCK_DOOR_RES    = 0x00,
+  /** This command is sent in response to a Unlock command with one status byte payload. */
+  ZB_ZCL_CMD_DOOR_LOCK_UNLOCK_DOOR_RES                 = 0x01,
+  /** This command is sent in response to a Toggle command with one status byte payload. */
+  ZB_ZCL_CMD_DOOR_LOCK_TOGGLE_RESPONSE                  = 0x02,
+  /** This command is sent in response to an Unlock with Timeout command
+   *  with one status byte payload. */
+  ZB_ZCL_CMD_DOOR_LOCK_UNLOCK_WITH_TIMEOUT_RESPONSE     = 0x03,
+  /** Returns the specified log record. */
+  ZB_ZCL_CMD_DOOR_LOCK_GET_LOG_RECORD_RESPONSE          = 0x04,
+  /** Returns status of the PIN set command. */
+  ZB_ZCL_CMD_DOOR_LOCK_SET_PIN_CODE_RESPONSE            = 0x05,
+  /** Returns the PIN for the specified user ID. */
+  ZB_ZCL_CMD_DOOR_LOCK_GET_PIN_CODE_RESPONSE            = 0x06,
+  /** Returns pass/fail of the command. */
+  ZB_ZCL_CMD_DOOR_LOCK_CLEAR_PIN_CODE_RESPONSE          = 0x07,
+  /** Returns pass/fail of the command. */
+  ZB_ZCL_CMD_DOOR_LOCK_CLEAR_ALL_PIN_CODES_RESPONSE     = 0x08,
+  /** Returns the pass or fail value for the setting of the user status. */
+  ZB_ZCL_CMD_DOOR_LOCK_SET_USER_STATUS_RESPONSE         = 0x09,
+  /** Returns the user status for the specified user ID. */
+  ZB_ZCL_CMD_DOOR_LOCK_GET_USER_STATUS_RESPONSE         = 0x0A,
+  /** Returns pass/fail of the command. */
+  ZB_ZCL_CMD_DOOR_LOCK_SET_WEEKDAY_SCHEDULE_RESPONSE    = 0x0B,
+  /** Returns the weekly repeating schedule data for the specified schedule ID. */
+  ZB_ZCL_CMD_DOOR_LOCK_GET_WEEKDAY_SCHEDULE_RESPONSE    = 0x0C,
+  /** Returns pass/fail of the command. */
+  ZB_ZCL_CMD_DOOR_LOCK_CLEAR_WEEKDAY_SCHEDULE_RESPONSE  = 0x0D,
+  /** Returns pass/fail of the command. */
+  ZB_ZCL_CMD_DOOR_LOCK_SET_YEAR_DAY_SCHEDULE_RESPONSE   = 0x0E,
+  /** Returns the weekly repeating schedule data for the specified schedule ID. */
+  ZB_ZCL_CMD_DOOR_LOCK_GET_YEAR_DAY_SCHEDULE_RESPONSE   = 0x0F,
+  /** Returns pass/fail of the command. */
+  ZB_ZCL_CMD_DOOR_LOCK_CLEAR_YEAR_DAY_SCHEDULE_RESPONSE = 0x10,
+  /** Returns pass/fail of the command. */
+  ZB_ZCL_CMD_DOOR_LOCK_SET_HOLIDAY_SCHEDULE_RESPONSE    = 0x11,
+  /** Returns the Holiday Schedule Entry for the specified Holiday ID. */
+  ZB_ZCL_CMD_DOOR_LOCK_GET_HOLIDAY_SCHEDULE_RESPONSE    = 0x12,
+  /** Returns pass/fail of the command. */
+  ZB_ZCL_CMD_DOOR_LOCK_CLEAR_HOLIDAY_SCHEDULE_RESPONSE  = 0x13,
+  /** Returns the pass or fail value for the setting of the user type. */
+  ZB_ZCL_CMD_DOOR_LOCK_SET_USER_TYPE_RESPONSE           = 0x14,
+  /** Returns the user type for the specified user ID. */
+  ZB_ZCL_CMD_DOOR_LOCK_GET_USER_TYPE_RESPONSE           = 0x15,
+  /** Returns status of the Set RFID Code command. */
+  ZB_ZCL_CMD_DOOR_LOCK_SET_RFID_CODE_RESPONSE           = 0x16,
+  /** Returns the RFID code for the specified user ID. */
+  ZB_ZCL_CMD_DOOR_LOCK_GET_RFID_CODE_RESPONSE           = 0x17,
+  /** Returns pass/fail of the command. */
+  ZB_ZCL_CMD_DOOR_LOCK_CLEAR_RFID_CODE_RESPONSE         = 0x18,
+  /** Returns pass/fail of the command. */
+  ZB_ZCL_CMD_DOOR_LOCK_CLEAR_ALL_RFID_CODES_RESPONSE    = 0x19,
+  /** The door lock server sends out operation event notification when the
+   *  event is triggered by the various event sources. */
+  ZB_ZCL_CMD_DOOR_LOCK_OPERATION_EVENT_NOTIFICATION_ID = 0x20,
+  /** The door lock server sends out a programming event notification
+   *   whenever a programming event takes place on the door lock. */
+  ZB_ZCL_CMD_DOOR_LOCK_PROGRAMMING_EVENT_NOTIFICATION   = 0x21,
 };
 
-enum zb_zcl_door_lock_operation_event_source_e {
-    ZB_ZCL_DOOR_LOCK_OPERATION_EVENT_SOURCE_KEYPAD        = 0x00,
-    ZB_ZCL_DOOR_LOCK_OPERATION_EVENT_SOURCE_RF            = 0x01,
-    ZB_ZCL_DOOR_LOCK_OPERATION_EVENT_SOURCE_MANUAL        = 0x02,
-    ZB_ZCL_DOOR_LOCK_OPERATION_EVENT_SOURCE_RFID          = 0x03,
-    ZB_ZCL_DOOR_LOCK_OPERATION_EVENT_SOURCE_INDETERMINATE = 0xFF,
+enum zb_zcl_door_lock_operation_event_source_e
+{
+  ZB_ZCL_DOOR_LOCK_OPERATION_EVENT_SOURCE_KEYPAD        = 0x00,
+  ZB_ZCL_DOOR_LOCK_OPERATION_EVENT_SOURCE_RF            = 0x01,
+  ZB_ZCL_DOOR_LOCK_OPERATION_EVENT_SOURCE_MANUAL        = 0x02,
+  ZB_ZCL_DOOR_LOCK_OPERATION_EVENT_SOURCE_RFID          = 0x03,
+  ZB_ZCL_DOOR_LOCK_OPERATION_EVENT_SOURCE_INDETERMINATE = 0xFF,
 };
 
 /** @cond internals_doc */
@@ -524,36 +531,40 @@ enum zb_zcl_door_lock_operation_event_source_e {
 /** @brief Default value for RFIDProgrammingEventMask attribute */
 #define ZB_ZCL_DOOR_LOCK_RFID_PROGRAMMING_EVENT_MASK_DEFAULT_VALUE ((zb_uint16_t)0x0000)
 
-enum zb_zcl_door_lock_operation_event_code_e {
-    ZB_ZCL_DOOR_LOCK_OPERATION_EVENT_CODE_UNKNOWN       = 0x00,
-    ZB_ZCL_DOOR_LOCK_OPERATION_EVENT_CODE_LOCK          = 0x01,
-    ZB_ZCL_DOOR_LOCK_OPERATION_EVENT_CODE_UNLOCK        = 0x02,
-    ZB_ZCL_DOOR_LOCK_OPERATION_EVENT_CODE_KEY_LOCK      = 0x08,
-    ZB_ZCL_DOOR_LOCK_OPERATION_EVENT_CODE_KEY_UNLOCK    = 0x09,
-    ZB_ZCL_DOOR_LOCK_OPERATION_EVENT_CODE_MANUAL_LOCK   = 0x0D,
-    ZB_ZCL_DOOR_LOCK_OPERATION_EVENT_CODE_MANUAL_UNLOCK = 0x0E,
+enum zb_zcl_door_lock_operation_event_code_e
+{
+  ZB_ZCL_DOOR_LOCK_OPERATION_EVENT_CODE_UNKNOWN       = 0x00,
+  ZB_ZCL_DOOR_LOCK_OPERATION_EVENT_CODE_LOCK          = 0x01,
+  ZB_ZCL_DOOR_LOCK_OPERATION_EVENT_CODE_UNLOCK        = 0x02,
+  ZB_ZCL_DOOR_LOCK_OPERATION_EVENT_CODE_KEY_LOCK      = 0x08,
+  ZB_ZCL_DOOR_LOCK_OPERATION_EVENT_CODE_KEY_UNLOCK    = 0x09,
+  ZB_ZCL_DOOR_LOCK_OPERATION_EVENT_CODE_MANUAL_LOCK   = 0x0D,
+  ZB_ZCL_DOOR_LOCK_OPERATION_EVENT_CODE_MANUAL_UNLOCK = 0x0E,
 };
 
-enum zb_zcl_door_lock_keypad_operation_event_mask_e {
-    ZB_ZCL_DOOR_LOCK_KEYPAD_OPERATION_EVENT_MASK_UNKNOWN = (1l << 0),
-    ZB_ZCL_DOOR_LOCK_KEYPAD_OPERATION_EVENT_MASK_LOCK    = (1l << 1),
-    ZB_ZCL_DOOR_LOCK_KEYPAD_OPERATION_EVENT_MASK_UNLOCK  = (1l << 2),
+enum zb_zcl_door_lock_keypad_operation_event_mask_e
+{
+  ZB_ZCL_DOOR_LOCK_KEYPAD_OPERATION_EVENT_MASK_UNKNOWN = (1l << 0),
+  ZB_ZCL_DOOR_LOCK_KEYPAD_OPERATION_EVENT_MASK_LOCK    = (1l << 1),
+  ZB_ZCL_DOOR_LOCK_KEYPAD_OPERATION_EVENT_MASK_UNLOCK  = (1l << 2),
 };
 
-enum zb_zcl_door_lock_rf_operation_event_mask_e {
-    ZB_ZCL_DOOR_LOCK_RF_OPERATION_EVENT_MASK_UNKNOWN = (1l << 0),
-    ZB_ZCL_DOOR_LOCK_RF_OPERATION_EVENT_MASK_LOCK    = (1l << 1),
-    ZB_ZCL_DOOR_LOCK_RF_OPERATION_EVENT_MASK_UNLOCK  = (1l << 2),
+enum zb_zcl_door_lock_rf_operation_event_mask_e
+{
+  ZB_ZCL_DOOR_LOCK_RF_OPERATION_EVENT_MASK_UNKNOWN = (1l << 0),
+  ZB_ZCL_DOOR_LOCK_RF_OPERATION_EVENT_MASK_LOCK    = (1l << 1),
+  ZB_ZCL_DOOR_LOCK_RF_OPERATION_EVENT_MASK_UNLOCK  = (1l << 2),
 };
 
-enum zb_zcl_door_lock_manual_operation_event_mask_e {
-    ZB_ZCL_DOOR_LOCK_MANUAL_OPERATION_EVENT_MASK_UNKNOWN           = (1l << 0),
-    ZB_ZCL_DOOR_LOCK_MANUAL_OPERATION_EVENT_MASK_THUMBTURN_LOCK    = (1l << 1),
-    ZB_ZCL_DOOR_LOCK_MANUAL_OPERATION_EVENT_MASK_THUMBTURN_UNLOCK  = (1l << 2),
-    ZB_ZCL_DOOR_LOCK_MANUAL_OPERATION_EVENT_MASK_KEY_LOCK          = (1l << 4),
-    ZB_ZCL_DOOR_LOCK_MANUAL_OPERATION_EVENT_MASK_KEY_UNLOCK        = (1l << 5),
-    ZB_ZCL_DOOR_LOCK_MANUAL_OPERATION_EVENT_MASK_MANUAL_LOCK       = (1l << 9),
-    ZB_ZCL_DOOR_LOCK_MANUAL_OPERATION_EVENT_MASK_MANUAL_UNLOCK     = (1l << 10),
+enum zb_zcl_door_lock_manual_operation_event_mask_e
+{
+  ZB_ZCL_DOOR_LOCK_MANUAL_OPERATION_EVENT_MASK_UNKNOWN           = (1l << 0),
+  ZB_ZCL_DOOR_LOCK_MANUAL_OPERATION_EVENT_MASK_THUMBTURN_LOCK    = (1l << 1),
+  ZB_ZCL_DOOR_LOCK_MANUAL_OPERATION_EVENT_MASK_THUMBTURN_UNLOCK  = (1l << 2),
+  ZB_ZCL_DOOR_LOCK_MANUAL_OPERATION_EVENT_MASK_KEY_LOCK          = (1l << 4),
+  ZB_ZCL_DOOR_LOCK_MANUAL_OPERATION_EVENT_MASK_KEY_UNLOCK        = (1l << 5),
+  ZB_ZCL_DOOR_LOCK_MANUAL_OPERATION_EVENT_MASK_MANUAL_LOCK       = (1l << 9),
+  ZB_ZCL_DOOR_LOCK_MANUAL_OPERATION_EVENT_MASK_MANUAL_UNLOCK     = (1l << 10),
 };
 
 
@@ -689,8 +700,9 @@ enum zb_zcl_door_lock_manual_operation_event_mask_e {
 }
 
 /*! Door lock commands response payload structure */
-typedef ZB_PACKED_PRE struct zb_zcl_door_lock_read_lock_door_res_payload_s {
-    zb_uint8_t status;      /*!< Command execution status */
+typedef ZB_PACKED_PRE struct zb_zcl_door_lock_read_lock_door_res_payload_s
+{
+  zb_uint8_t status;      /*!< Command execution status */
 } ZB_PACKED_STRUCT zb_zcl_door_lock_read_lock_door_res_payload_t;
 
 /*! @brief Door Lock response structured reading
@@ -705,8 +717,9 @@ typedef ZB_PACKED_PRE struct zb_zcl_door_lock_read_lock_door_res_payload_s {
    : (zb_zcl_door_lock_read_lock_door_res_payload_t*)zb_buf_begin((buffer)))
 
 /*! Door unlock commands response payload structure */
-typedef ZB_PACKED_PRE struct zb_zcl_door_lock_read_unlock_door_res_payload_s {
-    zb_uint8_t status;      /*!< Command execution status */
+typedef ZB_PACKED_PRE struct zb_zcl_door_lock_read_unlock_door_res_payload_s
+{
+  zb_uint8_t status;      /*!< Command execution status */
 } ZB_PACKED_STRUCT zb_zcl_door_lock_read_unlock_door_res_payload_t;
 
 /*! @brief Door unLock response structured reading

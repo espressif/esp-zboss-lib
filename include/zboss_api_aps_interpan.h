@@ -47,6 +47,7 @@
   */
 
 
+#if defined ZB_ENABLE_INTER_PAN_EXCHANGE || defined DOXYGEN
 /** @brief INTRP-DATA.request structure.
   *
   * This structure passed to @ref zb_intrp_data_request() in the packet buffer parameter.
@@ -77,6 +78,7 @@ typedef ZB_PACKED_PRE struct zb_intrp_data_req_s
   /** An integer handle associated with the ASDU to be transmitted. */
   zb_uint8_t asdu_handle;
 } ZB_PACKED_STRUCT zb_intrp_data_req_t;
+#endif /* defined ZB_ENABLE_INTER_PAN_EXCHANGE || defined DOXYGEN */
 
 /** @brief Valid values for inter-PAN destination address mode.
   * @see SE spec, subclause B.3.1.
@@ -100,7 +102,7 @@ enum zb_intrp_addr_mode_e
 typedef ZB_PACKED_PRE struct zb_intrp_data_ind_s
 {
   /** @brief Destination address mode.
-    * Valid values are defined by @ref zb_intrp_addr_mode_e enumration.
+    * Valid values are defined by @ref zb_intrp_addr_mode_e enumeration.
     */
   zb_uint8_t dst_addr_mode;
   /** @brief Destination Pan identifier.
@@ -121,7 +123,7 @@ typedef ZB_PACKED_PRE struct zb_intrp_data_ind_s
   zb_uint16_t cluster_id;
   /** @brief The link quality observed during the reception of the ASDU. */
   zb_uint8_t link_quality;
-  zb_uint8_t rssi;
+  zb_int8_t rssi;
 } ZB_PACKED_STRUCT zb_intrp_data_ind_t;
 
 /** @cond DOXYGEN_APS_INTER_PAN_NON_DEFAULT_CHANNEL_FEATURE */
@@ -151,7 +153,7 @@ typedef zb_uint8_t (*zb_af_inter_pan_handler_t)(zb_uint8_t param, zb_uint8_t cur
   */
 void zboss_enable_interpan_with_chan_change(void);
 
-/** @brief Make INTRP-DATA request at multiple channels with time given as @param chan_wait_ms
+/** @brief Make INTRP-DATA request at multiple channels with time given as chan_wait_ms
   *        to wait for response packets. Can be used after zboss_enable_interpan_with_chan_change()
   *        was called.
   *
@@ -169,7 +171,7 @@ void zboss_enable_interpan_with_chan_change(void);
   * @note  cb buffer's parameter contains status which can be obtained using @ref zb_buf_get_status
   * function, RET_OK if packet was successfully sent at at least one channel, RET_ERROR otherwise.
   * @ref zb_mchan_intrp_data_confirm_t is put as buffer's parameter.
-  * User is to free the @param buffer in the callback, if no callback is given, buffer is freed internally.
+  * User is to free the buffer in the callback, if no callback is given, buffer is freed internally.
   */
 zb_ret_t zb_intrp_data_request_with_chan_change(zb_bufid_t buffer, zb_channel_page_t channel_page_mask, zb_uint32_t chan_wait_ms, zb_callback_t cb);
 
@@ -178,13 +180,24 @@ zb_ret_t zb_intrp_data_request_with_chan_change(zb_bufid_t buffer, zb_channel_pa
   *
   * @param cb - callback function to be called when inter-pan packet is received.
   * @note If packet is processed in the callback function and no longer shall be processed
-  *       by the stack, callback function shall free buffer and return RET_OK. Return RET_ERROR otherwise.
+  *       by the stack, callback function shall free buffer and return ZB_TRUE. Return ZB_FALSE otherwise.
   *       Buffer has data put in the beginning of the buffer with inter-pan header truncated
   *       and contains @ref zb_intrp_data_ind_t given as buffer's parameter.
   */
 void zb_af_interpan_set_data_indication(zb_af_inter_pan_handler_t cb);
 #endif /* defined ZB_ENABLE_INTER_PAN_NON_DEFAULT_CHANNEL || defined DOXYGEN */
 /** @endcond */ /* DOXYGEN_APS_INTER_PAN_NON_DEFAULT_CHANNEL_FEATURE */
+
+#if defined ZB_ENABLE_INTER_PAN_EXCHANGE || defined DOXYGEN
+/** @brief Make INTRP-DATA request.
+  *
+  * Assumes buffer contains data in its main part, and INTRP-DATA.request parameters in buffer's
+  * parameter (represented as @ref zb_intrp_data_req_s structure).
+  * @param param - reference (index) of the packet buffer.
+  * @see SE spec, subclause B.5.1.
+  */
+void zb_intrp_data_request(zb_uint8_t param);
+#endif /* defined ZB_ENABLE_INTER_PAN_EXCHANGE || defined DOXYGEN */
 
 /** @} */
 

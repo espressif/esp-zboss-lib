@@ -693,7 +693,7 @@ typedef ZB_PACKED_PRE struct zb_zcl_level_control_step_req_s
   sizeof(zb_zcl_level_control_step_req_t)
 
 
-/** @internal Macro for sending Step command */
+/** @brief Macro for sending Step command */
 #define ZB_ZCL_LEVEL_CONTROL_SEND_STEP_CMD(buffer,                      \
                                            addr,                        \
                                            dst_addr_mode,               \

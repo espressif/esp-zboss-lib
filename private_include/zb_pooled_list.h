@@ -244,7 +244,7 @@ instead of pointer.
          ordinary number of the list. So, if you remove elem_index == 2,
          it doesn't mean that you remove third element from the list. It means
          just that you remove some element placed in base[ 2 ] from the list which can
-         be actualy any ordinary number of the list.
+         be actually any ordinary number of the list.
 */
 
 #define ZB_POOLED_LIST8_REMOVE( base, list, link_field, elem_index )    \
@@ -424,7 +424,7 @@ while( 0 )                                                              \
          ordinary number of the list. So, if you remove elem_index == 2,
          it doesn't mean that you remove third element from the list. It means
          just that you remove some element placed in base[ 2 ] from the list which can
-         be actualy any ordinary number of the list.
+         be actually any ordinary number of the list.
 */
 
 #define ZB_POOLED_LIST16_REMOVE( base, list, link_field, elem_index )   \

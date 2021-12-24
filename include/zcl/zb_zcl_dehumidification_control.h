@@ -61,27 +61,28 @@
 /*! @brief Dehumidification Control cluster attribute identifiers
     @see ZCL spec, subclause 6.4.2.2
 */
-enum zb_zcl_dehumidification_control_attr_e {
-    /** The RelativeHumidity attribute is an 8-bit value that represents the current
-     *  relative humidity (in %) measured by a local or remote sensor. */
-    ZB_ZCL_ATTR_DEHUMIDIFICATION_CONTROL_RELATIVE_HUMIDITY_ID           = 0x0000,
-    /** @brief Dehumidification Cooling attribute */
-    ZB_ZCL_ATTR_DEHUMIDIFICATION_CONTROL_DEHUMIDIFICATION_COOLING_ID    = 0x0001,
-    /** @brief RHDehumidification Setpoint attribute */
-    ZB_ZCL_ATTR_DEHUMIDIFICATION_CONTROL_RHDEHUMIDIFICATION_SETPOINT_ID = 0x0010,
-    /** The RelativeHumidityMode attribute is an 8-bit value that specifies how
-     *  the RelativeHumidity value is being updated. */
-    ZB_ZCL_ATTR_DEHUMIDIFICATION_CONTROL_RELATIVE_HUMIDITY_MODE_ID      = 0x0011,
-    /** The DehumidificationLockout attribute is an 8-bit value that specifies
-     *  whether dehumidification is allowed or not. */
-    ZB_ZCL_ATTR_DEHUMIDIFICATION_CONTROL_DEHUMIDIFICATION_LOCKOUT_ID    = 0x0012,
-    /** @brief Dehumidification Hysteresis attribute */
-    ZB_ZCL_ATTR_DEHUMIDIFICATION_CONTROL_DEHUMIDIFICATION_HYSTERESIS_ID = 0x0013,
-    /** @brief Dehumidification Max Cool attribute */
-    ZB_ZCL_ATTR_DEHUMIDIFICATION_CONTROL_DEHUMIDIFICATION_MAX_COOL_ID   = 0x0014,
-    /** The RelativeHumidityDisplay attribute is an 8-bit value that specifies
-     *  whether the RelativeHumidity value is displayed to the user or not. */
-    ZB_ZCL_ATTR_DEHUMIDIFICATION_CONTROL_RELATIVE_HUMIDITY_DISPLAY_ID   = 0x0015,
+enum zb_zcl_dehumidification_control_attr_e
+{
+  /** The RelativeHumidity attribute is an 8-bit value that represents the current
+   *  relative humidity (in %) measured by a local or remote sensor. */
+  ZB_ZCL_ATTR_DEHUMIDIFICATION_CONTROL_RELATIVE_HUMIDITY_ID           = 0x0000,
+  /** @brief Dehumidification Cooling attribute */
+  ZB_ZCL_ATTR_DEHUMIDIFICATION_CONTROL_DEHUMIDIFICATION_COOLING_ID    = 0x0001,
+  /** @brief RHDehumidification Setpoint attribute */
+  ZB_ZCL_ATTR_DEHUMIDIFICATION_CONTROL_RHDEHUMIDIFICATION_SETPOINT_ID = 0x0010,
+  /** The RelativeHumidityMode attribute is an 8-bit value that specifies how
+   *  the RelativeHumidity value is being updated. */
+  ZB_ZCL_ATTR_DEHUMIDIFICATION_CONTROL_RELATIVE_HUMIDITY_MODE_ID      = 0x0011,
+  /** The DehumidificationLockout attribute is an 8-bit value that specifies
+   *  whether dehumidification is allowed or not. */
+  ZB_ZCL_ATTR_DEHUMIDIFICATION_CONTROL_DEHUMIDIFICATION_LOCKOUT_ID    = 0x0012,
+  /** @brief Dehumidification Hysteresis attribute */
+  ZB_ZCL_ATTR_DEHUMIDIFICATION_CONTROL_DEHUMIDIFICATION_HYSTERESIS_ID = 0x0013,
+  /** @brief Dehumidification Max Cool attribute */
+  ZB_ZCL_ATTR_DEHUMIDIFICATION_CONTROL_DEHUMIDIFICATION_MAX_COOL_ID   = 0x0014,
+  /** The RelativeHumidityDisplay attribute is an 8-bit value that specifies
+   *  whether the RelativeHumidity value is displayed to the user or not. */
+  ZB_ZCL_ATTR_DEHUMIDIFICATION_CONTROL_RELATIVE_HUMIDITY_DISPLAY_ID   = 0x0015,
 };
 
 /** @brief Min value for RHDehumidification Setpoint attribute */

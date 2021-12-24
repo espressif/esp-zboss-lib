@@ -112,8 +112,6 @@ typedef enum zb_zcl_subghz_srv_attr_e
                                                         */
 } zb_zcl_subghz_svr_attr_t;
 
-/** @endcond */ /* DOXYGEN_ZCL_SECTION && DOXYGEN_SUBGHZ_FEATURE */
-
 /** @cond internals_doc */
 
 #ifndef ZB_ED_ROLE
@@ -234,7 +232,6 @@ zb_zcl_sub_ghz_attrs_t;
 
 /** @} */ /* ZB_ZCL_SUBGHZ_ATTRS */
 
-/** @cond (DOXYGEN_ZCL_SECTION && DOXYGEN_SUBGHZ_FEATURE) */
 /** @defgroup ZB_ZCL_SUBGHZ_COMMANDS Sub-GHz cluster commands
  *  @{
  */
@@ -377,8 +374,9 @@ void zb_aps_cancel_outgoing_trans(zb_uint8_t param);
 
 /** @} */ /* ZB_ZCL_SUBGHZ_COMMANDS */
 
-/** @endcond */ /* DOXYGEN_ZCL_SECTION && DOXYGEN_SUBGHZ_FEATURE */
 /** @} */ /* ZB_ZCL_SUBGHZ */
+
+/** @endcond */ /* DOXYGEN_ZCL_SECTION && DOXYGEN_SUBGHZ_FEATURE */
 
 void zb_zcl_subghz_init_server(void);
 void zb_zcl_subghz_init_client(void);

@@ -79,11 +79,19 @@ Following things are platform-dependent:
 
 #include "zb_config.h"
 
-/**
+ /**
 OSIF platform selection. One of pre-defined platform should be selected in
 zb_config.h configurations.
 zb_osif_platform.h is different in different platforms repo.
 */
+/**
+ * OSIF timer expiration callback type
+ * @param user_data - any user specified data which will be sent to this callback
+ * Might be used to determine particular timer which cause callback
+ *
+*/
+typedef void (*zb_osif_timer_exp_cb_t)(void *user_data);
+
 #include "zb_osif_platform.h"
 
 #include "zb_ringbuffer.h"
@@ -154,10 +162,6 @@ void zb_osif_serial_transport_init();
 void zb_osif_serial_transport_put_bytes(zb_uint8_t *buf, zb_short_t len);
 #endif
 
-/** @cond DOXYGEN_UART_SECTION */
-/*! \addtogroup uart */
-/*! @{ */
-
 #ifndef ZB_SERIAL_INT_DISABLE
 #define ZB_SERIAL_INT_DISABLE()  ZB_OSIF_GLOBAL_LOCK()
 #endif /* ZB_SERIAL_INT_DISABLE */
@@ -170,6 +174,10 @@ void zb_osif_serial_transport_put_bytes(zb_uint8_t *buf, zb_short_t len);
 
 /* Serial interface (trace, traffic dump, serial transport) */
 
+/** @cond DOXYGEN_UART_SECTION */
+/*! \addtogroup uart */
+/*! @{ */
+
 /**
    Initialize UART low level.
 
@@ -180,7 +188,12 @@ void zb_osif_serial_transport_put_bytes(zb_uint8_t *buf, zb_short_t len);
 void zb_osif_serial_init(void);
 
 /**
-   Setup callback to be called when single byte reecived over UART
+   Deinitialize UART low level.
+ */
+void zb_osif_serial_deinit(void);
+
+/**
+   Setup callback to be called when single byte received over UART
 
    @param hnd user's rx callback
  */
@@ -191,22 +204,6 @@ void zb_osif_set_uart_byte_received_cb(zb_callback_t hnd);
 
 #define ZB_ERROR_SERIAL_INIT_FAILED 1U
 #define ZB_ERROR_SERIAL_READ_FAILED 2U
-
-/** @cond internals_doc */
-
-#ifdef ZB_NSNG_CI
-/**
-   Stub callback for single byte receiving over UART
- */
-void zb_osif_uart_byte_received_cb_stub(zb_uint8_t unused);
-
-/**
-   Set callback stub for receiving over UART
-*/
-void zb_osif_set_ns_uart_cb_stub(void);
-#endif /* ZB_NSNG_CI */
-
-/** @endcond*/ /* internals_doc */
 
 /**
    Set user's buffer to be used by UART TX logic.
@@ -365,6 +362,7 @@ int zb_osif_file_is_eof(zb_osif_file_t *f);
 int zb_osif_file_is_err(zb_osif_file_t *f);
 int zb_osif_file_flush(zb_osif_file_t *f);
 int zb_osif_file_seek(zb_osif_file_t *f, zb_uint32_t off, zb_uint8_t mode);
+int zb_osif_file_get_size(zb_osif_file_t *f);
 int zb_osif_file_truncate(zb_osif_file_t *f, zb_uint32_t off);
 int zb_osif_file_sync(zb_osif_file_t *f);
 void zb_osif_trace_get_time(zb_uint_t *sec, zb_uint_t *msec);
@@ -373,17 +371,23 @@ zb_osif_file_t *zb_osif_popen(zb_char_t *arg);
 int zb_osif_stream_read(zb_osif_file_t *stream, zb_uint8_t *buf, zb_uint_t len);
 int zb_osif_stream_write(zb_osif_file_t *stream, zb_uint8_t *buf, zb_uint_t len);
 
-enum zb_file_path_base_type_e {
-    ZB_FILE_PATH_BASE_ROMFS_BINARIES,    /* ROM FS */  /* elf binaries, etc */
-    ZB_FILE_PATH_BASE_MNTFS_BINARIES,    /* RW FS */   /* prod config, etc */
-    ZB_FILE_PATH_BASE_MNTFS_USER_DATA,   /* RW FS */   /* nvram. etc */
-    ZB_FILE_PATH_BASE_MNTFS_TRACE_LOGS,  /* RW FS */
-    ZB_FILE_PATH_BASE_RAMFS_UNIX_SOCKET, /* RAM FS */
-    ZB_FILE_PATH_BASE_RAMFS_TRACE_LOGS,  /* RAM FS */
-    ZB_FILE_PATH_BASE_RAMFS_TMP_DATA,    /* RAM FS */
+enum zb_file_path_base_type_e
+{
+  ZB_FILE_PATH_BASE_NOT_SPECIFIED,     /* not specified base type - allows to use default base path */
+  ZB_FILE_PATH_BASE_ROMFS_BINARIES,    /* ROM FS */  /* elf binaries, etc */
+  ZB_FILE_PATH_BASE_MNTFS_BINARIES,    /* RW FS */   /* prod config, etc */
+  ZB_FILE_PATH_BASE_MNTFS_USER_DATA,   /* RW FS */   /* nvram. etc */
+  ZB_FILE_PATH_BASE_MNTFS_TRACE_LOGS,  /* RW FS */
+  ZB_FILE_PATH_BASE_RAMFS_UNIX_SOCKET, /* RAM FS */
+  ZB_FILE_PATH_BASE_RAMFS_TRACE_LOGS,  /* RAM FS */
+  ZB_FILE_PATH_BASE_RAMFS_TMP_DATA,    /* RAM FS */
 
-    ZB_FILE_PATH_BASE_MAX_TYPE
+  ZB_FILE_PATH_BASE_MAX_TYPE
 };
+
+#ifndef ZB_TRACE_LOG_FILE_EXTENSION
+#define ZB_TRACE_LOG_FILE_EXTENSION ""
+#endif /* ZB_TRACE_LOG_FILE_EXTENSION */
 
 #define ZB_MAX_FILE_PATH_SIZE 256
 
@@ -392,14 +396,15 @@ enum zb_file_path_base_type_e {
 #define ZB_FILE_PATH_MAX_TYPES (ZB_FILE_PATH_BASE_MAX_TYPE - 1)
 #endif
 
-typedef struct zb_file_path_base_type_s {
-    zb_bool_t declared;
-    char      base[ZB_MAX_FILE_PATH_SIZE];
+typedef struct zb_file_path_base_type_s
+{
+  zb_bool_t declared;
+  char      base[ZB_MAX_FILE_PATH_SIZE];
 } zb_file_path_base_type_t;
 
 void zb_file_path_init(void);
 zb_ret_t zb_file_path_declare(zb_uint8_t base_type, const char *base);
-const char *zb_file_path_get(zb_uint8_t base_type, const char *default_base);
+const char* zb_file_path_get(zb_uint8_t base_type, const char *default_base);
 void zb_file_path_get_with_postfix(zb_uint8_t base_type, const char *default_base, const char *postfix, char *file_path);
 #define ZB_FILE_PATH_GET(base_type, default_base) \
   zb_file_path_get(base_type, default_base)
@@ -460,7 +465,7 @@ zb_uint8_t zb_get_reset_source(void);
 
 /*! @} */
 
-#if defined ZB_USE_NVRAM || defined doxygen
+#if defined ZB_USE_NVRAM || defined DOXYGEN
 /**
  * @brief osif NVRAM initializer
  */
@@ -570,7 +575,7 @@ void zb_osif_nvram_wait_for_last_op(void);
 
 /**
  * @brief Flush NVRAM page
- * Flish NVRAM page to file or NVRAM.
+ * Flash NVRAM page to file or NVRAM.
  * Different to hardware device
  *
  */
@@ -801,8 +806,8 @@ zb_bool_t zb_osif_prod_cfg_check_presence(void);
 
 /* Read data from production configuration header
  *
- * @param prod_cfg_hdr - pointer to production configarution header
- * @param hdr_len - size of production configarution header
+ * @param prod_cfg_hdr - pointer to production configuration header
+ * @param hdr_len - size of production configuration header
  *
  * @return RET_OK is success, RET_ERROR otherwise
  */
@@ -821,7 +826,7 @@ zb_ret_t zb_osif_prod_cfg_read(zb_uint8_t *buffer, zb_uint16_t len, zb_uint16_t 
 #ifdef ZB_OSIF_CONFIGURABLE_TX_POWER
 /* Set transmit power of radio on selected channel
  *
- * @param channel - channle on which radio applies new transmit power
+ * @param channel - channel on which radio applies new transmit power
  * @param power - transmit power in dBm
  *
  * return RET_OK if power was set successfully, RET_ERROR otherwise

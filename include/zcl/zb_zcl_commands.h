@@ -217,11 +217,11 @@ typedef zb_uint8_t zb_zcl_cmd_t;
 
 #ifdef ZB_USEALIAS
 void zb_zcl_send_command_short_alias(zb_bufid_t buffer,
-                                     zb_addr_u *addr, zb_uint8_t dst_addr_mode,
-                                     zb_uint8_t dst_ep, zb_uint8_t ep,
-                                     zb_uint16_t prof_id, zb_uint16_t cluster_id,
-                                     zb_uint8_t radius, zb_callback_t cb, zb_uint8_t use_alias,
-                                     zb_uint16_t alias_addr, zb_uint8_t alias_seq);
+                                          zb_addr_u *addr, zb_uint8_t dst_addr_mode,
+                                          zb_uint8_t dst_ep, zb_uint8_t ep,
+                                          zb_uint16_t prof_id, zb_uint16_t cluster_id,
+                                          zb_uint8_t radius, zb_callback_t cb, zb_uint8_t use_alias,
+                                          zb_uint16_t alias_addr, zb_uint8_t alias_seq);
 
 /** @internal @brief Send ZCL request command + Aliases
 
@@ -259,10 +259,10 @@ void zb_zcl_send_command_short_alias(zb_bufid_t buffer,
 
 
 void zb_zcl_send_command_short_schedule(zb_bufid_t buffer,
-                                        zb_uint16_t addr, zb_uint8_t dst_addr_mode,
-                                        zb_uint8_t dst_ep, zb_uint8_t ep,
-                                        zb_uint16_t prof_id, zb_uint16_t cluster_id,
-                                        zb_callback_t cb, zb_uint16_t delay);
+                                             zb_uint16_t addr, zb_uint8_t dst_addr_mode,
+                                             zb_uint8_t dst_ep, zb_uint8_t ep,
+                                             zb_uint16_t prof_id, zb_uint16_t cluster_id,
+                                             zb_callback_t cb, zb_uint16_t delay);
 
 /** @internal @brief Send ZCL request command with delay (ms)
 
@@ -299,8 +299,6 @@ void zb_zcl_send_command_short_schedule(zb_bufid_t buffer,
  *      zb_zcl_default_resp_payload_t* payload = ZB_ZCL_READ_DEFAULT_RESP(zcl_cmd_buf);
  *    @endcode
  *    @par
- *
- *    For more information see any HA sample
  */
 
 /**
@@ -542,9 +540,10 @@ void zb_zcl_send_command_short_schedule(zb_bufid_t buffer,
 
 
 /** @brief Default response payload structure */
-typedef ZB_PACKED_PRE struct zb_zcl_default_resp_payload_s {
-    zb_uint8_t command_id;  /*!< Command identifier */
-    zb_uint8_t status;      /*!< Command execution status */
+typedef ZB_PACKED_PRE struct zb_zcl_default_resp_payload_s
+{
+  zb_uint8_t command_id;  /*!< Command identifier */
+  zb_uint8_t status;      /*!< Command execution status */
 } ZB_PACKED_STRUCT zb_zcl_default_resp_payload_t;
 
 /** @brief Default response structured reading
@@ -585,16 +584,15 @@ typedef ZB_PACKED_PRE struct zb_zcl_default_resp_payload_s {
  *
  *    Read attributes request parsing and response filling and sending is implemented in ZCL
  *    library internal functions.
- *
- *    For more information see any HA sample
  */
 
 /*! @brief ZCL Read Attribute Command frame
     @see ZCL spec, zb_zcl_read_attr 2.4.1 Read Attributes Command
     @note Command frame contains variable number of parameters
 */
-typedef ZB_PACKED_PRE struct zb_zcl_read_attr_req_s {
-    zb_uint16_t attr_id[1]; /*!< Attribute ID list */
+typedef ZB_PACKED_PRE struct zb_zcl_read_attr_req_s
+{
+  zb_uint16_t attr_id[1]; /*!< Attribute ID list */
 } ZB_PACKED_STRUCT
 zb_zcl_read_attr_req_t;
 
@@ -610,11 +608,12 @@ zb_zcl_read_attr_req_t;
     @note Command frame contains variable number of parameters. Also, based on status value
     attr_type and attr_value maybe absent.
 */
-typedef ZB_PACKED_PRE struct zb_zcl_read_attr_res_s {
-    zb_uint16_t attr_id;       /*!< Attribute ID */
-    zb_uint8_t  status;        /*!< Attribute status  */
-    zb_uint8_t  attr_type;     /*!< Attribute type */
-    zb_uint8_t  attr_value[1]; /*!< Attribute value */
+typedef ZB_PACKED_PRE struct zb_zcl_read_attr_res_s
+{
+  zb_uint16_t attr_id;       /*!< Attribute ID */
+  zb_uint8_t  status;        /*!< Attribute status  */
+  zb_uint8_t  attr_type;     /*!< Attribute type */
+  zb_uint8_t  attr_value[1]; /*!< Attribute value */
 } ZB_PACKED_STRUCT zb_zcl_read_attr_res_t;
 
 /** @brief Parses Read attribute response and returns next Read attribute status record or NULL if
@@ -839,17 +838,16 @@ typedef ZB_PACKED_PRE struct zb_zcl_read_attr_res_s {
  *    @endcode
  *
  *    Response sending and parsing could be done in the same manner.
- *
- *    For more information see any HA sample
  */
 
 /*! @brief ZCL Write Attribute Command frame
     @see ZCL spec, 2.4.3 Write Attributes Command
 */
-typedef ZB_PACKED_PRE struct zb_zcl_write_attr_req_s {
-    zb_uint16_t attr_id;       /*!< Attribute ID */
-    zb_uint8_t  attr_type;     /*!< Attribute type */
-    zb_uint8_t  attr_value[1]; /*!< Attribute value */
+typedef ZB_PACKED_PRE struct zb_zcl_write_attr_req_s
+{
+  zb_uint16_t attr_id;       /*!< Attribute ID */
+  zb_uint8_t  attr_type;     /*!< Attribute type */
+  zb_uint8_t  attr_value[1]; /*!< Attribute value */
 } ZB_PACKED_STRUCT
 zb_zcl_write_attr_req_t;
 
@@ -908,9 +906,10 @@ zb_zcl_write_attr_req_t;
 /*! @brief ZCL Write Attribute Command frame
     @see ZCL spec, 2.4.3 Write Attributes Command
 */
-typedef ZB_PACKED_PRE struct zb_zcl_write_attr_res_s {
-    zb_uint8_t status;         /*!< Write attribute status */
-    zb_uint16_t attr_id;       /*!< Attribute ID */
+typedef ZB_PACKED_PRE struct zb_zcl_write_attr_res_s
+{
+  zb_uint8_t status;         /*!< Write attribute status */
+  zb_uint16_t attr_id;       /*!< Attribute ID */
 } ZB_PACKED_STRUCT
 zb_zcl_write_attr_res_t;
 
@@ -1145,25 +1144,25 @@ zb_zcl_write_attr_res_t;
  *
  *    Discover attributes request parsing and response filling and sending is implemented in ZCL
  *    library internal functions.
- *
- *    For more information see any HA sample
  */
 
 /*! @brief ZCL Discover Attribute Command frame
     @see ZCL spec, zb_zcl_disc_attr 2.4.13 Discover Attributes Command
 */
-typedef ZB_PACKED_PRE struct zb_zcl_disc_attr_req_s {
-    zb_uint16_t start_attr_id; /*!< Start attribute identifier */
-    zb_uint8_t maximum;        /*!< Maximum attribute identifiers */
+typedef ZB_PACKED_PRE struct zb_zcl_disc_attr_req_s
+{
+  zb_uint16_t start_attr_id; /*!< Start attribute identifier */
+  zb_uint8_t maximum;        /*!< Maximum attribute identifiers */
 } ZB_PACKED_STRUCT
 zb_zcl_disc_attr_req_t;
 
 /*! @brief ZCL Description for Discover Attribute Response frame
     @see ZCL spec, zb_zcl_read_attr 2.4.14 Discover Attribute Response
 */
-typedef ZB_PACKED_PRE struct zb_zcl_disc_attr_info_s {
-    zb_uint16_t attr_id;  /*!< Attribute identifier */
-    zb_uint8_t data_type; /*!< Attribute data type */
+typedef ZB_PACKED_PRE struct zb_zcl_disc_attr_info_s
+{
+  zb_uint16_t attr_id;  /*!< Attribute identifier */
+  zb_uint8_t data_type; /*!< Attribute data type */
 } ZB_PACKED_STRUCT
 zb_zcl_disc_attr_info_t;
 
@@ -1172,9 +1171,10 @@ zb_zcl_disc_attr_info_t;
     @see ZCL spec, zb_zcl_read_attr 2.4.15 Discover Attribute Response
     @note Command frame contains variable number of parameters
 */
-typedef ZB_PACKED_PRE struct zb_zcl_disc_attr_res_s {
-    zb_uint8_t complete;       /*!< Discovery complete */
-    zb_zcl_disc_attr_info_t info[1]; /*!< Attribute desc list */
+typedef ZB_PACKED_PRE struct zb_zcl_disc_attr_res_s
+{
+  zb_uint8_t complete;       /*!< Discovery complete */
+  zb_zcl_disc_attr_info_t info[1]; /*!< Attribute desc list */
 } ZB_PACKED_STRUCT
 zb_zcl_disc_attr_res_t;
 
@@ -1353,24 +1353,25 @@ typedef zb_uint8_t zb_zcl_disc_complete_t;
  *    If there are several Configure Reporting response records, they could be processed cyclically
  *    in the same manner as Configure Reporting request ones.
  *
- *    For more information see HA samples
-  */
+ */
 
-/** u.clnt: as usual, cluster with client role sends this request
-to a server to configure reporting: how attribute should be reported by a server */
-typedef ZB_PACKED_PRE struct zb_zcl_configure_reporting_req_clnt_s {
-    zb_uint8_t attr_type;     /*!< Attribute data type */
-    zb_uint16_t min_interval; /*!< Minimum reporting interval */
-    zb_uint16_t max_interval; /*!< Maximum reporting interval */
-    zb_uint8_t delta[1];      /*!< Reportable change */
-} ZB_PACKED_STRUCT
+    /** u.clnt: as usual, cluster with client role sends this request
+    to a server to configure reporting: how attribute should be reported by a server */
+typedef ZB_PACKED_PRE struct zb_zcl_configure_reporting_req_clnt_s
+    {
+      zb_uint8_t attr_type;     /*!< Attribute data type */
+      zb_uint16_t min_interval; /*!< Minimum reporting interval */
+      zb_uint16_t max_interval; /*!< Maximum reporting interval */
+      zb_uint8_t delta[1];      /*!< Reportable change */
+    } ZB_PACKED_STRUCT
 zb_zcl_configure_reporting_req_clnt_t;
 
-/** u.srv: as usual, cluster with server role sends this request
-to a client, to inform him how an attribute will be reported by a server */
-typedef ZB_PACKED_PRE struct zb_zcl_configure_reporting_req_srv_s {
-    zb_uint16_t timeout; /*!< Timeout period */
-} ZB_PACKED_STRUCT
+    /** u.srv: as usual, cluster with server role sends this request
+    to a client, to inform him how an attribute will be reported by a server */
+typedef ZB_PACKED_PRE struct zb_zcl_configure_reporting_req_srv_s
+    {
+      zb_uint16_t timeout; /*!< Timeout period */
+    } ZB_PACKED_STRUCT
 zb_zcl_configure_reporting_req_srv_t;
 
 /**
@@ -1379,9 +1380,10 @@ zb_zcl_configure_reporting_req_srv_t;
  *  see @ref zb_zcl_configure_reporting_req_srv_t
  *  see @ref zb_zcl_configure_reporting_req_clnt_t
  */
-typedef ZB_PACKED_PRE union zb_zcl_configure_reporting_req_u_s {
-    zb_zcl_configure_reporting_req_clnt_t clnt; /*!< Parameters for client */
-    zb_zcl_configure_reporting_req_srv_t srv;   /*!< Parameters for server */
+typedef ZB_PACKED_PRE union zb_zcl_configure_reporting_req_u_s
+{
+  zb_zcl_configure_reporting_req_clnt_t clnt; /*!< Parameters for client */
+  zb_zcl_configure_reporting_req_srv_t srv;   /*!< Parameters for server */
 } ZB_PACKED_STRUCT
 zb_zcl_configure_reporting_req_u_t;
 
@@ -1391,16 +1393,18 @@ zb_zcl_configure_reporting_req_u_t;
   */
 /* WARNING: Do not put directly packed_struct declaration inside another packet_struct - some
  * compilers does not handle it correctly! */
-typedef ZB_PACKED_PRE struct zb_zcl_configure_reporting_req_s {
-    zb_uint8_t direction;  /*!< Direction */
-    zb_uint16_t attr_id;   /*!< Attribute ID */
-    zb_zcl_configure_reporting_req_u_t u; /*!< Request fields */
+typedef ZB_PACKED_PRE struct zb_zcl_configure_reporting_req_s
+{
+  zb_uint8_t direction;  /*!< Direction */
+  zb_uint16_t attr_id;   /*!< Attribute ID */
+  zb_zcl_configure_reporting_req_u_t u; /*!< Request fields */
 } ZB_PACKED_STRUCT zb_zcl_configure_reporting_req_t;
 
 /*! Configure reporting command, direction field values */
-typedef enum zb_zcl_configure_reporting_direction_value_e {
-    ZB_ZCL_CONFIGURE_REPORTING_SEND_REPORT = 0x00, /**< Report should be send by a cluster. */
-    ZB_ZCL_CONFIGURE_REPORTING_RECV_REPORT = 0x01  /**< Report should be received by a cluster. */
+typedef enum zb_zcl_configure_reporting_direction_value_e
+{
+  ZB_ZCL_CONFIGURE_REPORTING_SEND_REPORT = 0x00, /**< Report should be send by a cluster. */
+  ZB_ZCL_CONFIGURE_REPORTING_RECV_REPORT = 0x01  /**< Report should be received by a cluster. */
 }
 zb_zcl_configure_reporting_direction_value_t;
 
@@ -1471,10 +1475,11 @@ zb_zcl_configure_reporting_direction_value_t;
   *
   * Attribute status record
   */
-typedef ZB_PACKED_PRE struct zb_zcl_configure_reporting_res_s {
-    zb_uint8_t status;    /*!< Configure reporting status */
-    zb_uint8_t direction; /*!< Direction */
-    zb_uint16_t attr_id;  /*!< Attribute ID */
+typedef ZB_PACKED_PRE struct zb_zcl_configure_reporting_res_s
+{
+  zb_uint8_t status;    /*!< Configure reporting status */
+  zb_uint8_t direction; /*!< Direction */
+  zb_uint16_t attr_id;  /*!< Attribute ID */
 } ZB_PACKED_STRUCT
 zb_zcl_configure_reporting_res_t;
 
@@ -1619,7 +1624,6 @@ zb_zcl_configure_reporting_res_t;
  *    ZCL spec, subclause 2.4.11. This command can be parsed by cyclical application of @ref
  *    ZB_ZCL_GENERAL_GET_NEXT_REPORT_ATTR_REQ() macro.
  *
- *    For more information see any HA sample
  */
 
 /** @cond internals_doc */
@@ -1634,10 +1638,11 @@ zb_zcl_configure_reporting_res_t;
     @note Report attribute command contains variable number of attribute reports,
     zb_zcl_report_attr_req_t defines one attribute report
 */
-typedef ZB_PACKED_PRE struct zb_zcl_report_attr_req_s {
-    zb_uint16_t attr_id;       /*!< Attribute ID */
-    zb_uint8_t  attr_type;     /*!< Attribute type */
-    zb_uint8_t  attr_value[1]; /*!< Attribute value */
+typedef ZB_PACKED_PRE struct zb_zcl_report_attr_req_s
+{
+  zb_uint16_t attr_id;       /*!< Attribute ID */
+  zb_uint8_t  attr_type;     /*!< Attribute type */
+  zb_uint8_t  attr_value[1]; /*!< Attribute value */
 } ZB_PACKED_STRUCT
 zb_zcl_report_attr_req_t;
 
@@ -1708,17 +1713,18 @@ zb_zcl_report_attr_req_t;
  *NOTE: it can be various number of attribute status record fields in Read
  *reporting configuration request
  */
-typedef ZB_PACKED_PRE struct zb_zcl_read_reporting_cfg_req_s {
-    zb_uint8_t direction;  /*!< The direction field specifies whether
+typedef ZB_PACKED_PRE struct zb_zcl_read_reporting_cfg_req_s
+{
+  zb_uint8_t direction;  /*!< The direction field specifies whether
                           *  values of the attribute are reported (0x00), or
                           *whether reports of the attribute are received (0x01).
                           */
-    zb_uint16_t attr_id;   /*!< The attribute identifier field shall
+  zb_uint16_t attr_id;   /*!< The attribute identifier field shall
                           *contain the identifier of the attribute whose
                           *reporting configuration details are to be read.
                           */
 } ZB_PACKED_STRUCT
-zb_zcl_read_reporting_cfg_req_t;
+  zb_zcl_read_reporting_cfg_req_t;
 
 /**  @brief Minimal size of Write attribute request, it will be more if attr_value size is more
   * than 1 byte
@@ -1761,8 +1767,9 @@ zb_zcl_read_reporting_cfg_req_t *cfg_req;                                       
  *NOTE: it can be various number of attribute recording configuration
  *record fields in Read reporting configuration response
  */
-typedef ZB_PACKED_PRE struct zb_zcl_read_reporting_cfg_rsp_s {
-    zb_uint8_t status;       /*!<If the attribute is not implemented on
+typedef ZB_PACKED_PRE struct zb_zcl_read_reporting_cfg_rsp_s
+{
+  zb_uint8_t status;       /*!<If the attribute is not implemented on
                             * the sender or receiver of the command,
                             *whichever is relevant (depending on
                             * direction), this field shall be set to
@@ -1773,35 +1780,37 @@ typedef ZB_PACKED_PRE struct zb_zcl_read_reporting_cfg_rsp_s {
                             *Otherwise, this field shall be set to SUCCESS.
                             */
 
-    zb_uint8_t direction;    /*!<The direction field specifies whether
+  zb_uint8_t direction;    /*!<The direction field specifies whether
                             * values of the attribute are reported (0x00), or
                             *whether reports of the attribute are received (0x01).
                             */
-    zb_uint16_t attr_id;    /*!<The attribute identifier field is 16
+  zb_uint16_t attr_id;    /*!<The attribute identifier field is 16
                            * bits in length and shall contain the identifier of
                            *the attribute that the reporting configuration details apply to
                            */
 
-    /** Response contents: different for client and server */
-    ZB_PACKED_PRE union {
-        /** clnt: if the direction field is set to 0, then the attribute
-         * data type field, the minimum reporting interval field, the
-         * maximum reporting interval field and the reportable
-         *change field are included in the payload, and the timeoutperiod field is omitted.
-         */
-        ZB_PACKED_PRE struct {
-            zb_uint8_t attr_type;     /*!< Attribute data type */
-            zb_uint16_t min_interval; /*!< The minimum reporting interval field is 16 bits in length and shall contain the
+  /** Response contents: different for client and server */
+  ZB_PACKED_PRE union
+  {
+    /** clnt: if the direction field is set to 0, then the attribute
+     * data type field, the minimum reporting interval field, the
+     * maximum reporting interval field and the reportable
+     *change field are included in the payload, and the timeoutperiod field is omitted.
+     */
+    ZB_PACKED_PRE struct
+    {
+      zb_uint8_t attr_type;     /*!< Attribute data type */
+      zb_uint16_t min_interval; /*!< The minimum reporting interval field is 16 bits in length and shall contain the
                                  *minimum interval, in seconds, between issuing reports for the attribute specified
                                  *in the attribute identifier field. If the minimum reporting interval has not been
                                  *configured, this field shall contain the value 0xffff.
                                  */
-            zb_uint16_t max_interval; /*!< The maximum reporting interval field is 16 bits in length and shall contain the
+      zb_uint16_t max_interval; /*!< The maximum reporting interval field is 16 bits in length and shall contain the
                                  *maximum interval, in seconds, between issuing reports for the attribute specified
                                  *in the attribute identifier field. If the maximum reporting interval has not been
                                  *configured, this field shall contain the value 0xffff.
                                  */
-            zb_uint8_t delta[1];      /*!< The reportable change field shall contain the minimum change to the attribute that
+      zb_uint8_t delta[1];      /*!< The reportable change field shall contain the minimum change to the attribute that
                                  *will result in a report being issued. For attributes with 'analog' data type (see
                                  *Table 2.16) the field has the same data type as the attribute. If the reportable
                                  *change has not been configured, this field shall contain the invalid value for the
@@ -1809,23 +1818,24 @@ typedef ZB_PACKED_PRE struct zb_zcl_read_reporting_cfg_rsp_s {
                                  *of 'discrete' data type (see Table
                                  *2.16) this field is omitted.
                                  */
-        } ZB_PACKED_STRUCT
-        clnt;
+    } ZB_PACKED_STRUCT
+    clnt;
 
-        /** srv: if the direction field is set to 1, then the timeout period field is included in the payload,
-         *and the attribute data type field, the minimum reporting interval field, the
-         *maximum reporting interval field and the reportable change field are omitted.
-         */
-        ZB_PACKED_PRE struct {
-            zb_uint16_t timeout;        /*!< The timeout period field is 16 bits in length and shall contain the maximum
+    /** srv: if the direction field is set to 1, then the timeout period field is included in the payload,
+     *and the attribute data type field, the minimum reporting interval field, the
+     *maximum reporting interval field and the reportable change field are omitted.
+     */
+    ZB_PACKED_PRE struct
+    {
+      zb_uint16_t timeout;        /*!< The timeout period field is 16 bits in length and shall contain the maximum
                                    *expected time, in seconds, between received reports for the attribute specified in
                                    *the attribute identifier field. If the timeout period has not been configured, this
                                    *field shall contain the value 0xffff.
                                    */
-        } ZB_PACKED_STRUCT
-        srv;
+    } ZB_PACKED_STRUCT
+    srv;
 
-    } u;
+  } u;
 } ZB_PACKED_STRUCT zb_zcl_read_reporting_cfg_rsp_t;
 
 /** @cond internals_doc */
@@ -1988,7 +1998,6 @@ typedef ZB_PACKED_PRE struct zb_zcl_read_reporting_cfg_rsp_s {
  *    Discovery commands request has fixed length payload.
  *    Discovery commands response has variable-length payload.
  *
- *    For more information see any HA sample
  */
 
 /********* request commands ************/
@@ -1997,27 +2006,28 @@ typedef ZB_PACKED_PRE struct zb_zcl_read_reporting_cfg_rsp_s {
     @see HA spec, 12.1.1 Discovery Commands Command
     @see HA spec, 12.1.3 Discovery Commands Command
 */
-typedef ZB_PACKED_PRE struct zb_zcl_disc_cmd_req_s {
-    zb_uint8_t start_cmd_id;   /*!< Start command identifier */
-    zb_uint8_t maximum;        /*!< Maximum command identifiers */
+typedef ZB_PACKED_PRE struct zb_zcl_disc_cmd_req_s
+{
+  zb_uint8_t start_cmd_id;   /*!< Start command identifier */
+  zb_uint8_t maximum;        /*!< Maximum command identifiers */
 } ZB_PACKED_STRUCT
 zb_zcl_disc_cmd_req_t;
 
 /** @brief Discover commands Generated command
-    @param buffer to put packet to
-    @param direction - direction client-to-server or server-to-client
-    @param def_resp - enable/disable default response
-    @param addr - address to send packet to
-    @param dst_addr_mode - addressing mode
-    @param dst_ep - destination endpoint
-    @param ep - sending endpoint
-    @param profile_id - profile identifier
-    @param cluster_id - cluster identifier
-    @param cb - callback for getting command send status
+    @param _buffer to put packet to
+    @param _direction - direction client-to-server or server-to-client
+    @param _def_resp - enable/disable default response
+    @param _addr - address to send packet to
+    @param _dst_addr_mode - addressing mode
+    @param _dst_ep - destination endpoint
+    @param _ep - sending endpoint
+    @param _profile_id - profile identifier
+    @param _cluster_id - cluster identifier
+    @param _cb - callback for getting command send status
     @param _is_manuf - is discovery manufacturer attributes
     @param _manuf_id - manufacturer ID
-    @param start_attr_id - start command ID
-    @param max_len - max count
+    @param _start_cmd_id - start command ID
+    @param _max_len - max count
 */
 #define ZB_ZCL_GENERAL_DISC_COMMAND_GENERATED_REQ(_buffer, _direction, _def_resp,       \
           _addr, _dst_addr_mode, _dst_ep, _ep, _profile_id, _cluster_id, _cb,           \
@@ -2037,20 +2047,20 @@ zb_zcl_disc_cmd_req_t;
 }
 
 /** @brief Discover commands Received command
-    @param buffer to put packet to
-    @param direction - direction client-to-server or server-to-client
-    @param def_resp - enable/disable default response
-    @param addr - address to send packet to
-    @param dst_addr_mode - addressing mode
-    @param dst_ep - destination endpoint
-    @param ep - sending endpoint
-    @param profile_id - profile identifier
-    @param cluster_id - cluster identifier
-    @param cb - callback for getting command send status
+    @param _buffer to put packet to
+    @param _direction - direction client-to-server or server-to-client
+    @param _def_resp - enable/disable default response
+    @param _addr - address to send packet to
+    @param _dst_addr_mode - addressing mode
+    @param _dst_ep - destination endpoint
+    @param _ep - sending endpoint
+    @param _profile_id - profile identifier
+    @param _cluster_id - cluster identifier
+    @param _cb - callback for getting command send status
     @param _is_manuf - is discovery manufacturer attributes
     @param _manuf_id - manufacturer ID
-    @param start_attr_id - start command ID
-    @param max_len - max count
+    @param _start_cmd_id - start command ID
+    @param _max_len - max count
 */
 #define ZB_ZCL_GENERAL_DISC_COMMAND_RECEIVED_REQ(_buffer, _direction, _def_resp,        \
           _addr, _dst_addr_mode, _dst_ep, _ep, _profile_id, _cluster_id, _cb,           \
@@ -2071,9 +2081,9 @@ zb_zcl_disc_cmd_req_t;
 
 /** @brief Get parameter of Discovery command request.
 
-   @param data_buf -  ID zb_bufid_t of a buffer containing part of Discover command request data
-   @param data_ptr - out pointer to zb_zcl_disc_cmd_req_t, containing Discover command data
-   @status - result parse, see @ref zb_zcl_parse_status_t
+   @param _buffer - buffer containing part of Discover command request data
+   @param _data_ptr - out pointer to zb_zcl_disc_cmd_req_t, containing Discover command data
+   @param _status - result parse, see @ref zb_zcl_parse_status_t
  */
 #define ZB_ZCL_GENERAL_GET_DISC_COMMAND(_data_ptr, _buffer, _status) \
 {                                                               \
@@ -2096,19 +2106,21 @@ zb_zcl_disc_cmd_req_t;
 /*! @brief ZCL Discover command complete enum
     @see HA spec, subclause 12.1.2.1.2.
 */
-typedef enum zb_zcl_disc_cmd_complete_e {
-    /*! Are more commands to be discovered */
-    ZB_ZCL_DISC_CMD_NOT_COMPLETE = 0x00,
-    /*! No more commands to be discovered */
-    ZB_ZCL_DISC_CMD_COMPLETE = 0x01,
+typedef enum zb_zcl_disc_cmd_complete_e
+{
+  /*! Are more commands to be discovered */
+  ZB_ZCL_DISC_CMD_NOT_COMPLETE = 0x00,
+  /*! No more commands to be discovered */
+  ZB_ZCL_DISC_CMD_COMPLETE = 0x01,
 } zb_zcl_disc_cmd_complete_t;
 
 /*! @brief ZCL Discovery Commands Command frame
     @see HA spec, 12.1.2 Discovery Commands Command
     @see HA spec, 12.1.4 Discovery Commands Command
 */
-typedef ZB_PACKED_PRE struct zb_zcl_disc_cmd_resp_s {
-    zb_uint8_t complete;   /*!< Discovery complete */
+typedef ZB_PACKED_PRE struct zb_zcl_disc_cmd_resp_s
+{
+  zb_uint8_t complete;   /*!< Discovery complete */
 } ZB_PACKED_STRUCT
 zb_zcl_disc_cmd_resp_t;
 
@@ -2256,10 +2268,11 @@ typedef zb_zcl_disc_attr_req_t zb_zcl_disc_attr_ext_req_t;
 /*! @brief HA1.2 Description for Discover Attribute Response frame
     @see ZCL spec, zb_zcl_read_attr 2.4.14 Discover Attribute Response
 */
-typedef ZB_PACKED_PRE struct zb_zcl_disc_attr_ext_info_s {
-    zb_uint16_t attr_id;  /*!< Attribute identifier */
-    zb_uint8_t data_type; /*!< Attribute data type */
-    zb_uint8_t attr_access; /*!< Attribute access control */
+typedef ZB_PACKED_PRE struct zb_zcl_disc_attr_ext_info_s
+{
+  zb_uint16_t attr_id;  /*!< Attribute identifier */
+  zb_uint8_t data_type; /*!< Attribute data type */
+  zb_uint8_t attr_access; /*!< Attribute access control */
 } ZB_PACKED_STRUCT
 zb_zcl_disc_attr_ext_info_t;
 
@@ -2269,9 +2282,10 @@ zb_zcl_disc_attr_ext_info_t;
     @see ZCL spec, zb_zcl_read_attr 2.4.15 Discover Attribute Response
     @note Command frame contains variable number of parameters
 */
-typedef ZB_PACKED_PRE struct zb_zcl_disc_attr_ext_res_s {
-    zb_uint8_t complete;       /*!< Discovery complete */
-    zb_zcl_disc_attr_ext_info_t info[1]; /*!< Attribute desc list */
+typedef ZB_PACKED_PRE struct zb_zcl_disc_attr_ext_res_s
+{
+  zb_uint8_t complete;       /*!< Discovery complete */
+  zb_zcl_disc_attr_ext_info_t info[1]; /*!< Attribute desc list */
 } ZB_PACKED_STRUCT
 zb_zcl_disc_attr_ext_res_t;
 
@@ -2320,8 +2334,8 @@ zb_zcl_disc_attr_ext_res_t;
   }                                                                     \
 }
 
-/*! Convert internal attribute access bitmask into ZCL/HA1.2 bitmask
-*  value (actually, support 0 and 1 bits) */
+  /*! Convert internal attribute access bitmask into ZCL/HA1.2 bitmask
+ *  value (actually, support 0 and 1 bits) */
 #define ZB_ZCL_CONVERT_ATTR_ACCESS_BITMASK(_access) ((_access) & 0x3U)
 
 /******************** Command handlers ***************************/
