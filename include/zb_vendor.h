@@ -45,7 +45,7 @@
 #include "zb_vendor_default.h"
 #endif
 
-#if CONFIG_ZB_HOST
+#if CONFIG_ZB_RADIO_MACSPLIT_UART
 #include "zb_vendor_host.h"
 #endif
 

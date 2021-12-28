@@ -5,20 +5,20 @@ idf_component_register(
 )
 
 if(CONFIG_ZB_ENABLED)
-    idf_component_get_property(esp_hw_support_lib esp_hw_support COMPONENT_LIB)
-
-    target_link_libraries(${COMPONENT_LIB} INTERFACE "-L ${CMAKE_CURRENT_SOURCE_DIR}/lib/${idf_target}")
 
     set(ZBOSS_LIBS "")
     if(CONFIG_ZB_ZCZR)
-        list(APPEND ZBOSS_LIBS libzboss_stack.zczr.a)
+        add_prebuilt_library(zboss_stack_lib "${CMAKE_CURRENT_SOURCE_DIR}/lib/${idf_target}/libzboss_stack.zczr.a")
     elseif(CONFIG_ZB_ZED)
-        list(APPEND ZBOSS_LIBS libzboss_stack.ed.a)
+        add_prebuilt_library(zboss_stack_lib "${CMAKE_CURRENT_SOURCE_DIR}/lib/${idf_target}/libzboss_stack.ed.a")
     elseif(CONFIG_ZB_RCP)
-        list(APPEND ZBOSS_LIBS libzboss_stack.rcp.a)
+        add_prebuilt_library(zboss_stack_lib "${CMAKE_CURRENT_SOURCE_DIR}/lib/${idf_target}/libzboss_stack.rcp.a")
     endif()
+    add_prebuilt_library(zboss_port_lib "${CMAKE_CURRENT_SOURCE_DIR}/lib/${idf_target}/libzboss_port.a"
+                             PRIV_REQUIRES ieee802154 efuse esp_system esp_hw_support)
 
-    list(APPEND ZBOSS_LIBS libzboss_port.a)
+    list(APPEND ZBOSS_LIBS zboss_stack_lib zboss_port_lib)
 
-    target_link_libraries(${COMPONENT_LIB} INTERFACE ${ZBOSS_LIBS} $<TARGET_FILE:${esp_hw_support_lib}>)
+    target_link_libraries(${COMPONENT_LIB} INTERFACE ${ZBOSS_LIBS})
+    target_compile_options(${COMPONENT_LIB} INTERFACE "-Wno-strict-prototypes")
 endif()
