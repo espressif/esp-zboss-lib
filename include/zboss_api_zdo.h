@@ -35,7 +35,6 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-
 /*  PURPOSE: Public ZDO layer API
 */
 #ifndef ZB_ZBOSS_API_ZDO_H
@@ -989,8 +988,8 @@ typedef struct zb_zdo_signal_can_sleep_params_s
   */
 typedef struct zb_zdo_signal_macsplit_dev_boot_params_s
 {
-  zb_ieee_addr_t extended_address; /*!< The 64-bit (IEEE) address assigned to the device. */
   zb_uint32_t    dev_version; /*!< macsplit device version */
+  zb_ieee_addr_t extended_address; /*!< The 64-bit (IEEE) address assigned to the device. */
 } zb_zdo_signal_macsplit_dev_boot_params_t;
 
 /**

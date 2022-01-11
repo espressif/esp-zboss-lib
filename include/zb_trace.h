@@ -35,7 +35,6 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-
 /* PURPOSE: ZigBee trace. Application should include it.
 */
 #ifndef ZB_LOGGER_H

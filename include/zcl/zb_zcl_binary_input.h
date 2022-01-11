@@ -60,7 +60,6 @@
  *    @snippet doxygen_snippets.dox Binary input_snippet_binary_input_dut_c
  *    @par
  *
- *    For more information see 544_binary_input sample
  */
 
 /* ZB_ZCL_CLUSTER_ID_BINARY_INPUT = 0x000f defined in zb_zcl_common.h ZCL spec 3.14.4 */

@@ -35,7 +35,6 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-
 /* PURPOSE: Tests and debug macros
 */
 #ifndef ZB_DEBUG_H
@@ -226,7 +225,7 @@ while (0)
 #else
 #define ZB_P3_ON()
 #define ZB_P3_OFF()
-#define ZB_P4_ON()
+#define ZB_P4_ON() 
 #define ZB_P4_OFF()
 #endif
 

@@ -35,7 +35,6 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-
 /* PURPOSE: general-purpose typedefs
 */
 
@@ -1605,7 +1604,8 @@ typedef zb_uint32_t           zb_uint24_t;
   ((MSB_N << 4) | ZB_UINT8_LSB_NIBBLE(LSB_N))
 
 
-/** @} */
 #endif /* ZB_UINT24_48_SUPPORT */
+
+/** @} */
 
 #endif /* ZB_TYPES_H */

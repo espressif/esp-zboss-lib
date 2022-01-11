@@ -35,7 +35,8 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-
+/*  PURPOSE: Channel page header file. All channel-related stuff.
+*/
 #ifndef ZB_CHANNEL_PAGE_H
 #define ZB_CHANNEL_PAGE_H 1
 
