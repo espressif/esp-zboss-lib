@@ -35,8 +35,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-
-/* PURPOSE: simple lists operations (macroses). Use 1- or 2-bytes insed
+/* PURPOSE: simple lists operations (macroses). Use 1- or 2-bytes instead
 instead of pointer.
 */
 #ifndef POOLED_LIST_H

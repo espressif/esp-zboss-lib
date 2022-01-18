@@ -35,7 +35,9 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-
+/* PURPOSE: Configuration file: configuration- and platform-specific definitions,
+constants etc.
+*/
 
 #ifndef ZB_CONFIG_H
 #define ZB_CONFIG_H 1

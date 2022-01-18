@@ -638,7 +638,7 @@ enum zb_zcl_power_config_battery_alarm_state_e
 
 /** @brief Declare attribute list for Power Configuration cluster - server side (Mains
     attribute set)
-    @param attr_list - attribure list name
+    @param attr_list - attribute list name
     @param voltage - pointer to variable to store MainsVoltage attribute
     @param frequency - pointer to variable to store MainsFrequency attribute
     @param alarm_mask - pointer to variable to store BatteryAlarmMask attribute

@@ -172,7 +172,6 @@ enum zb_zcl_on_off_switch_configuration_switch_actions_e
 
 /*! @} */
 
-
 /** @endcond */ /* DOXYGEN_ZCL_SECTION */
 
 void zb_zcl_on_off_switch_config_init_server(void);

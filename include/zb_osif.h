@@ -35,8 +35,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-
-/* PURPOSE: Main header for OS and platform depenednt stuff
+/* PURPOSE: Main header for OS and platform dependent stuff
 */
 
 #ifndef ZB_OSIF_H

@@ -1,23 +1,39 @@
-/* ZBOSS Zigbee software protocol stack
- *
- * Copyright (c) 2012-2020 DSR Corporation, Denver CO, USA.
- * www.dsr-zboss.com
- * www.dsr-corporation.com
+/*
+ * Copyright (c) 2012-2021 DSR Corporation, Denver CO, USA
+ * Copyright (c) 2021 Espressif Systems (Shanghai) PTE LTD
  * All rights reserved.
  *
- * This is unpublished proprietary source code of DSR Corporation
- * The copyright notice does not evidence any actual or intended
- * publication of such source code.
  *
- * ZBOSS is a registered trademark of Data Storage Research LLC d/b/a DSR
- * Corporation
+ * Redistribution and use in source and binary forms, with or without modification,
+ * are permitted provided that the following conditions are met:
  *
- * Commercial Usage
- * Licensees holding valid DSR Commercial licenses may use
- * this file in accordance with the DSR Commercial License
- * Agreement provided with the Software or, alternatively, in accordance
- * with the terms contained in a written agreement between you and
- * DSR.
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form, except as embedded into a Espressif Systems
+ *    integrated circuit in a product or a software update for such product,
+ *    must reproduce the above copyright notice, this list of conditions and
+ *    the following disclaimer in the documentation and/or other materials
+ *    provided with the distribution.
+ *
+ * 3. Neither the name of the copyright holder nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software without
+ *    specific prior written permission.
+ *
+ * 4. Any software provided in binary form under this license must not be reverse
+ *    engineered, decompiled, modified and/or disassembled.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
  */
 /* PURPOSE: ZCL OTA Upgrade cluster specific command declarations
 */

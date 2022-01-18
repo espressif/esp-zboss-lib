@@ -123,3 +123,4 @@ typedef struct {
 extern zb_esp_platform_config_t s_platform_config;
 esp_err_t zb_esp_platform_config(zb_esp_platform_config_t *config);
 esp_err_t zb_esp_platform_serial_config_set(zb_esp_serial_config_t *serial_config);
+uint32_t zb_esp_macsplit_get_version();
