@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 2012-2021 DSR Corporation, Denver CO, USA
- * Copyright (c) 2021 Espressif Systems (Shanghai) PTE LTD
+ * Copyright (c) 2012-2022 DSR Corporation, Denver CO, USA
+ * Copyright (c) 2021-2022 Espressif Systems (Shanghai) PTE LTD
  * All rights reserved.
  *
  *

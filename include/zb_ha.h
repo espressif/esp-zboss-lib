@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 2012-2021 DSR Corporation, Denver CO, USA
- * Copyright (c) 2021 Espressif Systems (Shanghai) PTE LTD
+ * Copyright (c) 2012-2022 DSR Corporation, Denver CO, USA
+ * Copyright (c) 2021-2022 Espressif Systems (Shanghai) PTE LTD
  * All rights reserved.
  *
  *
@@ -43,41 +43,5 @@
 
 #ifdef ZB_ENABLE_HA
 #include "ha/zb_ha_config.h"
-#include "ha/zb_ha_sas.h"
-
-#include "ha/zb_ha_door_lock.h"
-#include "ha/zb_ha_door_lock_controller.h"
-#include "ha/zb_ha_on_off_output.h"
-#include "ha/zb_ha_on_off_switch.h"
-#include "ha/zb_ha_simple_sensor.h"
-#include "ha/zb_ha_combined_interface.h"
-#include "ha/zb_ha_scene_selector.h"
-#include "ha/zb_ha_configuration_tool.h"
-#include "ha/zb_ha_mains_power_outlet.h"
-#include "ha/zb_ha_range_extender.h"
-#include "ha/zb_ha_level_control_switch.h"
-#include "ha/zb_ha_level_controllable_output.h"
-#include "ha/zb_ha_window_covering.h"
-#include "ha/zb_ha_window_covering_controller.h"
-#include "ha/zb_ha_shade.h"
-#include "ha/zb_ha_shade_controller.h"
-
-#include "ha/zb_ha_temperature_sensor.h"
-
-#include "ha/zb_ha_ias_control_indicating_equipment.h"
-#include "ha/zb_ha_ias_ancillary_control_equipment.h"
-#include "ha/zb_ha_ias_zone.h"
-#include "ha/zb_ha_ias_warning_device.h"
-
-#include "ha/zb_ha_custom_attr.h"
-#include "ha/zb_ha_dimmable_light.h"
-#include "ha/zb_ha_dimmer_switch.h"
-#include "ha/zb_ha_smart_plug.h"
-#include "ha/zb_ha_thermostat.h"
-
-#include "ha/zb_ha_test_device.h"
-
-#include "ha/zb_ha_erl_device_interface.h"
-#include "ha/zb_ha_erl_gw_device.h"
 #endif
 #endif /* ZB_HA_H */
