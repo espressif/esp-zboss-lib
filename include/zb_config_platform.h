@@ -132,9 +132,21 @@ esp_err_t esp_zb_platform_config(esp_zb_platform_config_t *config);
 esp_err_t esp_zb_platform_serial_config_set(esp_zb_serial_config_t *serial_config);
 
 /**
- * @brief  Get the rcp Zigbee stack version
+ * @brief  Get the rcp Zigbee rcp version string
  *
- * @return 32 bit of rcp Zigbee stack version
+ * @return string of rcp Zigbee stack version string
  *
  */
-uint32_t esp_zb_macsplit_get_version();
+char* esp_zb_macsplit_get_version();
+
+/**
+ * @brief  Set the rcp Zigbee rcp version string
+ *
+ */
+void esp_zb_macsplit_set_version(char *ver_string);
+
+/**
+ * @brief  Reset the rcp through UART reset command from host (gateway)
+ *
+ */
+void esp_zb_macsplit_host_reset_rcp();

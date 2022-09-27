@@ -990,6 +990,7 @@ typedef struct zb_zdo_signal_macsplit_dev_boot_params_s
 {
   zb_uint32_t    dev_version; /*!< macsplit device version */
   zb_ieee_addr_t extended_address; /*!< The 64-bit (IEEE) address assigned to the device. */
+  zb_char_t      version_str[80];    /*!< macsplit version string */
 } zb_zdo_signal_macsplit_dev_boot_params_t;
 
 /**

@@ -30,6 +30,40 @@ if(CONFIG_ZB_ENABLED)
     endif()
     list(APPEND ZBOSS_LIBS zboss_stack_lib zboss_port_lib)
 
-    target_link_libraries(${COMPONENT_LIB} INTERFACE ${ZBOSS_LIBS})
+
+
+    set(rcp_compile_define  "zigbee")
+	string(TIMESTAMP ZB_BUILD_TIMESTAMP " %Y-%m-%d %H:%M:%S UTC" UTC)
+
+	execute_process(
+    COMMAND git rev-parse --short HEAD
+    WORKING_DIRECTORY $ENV{IDF_PATH}
+    OUTPUT_VARIABLE IDF_VERSION_FOR_ZIGBEE_PACKAGE OUTPUT_STRIP_TRAILING_WHITESPACE)
+
+    execute_process(
+    COMMAND git rev-parse --short HEAD
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+    OUTPUT_VARIABLE ZIGBEE_SDK_BUILD_VERSION OUTPUT_STRIP_TRAILING_WHITESPACE)
+
+    file(STRINGS ${CMAKE_CURRENT_SOURCE_DIR}/idf_component.yml ZBOSS_LIB_VERSION_LINE LIMIT_COUNT 1)
+    string(SUBSTRING ${ZBOSS_LIB_VERSION_LINE} 10 5 ZBOSS_LIB_VERSION)
+
+	string(TIMESTAMP ZB_BUILD_TIMESTAMP "%Y-%m-%d %H:%M:%S UTC" UTC)
+	string(CONCAT RCP_FULL_VERSION_STRING
+       "${rcp_compile_define}-"
+       "${IDF_VERSION_FOR_ZIGBEE_PACKAGE}-${ZIGBEE_SDK_BUILD_VERSION}-"
+       "${ZBOSS_LIB_VERSION}-${ZB_BUILD_TIMESTAMP}")
+    message(${RCP_FULL_VERSION_STRING})
+    if(CONFIG_ZB_RCP)
+
+	file(WRITE ${CMAKE_BINARY_DIR}/rcp_version ${RCP_FULL_VERSION_STRING})
+
+    endif()
+    target_compile_definitions(${COMPONENT_LIB}
+	INTERFACE -DRCP_COMPILE_DEFINE="${RCP_FULL_VERSION_STRING}"
+	)
+
     target_compile_options(${COMPONENT_LIB} INTERFACE "-Wno-strict-prototypes")
+
+    target_link_libraries(${COMPONENT_LIB} INTERFACE ${ZBOSS_LIBS})
 endif()
