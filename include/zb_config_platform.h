@@ -120,6 +120,8 @@ typedef struct {
     esp_zb_host_config_t                host_config;    /*!< The host connection configuration */
 }  esp_zb_platform_config_t;
 
+typedef void (*esp_rcp_failure_callback_t)(uint8_t param);
+
 /**
  * @brief  Set the espressif soc platform config
  *
@@ -150,3 +152,5 @@ void esp_zb_macsplit_set_version(char *ver_string);
  *
  */
 void esp_zb_macsplit_host_reset_rcp();
+
+void esp_zb_add_rcp_failure_cb(esp_rcp_failure_callback_t cb);
