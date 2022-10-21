@@ -9,10 +9,10 @@ jobs:
   upload_components:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@v2
 
       - name: Upload esp-zboss-lib to component service
-        uses: espressif/github-actions/upload_components@master
+        uses: espressif/upload-components-ci-action@v1
         with:
           name: esp-zboss-lib
           namespace: "espressif"
