@@ -154,3 +154,5 @@ void esp_zb_macsplit_set_version(char *ver_string);
 void esp_zb_macsplit_host_reset_rcp();
 
 void esp_zb_add_rcp_failure_cb(esp_rcp_failure_callback_t cb);
+
+void esp_zb_macsplit_uart_deinit();
