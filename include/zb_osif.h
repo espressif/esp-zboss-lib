@@ -143,12 +143,29 @@ typedef void (*zb_osif_timer_exp_cb_t)(void *user_data);
 #define ZB_KICK_HW_WATCHDOG()
 #endif
 
+#ifndef ZB_THREADS
+#ifndef ZB_OSIF_TIME_LOCK
+#define ZB_OSIF_TIME_LOCK()   (void)0
+#endif
+#ifndef ZB_OSIF_TIME_UNLOCK
+#define ZB_OSIF_TIME_UNLOCK()   (void)0
+#endif
+#endif /* ZB_THREADS */
+
 /*! @} */
 
 
 /* common osif API */
 zb_uint32_t zb_random_seed(void);
 zb_uint32_t zb_get_utc_time(void);
+#ifdef ZB_RANDOM_HARDWARE
+/**
+ * Generate random 32-bit value using hardware capability
+ *
+ * @return random value between 0 to 2^32-1
+ */
+zb_uint32_t zb_osif_random_hw(void);
+#endif
 
 zb_uint32_t osif_get_time_ms(void);
 
@@ -156,7 +173,7 @@ zb_uint32_t osif_get_time_ms(void);
 zb_ret_t osif_set_transmit_power(zb_uint8_t channel, zb_int8_t power);
 void osif_set_default_trasnmit_powers(zb_int8_t *tx_powers);
 
-#if defined ZB_MACSPLIT_TRANSPORT_SERIAL
+#if defined ZB_MACSPLIT_TRANSPORT_SERIAL || defined ZB_NCP_TRANSPORT_TYPE_SERIAL
 void zb_osif_serial_transport_init();
 void zb_osif_serial_transport_put_bytes(zb_uint8_t *buf, zb_short_t len);
 #endif
@@ -317,6 +334,15 @@ void zb_osif_serial_set_cb_send_data(serial_send_data_cb_t cb);
 void zb_osif_serial_put_bytes(const zb_uint8_t *buf, zb_short_t len);
 #endif
 
+#ifdef ZB_OSIF_SERIAL_GET_FD
+/**
+ * @brief Get the file descriptor used for the serial port.
+ *
+ * @return file descriptor used for the serial port, or -1 if the serial port is not in use now.
+ */
+zb_int_t zb_osif_serial_get_fd(void);
+#endif
+
 #if defined ZB_SERIAL_FOR_TRACE && !defined ZB_OSIF_SERIAL_FLUSH
 #define ZB_OSIF_SERIAL_FLUSH()
 #endif /* ZB_SERIAL_FOR_TRACE && !ZB_OSIF_SERIAL_FLUSH */
@@ -364,6 +390,7 @@ int zb_osif_file_seek(zb_osif_file_t *f, zb_uint32_t off, zb_uint8_t mode);
 int zb_osif_file_get_size(zb_osif_file_t *f);
 int zb_osif_file_truncate(zb_osif_file_t *f, zb_uint32_t off);
 int zb_osif_file_sync(zb_osif_file_t *f);
+const zb_char_t* zb_osif_file_get_name_by_path(const zb_char_t *path);
 void zb_osif_trace_get_time(zb_uint_t *sec, zb_uint_t *msec);
 zb_osif_file_t *zb_osif_popen(zb_char_t *arg);
 
@@ -392,7 +419,7 @@ enum zb_file_path_base_type_e
 
 #ifdef ZB_FILE_PATH_MGMNT
 #ifndef ZB_FILE_PATH_MAX_TYPES
-#define ZB_FILE_PATH_MAX_TYPES (ZB_FILE_PATH_BASE_MAX_TYPE - 1)
+#define ZB_FILE_PATH_MAX_TYPES ZB_FILE_PATH_BASE_MAX_TYPE
 #endif
 
 typedef struct zb_file_path_base_type_s
@@ -469,6 +496,12 @@ zb_uint8_t zb_get_reset_source(void);
  * @brief osif NVRAM initializer
  */
 void zb_osif_nvram_init(const zb_char_t *name);
+
+
+/**
+ * @brief Deinitialize osif-layer NVRAM support
+ */
+void zb_osif_nvram_deinit(void);
 
 /**
  * @brief Get NVRAM page length
@@ -715,7 +748,7 @@ zb_bool_t zb_osif_ota_verify_integrity_async(void *dev, zb_uint32_t raw_len);
 /**
  * Check whether OTA image recording was successful and finalize OTA.
  *
- * @param integrity_is_ok - is verification of OTA image recording successfull
+ * @param integrity_is_ok - is verification of OTA image recording successful
  */
 void zb_osif_ota_verify_integrity_done(zb_uint8_t integrity_is_ok);
 

@@ -112,6 +112,9 @@ typedef enum zb_zcl_subghz_srv_attr_e
                                                         */
 } zb_zcl_subghz_svr_attr_t;
 
+/** @brief Default value for Sub-GHz cluster revision global attribute (not defined anywhere) */
+#define ZB_ZCL_SUBGHZ_CLUSTER_REVISION_DEFAULT ((zb_uint16_t)0x0001u)
+
 /** @cond internals_doc */
 
 #ifndef ZB_ED_ROLE
@@ -121,7 +124,8 @@ typedef enum zb_zcl_subghz_srv_attr_e
   ZB_ZCL_ATTR_SUBGHZ_CHANNEL_CHANGE,                                                \
   ZB_ZCL_ATTR_TYPE_32BITMAP,                                                        \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                     \
-  (void*) data_ptr                                                             \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                               \
+  (void*) data_ptr                                                                  \
 }
 
 
@@ -130,7 +134,8 @@ typedef enum zb_zcl_subghz_srv_attr_e
   ZB_ZCL_ATTR_SUBGHZ_PAGE28_CHANNEL_MASK,                                           \
   ZB_ZCL_ATTR_TYPE_32BITMAP,                                                        \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                     \
-  (void*) data_ptr                                                             \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                               \
+  (void*) data_ptr                                                                  \
 }
 
 
@@ -139,7 +144,8 @@ typedef enum zb_zcl_subghz_srv_attr_e
   ZB_ZCL_ATTR_SUBGHZ_PAGE29_CHANNEL_MASK,                                           \
   ZB_ZCL_ATTR_TYPE_32BITMAP,                                                        \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                     \
-  (void*) data_ptr                                                             \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                               \
+  (void*) data_ptr                                                                  \
 }
 
 
@@ -148,7 +154,8 @@ typedef enum zb_zcl_subghz_srv_attr_e
   ZB_ZCL_ATTR_SUBGHZ_PAGE30_CHANNEL_MASK,                                           \
   ZB_ZCL_ATTR_TYPE_32BITMAP,                                                        \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                     \
-  (void*) data_ptr                                                             \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                               \
+  (void*) data_ptr                                                                  \
 }
 
 
@@ -157,7 +164,8 @@ typedef enum zb_zcl_subghz_srv_attr_e
   ZB_ZCL_ATTR_SUBGHZ_PAGE31_CHANNEL_MASK,                                           \
   ZB_ZCL_ATTR_TYPE_32BITMAP,                                                        \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                     \
-  (void*) data_ptr                                                             \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                               \
+  (void*) data_ptr                                                                  \
 }
 
 /** @def ZB_ZCL_DECLARE_SUBGHZ_SRV_ATTR_LIST(attr_list, channel_change)
@@ -165,8 +173,8 @@ typedef enum zb_zcl_subghz_srv_attr_e
  *  @param[in]  attr_list - attribute list name
  *  @param[in]  channel_change - pointer to variable which will store ChannelChange attribute value
  */
-#define ZB_ZCL_DECLARE_SUBGHZ_SRV_ATTR_LIST_PARTIAL(attr_list, channel_change)              \
-  ZB_ZCL_START_DECLARE_ATTRIB_LIST(attr_list)                                       \
+#define ZB_ZCL_DECLARE_SUBGHZ_SRV_ATTR_LIST_PARTIAL(attr_list, channel_change)      \
+  ZB_ZCL_START_DECLARE_ATTRIB_LIST_CLUSTER_REVISION(attr_list, ZB_ZCL_SUBGHZ)       \
   ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_ATTR_SUBGHZ_CHANNEL_CHANGE, (channel_change))         \
   ZB_ZCL_FINISH_DECLARE_ATTRIB_LIST
 
@@ -181,7 +189,7 @@ typedef enum zb_zcl_subghz_srv_attr_e
  *  @param[in]  page31_channel_mask - pointer to variable which will store Page31ChannelMask attribute value
  */
 #define ZB_ZCL_DECLARE_SUBGHZ_SRV_ATTR_LIST_FULL(attr_list, channel_change, page28_channel_mask, page29_channel_mask, page30_channel_mask, page31_channel_mask)        \
-  ZB_ZCL_START_DECLARE_ATTRIB_LIST(attr_list)                                                 \
+  ZB_ZCL_START_DECLARE_ATTRIB_LIST_CLUSTER_REVISION(attr_list, ZB_ZCL_SUBGHZ)                 \
   ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_ATTR_SUBGHZ_CHANNEL_CHANGE, (channel_change))                   \
   ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_ATTR_SUBGHZ_PAGE28_CHANNEL_MASK, (page28_channel_mask))         \
   ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_ATTR_SUBGHZ_PAGE29_CHANNEL_MASK, (page29_channel_mask))         \
@@ -378,11 +386,12 @@ void zb_aps_cancel_outgoing_trans(zb_uint8_t param);
 
 /** @endcond */ /* DOXYGEN_ZCL_SECTION && DOXYGEN_SUBGHZ_FEATURE */
 
+#ifdef ZB_ZCL_SUPPORT_CLUSTER_SUBGHZ
 void zb_zcl_subghz_init_server(void);
 void zb_zcl_subghz_init_client(void);
 #define ZB_ZCL_CLUSTER_ID_SUB_GHZ_SERVER_ROLE_INIT zb_zcl_subghz_init_server
 #define ZB_ZCL_CLUSTER_ID_SUB_GHZ_CLIENT_ROLE_INIT zb_zcl_subghz_init_client
-
+#endif /* ZB_ZCL_SUPPORT_CLUSTER_SUBGHZ */
 
 #ifdef ZB_ENABLE_SE
 #define ZB_ZCL_SUBGHZ_CLUSTER_PROFILE_ID() (ZB_SE_MODE() ?\

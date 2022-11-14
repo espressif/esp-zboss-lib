@@ -97,7 +97,7 @@ typedef zb_nwk_device_type_t zb_logical_type_t;
  */
 /** @{ */
 #define ZB_FREQ_BAND_868            1U        /*!< 868-868.6 MHz BPSK */
-#define ZB_FREQ_BAND_902            (1U << 2) /*!< 902-928 MHz BPSK */
+#define ZB_FREQ_BAND_SUB_GHZ_NA_FSK (1U << 2) /*!< 902-928 MHz BPSK */
 #define ZB_FREQ_BAND_2400           (1U << 3) /*!< 2400-2483.5 MHz */
 /** Zigbee R22: European FSK sub-GHz bands (863-876MHz, 915-921MHz) */
 #define ZB_FREQ_BAND_SUB_GHZ_EU_FSK (1U << 4)
@@ -361,6 +361,9 @@ typedef ZB_PACKED_PRE struct zb_af_endpoint_desc_s
 
       If set, will be called on identification start and stop indicating start
       event with a non-zero argument
+
+      @deprecated will be removed after June 2023. Use @ref ZB_ZCL_REGISTER_DEVICE_CB
+      with @ref ZB_ZCL_SET_ATTR_VALUE_CB_ID instead of it.
   */
   zb_callback_t identify_handler;
   zb_uint8_t reserved_size; /*!< Unused parameter (reserved for future use) */
@@ -767,6 +770,13 @@ void zb_af_register_device_ctx(zb_af_device_ctx_t *device_ctx);
   Callback for notifying user about status of ZCL/ZDO command transmission
  */
 typedef void (*zb_af_transmission_res_cb_t) (zb_uint8_t status);
+
+/**
+   Continue inconimg packet proicessing after ZG->zdo.af_data_cb returned TRUE
+
+   @param param - incoming packet. Be sure it was initially passed to ZG->zdo.af_data_cb.
+ */
+void zb_apsde_data_indication_cont(zb_uint8_t param);
 /** @} */ /* af_management_service */
 /*! @} */
 

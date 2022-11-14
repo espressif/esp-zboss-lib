@@ -68,7 +68,7 @@
 */
 
 /*! @brief Structure representation of OTA File Header,
- * see OTA spec 6.3.2 */
+ * see ZCL8 specification, subsection 11.4.2, Table 11-2. OTA Header Fields */
 typedef ZB_PACKED_PRE struct zb_zcl_ota_upgrade_file_header_s
 {
   zb_uint32_t file_id;            /**< OTA upgrade file identifier*/
@@ -91,6 +91,7 @@ typedef ZB_PACKED_PRE struct zb_zcl_ota_upgrade_file_header_s
 
 /**
    Optional parts of the OTA file header
+   See ZCL8 specification, subsection 11.4.2, Table 11-2. OTA Header Fields
  */
 typedef ZB_PACKED_PRE struct zb_zcl_ota_upgrade_file_header_optional_s
 {
@@ -101,20 +102,20 @@ typedef ZB_PACKED_PRE struct zb_zcl_ota_upgrade_file_header_optional_s
 
 } ZB_PACKED_STRUCT zb_zcl_ota_upgrade_file_header_optional_t;
 
-/** @cond internals_doc */
+/** @cond DOXYGEN_INTERNAL_DOC */
 #define ZB_ZCL_OTA_UPGRADE_FILE_HEADER_FULL_SIZE        \
     (sizeof(zb_zcl_ota_upgrade_file_header_t) + 2*sizeof(zb_uint16_t)+sizeof(zb_ieee_addr_t))
 /*! @}
- *  @endcond */ /* internals_doc */
+ *  @endcond */ /* DOXYGEN_INTERNAL_DOC */
 
-/** @brief Default OTA Upgrade File Identifier, see spec 6.3.2.1 */
+/** @brief Default OTA Upgrade File Identifier, see ZCL8 specification, subsection 11.4.2.1 */
 #define ZB_ZCL_OTA_UPGRADE_FILE_HEADER_FILE_ID          0x0BEEF11E
 
-/** @brief Default OTA Upgrade File Version, see spec 6.3.2.2 */
+/** @brief Default OTA Upgrade File Version, see ZCL8 specification, subsection 11.4.2.2 */
 #define ZB_ZCL_OTA_UPGRADE_FILE_HEADER_FILE_VERSION     0x0100
 
 /*! @brief OTA File header - fc fields structure
-    @see OTA spec, OTA Upgrade Cluster 6.3.2.4
+    @see ZCL8 specification, subsection 11.4.2.4, Table 11-3. OTA Header Field Control Bitmask
 */
 enum zb_zcl_ota_upgrade_file_header_fc_e
 {
@@ -126,44 +127,44 @@ enum zb_zcl_ota_upgrade_file_header_fc_e
   ZB_ZCL_OTA_UPGRADE_FILE_HEADER_FC_HW_VER              = 1 << 2,
 };
 
-/** @brief Special Manufacturer Code, see spec 6.3.2.5 */
+/** @brief Special Manufacturer Code, see ZCL8 specification, subsection 11.4.2.5 */
 #define ZB_ZCL_OTA_UPGRADE_FILE_HEADER_MANUFACTURE_CODE_WILD_CARD   0xffff
 
 /*! @brief OTA File header - Image Type Values
-    @see OTA spec, OTA Upgrade Cluster 6.3.2.6
+    @see ZCL8 specification, subsection 11.4.2.6, Table 11-4. Image Type Values
 */
 enum zb_zcl_ota_upgrade_file_header_image_type_e
 {
   /*! @brief Manufacturer Specific - maximum value */
   ZB_ZCL_OTA_UPGRADE_FILE_HEADER_IMAGE_MANUF_SPEC_MAX   = 0xffbf,
-  /*! @brief Security credential */
+  /*! @brief Client Security credentials */
   ZB_ZCL_OTA_UPGRADE_FILE_HEADER_IMAGE_SECURITY_CRED    = 0xffc0,
-  /*! @brief Configuration */
+  /*! @brief Client Configuration */
   ZB_ZCL_OTA_UPGRADE_FILE_HEADER_IMAGE_CONFIG           = 0xffc1,
-  /*! @brief Log */
+  /*! @brief Server Log */
   ZB_ZCL_OTA_UPGRADE_FILE_HEADER_IMAGE_LOG              = 0xffc2,
   /*! @brief Wild card value */
   ZB_ZCL_OTA_UPGRADE_FILE_HEADER_IMAGE_WILD_CARD        = 0xffff,
 };
 
-/** @brief OTA Upgrade File Version, App release, see spec 6.3.2.7 */
+/** @brief OTA Upgrade File Version, App release, see ZCL8 specification, subsection 11.4.2.7 */
 #define ZB_ZCL_OTA_UPGRADE_FILE_GET_APP_RELEASE(ver)  (((ver) >>24) & 0xff)
 
-/** @brief OTA Upgrade File Version, App build, see spec 6.3.2.7 */
+/** @brief OTA Upgrade File Version, App build, see ZCL8 specification, subsection 11.4.2.7 */
 #define ZB_ZCL_OTA_UPGRADE_FILE_GET_APP_BUILD(ver)  (((ver) >>16) & 0xff)
 
-/** @brief OTA Upgrade File Version, Stack release, see spec 6.3.2.7 */
+/** @brief OTA Upgrade File Version, Stack release, see ZCL8 specification, subsection 11.4.2.7 */
 #define ZB_ZCL_OTA_UPGRADE_FILE_GET_STACK_RELEASE(ver)  (((ver) >>8) & 0xff)
 
-/** @brief OTA Upgrade File Version, Stack build, see spec 6.3.2.7 */
+/** @brief OTA Upgrade File Version, Stack build, see ZCL8 specification, subsection 11.4.2.7 */
 #define ZB_ZCL_OTA_UPGRADE_FILE_GET_STACK_BUILD(ver)  ((ver) & 0xff)
 
-/** @brief OTA Upgrade File Version, make file version, see spec 6.3.2.7 */
+/** @brief OTA Upgrade File Version, make file version, see ZCL8 specification, subsection 11.4.2.7 */
 #define ZB_ZCL_OTA_UPGRADE_FILE_MAKE_VERSION(app_rel, app_build, stack_rel, stack_build)  \
   ((app_rel) << 24 | (app_build) << 16 | (stack_rel) << 8 | (stack_build))
 
 /*
-   OTA Upgrade Spec (6.3.2.7 File Version) has dome recommendations about versioning (at least to
+   ZCL8 specification, subsection 11.4.2.7, has done recommendations about versioning (at least to
    divide version to 4 parts - Stack Build, Stack Release, Application Build and Application
    Release), but does not specify comparing method. Looks like we do not have any limitations and
    may upgrade/downgrade any f/w (except re-installation), so this comparing is simply:
@@ -176,7 +177,7 @@ enum zb_zcl_ota_upgrade_file_header_image_type_e
     ( (ver1) != (ver2) )
 
 /*! @brief OTA File header - Zigbee Stack version
-    @see OTA spec, OTA Upgrade Cluster 6.3.2.8
+    @see ZCL8 specification, subsection 11.4.2.8
 */
 enum zb_zcl_ota_upgrade_file_header_stack_version_e
 {
@@ -191,7 +192,7 @@ enum zb_zcl_ota_upgrade_file_header_stack_version_e
 };
 
 /*! @brief OTA File header - Security Credential Version
-    @see OTA spec, OTA Upgrade Cluster 6.3.2.11
+    @see ZCL8 specification, subsection 11.4.2.11
 */
 enum zb_zcl_ota_upgrade_file_header_security_version_e
 {
@@ -201,15 +202,17 @@ enum zb_zcl_ota_upgrade_file_header_security_version_e
   ZB_ZCL_OTA_UPGRADE_FILE_HEADER_SECURITY_VER_SE1_1 = 0x01,
   /*! @brief SE 2.0 */
   ZB_ZCL_OTA_UPGRADE_FILE_HEADER_SECURITY_VER_SE2_0 = 0x02,
+  /*! @brief SE 1.2 */
+  ZB_ZCL_OTA_UPGRADE_FILE_HEADER_SECURITY_VER_SE1_2 = 0x03,
 };
 
-/** @brief OTA Upgrade HW Version Get Version, see spec 6.3.2.13 */
+/** @brief OTA Upgrade HW Version Get Version, see ZCL8 specification, subsection 11.4.2.13 */
 #define ZB_ZCL_OTA_UPGRADE_FILE_GET_HW_VERSION(ver)  (((ver) >>8) & 0xff)
 
-/** @brief OTA Upgrade HW Version Get Revision, see spec 6.3.2.13 */
+/** @brief OTA Upgrade HW Version Get Revision, see ZCL8 specification, subsection 11.4.2.13 */
 #define ZB_ZCL_OTA_UPGRADE_FILE_GET_HW_REVISION(ver)  ((ver) & 0xff)
 
-/** @brief OTA Upgrade Make HW Version, see spec 6.3.2.13 */
+/** @brief OTA Upgrade Make HW Version, see ZCL8 specification, subsection 11.4.2.13 */
 #define ZB_ZCL_OTA_UPGRADE_FILE_MAKE_HW_VERSION(ver, rev)  \
   ((ver) << 8 | (rev))
 
@@ -227,7 +230,7 @@ enum zb_zcl_ota_upgrade_file_header_security_version_e
 */
 
 /*! @brief Structure representation of OTA File Sub-element,
- * see OTA spec 6.3.3 */
+ * see ZCL8 specification, subsection 11.4.3 */
 typedef ZB_PACKED_PRE struct zb_zcl_ota_upgrade_sub_element_s
 {
   zb_uint16_t tag_id;     /** Tag ID*/
@@ -238,24 +241,32 @@ typedef ZB_PACKED_PRE struct zb_zcl_ota_upgrade_sub_element_s
 
 
 /*! @brief OTA File header - Tag Identifiers
-    @see OTA spec, OTA Upgrade Cluster 6.3.4
+    @see ZCL8 specification, subsection 11.4.4
 */
 enum zb_zcl_ota_upgrade_sub_element_tags_e
 {
-  /*! @brief  */
-  ZB_ZCL_OTA_UPGRADE_FILE_TAG_UPGRADE_IMAGE   = 0x0000,
-  /*! @brief ECDSA Signature */
-  ZB_ZCL_OTA_UPGRADE_FILE_TAG_ECDSA           = 0x0001,
-  /*! @brief ECDSA Signature Certificate */
-  ZB_ZCL_OTA_UPGRADE_FILE_TAG_ECDSA_CERT      = 0x0002,
+  /*! @brief Upgrade Image */
+  ZB_ZCL_OTA_UPGRADE_FILE_TAG_UPGRADE_IMAGE          = 0x0000,
+  /*! @brief ECDSA Signature (Crypto Suite 1) */
+  ZB_ZCL_OTA_UPGRADE_FILE_TAG_ECDSA                  = 0x0001,
+  /*! @brief ECDSA Signature Certificate (Crypto Suite 1)*/
+  ZB_ZCL_OTA_UPGRADE_FILE_TAG_ECDSA_CERT             = 0x0002,
+  /*! @brief Image Integrity Code */
+  ZB_ZCL_OTA_UPGRADE_FILE_TAG_IMAGE_INTEGRITY_CODE   = 0x0003,
+  /*! @brief Picture Data */
+  ZB_ZCL_OTA_UPGRADE_FILE_TAG_PICTURE_DATA           = 0x0004,
+  /*! @brief ECDSA Signature (Crypto Suite 2) */
+  ZB_ZCL_OTA_UPGRADE_FILE_TAG_ECDSA_V_2              = 0x0005,
+  /*! @brief ECDSA Signature Certificate (Crypto Suite 2)*/
+  ZB_ZCL_OTA_UPGRADE_FILE_TAG_ECDSA_CERT_V_2         = 0x0006,
   /*! @brief Manufacturer Specific Use - minimum */
-  ZB_ZCL_OTA_UPGRADE_FILE_TAG_MANUF_MIN       = 0xf000,
+  ZB_ZCL_OTA_UPGRADE_FILE_TAG_MANUF_MIN              = 0xf000,
   /*! @brief Manufacturer Specific Use - maximum */
-  ZB_ZCL_OTA_UPGRADE_FILE_TAG_MANUF_MAX       = 0xffff,
+  ZB_ZCL_OTA_UPGRADE_FILE_TAG_MANUF_MAX              = 0xffff,
 };
 
-/*! @brief Structure representation of OTA ECDSA Signature,
- * see OTA spec 6.3.5 */
+/*! @brief Structure representation of OTA ECDSA Signature (Crypto Suite 1),
+ * see ZCL8 specification, subsection 11.4.6 */
 typedef ZB_PACKED_PRE struct zb_zcl_ota_upgrade_ecdsa_s
 {
   zb_uint16_t tag_id;       /** Tag ID*/
@@ -265,10 +276,10 @@ typedef ZB_PACKED_PRE struct zb_zcl_ota_upgrade_ecdsa_s
 
 } ZB_PACKED_STRUCT zb_zcl_ota_upgrade_ecdsa_t;
 
-/** @brief Special Manufacturer Code, see spec 6.3.5 */
-#define ZB_ZCL_OTA_UPGRADE_ECDSA_TAG_ID   0x0001
+/** @brief Special Manufacturer Code, see ZCL8 specification, subsection 11.4.6 */
+#define ZB_ZCL_OTA_UPGRADE_ECDSA_TAG_ID  ZB_ZCL_OTA_UPGRADE_FILE_TAG_ECDSA
 
-/** @brief Special Manufacturer Code, see spec 6.3.5 */
+/** @brief Special Manufacturer Code, see ZCL8 specification, subsection 11.4.6 */
 #define ZB_ZCL_OTA_UPGRADE_ECDSA_LENGTH   0x00000032
 
 
@@ -314,6 +325,9 @@ typedef ZB_PACKED_PRE struct zb_zcl_ota_upgrade_ecdsa_certificate_s
 /*! @name OTA Upgrade cluster attributes
     @{
 */
+
+/** @brief Default value for OTA Upgrade cluster revision global attribute */
+#define ZB_ZCL_OTA_UPGRADE_CLUSTER_REVISION_DEFAULT ((zb_uint16_t)0x0004u)
 
 /*! @brief Maximum size data for Query Image Block Request */
 #define ZB_ZCL_OTA_UPGRADE_QUERY_IMAGE_BLOCK_DATA_SIZE_MAX   64
@@ -535,37 +549,39 @@ typedef struct zb_zcl_ota_upgrade_client_variable_s
 #endif /* defined ZB_HA_ENABLE_OTA_UPGRADE_CLIENT || defined DOXYGEN */
 
 /*! @brief OTA Upgrade cluster attribute identifiers
-    @see OTA spec, OTA Upgrade Cluster 6.7,
+    @see ZCL8 specification, subsection 11.10, Table 11-10. Attributes of OTA Upgrade Cluster
 */
 enum zb_zcl_ota_upgrade_attr_e
 {
-  /** @brief UpgradeServerID attribute, OTA spec 6.7.1 */
+  /** @brief UpgradeServerID attribute, ZCL8 specification, subsection 11.10.1 */
   ZB_ZCL_ATTR_OTA_UPGRADE_SERVER_ID                     = 0x0000,
-  /** @brief FileOffset attribute, OTA spec 6.7.2 */
+  /** @brief FileOffset attribute, ZCL8 specification, subsection 11.10.2 */
   ZB_ZCL_ATTR_OTA_UPGRADE_FILE_OFFSET_ID                = 0x0001,
-  /** @brief CurrentFileVersion attribute, OTA spec 6.7.3 */
+  /** @brief CurrentFileVersion attribute, ZCL8 specification, subsection 11.10.3 */
   ZB_ZCL_ATTR_OTA_UPGRADE_FILE_VERSION_ID               = 0x0002,
-  /** @brief CurrentZigbeeStackVersion attribute, OTA spec 6.7.4 */
+  /** @brief CurrentZigbeeStackVersion attribute, ZCL8 specification, subsection 11.10.4 */
   ZB_ZCL_ATTR_OTA_UPGRADE_STACK_VERSION_ID              = 0x0003,
-  /** @brief DownloadedFileVersion attribute, OTA spec 6.7.5 */
+  /** @brief DownloadedFileVersion attribute, ZCL8 specification, subsection 11.10.5*/
   ZB_ZCL_ATTR_OTA_UPGRADE_DOWNLOADED_FILE_VERSION_ID    = 0x0004,
-  /** @brief DownloadedZigbeeStackVersion attribute, OTA spec 6.7.6 */
+  /** @brief DownloadedZigbeeStackVersion attribute, ZCL8 specification, subsection 11.10.6 */
   ZB_ZCL_ATTR_OTA_UPGRADE_DOWNLOADED_STACK_VERSION_ID   = 0x0005,
-  /** @brief ImageUpgradeStatus attribute, OTA spec 6.7.7 */
+  /** @brief ImageUpgradeStatus attribute, ZCL8 specification, subsection 11.10.7 */
   ZB_ZCL_ATTR_OTA_UPGRADE_IMAGE_STATUS_ID               = 0x0006,
-  /** @brief Manufacturer ID attribute, OTA spec 6.7.8 */
+  /** @brief Manufacturer ID attribute, ZCL8 specification, subsection 11.10.8 */
   ZB_ZCL_ATTR_OTA_UPGRADE_MANUFACTURE_ID                = 0x0007,
-  /** @brief Image Type ID attribute, OTA spec 6.7.9 */
+  /** @brief Image Type ID attribute, ZCL8 specification, subsection 11.10.9 */
   ZB_ZCL_ATTR_OTA_UPGRADE_IMAGE_TYPE_ID                 = 0x0008,
-  /** @brief MinimumBlockReque attribute, OTA spec 6.7.10 */
+  /** @brief MinimumBlockPeriod attribute, ZCL8 specification, subsection 11.10.10 */
   ZB_ZCL_ATTR_OTA_UPGRADE_MIN_BLOCK_REQUE_ID            = 0x0009,
-  /** @brief Image Stamp attribute, OTA spec 6.7.11 */
+  /** @brief Image Stamp attribute, ZCL8 specification, subsection 11.10.11 */
   ZB_ZCL_ATTR_OTA_UPGRADE_IMAGE_STAMP_ID                = 0x000a,
   /** This attribute indicates what behavior the client device supports for activating
-   *  a fully downloaded but not installed upgrade image. */
+   *  a fully downloaded but not installed upgrade image.
+   * See ZCL8 specification, subsection 11.10.12 */
   ZB_ZCL_ATTR_OTA_UPGRADE_UPGRADE_ACTIVATION_POLICY_ID  = 0x000b,
   /** This attribute indicates what behavior the client device supports for activating
-   *  a fully downloaded image when the OTA server cannot be reached. */
+   *  a fully downloaded image when the OTA server cannot be reached.
+   *  See ZCL8 specification, subsection 11.10.13*/
   ZB_ZCL_ATTR_OTA_UPGRADE_UPGRADE_TIMEOUT_POLICY_ID     = 0x000c,
 
 
@@ -580,22 +596,23 @@ enum zb_zcl_ota_upgrade_attr_e
   ZB_ZCL_ATTR_OTA_UPGRADE_SERVER_DATA_ID                = 0xfff0,
 };
 
-/*! @brief Default value for UpgradeServerID attribute, OTA spec 6.7.1 */
+/*! @brief Default value for UpgradeServerID attribute, ZCL8 specification, subsection 11.10.1 */
 #define ZB_ZCL_OTA_UPGRADE_SERVER_DEF_VALUE           { 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff }
-/*! @brief Default value for FileOffset attribute, OTA spec 6.7.2 */
+/*! @brief Default value for FileOffset attribute, ZCL8 specification, subsection 11.10.2 */
 #define ZB_ZCL_OTA_UPGRADE_FILE_OFFSET_DEF_VALUE                0xffffffff
-/*! @brief Default value for CurrentFileVersion attribute, OTA spec 6.7.3 */
+/*! @brief Default value for CurrentFileVersion attribute, ZCL8 specification, subsection 11.10.3 */
 #define ZB_ZCL_OTA_UPGRADE_FILE_VERSION_DEF_VALUE               0xffffffff
-/*! @brief Default value for CurrentZigbeeStackVersion attribute, OTA spec 6.7.4 */
+/*! @brief Default value for CurrentZigbeeStackVersion attribute, ZCL8 specification, subsection
+ *  11.10.4 */
 #define ZB_ZCL_OTA_UPGRADE_STACK_VERSION_DEF_VALUE              0xffff
-/*! @brief Default value for DownloadedFileVersion attribute, OTA spec 6.7.5 */
+/*! @brief Default value for DownloadedFileVersion attribute, ZCL8 specification, subsection 11.10.5 */
 #define ZB_ZCL_OTA_UPGRADE_DOWNLOADED_FILE_VERSION_DEF_VALUE    0xffffffff
-/*! @brief Default value for DownloadedZigbeeStackVersion attribute, OTA spec 6.7.6 */
+/*! @brief Default value for DownloadedZigbeeStackVersion attribute, ZCL8 specification, subsection 11.10.6 */
 #define ZB_ZCL_OTA_UPGRADE_DOWNLOADED_STACK_DEF_VALUE           0xffff
-/*! @brief Default value for ImageUpgradeStatus attribute, OTA spec 6.7.7 */
+/*! @brief Default value for ImageUpgradeStatus attribute, ZCL8 specification, subsection 11.10.7 */
 #define ZB_ZCL_OTA_UPGRADE_IMAGE_STATUS_DEF_VALUE               0x00
-/*! @brief Maximum value for MinimumBlockReque attribute, OTA spec 6.7.11 */
-#define ZB_ZCL_OTA_UPGRADE_IMAGE_STAMP_MIN_VALUE                0x0256
+/*! @brief Maximum value for MinimumBlockPeriod attribute, ZCL8 specification, subsection 11.10.10 */
+#define ZB_ZCL_OTA_UPGRADE_IMAGE_STAMP_MIN_VALUE                0xfffe
 
 /*! @brief Default value for OTA server endpoint custom attribute */
 #define ZB_ZCL_OTA_UPGRADE_SERVER_ENDPOINT_DEF_VALUE            0xff
@@ -603,7 +620,7 @@ enum zb_zcl_ota_upgrade_attr_e
 #define ZB_ZCL_OTA_UPGRADE_SERVER_ADDR_DEF_VALUE                0xffff
 
 /*! @brief OTA Image Upgrade Status Attribute Values
-    @see OTA spec, OTA Upgrade Cluster 6.7.7
+    @see ZCL8 specification, subsection 11.10.7
 */
 enum zb_zcl_ota_upgrade_image_status_e
 {
@@ -619,6 +636,8 @@ enum zb_zcl_ota_upgrade_image_status_e
   ZB_ZCL_OTA_UPGRADE_IMAGE_STATUS_COUNT_DOWN        = 0x04,
   /*! @brief Wait for more */
   ZB_ZCL_OTA_UPGRADE_IMAGE_STATUS_WAIT_FOR_MORE     = 0x05,
+  /*! @brief Waiting to Upgrade via External Event */
+  ZB_ZCL_OTA_UPGRADE_IMAGE_STATUS_WAIT_TO_UPGRADE_VIA_EXT_EVENT     = 0x06,
 };
 
 /*! @brief Default Frequency request server about new upgrade file (minutes) */
@@ -646,7 +665,8 @@ enum zb_zcl_ota_upgrade_image_status_e
   ZB_ZCL_ATTR_OTA_UPGRADE_SERVER_ID,                    \
   ZB_ZCL_ATTR_TYPE_IEEE_ADDR,                           \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                         \
-  (void*) data_ptr                                 \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                   \
+  (void*) data_ptr                                      \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_OTA_UPGRADE_FILE_OFFSET_ID(data_ptr) \
@@ -654,7 +674,8 @@ enum zb_zcl_ota_upgrade_image_status_e
   ZB_ZCL_ATTR_OTA_UPGRADE_FILE_OFFSET_ID,               \
   ZB_ZCL_ATTR_TYPE_U32,                                 \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                         \
-  (void*) data_ptr                                 \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                   \
+  (void*) data_ptr                                      \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_OTA_UPGRADE_FILE_VERSION_ID(data_ptr) \
@@ -662,7 +683,8 @@ enum zb_zcl_ota_upgrade_image_status_e
   ZB_ZCL_ATTR_OTA_UPGRADE_FILE_VERSION_ID,              \
   ZB_ZCL_ATTR_TYPE_U32,                                 \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                         \
-  (void*) data_ptr                                 \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                   \
+  (void*) data_ptr                                      \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_OTA_UPGRADE_STACK_VERSION_ID(data_ptr) \
@@ -670,7 +692,8 @@ enum zb_zcl_ota_upgrade_image_status_e
   ZB_ZCL_ATTR_OTA_UPGRADE_STACK_VERSION_ID,             \
   ZB_ZCL_ATTR_TYPE_U16,                                 \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                         \
-  (void*) data_ptr                                 \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                   \
+  (void*) data_ptr                                      \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_OTA_UPGRADE_DOWNLOADED_FILE_VERSION_ID(data_ptr) \
@@ -678,7 +701,8 @@ enum zb_zcl_ota_upgrade_image_status_e
   ZB_ZCL_ATTR_OTA_UPGRADE_DOWNLOADED_FILE_VERSION_ID,   \
   ZB_ZCL_ATTR_TYPE_U32,                                 \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                         \
-  (void*) data_ptr                                 \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                   \
+  (void*) data_ptr                                      \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_OTA_UPGRADE_DOWNLOADED_STACK_VERSION_ID(data_ptr) \
@@ -686,7 +710,8 @@ enum zb_zcl_ota_upgrade_image_status_e
   ZB_ZCL_ATTR_OTA_UPGRADE_DOWNLOADED_STACK_VERSION_ID,  \
   ZB_ZCL_ATTR_TYPE_U16,                                 \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                         \
-  (void*) data_ptr                                 \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                   \
+  (void*) data_ptr                                      \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_OTA_UPGRADE_IMAGE_STATUS_ID(data_ptr) \
@@ -694,7 +719,8 @@ enum zb_zcl_ota_upgrade_image_status_e
   ZB_ZCL_ATTR_OTA_UPGRADE_IMAGE_STATUS_ID,              \
   ZB_ZCL_ATTR_TYPE_8BIT_ENUM,                           \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                         \
-  (void*) data_ptr                                 \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                   \
+  (void*) data_ptr                                      \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_OTA_UPGRADE_MANUFACTURE_ID(data_ptr) \
@@ -702,7 +728,8 @@ enum zb_zcl_ota_upgrade_image_status_e
   ZB_ZCL_ATTR_OTA_UPGRADE_MANUFACTURE_ID,               \
   ZB_ZCL_ATTR_TYPE_U16,                                 \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                         \
-  (void*) data_ptr                                 \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                   \
+  (void*) data_ptr                                      \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_OTA_UPGRADE_IMAGE_TYPE_ID(data_ptr) \
@@ -710,7 +737,8 @@ enum zb_zcl_ota_upgrade_image_status_e
   ZB_ZCL_ATTR_OTA_UPGRADE_IMAGE_TYPE_ID,                \
   ZB_ZCL_ATTR_TYPE_U16,                                 \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                         \
-  (void*) data_ptr                                 \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                   \
+  (void*) data_ptr                                      \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_OTA_UPGRADE_MIN_BLOCK_REQUE_ID(data_ptr) \
@@ -718,7 +746,8 @@ enum zb_zcl_ota_upgrade_image_status_e
   ZB_ZCL_ATTR_OTA_UPGRADE_MIN_BLOCK_REQUE_ID,           \
   ZB_ZCL_ATTR_TYPE_U16,                                 \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                         \
-  (void*) data_ptr                                 \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                   \
+  (void*) data_ptr                                      \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_OTA_UPGRADE_IMAGE_STAMP_ID(data_ptr) \
@@ -726,15 +755,17 @@ enum zb_zcl_ota_upgrade_image_status_e
   ZB_ZCL_ATTR_OTA_UPGRADE_IMAGE_STAMP_ID,               \
   ZB_ZCL_ATTR_TYPE_U32,                                 \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                         \
-  (void*) data_ptr                                 \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                   \
+  (void*) data_ptr                                      \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_OTA_UPGRADE_CLIENT_DATA_ID(data_ptr) \
 {                                                       \
   ZB_ZCL_ATTR_OTA_UPGRADE_CLIENT_DATA_ID,               \
   ZB_ZCL_ATTR_TYPE_NULL,                                \
-  ZB_ZCL_ATTR_ACCESS_INTERNAL,                            \
-  (void*) data_ptr                                 \
+  ZB_ZCL_ATTR_ACCESS_INTERNAL,                          \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                   \
+  (void*) data_ptr                                      \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_OTA_UPGRADE_SERVER_ADDR_ID(data_ptr) \
@@ -742,7 +773,8 @@ enum zb_zcl_ota_upgrade_image_status_e
   ZB_ZCL_ATTR_OTA_UPGRADE_SERVER_ADDR_ID,               \
   ZB_ZCL_ATTR_TYPE_U16,                                 \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                         \
-  (void*) data_ptr                                 \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                   \
+  (void*) data_ptr                                      \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_OTA_UPGRADE_SERVER_ENDPOINT_ID(data_ptr) \
@@ -750,7 +782,8 @@ enum zb_zcl_ota_upgrade_image_status_e
   ZB_ZCL_ATTR_OTA_UPGRADE_SERVER_ENDPOINT_ID,           \
   ZB_ZCL_ATTR_TYPE_U8,                                  \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                         \
-  (void*) data_ptr                                 \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                   \
+  (void*) data_ptr                                      \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_OTA_UPGRADE_SERVER_DATA_ID(data_ptr) \
@@ -758,7 +791,8 @@ enum zb_zcl_ota_upgrade_image_status_e
   ZB_ZCL_ATTR_OTA_UPGRADE_SERVER_DATA_ID,               \
   ZB_ZCL_ATTR_TYPE_NULL,                                \
   ZB_ZCL_ATTR_ACCESS_INTERNAL,                          \
-  (void*) data_ptr                                 \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                   \
+  (void*) data_ptr                                      \
 }
 
 /*! @internal Number of attributes mandatory for reporting in OTA Upgrade cluster */
@@ -769,6 +803,7 @@ enum zb_zcl_ota_upgrade_image_status_e
     @endcond endcond */ /* OTA Upgrade cluster internals */
 
 /** @brief Declare attribute list for OTA Upgrade cluster - client side
+    @attention All attributes are required by built-in OTA client so passing NULL pointers in parameters is prohibited!
     @param attr_list - attribute list name
     @param upgrade_server - pointer to variable to store UpgradeServerID attribute
     @param file_offset - pointer to variable to store FileOffset attribute
@@ -793,7 +828,7 @@ enum zb_zcl_ota_upgrade_image_status_e
     server_addr, server_ep, hardware_version, max_data_size, query_timer)                           \
   zb_zcl_ota_upgrade_client_variable_t client_var_##attr_list =                                     \
   {0, query_timer, 1, hardware_version, max_data_size, 0, 0};                                       \
-  ZB_ZCL_START_DECLARE_ATTRIB_LIST(attr_list)                                                       \
+  ZB_ZCL_START_DECLARE_ATTRIB_LIST_CLUSTER_REVISION(attr_list, ZB_ZCL_OTA_UPGRADE)                  \
   ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_ATTR_OTA_UPGRADE_SERVER_ID                  , (upgrade_server))       \
   ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_ATTR_OTA_UPGRADE_FILE_OFFSET_ID             , (file_offset))          \
   ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_ATTR_OTA_UPGRADE_FILE_VERSION_ID            , (file_version))         \
@@ -810,6 +845,76 @@ enum zb_zcl_ota_upgrade_image_status_e
   ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_ATTR_OTA_UPGRADE_CLIENT_DATA_ID,         &(client_var_##attr_list))   \
    ZB_ZCL_FINISH_DECLARE_ATTRIB_LIST
 
+/**
+ *  @brief OTA Upgrade cluster attributes structure
+ */
+typedef struct zb_zcl_ota_upgrade_attrs_s
+{
+  /** @copydoc ZB_ZCL_ATTR_OTA_UPGRADE_SERVER_ID
+   * @see ZB_ZCL_ATTR_OTA_UPGRADE_SERVER_ID
+   */
+  zb_ieee_addr_t upgrade_server;
+  /** @copydoc ZB_ZCL_ATTR_OTA_UPGRADE_FILE_OFFSET_ID
+   * @see ZB_ZCL_ATTR_OTA_UPGRADE_FILE_OFFSET_ID
+   */
+  zb_uint32_t file_offset;
+  /** @copydoc ZB_ZCL_ATTR_OTA_UPGRADE_FILE_VERSION_ID
+   * @see ZB_ZCL_ATTR_OTA_UPGRADE_FILE_VERSION_ID
+   */
+  zb_uint32_t file_version;
+  /** @copydoc ZB_ZCL_ATTR_OTA_UPGRADE_STACK_VERSION_ID
+   * @see ZB_ZCL_ATTR_OTA_UPGRADE_STACK_VERSION_ID
+   */
+  zb_uint16_t stack_version;
+  /** @copydoc ZB_ZCL_ATTR_OTA_UPGRADE_DOWNLOADED_FILE_VERSION_ID
+   * @see ZB_ZCL_ATTR_OTA_UPGRADE_DOWNLOADED_FILE_VERSION_ID
+   */
+  zb_uint32_t downloaded_file_ver;
+  /** @copydoc ZB_ZCL_ATTR_OTA_UPGRADE_DOWNLOADED_STACK_VERSION_ID
+   * @see ZB_ZCL_ATTR_OTA_UPGRADE_DOWNLOADED_STACK_VERSION_ID
+   */
+  zb_uint16_t downloaded_stack_ver;
+  /** @copydoc ZB_ZCL_ATTR_OTA_UPGRADE_IMAGE_STATUS_ID
+   * @see ZB_ZCL_ATTR_OTA_UPGRADE_IMAGE_STATUS_ID
+   */
+  zb_uint8_t image_status;
+  /** @copydoc ZB_ZCL_ATTR_OTA_UPGRADE_MANUFACTURE_ID
+   * @see ZB_ZCL_ATTR_OTA_UPGRADE_MANUFACTURE_ID
+   */
+  zb_uint16_t manufacturer;
+  /** @copydoc ZB_ZCL_ATTR_OTA_UPGRADE_IMAGE_TYPE_ID
+   * @see ZB_ZCL_ATTR_OTA_UPGRADE_IMAGE_TYPE_ID
+   */
+  zb_uint16_t image_type;
+  /** @copydoc ZB_ZCL_ATTR_OTA_UPGRADE_MIN_BLOCK_REQUE_ID
+   * @see ZB_ZCL_ATTR_OTA_UPGRADE_MIN_BLOCK_REQUE_ID
+   */
+  zb_uint16_t min_block_reque;
+  /** @copydoc ZB_ZCL_ATTR_OTA_UPGRADE_IMAGE_STAMP_ID
+   * @see ZB_ZCL_ATTR_OTA_UPGRADE_IMAGE_STAMP_ID
+   */
+  zb_uint16_t image_stamp;
+  /** @copydoc ZB_ZCL_ATTR_OTA_UPGRADE_SERVER_ADDR_ID
+   * @see ZB_ZCL_ATTR_OTA_UPGRADE_SERVER_ADDR_ID
+   */
+  zb_uint16_t server_addr;
+  /** @copydoc ZB_ZCL_ATTR_OTA_UPGRADE_SERVER_ENDPOINT_ID
+   * @see ZB_ZCL_ATTR_OTA_UPGRADE_SERVER_ENDPOINT_ID
+   */
+  zb_uint8_t server_ep;
+} zb_zcl_ota_upgrade_attrs_t;
+
+/** @brief Declare attribute list for OTA upgrade cluster (using structure)
+ *  @param[in]  attr_list - attribute list variable name
+ *  @param[in]  attrs - pointer to @ref zb_zcl_ota_upgrade_attrs_s structure
+ */
+#define ZB_ZCL_DECLARE_OTA_UPGRADE_ATTR_LIST(attr_list, attrs)                            \
+    ZB_ZCL_DECLARE_OTA_UPGRADE_ATTRIB_LIST(attr_list, &attrs.upgrade_server,              \
+      &attrs.file_offset, &attrs.file_version, &attrs.stack_version,                      \
+      &attrs.downloaded_file_ver,&attrs.downloaded_stack_ver,&attrs.image_status,         \
+      &attrs.manufacturer,&attrs.image_type,&attrs.min_block_reque,&attrs.image_stamp,    \
+      &attrs.server_addr,&attrs.server_ep)
+
 /** @brief Declare attribute list for OTA Upgrade cluster - server side
     @param attr_list - attribute list name
     @param query_jitter - (8bit) pointer to variable to store QueryJitter value
@@ -822,7 +927,7 @@ enum zb_zcl_ota_upgrade_image_status_e
   zb_zcl_ota_upgrade_server_variable_t server_var_##attr_list =  {                        \
     query_jitter, /* 0, 0,*/ current_time, /*ZB_ZCL_OTA_UPGRADE_UPGRADE_TIME_DEF_VALUE,*/ \
     length, table_##attr_list };                                                          \
-  ZB_ZCL_START_DECLARE_ATTRIB_LIST(attr_list)                                             \
+  ZB_ZCL_START_DECLARE_ATTRIB_LIST_CLUSTER_REVISION(attr_list, ZB_ZCL_OTA_UPGRADE)        \
   ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_ATTR_OTA_UPGRADE_SERVER_DATA_ID, &(server_var_##attr_list)) \
   ZB_ZCL_FINISH_DECLARE_ATTRIB_LIST
 
@@ -833,7 +938,7 @@ enum zb_zcl_ota_upgrade_image_status_e
 */
 
 /*! @brief OTA Upgrade cluster client to server command identifiers
-    @see OTA spec, OTA Upgrade Cluster, 6.10.1
+    @see ZCL8 spec, Table 11-16
 */
 enum zb_zcl_ota_upgrade_cmd_e
 {
@@ -841,11 +946,11 @@ enum zb_zcl_ota_upgrade_cmd_e
   ZB_ZCL_CMD_OTA_UPGRADE_IMAGE_BLOCK_ID         = 0x03, /**< "Image Block Request" command */
   ZB_ZCL_CMD_OTA_UPGRADE_IMAGE_PAGE_ID          = 0x04, /**< "Image Page Request" command */
   ZB_ZCL_CMD_OTA_UPGRADE_UPGRADE_END_ID         = 0x06, /**< "Upgrade End Request" command */
-  ZB_ZCL_CMD_OTA_UPGRADE_QUERY_SPECIFIC_FILE_ID = 0x08, /**< "Query Specific File Request" command */
+  ZB_ZCL_CMD_OTA_UPGRADE_QUERY_SPECIFIC_FILE_ID = 0x08, /**< "Query Device Specific File Request" command */
 };
 
 /*! @brief OTA Upgrade cluster server to client command identifiers
-    @see OTA spec, OTA Upgrade Cluster, 6.10.1
+    @see ZCL8 spec, Table 11-16
 */
 enum zb_zcl_ota_upgrade_resp_cmd_e
 {
@@ -853,7 +958,7 @@ enum zb_zcl_ota_upgrade_resp_cmd_e
   ZB_ZCL_CMD_OTA_UPGRADE_QUERY_NEXT_IMAGE_RESP_ID     = 0x02, /**< "Query Next Image Response" command */
   ZB_ZCL_CMD_OTA_UPGRADE_IMAGE_BLOCK_RESP_ID          = 0x05, /**< "Image Block Response" command */
   ZB_ZCL_CMD_OTA_UPGRADE_UPGRADE_END_RESP_ID          = 0x07, /**< "Upgrade End Response" command */
-  ZB_ZCL_CMD_OTA_UPGRADE_QUERY_SPECIFIC_FILE_RESP_ID  = 0x09, /**< "Query Specific File Response" command */
+  ZB_ZCL_CMD_OTA_UPGRADE_QUERY_SPECIFIC_FILE_RESP_ID  = 0x09, /**< "Query Device Specific File Response" command */
 
   ZB_ZCL_CMD_OTA_UPGRADE_INTERNAL_ABORT_ID            = 0xf9, /**< ZBOSS internal command */
 };
@@ -888,7 +993,7 @@ enum zb_zcl_ota_upgrade_resp_cmd_e
 /************************* Query Next Image Request **************************/
 
 /*! @brief Structure representation of Query Next Image Request command payload
-  @see OTA spec, OTA Upgrade Cluster 6.10.4.1
+  @see ZCL8 specification, subsection 11.13.4
 */typedef ZB_PACKED_PRE struct zb_zcl_ota_upgrade_query_next_image_s
 {
   zb_uint8_t fc;              /**< Field Control, see @ref zb_zcl_ota_upgrade_image_notify_payload_type_e */
@@ -900,7 +1005,7 @@ enum zb_zcl_ota_upgrade_resp_cmd_e
 } ZB_PACKED_STRUCT zb_zcl_ota_upgrade_query_next_image_t;
 
 /*! @brief OTA Image Upgrade Status Attribute Values
-    @see OTA spec, OTA Upgrade Cluster 6.10.4.1.2
+    @see ZCL8 specification, subsection 11.13.4.2.1
 */
 enum zb_zcl_ota_upgrade_query_next_image_fc_e
 {
@@ -908,7 +1013,7 @@ enum zb_zcl_ota_upgrade_query_next_image_fc_e
   ZB_ZCL_OTA_UPGRADE_QUERY_NEXT_IMAGE_HW_VERSION                = 1 << 0,
 };
 
-/*! @brief Send "Query Next Image Request" command, see OTA spec 6.10.4
+/*! @brief Send "Query Next Image Request" command, see ZCL8 specification, subsection 11.13.4
     @param buffer to put packet to
     @param addr - address to send packet to
     @param dst_addr_mode - addressing mode
@@ -944,7 +1049,7 @@ enum zb_zcl_ota_upgrade_query_next_image_fc_e
     ZB_FALSE, 0);                                                           \
 }
 
-/** @brief Macro for getting "Query Next Image Request" command, see OTA spec 6.10.4
+/** @brief Macro for getting "Query Next Image Request" command, see ZCL8 specification, subsection 11.13.4
   * @attention Assumes that ZCL header already cut.
   * @param data_ptr - pointer to a variable of type @ref
   * zb_zcl_ota_upgrade_query_next_image_s.
@@ -962,7 +1067,7 @@ enum zb_zcl_ota_upgrade_query_next_image_fc_e
     expected_payload_len -= sizeof(zb_uint16_t);                                   \
   }                                                                                \
                                                                                    \
-  if (zb_buf_len((buffer)) != expected_payload_len)                                \
+  if (zb_buf_len((buffer)) < expected_payload_len)                                 \
   {                                                                                \
    (status) = ZB_ZCL_PARSE_STATUS_FAILURE;                                        \
   }                                                                               \
@@ -987,7 +1092,7 @@ enum zb_zcl_ota_upgrade_query_next_image_fc_e
 /************************* Image Block Request **************************/
 
 /*! @brief Structure representation of Image Block Request command payload
-  @see OTA spec, OTA Upgrade Cluster 6.10.6.1
+  @see ZCL8 specification, subsection 11.13.6.1
 */
 typedef ZB_PACKED_PRE struct zb_zcl_ota_upgrade_image_block_s
 {
@@ -1004,17 +1109,17 @@ typedef ZB_PACKED_PRE struct zb_zcl_ota_upgrade_image_block_s
 } ZB_PACKED_STRUCT zb_zcl_ota_upgrade_image_block_t;
 
 /*! @brief OTA Image Upgrade Status Attribute Values
-    @see OTA spec, OTA Upgrade Cluster 6.10.6.1.2
+    @see ZCL8 specification, subsection 11.13.6.2.1
 */
 enum zb_zcl_ota_upgrade_image_block_fc_e
 {
-  /*! @brief Request node’s IEEE address Present */
+  /*! @brief Request node's IEEE address Present */
   ZB_ZCL_OTA_UPGRADE_QUERY_IMAGE_BLOCK_IEEE_PRESENT     = 1 << 0,
   /*! @brief BlockRequestDelay present */
   ZB_ZCL_OTA_UPGRADE_QUERY_IMAGE_BLOCK_DELAY_PRESENT    = 1 << 1,
 };
 
-/*! @brief Send "Image Block Request" command, see OTA spec 6.10.6
+/*! @brief Send "Image Block Request" command, see ZCL8 specification, subsection 11.13.6
     @param buffer to put packet to
     @param addr - address to send packet to
     @param dst_addr_mode - addressing mode
@@ -1061,7 +1166,7 @@ enum zb_zcl_ota_upgrade_image_block_fc_e
       current_delay);                                                       \
 }
 
-/** @brief Macro for getting "Image Block Request" command, see OTA spec 6.10.6
+/** @brief Macro for getting "Image Block Request" command, see ZCL8 specification, subsection 11.13.6
   * @attention Assumes that ZCL header already cut.
   * @param data_ptr - pointer to a variable of type @ref
   * zb_zcl_ota_upgrade_image_block_s.
@@ -1073,7 +1178,7 @@ enum zb_zcl_ota_upgrade_image_block_fc_e
   zb_zcl_ota_upgrade_image_block_t *src_ptr =                             \
        (zb_zcl_ota_upgrade_image_block_t*)zb_buf_begin((buffer));         \
                                                                           \
-  if (zb_buf_len((buffer)) != sizeof(zb_zcl_ota_upgrade_image_block_t) -  \
+  if (zb_buf_len((buffer)) < sizeof(zb_zcl_ota_upgrade_image_block_t) -   \
       ( !(src_ptr->fc & ZB_ZCL_OTA_UPGRADE_QUERY_IMAGE_BLOCK_IEEE_PRESENT) ? sizeof(zb_ieee_addr_t) : 0) -    \
       ( !(src_ptr->fc & ZB_ZCL_OTA_UPGRADE_QUERY_IMAGE_BLOCK_DELAY_PRESENT) ? sizeof(zb_uint16_t) : 0) )      \
   {                                                                       \
@@ -1102,7 +1207,7 @@ enum zb_zcl_ota_upgrade_image_block_fc_e
 /************************* Image Page Request **************************/
 
 /*! @brief Structure representation of Image Page Request command payload
-  @see OTA spec, OTA Upgrade Cluster 6.10.7.1
+  @see ZCL8 specification, subsection 11.13.7
 */
 typedef ZB_PACKED_PRE struct zb_zcl_ota_upgrade_image_page_s
 {
@@ -1120,7 +1225,7 @@ typedef ZB_PACKED_PRE struct zb_zcl_ota_upgrade_image_page_s
 } ZB_PACKED_STRUCT zb_zcl_ota_upgrade_image_page_t;
 
 /*! @brief OTA Image Upgrade Status Attribute Values
-    @see OTA spec, OTA Upgrade Cluster 6.10.7.1.2
+    @see ZCL8 specification, subsection 11.13.7.2.1
 */
 enum zb_zcl_ota_upgrade_image_page_fc_e
 {
@@ -1128,7 +1233,7 @@ enum zb_zcl_ota_upgrade_image_page_fc_e
   ZB_ZCL_OTA_UPGRADE_QUERY_IMAGE_PAGE_IEEE_PRESENT     = 1 << 0,
 };
 
-/*! @brief Send "Image Page Request" command, see OTA spec 6.10.7
+/*! @brief Send "Image Page Request" command, see ZCL8 specification, subsection 11.13.7
     @param buffer to put packet to
     @param addr - address to send packet to
     @param dst_addr_mode - addressing mode
@@ -1171,7 +1276,7 @@ enum zb_zcl_ota_upgrade_image_page_fc_e
       ZB_ZCL_CLUSTER_ID_OTA_UPGRADE, cb);                                   \
 }
 
-/** @brief Macro for getting "Image Page Request" command, see OTA spec 6.10.7
+/** @brief Macro for getting "Image Page Request" command, see ZCL8 specification, subsection 11.13.7
   * @attention Assumes that ZCL header already cut.
   * @param data_ptr - pointer to a variable of type @ref
   * zb_zcl_ota_upgrade_image_page_s.
@@ -1183,7 +1288,7 @@ enum zb_zcl_ota_upgrade_image_page_fc_e
   zb_zcl_ota_upgrade_image_page_t *src_ptr =                              \
        (zb_zcl_ota_upgrade_image_page_t*)zb_buf_begin((buffer));          \
                                                                           \
-  if (zb_buf_len((buffer)) != sizeof(zb_zcl_ota_upgrade_image_page_t) -   \
+  if (zb_buf_len((buffer)) < sizeof(zb_zcl_ota_upgrade_image_page_t) -    \
       ((src_ptr->fc & ZB_ZCL_OTA_UPGRADE_QUERY_IMAGE_PAGE_IEEE_PRESENT) ? sizeof(zb_ieee_addr_t) : 0) )      \
   {                                                                       \
    (status) = ZB_ZCL_PARSE_STATUS_FAILURE;                                \
@@ -1209,7 +1314,7 @@ enum zb_zcl_ota_upgrade_image_page_fc_e
 /************************* Upgrade End Request **************************/
 
 /*! @brief Structure representation of Upgrade End Request command payload
-  @see OTA spec, OTA Upgrade Cluster 6.10.9.1
+  @see ZCL8 specification, subsection 11.13.9
 */typedef ZB_PACKED_PRE struct zb_zcl_ota_upgrade_upgrade_end_s
 {
   zb_uint8_t status;          /**< Status */
@@ -1219,10 +1324,7 @@ enum zb_zcl_ota_upgrade_image_page_fc_e
 
 } ZB_PACKED_STRUCT zb_zcl_ota_upgrade_upgrade_end_t;
 
-/*! @brief OTA Image Upgrade Status Attribute Values
-    @see OTA spec, OTA Upgrade Cluster 6.10.9.1.2
-*/
-/*! @brief Send "Upgrade End Request" command, see OTA spec 6.10.9
+/*! @brief Send "Upgrade End Request" command, see ZCL8 specification, subsection 11.13.9
     @param buffer to put packet to
     @param addr - address to send packet to
     @param dst_addr_mode - addressing mode
@@ -1253,7 +1355,7 @@ enum zb_zcl_ota_upgrade_image_page_fc_e
       ZB_ZCL_CLUSTER_ID_OTA_UPGRADE, cb);                                   \
 }
 
-/** @brief Macro for getting "Upgrade End Request" command, see OTA spec 6.10.9
+/** @brief Macro for getting "Upgrade End Request" command, see ZCL8 specification, subsection 11.13.9
   * @attention Assumes that ZCL header already cut.
   * @param data_ptr - pointer to a variable of type @ref
   * zb_zcl_ota_upgrade_upgrade_end_s.
@@ -1265,7 +1367,7 @@ enum zb_zcl_ota_upgrade_image_page_fc_e
   zb_zcl_ota_upgrade_upgrade_end_t *src_ptr =                             \
        (zb_zcl_ota_upgrade_upgrade_end_t*)zb_buf_begin((buffer));         \
                                                                           \
-  if (zb_buf_len((buffer)) != sizeof(zb_zcl_ota_upgrade_upgrade_end_t) )  \
+  if (zb_buf_len((buffer)) < sizeof(zb_zcl_ota_upgrade_upgrade_end_t) )   \
   {                                                                       \
    (status_) = ZB_ZCL_PARSE_STATUS_FAILURE;                               \
   }                                                                       \
@@ -1282,7 +1384,7 @@ enum zb_zcl_ota_upgrade_image_page_fc_e
 /************************* Query Specific File Request **************************/
 
 /*! @brief Structure representation of Query Specific File Request command payload
-  @see OTA spec, OTA Upgrade Cluster 6.10.11.1
+  @see ZCL8 specification, subsection 11.13.10
 */typedef ZB_PACKED_PRE struct zb_zcl_ota_upgrade_query_specific_file_s
 {
   zb_ieee_addr_t node_addr;     /**< Node address */
@@ -1293,7 +1395,7 @@ enum zb_zcl_ota_upgrade_image_page_fc_e
 
 } ZB_PACKED_STRUCT zb_zcl_ota_upgrade_query_specific_file_t;
 
-/*! @brief Send "Query Specific File Request" command, see OTA spec 6.10.11
+/*! @brief Send "Query Specific File Request" command, see ZCL8 specification, subsection 11.13.10
     @param buffer to put packet to
     @param addr - address to send packet to
     @param dst_addr_mode - addressing mode
@@ -1326,7 +1428,7 @@ enum zb_zcl_ota_upgrade_image_page_fc_e
       ZB_ZCL_CLUSTER_ID_OTA_UPGRADE, cb);                                   \
 }
 
-/** @brief Macro for getting "Query Specific File Request" command, see OTA spec 6.10.11
+/** @brief Macro for getting "Query Specific File Request" command, see ZCL8 specification, subsection 11.13.10
   * @attention Assumes that ZCL header already cut.
   * @param data_ptr - pointer to a variable of type @ref
   * zb_zcl_ota_upgrade_query_specific_file_s.
@@ -1335,7 +1437,7 @@ enum zb_zcl_ota_upgrade_image_page_fc_e
   */
 #define ZB_ZCL_OTA_UPGRADE_GET_QUERY_SPECIFIC_FILE_REQ(data_ptr, buffer, status)  \
 {                                                                         \
-  if (zb_buf_len((buffer)) != sizeof(zb_zcl_ota_upgrade_query_specific_file_t) )  \
+  if (zb_buf_len((buffer)) < sizeof(zb_zcl_ota_upgrade_query_specific_file_t) )   \
   {                                                                       \
    (status) = ZB_ZCL_PARSE_STATUS_FAILURE;                                \
   }                                                                       \
@@ -1355,7 +1457,7 @@ enum zb_zcl_ota_upgrade_image_page_fc_e
 /******************************* Image Notify ******************************/
 
 /*! @brief Structure representation of Image Notify response command payload
-    @see OTA spec, OTA Upgrade Cluster 6.10.3.1
+    @see ZCL8 specification, subsection 11.13.3.1
 */
 typedef ZB_PACKED_PRE struct zb_zcl_ota_upgrade_image_notify_s
 {
@@ -1368,7 +1470,7 @@ typedef ZB_PACKED_PRE struct zb_zcl_ota_upgrade_image_notify_s
 } ZB_PACKED_STRUCT zb_zcl_ota_upgrade_image_notify_t;
 
 /*! @brief OTA Image Upgrade Status Attribute Values
-    @see OTA spec, OTA Upgrade Cluster 6.10.3.2
+    @see ZCL8 specification, subsection 11.13.3.2.1
 */
 enum zb_zcl_ota_upgrade_image_notify_payload_type_e
 {
@@ -1382,7 +1484,7 @@ enum zb_zcl_ota_upgrade_image_notify_payload_type_e
   ZB_ZCL_OTA_UPGRADE_IMAGE_NOTIFY_PAYLOAD_JITTER_CODE_IMAGE_VER = 0x03,
 };
 
-/*! @brief Send Image Notify command, see OTA spec 6.10.3
+/*! @brief Send Image Notify command, see ZCL8 specification, subsection 11.13.3
     @param buffer - to put packet to
     @param addr - address to send packet to
     @param dst_addr_mode - addressing mode
@@ -1454,7 +1556,7 @@ enum zb_zcl_ota_upgrade_image_notify_payload_type_e
 /******************************* Query Next Image Response  ******************************/
 
 /*! @brief Structure representation of Query Next Image Response command payload
-  @see OTA spec, OTA Upgrade Cluster 6.10.5.1
+  @see ZCL8 specification, subsection 11.13.5.1
 */typedef ZB_PACKED_PRE struct zb_zcl_ota_upgrade_query_next_image_res_s
 {
   zb_uint8_t status;        /** Status, see @ref zcl_status */
@@ -1466,7 +1568,7 @@ enum zb_zcl_ota_upgrade_image_notify_payload_type_e
 } ZB_PACKED_STRUCT zb_zcl_ota_upgrade_query_next_image_res_t;
 
 
-/*! @brief Send Query Next Image Response command, see OTA spec 6.10.5
+/*! @brief Send Query Next Image Response command, see ZCL8 specification, subsection 11.13.5
     @param buffer - to put packet to
     @param addr - address to send packet to
     @param dst_addr_mode - addressing mode
@@ -1500,7 +1602,7 @@ enum zb_zcl_ota_upgrade_image_notify_payload_type_e
       ZB_ZCL_CLUSTER_ID_OTA_UPGRADE, NULL);                         \
 }
 
-/** @brief Macro for getting Query Next Image Response command, see OTA spec 6.10.5
+/** @brief Macro for getting Query Next Image Response command, see ZCL8 specification, subsection 11.13.5
   * @attention Assumes that ZCL header already cut.
   * @param data_ptr - pointer to a variable of type @ref
   * zb_zcl_ota_upgrade_query_next_image_res_s.
@@ -1512,7 +1614,7 @@ enum zb_zcl_ota_upgrade_image_notify_payload_type_e
   zb_zcl_ota_upgrade_query_next_image_res_t *src_ptr =                        \
        (zb_zcl_ota_upgrade_query_next_image_res_t*)zb_buf_begin((buffer));    \
                                                                               \
-  if (zb_buf_len((buffer)) != ( (src_ptr->status)==ZB_ZCL_STATUS_SUCCESS ?    \
+  if (zb_buf_len((buffer)) < ( (src_ptr->status)==ZB_ZCL_STATUS_SUCCESS ?     \
      sizeof(zb_zcl_ota_upgrade_query_next_image_res_t) : sizeof(zb_uint8_t))) \
   {                                                                           \
     (status_) = ZB_ZCL_PARSE_STATUS_FAILURE;                                  \
@@ -1535,7 +1637,7 @@ enum zb_zcl_ota_upgrade_image_notify_payload_type_e
 /******************************* Image Block Response ******************************/
 
 /*! @brief Structure representation of Image Block Response command payload
-  @see OTA spec, OTA Upgrade Cluster 6.10.8.1
+    @see ZCL8 specification, subsection 11.13.8.1
 */
 typedef ZB_PACKED_PRE struct zb_zcl_ota_upgrade_image_block_res_s
 {
@@ -1566,7 +1668,7 @@ typedef ZB_PACKED_PRE struct zb_zcl_ota_upgrade_image_block_res_s
 
 } ZB_PACKED_STRUCT zb_zcl_ota_upgrade_image_block_res_t;
 
-/*! @brief Send Image Block Response command - success status, see OTA spec 6.10.8
+/*! @brief Send Image Block Response command - success status, see ZCL8 specification, subsection 11.13.8
     @param buffer - to put packet to
     @param addr - address to send packet to
     @param dst_addr_mode - addressing mode
@@ -1601,7 +1703,8 @@ typedef ZB_PACKED_PRE struct zb_zcl_ota_upgrade_image_block_res_s
       ZB_ZCL_CLUSTER_ID_OTA_UPGRADE, NULL);                         \
 }
 
-/*! @brief Send Image Block Response command - wait for data status, see OTA spec 6.10.8
+/*! @brief Send Image Block Response command - wait for data status, see ZCL8 specification,
+    subsection 11.13.8
     @param buffer - to put packet to
     @param addr - address to send packet to
     @param dst_addr_mode - addressing mode
@@ -1630,7 +1733,7 @@ typedef ZB_PACKED_PRE struct zb_zcl_ota_upgrade_image_block_res_s
       ZB_ZCL_CLUSTER_ID_OTA_UPGRADE, NULL);                         \
 }
 
-/*! @brief Send Image Block Response command - abort status, see OTA spec 6.10.8
+/*! @brief Send Image Block Response command - abort status, see ZCL8 specification, subsection 11.13.8
     @param buffer - to put packet to
     @param addr - address to send packet to
     @param dst_addr_mode - addressing mode
@@ -1653,7 +1756,7 @@ typedef ZB_PACKED_PRE struct zb_zcl_ota_upgrade_image_block_res_s
       ZB_ZCL_CLUSTER_ID_OTA_UPGRADE, NULL);                         \
 }
 
-/** @brief Macro for getting Image Block Response command, see OTA spec 6.10.8
+/** @brief Macro for getting Image Block Response command, see ZCL8 specification, subsection 11.13.8
   * @attention Assumes that ZCL header already cut.
   * @param data_ptr - pointer to a variable of type @ref
   * zb_zcl_ota_upgrade_image_block_res_s.
@@ -1667,7 +1770,7 @@ typedef ZB_PACKED_PRE struct zb_zcl_ota_upgrade_image_block_res_s
   zb_zcl_ota_upgrade_image_block_res_t *src_ptr =                             \
        (zb_zcl_ota_upgrade_image_block_res_t*)zb_buf_begin((buffer));         \
                                                                               \
-  if (zb_buf_len((buffer)) != sizeof(zb_uint8_t) +                            \
+  if (zb_buf_len((buffer)) < sizeof(zb_uint8_t) +                             \
       ((src_ptr->status)==ZB_ZCL_STATUS_SUCCESS ?                             \
           sizeof(src_ptr->response.success) - sizeof(zb_uint8_t*)+            \
                 src_ptr->response.success.data_size : 0) +                    \
@@ -1712,8 +1815,8 @@ typedef ZB_PACKED_PRE struct zb_zcl_ota_upgrade_image_block_res_s
 
 /******************************* Upgrade End Response ******************************/
 
-/*! @brief Structure representation of Upgrade End  Response command payload
-  @see OTA spec, OTA Upgrade Cluster 6.10.10.1
+/*! @brief Structure representation of Upgrade End Response command payload
+    @see ZCL8 specification, subsection 11.13.9.6.1
 */
 typedef ZB_PACKED_PRE struct zb_zcl_ota_upgrade_upgrade_end_res_s
 {
@@ -1726,7 +1829,7 @@ typedef ZB_PACKED_PRE struct zb_zcl_ota_upgrade_upgrade_end_res_s
 } ZB_PACKED_STRUCT zb_zcl_ota_upgrade_upgrade_end_res_t;
 
 
-/*! @brief Send Upgrade End  Response command, see OTA spec 6.10.10
+/*! @brief Send Upgrade End Response command, see ZCL8 specification, subsection 11.13.9.6
     @param buffer - to put packet to
     @param addr - address to send packet to
     @param dst_addr_mode - addressing mode
@@ -1757,7 +1860,7 @@ typedef ZB_PACKED_PRE struct zb_zcl_ota_upgrade_upgrade_end_res_s
       ZB_ZCL_CLUSTER_ID_OTA_UPGRADE, NULL);                         \
 }
 
-/** @brief Macro for getting Upgrade End  Response command, see OTA spec 6.10.10
+/** @brief Macro for getting Upgrade End  Response command, see ZCL8 specification, subsection 11.13.9.6
   * @attention Assumes that ZCL header already cut.
   * @param data_ptr - pointer to a variable of type @ref
   * zb_zcl_ota_upgrade_upgrade_end_res_s.
@@ -1766,7 +1869,7 @@ typedef ZB_PACKED_PRE struct zb_zcl_ota_upgrade_upgrade_end_res_s
   */
 #define ZB_ZCL_OTA_UPGRADE_GET_UPGRADE_END_RES(data_ptr, buffer, status_)     \
 {                                                                             \
-  if (zb_buf_len((buffer)) != sizeof(zb_zcl_ota_upgrade_upgrade_end_res_t) )  \
+  if (zb_buf_len((buffer)) < sizeof(zb_zcl_ota_upgrade_upgrade_end_res_t) )   \
   {                                                                           \
     (status_) = ZB_ZCL_PARSE_STATUS_FAILURE;                                  \
   }                                                                           \
@@ -1785,9 +1888,10 @@ typedef ZB_PACKED_PRE struct zb_zcl_ota_upgrade_upgrade_end_res_s
 
 /******************************* Query Specific File Response ******************************/
 
-/*! @brief Structure representation of Query Specific File  Response command payload
-  @see OTA spec, OTA Upgrade Cluster 6.10.12.1
-*/typedef ZB_PACKED_PRE struct zb_zcl_ota_upgrade_query_specific_file_res_s
+/*! @brief Structure representation of Query Specific File Response command payload
+    @see ZCL8 specification, subsection 11.13.11.1
+*/
+typedef ZB_PACKED_PRE struct zb_zcl_ota_upgrade_query_specific_file_res_s
 {
   zb_uint8_t status;        /** Status, see @ref zcl_status */
   zb_uint16_t manufacturer; /** Manufacturer code */
@@ -1798,7 +1902,7 @@ typedef ZB_PACKED_PRE struct zb_zcl_ota_upgrade_upgrade_end_res_s
 } ZB_PACKED_STRUCT zb_zcl_ota_upgrade_query_specific_file_res_t;
 
 
-/*! @brief Send Query Specific File  Response command, see OTA spec 6.10.12
+/*! @brief Send Query Specific File Response command, see ZCL8 specification, subsection 11.13.11
     @param buffer - to put packet to
     @param addr - address to send packet to
     @param dst_addr_mode - addressing mode
@@ -1832,7 +1936,8 @@ typedef ZB_PACKED_PRE struct zb_zcl_ota_upgrade_upgrade_end_res_s
       ZB_ZCL_CLUSTER_ID_OTA_UPGRADE, NULL);                         \
 }
 
-/** @brief Macro for getting Query Specific File  Response command, see OTA spec 6.10.12
+/** @brief Macro for getting Query Specific File  Response command, see ZCL8 specification,
+  * subsection 11.13.11
   * @attention Assumes that ZCL header already cut.
   * @param data_ptr - pointer to a variable of type @ref
   * zb_zcl_ota_upgrade_query_specific_file_res_s.
@@ -1843,7 +1948,7 @@ typedef ZB_PACKED_PRE struct zb_zcl_ota_upgrade_upgrade_end_res_s
 {                                                                                   \
   zb_zcl_ota_upgrade_query_specific_file_res_t *src_ptr =                           \
        (zb_zcl_ota_upgrade_query_specific_file_res_t*)zb_buf_begin((buffer));       \
-  if (zb_buf_len((buffer)) != ( (src_ptr->status)==ZB_ZCL_STATUS_SUCCESS ?          \
+  if (zb_buf_len((buffer)) < ( (src_ptr->status)==ZB_ZCL_STATUS_SUCCESS ?           \
       sizeof(zb_zcl_ota_upgrade_query_specific_file_res_t) : sizeof(zb_uint8_t) ) ) \
   {                                                                                 \
     (status_) = ZB_ZCL_PARSE_STATUS_FAILURE;                                  \
@@ -2009,8 +2114,7 @@ enum zb_zcl_ota_upgrade_status_e
   }                                                                 \
 }                                                                   \
 
-/* NK:WARNING: Implicit passing "param" to device_cb!
-   TODO: Fix all cases! Use ZB_REF_FROM_BUF instead. */
+
 #define ZB_ZCL_OTA_UPGRADE_ABORT_USER_APP(buffer)                   \
 {                                                                   \
   TRACE_MSG(TRACE_ZCL1, "ZB_ZCL_OTA_UPGRADE_ABORT_USER_APP", (FMT__0)); \
@@ -2119,6 +2223,8 @@ typedef struct zb_zcl_ota_upgrade_cli_ctx_s
   zb_zcl_ota_upgrade_image_block_res_t payload_2;
   zb_uint_t resend_retries;
   zb_uint8_t ota_restart_after_rejoin;
+  zb_uint16_t ota_period_backup;
+  zb_uint32_t ota_dfv;
 } zb_zcl_ota_upgrade_cli_ctx_t;
 #endif
 

@@ -61,6 +61,12 @@
  *    This section describes DRLC client attributes and common cluster enumerations.
  */
 
+/** @brief Default value for DRLC cluster revision global attribute */
+#define ZB_ZCL_DRLC_CLUSTER_REVISION_DEFAULT ((zb_uint16_t)0x0002u)
+
+/** @brief Maximal value for implemented DRLC cluster revision global attribute */
+#define ZB_ZCL_DRLC_CLUSTER_REVISION_MAX ZB_ZCL_DRLC_CLUSTER_REVISION_DEFAULT
+
 /** DRLC Client attributes. @see SE spec, subclause D.2.3.2 */
 typedef enum zb_zcl_drlc_cli_attr_e
 {
@@ -294,6 +300,10 @@ typedef ZB_PACKED_PRE struct zb_zcl_drlc_lce_payload_s {
   zb_uint8_t event_control;                          /* (M) */
 } ZB_PACKED_STRUCT zb_zcl_drlc_lce_payload_t;
 
+/** @def ZB_ZCL_DRLC_SRV_CMD_LOAD_CONTROL_EVENT_IS_VALID
+ */
+#define ZB_ZCL_DRLC_SRV_CMD_LOAD_CONTROL_EVENT_IS_VALID(size) \
+  ((size) >= sizeof(zb_zcl_drlc_lce_payload_t))
 
 /** @ref ZB_ZCL_DRLC_SRV_CMD_CANCEL_LOAD_CONTROL_EVENT "CancelLoadControlEvent" command payload
  * @see SE spec, Figure D-3
@@ -329,6 +339,30 @@ typedef ZB_PACKED_PRE struct zb_zcl_drlc_cancel_lce_payload_s {
     */
   zb_uint32_t effective_time;                        /* (M) */
 } ZB_PACKED_STRUCT zb_zcl_drlc_cancel_lce_payload_t;
+
+/** @def ZB_ZCL_DRLC_SRV_CMD_CANCEL_LOAD_CONTROL_EVENT_IS_VALID
+ */
+#define ZB_ZCL_DRLC_SRV_CMD_CANCEL_LOAD_CONTROL_EVENT_IS_VALID(size) \
+  ((size) >= sizeof(zb_zcl_drlc_cancel_lce_payload_t))
+
+
+/** @ref ZB_ZCL_DRLC_SRV_CMD_CANCEL_ALL_LOAD_CONTROL_EVENTS "CancelAllLoadControlEvents" command payload
+ * @see SE spec, Figure D-3
+ */
+typedef ZB_PACKED_PRE struct zb_zcl_drlc_cancel_alce_payload_s {
+  /* Mandatory fields. */
+
+  /** Where the Cancel Control field indicates that randomization is to be used, the receiving device should first
+    * check whether Duration Time was to be randomized and, if so, termination of the event should be adjusted
+    * according to the value of the DurationRandomizationMinutes attribute. 
+    */
+  zb_uint8_t cancel_control;                       /* (M) */
+} ZB_PACKED_STRUCT zb_zcl_drlc_cancel_alce_payload_t;
+
+/** @def ZB_ZCL_DRLC_SRV_CMD_CANCEL_ALL_LOAD_CONTROL_EVENTS_IS_VALID
+ */
+#define ZB_ZCL_DRLC_SRV_CMD_CANCEL_ALL_LOAD_CONTROL_EVENTS_IS_VALID(size) \
+  ((size) >= sizeof(zb_zcl_drlc_cancel_alce_payload_t))
 
 /** @ref ZB_ZCL_DRLC_CLI_CMD_REPORT_EVENT_STATUS "ReportEventStatus" command payload
  * @see SE spec, Figure D-5
@@ -386,6 +420,10 @@ typedef ZB_PACKED_PRE struct zb_zcl_drlc_report_event_status_payload_s {
   zb_uint8_t signature[42];                             /* (O) */
 } ZB_PACKED_STRUCT zb_zcl_drlc_report_event_status_payload_t;
 
+/** @def ZB_ZCL_DRLC_CLI_CMD_REPORT_EVENT_STATUS_IS_VALID
+ */
+#define ZB_ZCL_DRLC_CLI_CMD_REPORT_EVENT_STATUS_IS_VALID(size) \
+  ((size) >= sizeof(zb_zcl_drlc_report_event_status_payload_t)) 
 
 /** @ref ZB_ZCL_DRLC_CLI_CMD_GET_SCHEDULED_EVENTS "GetScheduledEvents" command payload
  * @see SE spec, Figure D-6
@@ -411,7 +449,6 @@ typedef ZB_PACKED_PRE struct zb_zcl_drlc_get_scheduled_events_payload_s {
   zb_uint32_t issuer_event_id;                   /* (O) */
 } ZB_PACKED_STRUCT zb_zcl_drlc_get_scheduled_events_payload_t;
 
-
 /** Initialize @ref ZB_ZCL_DRLC_SRV_CMD_LOAD_CONTROL_EVENT "LoadControlEvent" command @ref zb_zcl_drlc_lce_payload_t payload*/
 #define ZB_ZCL_DRLC_LCE_PAYLOAD_INIT                \
   (zb_zcl_drlc_lce_payload_t)                       \
@@ -427,6 +464,10 @@ typedef ZB_PACKED_PRE struct zb_zcl_drlc_get_scheduled_events_payload_s {
 /** Initialize @ref ZB_ZCL_DRLC_SRV_CMD_CANCEL_LOAD_CONTROL_EVENT "CancelLoadControlEvent" command @ref zb_zcl_drlc_cancel_lce_payload_t payload */
 #define ZB_ZCL_DRLC_CANCEL_LCE_PAYLOAD_INIT \
   (zb_zcl_drlc_cancel_lce_payload_t) {0}
+
+/** Initialize @ref ZB_ZCL_DRLC_SRV_CMD_CANCEL_ALL_LOAD_CONTROL_EVENTS "CancelAllLoadControlEvents" command @ref zb_zcl_drlc_cancel_alce_payload_t payload */
+#define ZB_ZCL_DRLC_CANCEL_ALCE_PAYLOAD_INIT \
+  (zb_zcl_drlc_cancel_alce_payload_t) {0}
 
 /** Initialize @ref ZB_ZCL_DRLC_CLI_CMD_REPORT_EVENT_STATUS "ReportEventStatus" command @ref zb_zcl_drlc_report_event_status_payload_t payload */
 #define ZB_ZCL_DRLC_REPORT_EVENT_STATUS_PAYLOAD_INIT    \
@@ -447,6 +488,12 @@ typedef ZB_PACKED_PRE struct zb_zcl_drlc_get_scheduled_events_payload_s {
     0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,                 \
   },                                                    \
 }
+
+/** Check if some size in range of variable size of specified payload.
+ */
+#define ZB_ZCL_DRLC_GET_SCHEDULED_EVENTS_PAYLOAD_SIZE_IS_VALID(size) \
+((size) >= ((zb_int16_t)sizeof(zb_zcl_drlc_get_scheduled_events_payload_t) - \
+(zb_int16_t)ZB_SIZEOF_FIELD(zb_zcl_drlc_get_scheduled_events_payload_t, issuer_event_id)))
 
 /** Initialize @ref ZB_ZCL_DRLC_CLI_CMD_GET_SCHEDULED_EVENTS "GetScheduledEvents" command @ref zb_zcl_drlc_get_scheduled_events_payload_t payload */
 #define ZB_ZCL_DRLC_CMD_GET_SCHEDULED_EVENTS_PAYLOAD_INIT \
@@ -517,7 +564,6 @@ void zb_drlc_server_send_cancel_all_load_control_events(zb_uint8_t param,
   zb_addr_u *dst_addr, zb_aps_addr_mode_t dst_addr_mode, zb_uint8_t dst_ep,
   zb_uint8_t src_ep, zb_uint8_t *payload, zb_callback_t cb);
 
-
 /** Function for send @ref  ZB_ZCL_DRLC_CLI_CMD_REPORT_EVENT_STATUS "ReportEventStatus" command.
  * On sender's side callback ZCL device callback @ref ZB_ZCL_REGISTER_DEVICE_CB will be called with one of @ref ZB_ZCL_DRLC_LOAD_CONTROL_EVENT_CB_ID,
  * @ref ZB_ZCL_DRLC_CANCEL_LOAD_CONTROL_EVENT_CB_ID, @ref ZB_ZCL_DRLC_CANCEL_ALL_LOAD_CONTROL_EVENTS_CB_ID
@@ -542,6 +588,33 @@ void zb_drlc_server_send_cancel_all_load_control_events(zb_uint8_t param,
 void zb_drlc_client_send_report_event_status(zb_uint8_t param,
   zb_addr_u *dst_addr, zb_aps_addr_mode_t dst_addr_mode, zb_uint8_t dst_ep,
   zb_uint8_t src_ep, zb_zcl_drlc_report_event_status_payload_t *payload, zb_callback_t cb);
+
+/** Function for send @ref  ZB_ZCL_DRLC_SEND_CMD_REPORT_EVENT_STATUS_TSN "ReportEventStatus" command.
+ * On sender's side callback ZCL device callback @ref ZB_ZCL_REGISTER_DEVICE_CB will be called with one of @ref ZB_ZCL_DRLC_LOAD_CONTROL_EVENT_CB_ID,
+ * @ref ZB_ZCL_DRLC_CANCEL_LOAD_CONTROL_EVENT_CB_ID, @ref ZB_ZCL_DRLC_CANCEL_ALL_LOAD_CONTROL_EVENTS_CB_ID
+ * callback ids on reception of @ref ZB_ZCL_DRLC_SRV_CMD_LOAD_CONTROL_EVENT "LoadControlEvent",
+ * @ref ZB_ZCL_DRLC_SRV_CMD_CANCEL_LOAD_CONTROL_EVENT "CancelLoadControlEvent",
+ * @ref ZB_ZCL_DRLC_SRV_CMD_CANCEL_ALL_LOAD_CONTROL_EVENTS "CancellAllLoadControlEvents" commands respectively.
+ * @n On receiver's side callback ZCL device callback @ref ZB_ZCL_REGISTER_DEVICE_CB will be called with
+ * @ref ZB_ZCL_DRLC_REPORT_EVENT_STATUS_CB_ID callback id.
+ * @param param - Reference to buffer.
+ * @param dst_addr - Address of the device to send command to.
+ * @param dst_addr_mode - Address mode for dst_addr.
+ * @param dst_ep - Destination endpoint.
+ * @param src_ep - Current endpoint.
+ * @param payload - Packet payload (@ref zb_zcl_drlc_report_event_status_payload_t).
+ * @param tsn - transaction sequence number of response
+ * @param cb - Callback which should be called when the ZCL stack receives APS ack.
+ * @par Usage
+ * @n Handle @ref ZB_ZCL_DRLC_SRV_CMD_CANCEL_ALL_LOAD_CONTROL_EVENTS "CancellAllLoadControlEvents" command
+ * @snippet se/in_home_display/se_ihd_zr.c ihd_handle_cancel_all_load_control_events
+ * @n Example of sending @ref ZB_ZCL_DRLC_SEND_CMD_REPORT_EVENT_STATUS_TSN "ReportEventStatus" command
+ * @snippet se/in_home_display/se_ihd_zr.c ihd_send_report_event_status
+ */
+void zb_drlc_client_send_report_event_status_tsn(zb_uint8_t param,
+  zb_addr_u *dst_addr, zb_aps_addr_mode_t dst_addr_mode, zb_uint8_t dst_ep,
+  zb_uint8_t src_ep, zb_zcl_drlc_report_event_status_payload_t *payload, zb_uint8_t tsn, zb_callback_t cb);
+
 
 
 /** Function for send @ref ZB_ZCL_DRLC_CLI_CMD_GET_SCHEDULED_EVENTS "GetScheduledEvents" command.
@@ -597,6 +670,12 @@ void zb_drlc_client_send_get_scheduled_events(zb_uint8_t param,
   zb_drlc_client_send_report_event_status(_param, \
     _dst_addr, _dst_addr_mode, _dst_ep, _src_ep, _payload, NULL)
 
+/** Macro for call @ref zb_drlc_client_send_report_event_status_tsn function
+ */
+#define ZB_ZCL_DRLC_SEND_CMD_REPORT_EVENT_STATUS_TSN( _param, \
+  _dst_addr, _dst_addr_mode, _dst_ep, _src_ep, _payload, _tsn ) \
+  zb_drlc_client_send_report_event_status_tsn(_param, \
+    _dst_addr, _dst_addr_mode, _dst_ep, _src_ep, _payload, _tsn, NULL)
 
 /** @} */ /* ZB_ZCL_DRLC_COMMANDS_STRUCTURES_AND_DEFINITIONS */
 
@@ -609,7 +688,7 @@ void zb_drlc_client_send_get_scheduled_events(zb_uint8_t param,
  */
  #define ZB_ZCL_DECLARE_DRLC_ATTRIB_LIST(attr_list, utility_enrollment_group,   \
   start_randomization_munutes, duration_randomization_minutes, device_class)    \
-  ZB_ZCL_START_DECLARE_ATTRIB_LIST(attr_list)                                   \
+  ZB_ZCL_START_DECLARE_ATTRIB_LIST_CLUSTER_REVISION(attr_list, ZB_ZCL_DRLC)     \
   ZB_ZCL_SET_ATTR_DESC_M(ZB_ZCL_ATTR_DRLC_UTILITY_ENROLLMENT_GROUP, (utility_enrollment_group), ZB_ZCL_ATTR_TYPE_8BIT, ZB_ZCL_ATTR_ACCESS_READ_WRITE) \
   ZB_ZCL_SET_ATTR_DESC_M(ZB_ZCL_ATTR_DRLC_START_RANDOMIZATION_MINUTES, (start_randomization_munutes), ZB_ZCL_ATTR_TYPE_8BIT, ZB_ZCL_ATTR_ACCESS_READ_WRITE) \
   ZB_ZCL_SET_ATTR_DESC_M(ZB_ZCL_ATTR_DRLC_DURATION_RANDOMIZATION_MINUTES, (duration_randomization_minutes), ZB_ZCL_ATTR_TYPE_8BIT, ZB_ZCL_ATTR_ACCESS_READ_WRITE) \

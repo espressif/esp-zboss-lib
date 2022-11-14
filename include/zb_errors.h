@@ -141,6 +141,7 @@ typedef zb_int32_t zb_ret_t;
 #define  RET_DEVICE_NOT_FOUND                    ERROR_CODE(ERROR_CATEGORY_GENERIC, 71)
 #define  RET_OBSOLETE                            ERROR_CODE(ERROR_CATEGORY_GENERIC, 72)
 #define  RET_INTERRUPTED                         ERROR_CODE(ERROR_CATEGORY_GENERIC, 73)
+#define  RET_NULL_POINTER                        ERROR_CODE(ERROR_CATEGORY_GENERIC, 74)
 
 /** @} */ /* Error codes */
 

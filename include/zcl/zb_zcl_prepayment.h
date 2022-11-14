@@ -35,7 +35,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-/* PURPOSE: Prepayment cluster defintions
+/* PURPOSE: Prepayment cluster definitions
 */
 
 #ifndef ZB_ZCL_PREPAYMENT_H_
@@ -66,6 +66,9 @@
 /** @defgroup ZB_ZCL_PREPAYMENT_ATTRS Prepayment cluster attributes
  * @{
  */
+
+/** @brief Default value for Prepayment cluster revision global attribute */
+#define ZB_ZCL_PREPAYMENT_CLUSTER_REVISION_DEFAULT ((zb_uint16_t)0x0001u)
 
 /** Prepayment Server Attribute Sets
  *  @see SE spec, subclause 7.2.2
@@ -211,11 +214,12 @@ typedef enum zb_zcl_prepayment_prepayment_information_attr_set_e
 /** @endcond */ /* DOXYGEN_ZCL_SECTION && DOXYGEN_SE_SECTION */
 /** @cond internals_doc */
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_PREPAYMENT_PAYMENT_CONTROL_CONFIGURATION(data_ptr) \
-{                                                                                        \
+{                                                                                             \
   ZB_ZCL_ATTR_PREPAYMENT_PAYMENT_CONTROL_CONFIGURATION,                                       \
   ZB_ZCL_ATTR_TYPE_16BITMAP,                                                                  \
-  ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                          \
-  (void*) data_ptr                                                                  \
+  ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                               \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                                         \
+  (void*) data_ptr                                                                            \
 }
 /** @endcond */ /* internals_doc */
 /** @cond DOXYGEN_ZCL_SECTION && DOXYGEN_SE_SECTION */
@@ -225,7 +229,7 @@ typedef enum zb_zcl_prepayment_prepayment_information_attr_set_e
     @param payment_control_configuration - pointer to variable to store Payment Control Configuration attribute value
 */
 #define ZB_ZCL_DECLARE_PREPAYMENT_ATTRIB_LIST(attr_list, payment_control_configuration)                  \
-  ZB_ZCL_START_DECLARE_ATTRIB_LIST(attr_list)                                                            \
+  ZB_ZCL_START_DECLARE_ATTRIB_LIST_CLUSTER_REVISION(attr_list, ZB_ZCL_PREPAYMENT)                             \
   ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_ATTR_PREPAYMENT_PAYMENT_CONTROL_CONFIGURATION, (payment_control_configuration)) \
   ZB_ZCL_FINISH_DECLARE_ATTRIB_LIST
 
@@ -618,7 +622,7 @@ typedef enum zb_zcl_prepayment_historical_cost_consumption_information_set_e
    * the decimal point location for the values found in the Historical Cost
    * Consumption Set of attributes
    */
-  ZB_ZCL_ATTR_PREPAYMENT_HISTORICAL_COST_CONSUMPTION_FORMATING = 0x0500,    /* (O) */
+  ZB_ZCL_ATTR_PREPAYMENT_HISTORICAL_COST_CONSUMPTION_FORMATING = 0x0500,   /* (O) */
 
   /** ConsumptionUnitOfMeasurement provides a label for the Energy, Gas, or Water
    * being measured by the metering device.

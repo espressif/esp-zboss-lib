@@ -131,7 +131,7 @@ enum zb_zcl_metering_attr_e
                                                                          *   captured at the time indicated by attribute @ref ZB_ZCL_ATTR_METERING_DAILY_FREEZE_TIME_ID "DailyFreezeTime". */
   ZB_ZCL_ATTR_METERING_DAILY_FREEZE_TIME_ID,                            /**< @e DailyFreezeTime attribute represents the time of day when DFTSummation is captured
                                                                          *   (hour and minutes). */
-  ZB_ZCL_ATTR_METERING_POWER_FACTOR_ID,                                 /**< @e PowerFactor attribute contains the Average Power Factor ratio in 1/100ths. Valid
+  ZB_ZCL_ATTR_METERING_POWER_FACTOR_ID,                                 /**< @e PowerFactor attribute contains the Average Power Factor ratio in 1/100th. Valid
                                                                          *   values are 0 to 99. */
   ZB_ZCL_ATTR_METERING_READING_SNAPSHOT_TIME_ID,                        /**< @e ReadingSnapshotTime attribute represents the last time all of the
                                                                          *   @ref ZB_ZCL_ATTR_METERING_CURRENT_SUMMATION_DELIVERED_ID "CurrentSummationDelivered",
@@ -1318,6 +1318,8 @@ enum zb_zcl_metering_service_disconnect_reasons_e
                                                                             I < In (Maximum Current) - other */
 };
 
+/** @brief Default value for Metering cluster revision global attribute */
+#define ZB_ZCL_METERING_CLUSTER_REVISION_DEFAULT ((zb_uint16_t)0x0002u)
 
 /*! @brief If set, suppress leading zeros */
 #define ZB_ZCL_METERING_FORMATTING_SUPPRESS_ZERO(b)    (((b) & 0x80)==0x80)
@@ -1618,7 +1620,7 @@ enum zb_zcl_metering_profile_interval_period_e
 };
 
 #define ZB_ZCL_METERING_GET_PROFILE_PAYLOAD_SIZE_IS_VALID(current_size) \
-  ((current_size == sizeof(zb_zcl_metering_get_profile_payload_t) ? ZB_TRUE : ZB_FALSE))
+  ((current_size >= sizeof(zb_zcl_metering_get_profile_payload_t) ? ZB_TRUE : ZB_FALSE))
 
 /** @ref ZB_ZCL_METERING_SRV_CMD_GET_PROFILE_RESPONSE "GetProfileResponse" command payload
  *  @see SE spec, subclause D.3.2.3.1.1.1
@@ -1766,24 +1768,25 @@ typedef ZB_PACKED_PRE struct zb_zcl_metering_get_snapshot_payload_s
  */
 enum zb_zcl_metering_snapshot_cause_e
 {
-  ZB_ZCL_METERING_CAUSE_GENERAL                         =  0,  /**< General */
-  ZB_ZCL_METERING_CAUSE_END_OF_BILLING_PERIOD           =  1,  /**< End of Billing Period */
-  ZB_ZCL_METERING_CAUSE_END_OF_BLOCK_PERIOD             =  2,  /**< End of Block Period */
-  ZB_ZCL_METERING_CAUSE_CHANGE_OF_TARIFF_INFORMATION    =  3,  /**< Change of Tariff Information */
-  ZB_ZCL_METERING_CAUSE_CHANGE_OF_PRICE_MATRIX          =  4,  /**< Change of Price Matrix */
-  ZB_ZCL_METERING_CAUSE_CHANGE_OF_BLOCK_THRESHOLDS      =  5,  /**< Change of Block Thresholds */
-  ZB_ZCL_METERING_CAUSE_CHANGE_OF_CV                    =  6,  /**< Change of CV */
-  ZB_ZCL_METERING_CAUSE_CHANGE_OF_CF                    =  7,  /**< Change of CF */
-  ZB_ZCL_METERING_CAUSE_CHANGE_OF_CALENDAR              =  8,  /**< Change of Calendar */
-  ZB_ZCL_METERING_CAUSE_CRITICAL_PEAK_PRICING           =  9,  /**< Critical Peak Pricing */
-  ZB_ZCL_METERING_CAUSE_MANUALLY_TRIGGERED_FROM_CLIENT  = 10,  /**< Manually Triggered from Client */
-  ZB_ZCL_METERING_CAUSE_END_OF_RESOLVE_PERIOD           = 11,  /**< End of Resolve Period */
-  ZB_ZCL_METERING_CAUSE_CHANGE_OF_TENANCY               = 12,  /**< Change of Tenancy */
-  ZB_ZCL_METERING_CAUSE_CHANGE_OF_SUPPLIER              = 13,  /**< Change of Supplier */
-  ZB_ZCL_METERING_CAUSE_CHANGE_OF_METER_MODE            = 14,  /**< Change of (Meter) Mode */
-  ZB_ZCL_METERING_CAUSE_DEBT_PAYMENT                    = 15,  /**< Debt Payment */
-  ZB_ZCL_METERING_CAUSE_SCHEDULED_SNAPSHOT              = 16,  /**< Scheduled Snapshot */
-  ZB_ZCL_METERING_CAUSE_OTA_FIRMWARE_DOWNLOAD           = 17   /**< OTA Firmware Download */
+  ZB_ZCL_METERING_CAUSE_GENERAL                         = 1 << 0,  /**< General */
+  ZB_ZCL_METERING_CAUSE_END_OF_BILLING_PERIOD           = 1 << 1,  /**< End of Billing Period */
+  ZB_ZCL_METERING_CAUSE_END_OF_BLOCK_PERIOD             = 1 << 2,  /**< End of Block Period */
+  ZB_ZCL_METERING_CAUSE_CHANGE_OF_TARIFF_INFORMATION    = 1 << 3,  /**< Change of Tariff Information */
+  ZB_ZCL_METERING_CAUSE_CHANGE_OF_PRICE_MATRIX          = 1 << 4,  /**< Change of Price Matrix */
+  ZB_ZCL_METERING_CAUSE_CHANGE_OF_BLOCK_THRESHOLDS      = 1 << 5,  /**< Change of Block Thresholds */
+  ZB_ZCL_METERING_CAUSE_CHANGE_OF_CV                    = 1 << 6,  /**< Change of CV */
+  ZB_ZCL_METERING_CAUSE_CHANGE_OF_CF                    = 1 << 7,  /**< Change of CF */
+  ZB_ZCL_METERING_CAUSE_CHANGE_OF_CALENDAR              = 1 << 8,  /**< Change of Calendar */
+  ZB_ZCL_METERING_CAUSE_CRITICAL_PEAK_PRICING           = 1 << 9,  /**< Critical Peak Pricing */
+  ZB_ZCL_METERING_CAUSE_MANUALLY_TRIGGERED_FROM_CLIENT  = 1 << 10,  /**< Manually Triggered from Client */
+  ZB_ZCL_METERING_CAUSE_END_OF_RESOLVE_PERIOD           = 1 << 11,  /**< End of Resolve Period */
+  ZB_ZCL_METERING_CAUSE_CHANGE_OF_TENANCY               = 1 << 12,  /**< Change of Tenancy */
+  ZB_ZCL_METERING_CAUSE_CHANGE_OF_SUPPLIER              = 1 << 13,  /**< Change of Supplier */
+  ZB_ZCL_METERING_CAUSE_CHANGE_OF_METER_MODE            = 1 << 14,  /**< Change of (Meter) Mode */
+  ZB_ZCL_METERING_CAUSE_DEBT_PAYMENT                    = 1 << 15,  /**< Debt Payment */
+  ZB_ZCL_METERING_CAUSE_SCHEDULED_SNAPSHOT              = 1 << 16,  /**< Scheduled Snapshot */
+  ZB_ZCL_METERING_CAUSE_OTA_FIRMWARE_DOWNLOAD           = 1 << 17,   /**< OTA Firmware Download */
+  ZB_ZCL_METERING_CAUSE_SELECT_ALL_SNAPSHOTS            = 0xFFFFFFFF  /**< Select All Snapshots */
 };
 
 
@@ -2349,11 +2352,12 @@ void zb_zcl_metering_send_cmd_get_sampled_data_response(zb_uint8_t param, const 
 */
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_METERING_CURRENT_SUMMATION_DELIVERED_ID(data_ptr) \
-{                                                                                             \
-   ZB_ZCL_ATTR_METERING_CURRENT_SUMMATION_DELIVERED_ID,                                       \
+{                                                                                            \
+  ZB_ZCL_ATTR_METERING_CURRENT_SUMMATION_DELIVERED_ID,                                       \
   ZB_ZCL_ATTR_TYPE_U48,                                                                      \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY | ZB_ZCL_ATTR_ACCESS_REPORTING,                               \
-  (void*) data_ptr                                                                      \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                                        \
+  (void*) data_ptr                                                                           \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_METERING_STATUS_ID(data_ptr)                      \
@@ -2361,7 +2365,8 @@ void zb_zcl_metering_send_cmd_get_sampled_data_response(zb_uint8_t param, const 
   ZB_ZCL_ATTR_METERING_STATUS_ID,                                                            \
   ZB_ZCL_ATTR_TYPE_8BITMAP,                                                                  \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY | ZB_ZCL_ATTR_ACCESS_REPORTING,                               \
-  (void*) data_ptr                                                                      \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                                        \
+  (void*) data_ptr                                                                           \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_METERING_UNIT_OF_MEASURE_ID(data_ptr)             \
@@ -2369,7 +2374,8 @@ void zb_zcl_metering_send_cmd_get_sampled_data_response(zb_uint8_t param, const 
   ZB_ZCL_ATTR_METERING_UNIT_OF_MEASURE_ID,                                                   \
   ZB_ZCL_ATTR_TYPE_8BIT_ENUM,                                                                \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                              \
-  (void*) data_ptr                                                                      \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                                        \
+  (void*) data_ptr                                                                           \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_METERING_SUMMATION_FORMATTING_ID(data_ptr)        \
@@ -2377,7 +2383,8 @@ void zb_zcl_metering_send_cmd_get_sampled_data_response(zb_uint8_t param, const 
   ZB_ZCL_ATTR_METERING_SUMMATION_FORMATTING_ID,                                              \
   ZB_ZCL_ATTR_TYPE_8BITMAP,                                                                  \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                              \
-  (void*) data_ptr                                                                      \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                                        \
+  (void*) data_ptr                                                                           \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_METERING_METERING_DEVICE_TYPE_ID(data_ptr)        \
@@ -2385,7 +2392,8 @@ void zb_zcl_metering_send_cmd_get_sampled_data_response(zb_uint8_t param, const 
   ZB_ZCL_ATTR_METERING_METERING_DEVICE_TYPE_ID,                                              \
   ZB_ZCL_ATTR_TYPE_8BITMAP,                                                                  \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                              \
-  (void*) data_ptr                                                                      \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                                        \
+  (void*) data_ptr                                                                           \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_METERING_INSTANTANEOUS_DEMAND_ID(data_ptr)        \
@@ -2393,7 +2401,8 @@ void zb_zcl_metering_send_cmd_get_sampled_data_response(zb_uint8_t param, const 
   ZB_ZCL_ATTR_METERING_INSTANTANEOUS_DEMAND_ID,                                              \
   ZB_ZCL_ATTR_TYPE_S24,                                                                      \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY | ZB_ZCL_ATTR_ACCESS_REPORTING,                               \
-  (void*) data_ptr                                                                      \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                                        \
+  (void*) data_ptr                                                                           \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_METERING_DEMAND_FORMATTING_ID(data_ptr)           \
@@ -2401,7 +2410,8 @@ void zb_zcl_metering_send_cmd_get_sampled_data_response(zb_uint8_t param, const 
   ZB_ZCL_ATTR_METERING_DEMAND_FORMATTING_ID,                                                 \
   ZB_ZCL_ATTR_TYPE_8BITMAP,                                                                  \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                              \
-  (void*) data_ptr                                                                      \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                                        \
+  (void*) data_ptr                                                                           \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_METERING_HISTORICAL_CONSUMPTION_FORMATTING_ID(data_ptr)      \
@@ -2409,7 +2419,8 @@ void zb_zcl_metering_send_cmd_get_sampled_data_response(zb_uint8_t param, const 
   ZB_ZCL_ATTR_METERING_HISTORICAL_CONSUMPTION_FORMATTING_ID,                                 \
   ZB_ZCL_ATTR_TYPE_8BITMAP,                                                                  \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                              \
-  (void*) data_ptr                                                                      \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                                        \
+  (void*) data_ptr                                                                           \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_METERING_MULTIPLIER_ID(data_ptr)                  \
@@ -2417,7 +2428,8 @@ void zb_zcl_metering_send_cmd_get_sampled_data_response(zb_uint8_t param, const 
   ZB_ZCL_ATTR_METERING_MULTIPLIER_ID,                                                        \
   ZB_ZCL_ATTR_TYPE_U24,                                                                      \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                              \
-  (void*) data_ptr                                                                      \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                                        \
+  (void*) data_ptr                                                                           \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_METERING_DIVISOR_ID(data_ptr)                     \
@@ -2425,7 +2437,8 @@ void zb_zcl_metering_send_cmd_get_sampled_data_response(zb_uint8_t param, const 
   ZB_ZCL_ATTR_METERING_DIVISOR_ID,                                                           \
   ZB_ZCL_ATTR_TYPE_U24,                                                                      \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                              \
-  (void*) data_ptr                                                                      \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                                        \
+  (void*) data_ptr                                                                           \
 }
 
 
@@ -2449,7 +2462,7 @@ void zb_zcl_metering_send_cmd_get_sampled_data_response(zb_uint8_t param, const 
 */
 #define ZB_ZCL_DECLARE_METERING_ATTRIB_LIST(attr_list, curr_summ_delivered, status, unit_of_measure, \
                                             summation_formatting, metering_device_type)              \
-  ZB_ZCL_START_DECLARE_ATTRIB_LIST(attr_list)                                                        \
+  ZB_ZCL_START_DECLARE_ATTRIB_LIST_CLUSTER_REVISION(attr_list, ZB_ZCL_METERING)                      \
   ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_ATTR_METERING_CURRENT_SUMMATION_DELIVERED_ID, (curr_summ_delivered))   \
   ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_ATTR_METERING_STATUS_ID, (status))                                     \
   ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_ATTR_METERING_UNIT_OF_MEASURE_ID, (unit_of_measure))                   \
@@ -2474,7 +2487,7 @@ void zb_zcl_metering_send_cmd_get_sampled_data_response(zb_uint8_t param, const 
 #define ZB_ZCL_DECLARE_METERING_ATTRIB_LIST_EXT(attr_list,                                           \
       curr_summ_delivered, status, unit_of_measure, summation_formatting, metering_device_type,      \
       instantaneous_demand, demand_formatting, historical_consumption_formatting, multiplier, divisor)     \
-  ZB_ZCL_START_DECLARE_ATTRIB_LIST(attr_list)                                                        \
+  ZB_ZCL_START_DECLARE_ATTRIB_LIST_CLUSTER_REVISION(attr_list, ZB_ZCL_METERING)                      \
   ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_ATTR_METERING_CURRENT_SUMMATION_DELIVERED_ID, (curr_summ_delivered))   \
   ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_ATTR_METERING_STATUS_ID, (status))                                     \
   ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_ATTR_METERING_UNIT_OF_MEASURE_ID, (unit_of_measure))                   \

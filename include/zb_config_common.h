@@ -332,6 +332,12 @@ At the worst case our NWK can skip long address at tx: 8 bytes of reserve.
  */
 #define MAX_PHY_FRM_SIZE              127U
 
+/**
+   MAC overhead for unicast frame with Pan ID compression (normal case when
+   sending via nwk), including FCS bytes
+*/
+#define MAX_MAC_OVERHEAD_SHORT_ADDRS  11U
+
 /* ZB packet length must not exceed 127 bytes
  *
  * Old calculation by Maxim:
@@ -956,7 +962,7 @@ Workaround for secure rejoin
 /*!
    Minimal possible turbo poll interval
  */
-#if defined ZB_SUBGHZ_ONLY_MODE || defined ZB_R22_MULTIMAC_MODE
+#if defined ZB_SUBGHZ_ONLY_MODE || defined ZB_R22_MULTIMAC_MODE && !defined SNCP_MODE
 #define ZB_PIM_DEFAULT_MIN_TURBO_POLL_INTERVAL ZB_MILLISECONDS_TO_BEACON_INTERVAL(250U)
 #else
 #define ZB_PIM_DEFAULT_MIN_TURBO_POLL_INTERVAL ZB_MILLISECONDS_TO_BEACON_INTERVAL(100U)
@@ -1298,8 +1304,11 @@ request command frame.
 *  IEEE Standard for Low-Rate Wireless Networks 2006, section 7.4.2 MAC PIB attributes.
 *
 *  @note Make sure the time value is not too big.
+*  There is no defined value for sub-ghz now. In case of aLBTTxMinOff frame can be sent with a
+*  delay in case of it's own transmission right before Received Date Req. This value calculated
+*  taking into account this possible situation.
 */
-#define ZB_MAX_FRAME_TOTAL_WAIT_TIME_SUB_GHZ (ZB_MILLISECONDS_TO_BEACON_INTERVAL(48U) + 1U)
+#define ZB_MAX_FRAME_TOTAL_WAIT_TIME_SUB_GHZ (ZB_MILLISECONDS_TO_BEACON_INTERVAL(136U) + 1U)
 
 
 /*!
@@ -1372,6 +1381,7 @@ request command frame.
 *
  */
 #define ZB_EU_FSK_REFERENCE_SENSITIVITY -99
+#define ZB_NA_FSK_REFERENCE_SENSITIVITY -91
 
 /*
  * 02/01/2021: After discussions in ZigBee Sub-GHz task group, agreed that
@@ -1498,8 +1508,8 @@ request command frame.
 *   The level (in dBm) at which the receiver determines whether there
 *   is activity in a low power channel (+14 dBm Tx).
 */
-#define ZB_MAC_LBT_GB_THRESHOLD_LEVEL_LP  (-80)
-#define ZB_MAC_LBT_EU_THRESHOLD_LEVEL_LP  (-80)
+#define ZB_MAC_LBT_GB_THRESHOLD_LEVEL_LP  (-87)
+#define ZB_MAC_LBT_EU_THRESHOLD_LEVEL_LP  (-87)
 #define ZB_MAC_LBT_NA_THRESHOLD_LEVEL_LP  (-79) /* 08/25/2020: see TP/154/PHYRFS1/RECEIVER-07 test */
 
 /* aLBTThresholdLevelHp */
@@ -1519,7 +1529,7 @@ request command frame.
 #define ZB_MAC_LBT_MAX_TX_RETRIES 3U
 
 /* Tuned to fit to 2 beacon intervals */
-/*! LBT transmition wait period in ms */
+/*! LBT transmission wait period in ms */
 #define ZB_MAC_LBT_TX_WAIT_QUANT_MS        33U
 
 /* aDUTYCYCLEMeasurementPeriod */
@@ -1580,13 +1590,6 @@ request command frame.
 #define ZB_MAC_POWER_CONTROL_INFO_TABLE_SIZE 10U
 /*! MAC power control expiration time out */
 #define ZB_MAC_POWER_CONTROL_EXPIRATION_TIMEOUT (10U * ZB_TIME_ONE_SECOND)
-/*!
-*   Optimal signal level for Eu FSK should be +20dB above the reference sensitivity @ref ZB_EU_FSK_REFERENCE_SENSITIVITY
-*
-*   See reference document 05-3474-22 section D.9.2.4.2. Zigbee Specification R22
- */
-#define ZB_MAC_POWER_CONTROL_OPT_SIGNAL_LEVEL (ZB_EU_FSK_REFERENCE_SENSITIVITY + 20)
-
 
 #ifndef ZB_MAC_DEFAULT_TX_POWER_GB_EU_SUB_GHZ
 /*! Default MAC transmission power for GB and EU Sub-GHz PHY */
@@ -1700,7 +1703,7 @@ request command frame.
 *  the last stage is successful or,
 *  otherwise, start the cancel procedure.
 */
-#define ZB_ZGP_TIMEOUT_BEFORE_FORCE_CANCEL (3U * ZB_TIME_ONE_SECOND)
+#define ZB_ZGP_TIMEOUT_BEFORE_FORCE_CANCEL 0U
 
 /*! Unspecified Zigbee Green Power device manufacturer ID */
 #define ZB_ZGPD_MANUF_ID_UNSPEC     0xFFFFU
@@ -1713,9 +1716,13 @@ request command frame.
 /*! Maximum number of paired endpoints*/
 #define ZB_ZGP_MAX_PAIRED_ENDPOINTS 2U
 /*! Maximum number of paired Green Power devices commands */
+#ifndef ZB_ZGP_MAX_PAIRED_CONF_GPD_COMMANDS
 #define ZB_ZGP_MAX_PAIRED_CONF_GPD_COMMANDS 2U
+#endif /* ZB_ZGP_MAX_PAIRED_CONF_GPD_COMMANDS */ 
 /*! Maximum number of paired configuration clusters */
+#ifndef ZB_ZGP_MAX_PAIRED_CONF_CLUSTERS
 #define ZB_ZGP_MAX_PAIRED_CONF_CLUSTERS 2U
+#endif /* ZB_ZGP_MAX_PAIRED_CONF_CLUSTERS */
 /** @endcond */ /* DOXYGEN_ZGP_SECTION */
 /*! @} */
 
@@ -1761,5 +1768,13 @@ request command frame.
 #define ZB_MULTITEST_CONSOLE_SLEEP_TIMEOUT 4000000U
 #endif
 
+#ifdef ZB_MACSPLIT
+#ifndef ZB_MACSPLIT_NO_ACK_DELAY
+/*! Delay for this number of beacon intervals when ACK sending logic
+decided that it can be good to delay sending ACK as a single packet
+but send it in the next data packet */
+#define ZB_MACSPLIT_ACK_DELAY_TIME 1u
+#endif
+#endif
 
 #endif /* ZB_CONFIG_COMMON_H */

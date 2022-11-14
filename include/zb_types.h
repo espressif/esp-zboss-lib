@@ -376,7 +376,7 @@ typedef zb_uint_t          zb_ulong_t;
 
 /** @brief General purpose boolean type.
  * For C90, 'zb_bool_t' is an alias of 'zb_uint8_t'.
- * For C99, the availabilty of the 'stdbool.h' standard header is expected and 'zb_bool_t' is an
+ * For C99, the availability of the 'stdbool.h' standard header is expected and 'zb_bool_t' is an
  * alias of 'bool'.
  * ZB_FALSE and ZB_TRUE are defined as macros for both standards.
  *
@@ -517,6 +517,12 @@ typedef bool zb_bitbool_t;
   #define ZB_DEPRECATED
 #endif /* __GNUC__ */
 
+#if defined __GNUC__
+  #define ZB_NORETURN __attribute__((noreturn))
+#else
+  #define ZB_NORETURN
+#endif /* __GNUC__ */
+
 /*
    8-bytes address (xpanid or long device address) base type
  */
@@ -598,6 +604,8 @@ typedef ZB_PACKED_PRE union zb_addr_u_t
   zb_ieee_addr_t addr_long;
 } ZB_PACKED_STRUCT
 zb_addr_u;
+
+#define ZB_ADDR_U_CAST(addr) ((const zb_addr_u *)(const void *)(&(addr)))
 
 /*
  definitions for constants of given type
@@ -822,8 +830,8 @@ void* zb_put_next_2_htole32(zb_uint8_t *dst, zb_uint32_t val1, zb_uint32_t val2)
 #define ZB_GET_LOW_BYTE(val) (zb_uint8_t)((val) & 0xFFU)
 #define ZB_GET_HI_BYTE(val)  (zb_uint8_t)(((val) >> 8U) & 0xFFU)
 
-#define ZB_SET_LOW_BYTE(res, val) (res) = ((((zb_uint16_t)res) & 0xFF00U) | (((zb_uint16_t)val) & 0xFFU))
-#define ZB_SET_HI_BYTE(res, val) (res) = (((((zb_uint16_t)val) << 8U) & 0xFF00U) | (((zb_uint16_t)res) & 0xFFU))
+#define ZB_SET_LOW_BYTE(res, val) (res) = ((((zb_uint16_t)(res)) & 0xFF00U) | (((zb_uint16_t)(val)) & 0xFFU))
+#define ZB_SET_HI_BYTE(res, val) (res) = (((((zb_uint16_t)(val)) << 8U) & 0xFF00U) | (((zb_uint16_t)(res)) & 0xFFU))
 
 #define ZB_PKT_16B_ZERO_BYTE 0U
 #define ZB_PKT_16B_FIRST_BYTE 1U

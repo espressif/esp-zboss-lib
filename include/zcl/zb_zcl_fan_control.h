@@ -107,6 +107,9 @@ enum zb_zcl_fan_control_fan_mode_sequence_e
   ZB_ZCL_FAN_CONTROL_FAN_MODE_SEQUENCE_RESERVED          = 0x05
 };
 
+/** @brief Default value for Fan Control cluster revision global attribute */
+#define ZB_ZCL_FAN_CONTROL_CLUSTER_REVISION_DEFAULT ((zb_uint16_t)0x0001u)
+
 /** @brief Default value for Fan Mode attribute */
 #define ZB_ZCL_FAN_CONTROL_FAN_MODE_DEFAULT_VALUE 0x05
 
@@ -119,7 +122,7 @@ enum zb_zcl_fan_control_fan_mode_sequence_e
     @param fan_mode_sequence - pointer to variable to store Fan Mode Sequence attribute value
 */
 #define ZB_ZCL_DECLARE_FAN_CONTROL_ATTRIB_LIST(attr_list, fan_mode, fan_mode_sequence)    \
-  ZB_ZCL_START_DECLARE_ATTRIB_LIST(attr_list)                                             \
+  ZB_ZCL_START_DECLARE_ATTRIB_LIST_CLUSTER_REVISION(attr_list, ZB_ZCL_FAN_CONTROL)        \
   ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_ATTR_FAN_CONTROL_FAN_MODE_ID, (fan_mode))                   \
   ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_ATTR_FAN_CONTROL_FAN_MODE_SEQUENCE_ID, (fan_mode_sequence)) \
   ZB_ZCL_FINISH_DECLARE_ATTRIB_LIST
@@ -143,7 +146,8 @@ enum zb_zcl_fan_control_fan_mode_sequence_e
   ZB_ZCL_ATTR_FAN_CONTROL_FAN_MODE_ID,                                       \
   ZB_ZCL_ATTR_TYPE_8BIT_ENUM,                                                \
   ZB_ZCL_ATTR_ACCESS_READ_WRITE,                                             \
-  (void*) data_ptr                                                      \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                        \
+  (void*) data_ptr                                                           \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_FAN_CONTROL_FAN_MODE_SEQUENCE_ID(data_ptr) \
@@ -151,7 +155,8 @@ enum zb_zcl_fan_control_fan_mode_sequence_e
   ZB_ZCL_ATTR_FAN_CONTROL_FAN_MODE_SEQUENCE_ID,                                       \
   ZB_ZCL_ATTR_TYPE_8BIT_ENUM,                                                         \
   ZB_ZCL_ATTR_ACCESS_READ_WRITE,                                                      \
-  (void*) data_ptr                                                               \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                                 \
+  (void*) data_ptr                                                                    \
 }
 
 /*! @internal Number of attributes mandatory for reporting in Fan Control cluster */

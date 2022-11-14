@@ -87,6 +87,7 @@ union zb_zcl_attr_var_u
   zb_int32_t s32;
   zb_uint48_t u48;
   zb_uint8_t data_buf[4];
+  zb_uint32_t data_buf_crc32;
 };
 
 /** @cond internals_doc */
@@ -130,6 +131,8 @@ typedef struct zb_zcl_reporting_info_s
     zb_uint16_t profile_id; /*!< Profile id */
   }
   dst;
+
+  zb_uint16_t manuf_code; /*!< Manufacturer specific code */
 }
 zb_zcl_reporting_info_t;
 
@@ -145,6 +148,7 @@ typedef ZB_PACKED_PRE struct zb_zcl_reporting_info_nvram_s
   zb_uint16_t cluster_id; /*!< Cluster ID for reporting */
   zb_uint8_t cluster_role; /*!< Cluster role */
   zb_uint16_t attr_id;    /*!< Attribute ID for reporting */
+  zb_uint16_t manuf_code;      /*!< Manufacturer specific code */
   zb_uint8_t flags;       /*!< Flags to inform status of reporting */
 
   zb_uint16_t min_interval; /*!< Minimum reporting interval or timeout for client*/
@@ -156,7 +160,7 @@ typedef ZB_PACKED_PRE struct zb_zcl_reporting_info_nvram_s
   zb_uint16_t short_addr_dest; /*!< Destination short address */
   zb_uint8_t  endpoint_dest;   /*!< Destination endpoint */
   zb_uint16_t profile_id_dest; /*!< Profile id */
-  zb_uint8_t align[3];
+  zb_uint8_t align[1];
 } ZB_PACKED_STRUCT zb_zcl_reporting_info_nvram_t;
 
 #endif /* defined ZB_USE_NVRAM */
@@ -187,6 +191,7 @@ typedef void (*zb_zcl_no_reporting_cb_t)(
     @param ep - source endpoint number
     @param cluster_id - cluster ID
     @param attr_id - attribute ID
+    @param attr_type - attribute type
     @param value - pointer to reported data value
 */
 
@@ -248,6 +253,8 @@ void zb_zcl_report_attr_cmd_handler(zb_uint8_t param);
 
 void zb_zcl_report_received(zb_uint8_t ep, zb_uint16_t cluster_id, zb_uint8_t cluster_role, zb_uint16_t attr_id);
 
+void zb_zcl_report_received_manuf(zb_uint8_t ep, zb_uint16_t cluster_id, zb_uint8_t cluster_role, zb_uint16_t attr_id, zb_uint16_t manuf_code);
+
 zb_ret_t zb_zcl_put_reporting_info(zb_zcl_reporting_info_t* rep_info_ptr, zb_bool_t override);
 
 zb_ret_t zb_zcl_put_reporting_info_from_req(zb_zcl_configure_reporting_req_t *config_rep_req,
@@ -260,6 +267,12 @@ zb_zcl_reporting_info_t* zb_zcl_find_reporting_info(  zb_uint8_t ep,
                                                       zb_uint8_t cluster_role,
                                                       zb_uint16_t attr_id);
 
+zb_zcl_reporting_info_t* zb_zcl_find_reporting_info_manuf(  zb_uint8_t ep,
+                                                            zb_uint16_t cluster_id,
+                                                            zb_uint8_t cluster_role,
+                                                            zb_uint16_t attr_id,
+                                                            zb_uint16_t manuf_code);
+
 zb_zcl_reporting_info_t* zb_zcl_get_next_reporting_info(
   zb_zcl_reporting_info_t *rep_info_init, zb_uint8_t is_manuf_spec);
 
@@ -268,10 +281,15 @@ void zb_zcl_reporting_cb(zb_uint8_t param);
 void zb_zcl_save_reported_value(zb_zcl_reporting_info_t *rep_info, zb_zcl_attr_t* attr_desc);
 
 void zb_zcl_mark_attr_for_reporting(zb_uint8_t ep, zb_uint16_t cluster_id, zb_uint8_t cluster_role, zb_uint16_t attr_id);
+void zb_zcl_mark_attr_for_reporting_manuf(zb_uint8_t ep, zb_uint16_t cluster_id, zb_uint8_t cluster_role, zb_uint16_t attr_id, zb_uint16_t manuf_code);
 
 /** @endcond */ /* internals_doc */
 
 /** @brief Start attribute reporting
+
+    @deprecated This function will be removed in the next Major release after February 2023
+                Use @ref zb_zcl_start_attr_reporting_manuf() instead
+
     @param ep - endpoint number
     @param cluster_id - cluster ID
     @param cluster_role - cluster role
@@ -281,7 +299,22 @@ void zb_zcl_mark_attr_for_reporting(zb_uint8_t ep, zb_uint16_t cluster_id, zb_ui
 */
 zb_ret_t zb_zcl_start_attr_reporting(zb_uint8_t ep, zb_uint16_t cluster_id, zb_uint8_t cluster_role, zb_uint16_t attr_id);
 
+/** @brief Start attribute reporting
+    @param ep - endpoint number
+    @param cluster_id - cluster ID
+    @param cluster_role - cluster role
+    @param attr_id - attribute ID
+    @param manuf_code - manufacturer specific code
+    @return RET_OK if reporting is successfully started \n
+            RET_DOES_NOT_EXIST if reporting can't be configured with given parameters (i.e cluster not present)
+*/
+zb_ret_t zb_zcl_start_attr_reporting_manuf(zb_uint8_t ep, zb_uint16_t cluster_id, zb_uint8_t cluster_role, zb_uint16_t attr_id, zb_uint16_t manuf_code);
+
 /** @brief Stop attribute reporting
+
+    @deprecated This function will be removed in the next Major release after February 2023
+                Use @ref zb_zcl_stop_attr_reporting_manuf() instead
+
     @param ep - endpoint number
     @param cluster_id - cluster ID
     @param cluster_role - cluster role
@@ -291,7 +324,22 @@ zb_ret_t zb_zcl_start_attr_reporting(zb_uint8_t ep, zb_uint16_t cluster_id, zb_u
 */
 zb_ret_t zb_zcl_stop_attr_reporting(zb_uint8_t ep, zb_uint16_t cluster_id, zb_uint8_t cluster_role, zb_uint16_t attr_id);
 
+/** @brief Stop attribute reporting
+    @param ep - endpoint number
+    @param cluster_id - cluster ID
+    @param cluster_role - cluster role
+    @param attr_id - attribute ID
+    @param manuf_code - manufacturer specific code
+    @return RET_OK if reporting is successfully stopped \n
+            RET_DOES_NOT_EXIST if reporting was not set up with given parameters
+*/
+zb_ret_t zb_zcl_stop_attr_reporting_manuf(zb_uint8_t ep, zb_uint16_t cluster_id, zb_uint8_t cluster_role, zb_uint16_t attr_id, zb_uint16_t manuf_code);
+
 /** @brief Check if an attribute is configured for reporting or not
+
+    @deprecated This function will be removed in the next Major release after February 2023
+                Use @ref zcl_is_attr_reported_manuf() instead
+
     @param ep - endpoint number
     @param cluster_id - cluster ID
     @param cluster_role - cluster role
@@ -299,6 +347,16 @@ zb_ret_t zb_zcl_stop_attr_reporting(zb_uint8_t ep, zb_uint16_t cluster_id, zb_ui
     @return ZB_TRUE if attribute is reported
 */
 zb_bool_t zcl_is_attr_reported(zb_uint8_t ep, zb_uint16_t cluster_id, zb_uint8_t cluster_role, zb_uint16_t attr_id);
+
+/** @brief Check if an attribute is configured for reporting or not
+    @param ep - endpoint number
+    @param cluster_id - cluster ID
+    @param cluster_role - cluster role
+    @param attr_id - attribute ID
+    @param manuf_code - manufacturer specific code
+    @return ZB_TRUE if attribute is reported
+*/
+zb_bool_t zcl_is_attr_reported_manuf(zb_uint8_t ep, zb_uint16_t cluster_id, zb_uint8_t cluster_role, zb_uint16_t attr_id, zb_uint16_t manuf_code);
 
 /* TODO: Document */
 zb_ret_t zb_zcl_put_reporting_info(zb_zcl_reporting_info_t* rep_info_ptr, zb_bool_t override);

@@ -60,7 +60,7 @@ void zb_abort(char *caller_file, int caller_line);
    @param file_name - source file name
    @param line_number - line in the source
 */
-void zb_assert(const zb_char_t *file_name, zb_int_t line_number);
+ZB_NORETURN void zb_assert(const zb_char_t *file_name, zb_int_t line_number);
 /** @endcond */
 /**
    Check for expression in runtime and call zb_assert() if it is false.
@@ -69,7 +69,7 @@ void zb_assert(const zb_char_t *file_name, zb_int_t line_number);
 
    @param expr expression to check
 */
-#define ZB_ASSERT(expr) {if(!(expr)){zb_assert(__FILE__, __LINE__);}}
+#define ZB_ASSERT(expr) ({if(!(expr)){zb_assert(__FILE__, __LINE__);}})
 /** @cond internals_doc */
 #define ZB_INLINE_ASSERT_SIMPLE(expr)  ((expr) ? 1 : (zb_assert(__FILE__, __LINE__), 1))
 /** @endcond */
@@ -81,7 +81,7 @@ void zb_assert(const zb_char_t *file_name, zb_int_t line_number);
    @param file_id - source file id
    @param line_number - line in the source
 */
-void zb_assert(zb_uint16_t file_id, zb_int_t line_number);
+ZB_NORETURN void zb_assert(zb_uint16_t file_id, zb_int_t line_number);
 /**
    Check for expression in runtime and call zb_assert() if it is false.
 
@@ -89,7 +89,7 @@ void zb_assert(zb_uint16_t file_id, zb_int_t line_number);
 
    @param expr expression to check
 */
-#define ZB_ASSERT(expr) {if(!(expr)) { zb_assert(ZB_TRACE_FILE_ID, __LINE__);} }
+#define ZB_ASSERT(expr) ({if(!(expr)) { zb_assert(ZB_TRACE_FILE_ID, __LINE__);} })
 /** @cond internals_doc */
 #define ZB_INLINE_ASSERT_SIMPLE(expr)  ((expr) ? 1 : (zb_assert(ZB_TRACE_FILE_ID, __LINE__), 1))
 /** @endcond */
@@ -150,7 +150,9 @@ void lwip_zb_assert(zb_uint16_t file_id, zb_int_t line_number);
 
    @param expr - expression to check.
  */
-#if (defined __GNUC__) && (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 6))
+#ifdef __cplusplus
+#define ZB_ASSERT_COMPILE_DECL(expr) __extension__ static_assert(expr, "Assert at line __LINE__")
+#elif (defined __GNUC__) && (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 6))
 #define ZB_ASSERT_COMPILE_DECL(expr) __extension__ _Static_assert(expr, "Assert at line __LINE__")
 #elif defined(__COUNTER__)
 #define ZB_ASSERT_COMPILE_DECL(expr) typedef zb_int_t ZB_ASSERT_CAT(assert, ZB_ASSERT_CAT(__LINE__, __COUNTER__))[(expr) ? 1 : -1]
@@ -225,7 +227,7 @@ while (0)
 #else
 #define ZB_P3_ON()
 #define ZB_P3_OFF()
-#define ZB_P4_ON() 
+#define ZB_P4_ON()
 #define ZB_P4_OFF()
 #endif
 
@@ -246,7 +248,7 @@ void dump_usb_traf(zb_uint8_t *buf, zb_ushort_t len);
 #endif
 
 #if (defined ZB_MAC_TESTING_MODE) && (defined ZB_TRAFFIC_DUMP_ON)
-#define DUMP_TRAF(cmt, buf, len, total) TRACE_MSG(TRACE_SECUR3, #cmt, (FMT__0)); dump_traf(buf, len)
+#define DUMP_TRAF(cmt, buf, len, total) TRACE_MSG(TRACE_MAC3, #cmt, (FMT__0)); dump_traf(buf, len)
 #else
 #define DUMP_TRAF(comment, buf, len, total)
 #endif

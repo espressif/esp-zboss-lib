@@ -130,6 +130,16 @@ typedef enum zb_zcl_events_log_id_e
   ZB_ZCL_EVENTS_LOG_ID_NETWORK_EVENT_LOG          /**< Network Event Log */
 } zb_zcl_events_log_id_t;
 
+/** @brief Default value for Events cluster revision global attribute */
+#define ZB_ZCL_EVENTS_CLUSTER_REVISION_DEFAULT ((zb_uint16_t)0x0001u)
+
+/*!
+  @brief Declare attribute list for Events cluster (only cluster revision attribute)
+  @param attr_list - attribute list name
+*/
+#define ZB_ZCL_DECLARE_EVENTS_ATTR_LIST(attr_list)                            \
+  ZB_ZCL_START_DECLARE_ATTRIB_LIST_CLUSTER_REVISION(attr_list, ZB_ZCL_EVENTS) \
+  ZB_ZCL_FINISH_DECLARE_ATTRIB_LIST
 
 /** Macro for get log_id value from 8-bit field
  * @param x - 8-bit field that contains log_id value in

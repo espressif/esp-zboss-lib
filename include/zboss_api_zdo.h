@@ -102,6 +102,7 @@
 #define ZB_ZDP_STATUS_INVALID_INDEX 0x8fU
 
 /**< Custom internal statuses. */
+#define ZB_ZDP_STATUS_DEV_ANNCE_SENDING_FAILED 0x0feU
 #define ZB_ZDP_STATUS_TIMEOUT_BY_STACK 0xffU
 /** @} */
 
@@ -317,7 +318,7 @@ typedef zb_uint8_t zb_zdp_status_t;
  *
  * Status codes:
  *  - RET_OK: Network steering completed.
- *  - RET_INTERRUPTED: was cancelled with bdb_cancel_steering()
+ *  - RET_INTERRUPTED: was cancelled with bdb_cancel_joining()
  *
  * Has additional data of type zb_zdo_signal_leave_indication_params_t.
  *
@@ -347,11 +348,12 @@ typedef zb_uint8_t zb_zdp_status_t;
  *  - F&B target timeout expires.
  *
  * Status codes:
- *  - RET_OK: F&B completed successfully.
+ *  - RET_OK: F&B target identifying time is expired.
+ *  - RET_CANCELLED: F&B target identifying is cancelled during the IdentifyTime.
  *  - RET_ERROR: An error of any type.
  *
  * Signal parameters:
- *  - none
+ * - @ref zb_uint8_t - endpoint ID
  * @endparblock */
 #define ZB_BDB_SIGNAL_FINDING_AND_BINDING_TARGET_FINISHED 12U
 
@@ -465,14 +467,14 @@ typedef zb_uint8_t zb_zdp_status_t;
 #define ZB_BDB_SIGNAL_WWAH_REJOIN_STARTED 20U
 
 /** @cond DOXYGEN_ZGP_SECTION */
-/** ZGP commissioning complete signal.
+/** ZGP commissioning signal.
  * @parblock
  * When generated:
- *  - GPCB left the commissioning mode.
+ *  - GPCB commissioned/decommissioned a device.
  *
  * Status codes:
- * - RET_OK: commissioning complete.
- * - RET_ERROR: An error of any type.
+ * - RET_OK: commissioning/decommissioned complete.
+ *  - Does not return error status.
  *
  * Signal parameters:
  *  - zb_zgp_signal_commissioning_params_s
@@ -836,6 +838,91 @@ typedef zb_uint8_t zb_zdp_status_t;
  * @endparblock */
 #define ZB_BDB_SIGNAL_FORMATION_CANCELLED 56U
 
+/** ZBOSS is ready to shutdown signal
+ * @parblock
+ * When generated:
+ *  - after ZBOSS preparations to shutdown initiated by zboss_start_shut() is done
+ *
+ * After receiving that signal application MUST complete ZBOSS shutdown by
+ * calling zboss_complete_shut(). It is impossible to continue ZBOSS work
+ * without a restart after calling zboss_start_shut().
+ *
+ * Signal parameters:
+ *  - none
+ *
+ * @endparblock */
+#define ZB_SIGNAL_READY_TO_SHUT           57U
+
+/** ZBOSS interpan preinit done signal
+ * @parblock
+ * When generated:
+ *  - after ZBOSS preinit enough to send interpan initiated by zboss_preinit_for_interpan() is done
+ *
+ * After receiving that signal application can use zb_intrp_data_request_with_chan_change() API
+ *
+ * Signal parameters:
+ *  - none
+ *
+ * @endparblock */
+#define ZB_SIGNAL_INTERPAN_PREINIT        58U
+
+/** @cond DOXYGEN_ZGP_SECTION */
+/** ZGP Mode change signal.
+ * @parblock
+ * When generated:
+ *  - GPCB Sink change mode between operational mode and commissioning mode.
+ *
+ * Status codes:
+ * - RET_OK: mode changed.
+ *  - Does not return error status.
+ *
+ * Signal parameters:
+ *  - zb_zgp_signal_mode_change_params_s
+ *
+ * @snippet simple_combo/zc_combo.c zgp_signal_mode_change
+ * @endparblock */
+#define ZB_ZGP_SIGNAL_MODE_CHANGE 59U
+/** @endcond */ /* DOXYGEN_ZGP_SECTION */
+
+/** Notifies an application a device unavailable.
+ *
+ * When generated:
+ *  - ZBOSS could not send a packet over NWK, for example:
+ *      there is no ACK on the MAC layer;
+ *      there is no response to a network address request;
+ *  - ZBOSS could not send a packet over APS, for example:
+ *      there is no APS-ACK to an APS packet.
+ *
+ * Signal parameters:
+ *  - @ref zb_zdo_device_unavailable_params_t
+ */
+#define ZB_ZDO_DEVICE_UNAVAILABLE 60U
+
+/** @cond DOXYGEN_ZGP_SECTION */
+/** ZGP Approve Commissioning signal.
+ * @parblock
+ * When generated:
+ *  - ZGP subsystem is ready to create new pairing but APP should check
+ *    if GPD application functionality matches to continue pairing.
+ *
+ * Status codes:
+ * - RET_OK.
+ *
+ * After receiving that signal application SHALL decide whether to connect 
+ * GP device or not. After that, application SHALL send acceptance status 
+ * by calling zb_zgps_accept_commissioning(). It is impossible to continue 
+ * GP commissioning operation without a calling zb_zgps_accept_commissioning(),
+ * and the sink will exit commissioning mode after commissioning timeout
+ * expired.
+ * 
+ * Signal parameters:
+ *  - @ref zb_zgp_signal_approve_comm_params_t
+ *
+ * @snippet simple_combo/zc_combo.c zgp_signal_approve_comm
+ * @endparblock */
+#define ZB_ZGP_SIGNAL_APPROVE_COMMISSIONING                   61U
+/** @endcond */ /* DOXYGEN_ZGP_SECTION */
+
 /** @} */
 
 /**
@@ -897,6 +984,7 @@ typedef struct zb_zdo_signal_nlme_status_indication_params_s
   */
 typedef struct zb_zdo_signal_leave_indication_params_s
 {
+  zb_uint16_t short_addr;     /*!< Short address of device requested to leave or leaving device*/
   zb_ieee_addr_t device_addr; /*!< Long address of device requested to leave or leaving device*/
   zb_uint8_t rejoin;          /*!< 1 if this was leave with rejoin; 0 - otherwise */
 } zb_zdo_signal_leave_indication_params_t;
@@ -929,8 +1017,39 @@ typedef struct zb_zgp_signal_commissioning_params_s
   zb_zgpd_id_t zgpd_id;       /*!< Pointer to GPD ID */
   zb_zgp_comm_status_t result; /*!< commissioning result, see @ref zb_zgp_comm_status_t */
 } zb_zgp_signal_commissioning_params_t;
+
+/**
+   @brief ZGP approve commissioning parameters
+
+   Stack passes this parameter to application to notify about attempt GPD commissioning.
+   Due to limited buffer memory, a pointer to the structure is passed.
+  */
+typedef struct zb_zgp_signal_approve_comm_params_s
+{
+  zgp_approve_comm_params_t *params;
+} zb_zgp_signal_approve_comm_params_t;
+
+/**
+   @brief ZGP mode changed parameters
+
+   Stack passes this parameter to application to notify about GP mode change.
+  */
+typedef struct zb_zgp_signal_mode_change_params_s
+{
+  zb_zgp_mode_change_reason_t reason; /*!< mode change reason, see @ref zb_zgp_mode_change_reason_t */
+  zb_zgp_mode_t new_mode;
+} zb_zgp_signal_mode_change_params_t;
 /** @endcond */
 #endif  /* ZB_ENABLE_ZGP_SINK */
+
+/**
+   @brief Device unavailable signal parameters
+ */
+typedef struct zb_zdo_device_unavailable_params_s
+{
+  zb_ieee_addr_t long_addr; /*!< Long address of a device */
+  zb_uint16_t short_addr;   /*!< Short address of a device */
+} zb_zdo_device_unavailable_params_t;
 
 /**
    @brief Association parameters
@@ -990,7 +1109,7 @@ typedef struct zb_zdo_signal_macsplit_dev_boot_params_s
 {
   zb_uint32_t    dev_version; /*!< macsplit device version */
   zb_ieee_addr_t extended_address; /*!< The 64-bit (IEEE) address assigned to the device. */
-  zb_char_t      version_str[80];    /*!< macsplit version string */
+  zb_char_t      version_str[80];
 } zb_zdo_signal_macsplit_dev_boot_params_t;
 
 /**
@@ -1023,6 +1142,41 @@ typedef struct zb_zdo_signal_fb_initiator_finished_params_s
   zb_zdo_fb_initiator_finished_status_t status;
 } zb_zdo_signal_fb_initiator_finished_params_t;
 
+
+/*
+ * Note: These values were members of `enum zb_secur_upd_device_status_e` type but were converted to a
+ * set of macros due to MISRA violations.
+ */
+/**
+ * @name Security/rejoin states of the 'status' field of APSME-Update-Device
+ * @see Table 4.40
+ * @anchor secur_upd_device_status
+ *
+ */
+/** @{ */
+#define ZB_STD_SEQ_SECURED_REJOIN    0U /*!< Device rejoin with standard security */
+#define ZB_STD_SEQ_UNSECURED_JOIN    1U /*!< Device join without security */
+#define ZB_DEVICE_LEFT               2U /*!< Device left */
+#define ZB_STD_SEQ_UNSECURED_REJOIN  3U /*!< Device rejoin without standard security */
+#define ZB_MAX_USED_UPD_DEV_STATUS   ZB_STD_SEQ_UNSECURED_REJOIN
+/** @} */
+/* Obsolete values */
+#define ZB_HIGH_SEQ_SECURED_REJOIN   4U /*!< Device rejoin with high security */
+#define ZB_HIGH_SEQ_UNSECURED_JOIN   5U /*!< Device join without high security */
+#define ZB_HIGH_SEQ_UNSECURED_REJOIN 7U /*!< Device rejoin without high security */
+
+
+/**
+ * @name TC action on incoming Update Device
+ * @anchor secur_tc_action
+ */
+/** @{ */
+#define ZB_TC_ACTION_AUTHORIZE      0u /*!< authorize device  */
+#define ZB_TC_ACTION_DENY           1u /*!< deby authorization - msend Remove device  */
+#define ZB_TC_ACTION_IGNORE         2u /*!< ignore Update Device - that meay lead to authorization deny  */
+/** @} */
+
+
 /**
  * @brief Device Updated signal parameters
  */
@@ -1042,10 +1196,19 @@ typedef struct zb_zdo_signal_device_update_params_s
    * 0x03 = Standard device trust center rejoin
    * 0x04 – 0x07 = Reserved
    *
+   * @see secur_upd_device_status
+   *
    * see r21 spec, 4.4.3.2 APSME-UPDATE-DEVICE.indication,
    * Table 4.15 APSME-UPDATE-DEVICE.indication Parameters
    */
   zb_uint8_t status;
+  /*!<
+    Action by TC: authorize, send remove dev, ignore
+    @see secur_tc_action
+   */
+  zb_uint8_t tc_action;
+  /*!< Short Address of the updated device parent, 0xffff is unknown */
+  zb_uint16_t parent_short;
 } zb_zdo_signal_device_update_params_t;
 
 
@@ -2247,8 +2410,46 @@ zb_uint8_t zb_zdo_mgmt_bind_req(zb_uint8_t param, zb_callback_t cb);
  */
 void zdo_mgmt_bind_resp(zb_uint8_t param);
 
+ /** @brief Parameters for zb_zdo_raw_req call
+  */
+typedef struct zb_zdo_raw_req_param_s
+{
+  zb_uint16_t cluster_id;  /*!< The identifier of the object for which this
+                                frame is intended.  */
+  zb_uint16_t dst_addr;    /*!< Destination address */
+}
+zb_zdo_raw_req_param_t;
 
+ /** @brief Parameters of zb_zdo_raw_resp call
+  */
+typedef struct zb_zdo_raw_resp_param_s
+{
+  zb_uint16_t cluster_id;  /*!< The identifier of the object in the response.  */
+  zb_uint16_t src_addr;    /*!< Source address of a device that sent a response */
+}
+zb_zdo_raw_resp_param_t;
 
+/** @brief Response by Raw_req. */
+typedef ZB_PACKED_PRE struct zb_zdo_raw_resp_s
+{
+  zb_uint8_t tsn;    /*!< ZDP transaction sequence number */
+  zb_uint8_t status; /**< Operation status. */
+  zb_uint8_t payload[ZB_ZDO_MAX_PAYLOAD_SIZE - 1U]; /**< Raw response payload. */
+}
+ZB_PACKED_STRUCT
+zb_zdo_raw_resp_t;
+
+#ifdef ZB_NCP_ENABLE_ZDO_RAW_CMD
+/** @brief Raw ZDO request.
+
+   @param param - index of buffer with request. @ref zb_zdo_raw_req_param_s
+   @param cb    - user's function to call when got response from the
+   remote. @ref zb_zdo_raw_resp_param_s
+   @return ZDP transaction sequence number
+   @return 0xFF if operation cannot be performed now (nor enough memory, resources, etc.)
+ */
+zb_uint8_t zb_zdo_raw_req(zb_uint8_t param, zb_callback_t cb);
+#endif /* ZB_NCP_ENABLE_ZDO_RAW_CMD */
 
 /** @brief Parameters for Bind_req API call
   * @see ZB spec, subclause 2.4.3.2.2.
@@ -2323,9 +2524,9 @@ zb_zdo_bind_resp_t;
 
 /** @brief Bind_req request.
 
-   @param param - index of buffer with request. \ref zb_apsme_binding_req_s
+   @param param - index of buffer with request. @ref zb_zdo_bind_req_param_s
    @param cb    - user's function to call when got response from the
-   remote. \ref zb_zdo_bind_resp_s
+   remote. @ref zb_zdo_bind_resp_s
    @return ZDP transaction sequence number
    @return 0xFF if operation cannot be performed now (nor enough memory, resources, etc.)
 
@@ -2386,6 +2587,17 @@ void unbind_device1_cb(zb_uint8_t param)
 zb_uint8_t zb_zdo_unbind_req(zb_uint8_t param, zb_callback_t cb);
 
 
+/** @brief Perform unbind all entries locally. This custom function and it is not described
+ * in Zigbee specification.
+ * @param param - not used.
+ */
+void zb_zdo_unbind_all_local(zb_uint8_t param);
+
+/**
+ * @brief Checks if the binding with specified parameters exists
+ *
+ */
+void zb_zdo_check_binding_request(zb_bufid_t param);
 /** @} */
 
 /** @addtogroup zdo_mgmt
@@ -2410,7 +2622,7 @@ typedef ZB_PACKED_PRE struct zb_zdo_mgmt_leave_param_s
   zb_uint16_t    dst_addr;         /*!< Destination address. Not defined in
                                     *   the specification - let's it be short address */
   zb_bitfield_t reserved:6;        /*!< Reserve */
-  zb_bitfield_t remove_children:1; /*!< Remove children */
+  zb_bitfield_t remove_children:1; /*!< Obsolete field */
   zb_bitfield_t rejoin:1;          /*!< Rejoin */
 }
 ZB_PACKED_STRUCT
@@ -2423,7 +2635,7 @@ typedef ZB_PACKED_PRE struct zb_zdo_mgmt_leave_req_s
 {
   zb_ieee_addr_t device_address;   /*!< 64-bit IEEE address */
   zb_bitfield_t reserved:6;        /*!< Reserve */
-  zb_bitfield_t remove_children:1; /*!< Remove children */
+  zb_bitfield_t remove_children:1;   /*!< Obsolete field, should be always 0 according to CSA */
   zb_bitfield_t rejoin:1;          /*!< Rejoin */
 }
 ZB_PACKED_STRUCT
@@ -2680,7 +2892,7 @@ zb_zdo_mgmt_nwk_ieee_joining_list_rsp_t;
       - out - @ref zb_apsme_add_group_conf_s
 
    @b Example
-   @snippet doxygen_snippets.dox tp_pro_bv-46_zr_certification_TP_PRO_BV-46_tp_pro_bv-46_zr_c
+   @snippet scenes/scenes_zed.c zb_zdo_add_group_req_snippet
 
  */
 void zb_zdo_add_group_req(zb_uint8_t param);
@@ -2696,15 +2908,11 @@ void zb_zdo_remove_group_req(zb_uint8_t param);
 /** @brief ZDO interface for REMOVE-ALL-GROUPS.request
   * @param param - (in/out) buffer with parameters
   *
-  * @snippet doxygen_snippets.dox add_remove_all_groups_aps_group_management_aps_group_zc_c
-  *
   */
 void zb_zdo_remove_all_groups_req(zb_uint8_t param);
 
 /** @brief ZDO interface for ZCL Get Group Membership Command
   * @param param - (in/out) buffer with parameters
-  *
-  * @snippet doxygen_snippets.dox zb_zdo_get_group_membership_req_aps_group_membership_req_aps_group_zc_c
   *
   */
 void zb_zdo_get_group_membership_req(zb_uint8_t param);
@@ -2868,13 +3076,13 @@ void zb_zdo_touchlink_set_nwk_channel(zb_uint8_t channel);
  *  @brief Set Touchlink RSSI threshold (used for Touchlink commissioning procedure)
  *  @param param [IN] - Touchlink RSSI threshold value
  */
-void zb_zdo_touchlink_set_rssi_threshold(zb_uint8_t rssi_threshold);
+void zb_zdo_touchlink_set_rssi_threshold(zb_int8_t rssi_threshold);
 
 /**
  *  @brief Get Touchlink RSSI threshold
  *  @return Current Touchlink RSSI threshold value
  */
-zb_uint8_t zb_zdo_touchlink_get_rssi_threshold(void);
+zb_int8_t zb_zdo_touchlink_get_rssi_threshold(void);
 
 /**
  *  @brief Set Touchlink RSSI correction
@@ -2896,7 +3104,7 @@ zb_uint8_t zb_zdo_touchlink_get_rssi_correction(void);
 
 #ifndef ZB_LITE_NO_CONFIGURABLE_POWER_DELTA
 zb_ret_t zb_zdo_set_lpd_cmd_mode(zb_uint8_t mode);
-void zb_zdo_set_lpd_cmd_timeout(zb_uint8_t timeout);
+void zb_zdo_set_lpd_cmd_timeout(zb_uint16_t timeout);
 #else
 #define zb_zdo_set_lpd_cmd_mode(mode)
 #define zb_zdo_set_lpd_cmd_timeout(timeout)
@@ -3034,6 +3242,7 @@ void zb_af_set_data_indication(zb_device_handler_t cb);
  */
 void zb_bdb_reset_via_local_action(zb_uint8_t param);
 
+#if defined ZB_BDB_MODE && !defined BDB_OLD
 /**
  *  @brief Starts TC rejoin procedure
  *
@@ -3045,6 +3254,7 @@ void zb_bdb_reset_via_local_action(zb_uint8_t param);
  *  @param param - buffer reference (if 0, buffer will be allocated automatically)
  */
 void zb_bdb_initiate_tc_rejoin(zb_uint8_t param);
+#endif /* ZB_BDB_MODE && !BDB_OLD */
 
 /** @} */ /* af_management_service */
 /*! @} */

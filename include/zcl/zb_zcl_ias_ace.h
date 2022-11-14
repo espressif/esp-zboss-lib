@@ -35,7 +35,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-/* PURPOSE: IAS Ace cluster defintions
+/* PURPOSE: IAS Ace cluster definitions
 */
 
 #ifndef ZB_ZCL_IAS_ACE_H
@@ -71,6 +71,9 @@ typedef ZB_PACKED_PRE struct zb_zcl_ias_ace_zone_table_s
    *  is not programmed */
   zb_char_t *zone_label;
 } ZB_PACKED_STRUCT zb_zcl_ias_ace_zone_table_t;
+
+/** @brief Default value for IAS ACE cluster revision global attribute */
+#define ZB_ZCL_IAS_ACE_CLUSTER_REVISION_DEFAULT ((zb_uint16_t)0x0001u)
 
 /** @brief IAS ACE Zone Table maximum length */
 #define ZB_ZCL_IAS_ACE_ZONE_TABLE_LENGTH      255
@@ -109,7 +112,8 @@ enum zb_zcl_ias_ace_attr_e
   ZB_ZCL_ATTR_IAS_ACE_ZONE_TABLE_LENGTH_ID,             \
   ZB_ZCL_ATTR_TYPE_U8,                                  \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                         \
-  (void*) data_ptr                                 \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                   \
+  (void*) data_ptr                                      \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_IAS_ACE_ZONE_TABLE_ID(data_ptr) \
@@ -117,7 +121,8 @@ enum zb_zcl_ias_ace_attr_e
   ZB_ZCL_ATTR_IAS_ACE_ZONE_TABLE_ID,                    \
   ZB_ZCL_ATTR_TYPE_NULL,                                \
   ZB_ZCL_ATTR_ACCESS_INTERNAL,                          \
-  (void*) data_ptr                                 \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                   \
+  (void*) data_ptr                                      \
 }
 
 /*! @internal Number of attributes mandatory for reporting in IAS Ace cluster */
@@ -134,7 +139,7 @@ enum zb_zcl_ias_ace_attr_e
     see ZCL spec 8.3.2.3, table 8.11
 */
 #define ZB_ZCL_DECLARE_IAS_ACE_ATTRIB_LIST(attr_list, length, table)        \
-  ZB_ZCL_START_DECLARE_ATTRIB_LIST(attr_list)                               \
+  ZB_ZCL_START_DECLARE_ATTRIB_LIST_CLUSTER_REVISION(attr_list, ZB_ZCL_IAS_ACE) \
   ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_ATTR_IAS_ACE_ZONE_TABLE_LENGTH_ID, (length))  \
   ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_ATTR_IAS_ACE_ZONE_TABLE_ID, (table))          \
   ZB_ZCL_FINISH_DECLARE_ATTRIB_LIST
@@ -174,7 +179,7 @@ enum zb_zcl_ias_ace_cmd_e
   ZB_ZCL_CMD_IAS_ACE_GET_ZONE_STATUS_ID           = 0x09,
 };
 
-/*! @brief IAS Ace cluster responce command identifiers
+/*! @brief IAS Ace cluster response command identifiers
     @see ZCL spec, IAS Ace Cluster, 8.3.2.5
 */
 enum zb_zcl_ias_ace_resp_cmd_e
@@ -308,7 +313,7 @@ typedef ZB_PACKED_PRE struct zb_zcl_ias_ace_arm_s
 #define ZB_ZCL_IAS_ACE_GET_ARM_REQ(data_ptr, buffer, status)  \
 {                                                             \
   zb_uint8_t *data = zb_buf_begin(buffer);                    \
-  if (zb_buf_len((buffer)) !=                                 \
+  if (zb_buf_len((buffer)) <                                  \
       ZB_ZCL_IAS_ACE_ARM_REQ_PAYLOAD_SIZE(data))              \
   {                                                           \
     (status) = ZB_ZCL_PARSE_STATUS_FAILURE;                   \
@@ -402,7 +407,7 @@ typedef ZB_PACKED_PRE struct zb_zcl_ias_ace_bypass_s
 #define ZB_ZCL_IAS_ACE_GET_BYPASS_REQ(data_ptr, buffer, status)       \
 {                                                                     \
   zb_uint8_t *data = zb_buf_begin(buffer);                            \
-  if (zb_buf_len((buffer)) != ZB_ZCL_IAS_ACE_BYPASS_PAYLOAD_SIZE(data))      \
+  if (zb_buf_len((buffer)) < ZB_ZCL_IAS_ACE_BYPASS_PAYLOAD_SIZE(data))       \
   {                                                                   \
     (status) = ZB_ZCL_PARSE_STATUS_FAILURE;                           \
   }                                                                   \
@@ -567,7 +572,7 @@ typedef ZB_PACKED_PRE struct zb_zcl_ias_ace_get_zone_info_s
   */
 #define ZB_ZCL_IAS_ACE_GET_GET_ZONE_INFO_REQ(data_ptr, buffer, status)  \
 {                                                                       \
-  if (zb_buf_len((buffer)) != sizeof(zb_zcl_ias_ace_get_zone_info_t))   \
+  if (zb_buf_len((buffer)) < sizeof(zb_zcl_ias_ace_get_zone_info_t))    \
   {                                                                     \
     (status) = ZB_ZCL_PARSE_STATUS_FAILURE;                             \
   }                                                                     \
@@ -688,7 +693,7 @@ typedef ZB_PACKED_PRE struct zb_zcl_ias_ace_get_zone_status_s
   */
 #define ZB_ZCL_IAS_ACE_GET_GET_ZONE_STATUS_REQ(data_ptr, buffer, status) \
 {                                                                       \
-  if (zb_buf_len((buffer)) != sizeof(zb_zcl_ias_ace_get_zone_status_t)) \
+  if (zb_buf_len((buffer)) < sizeof(zb_zcl_ias_ace_get_zone_status_t))  \
   {                                                                     \
     (status) = ZB_ZCL_PARSE_STATUS_FAILURE;                             \
   }                                                                     \
@@ -708,18 +713,36 @@ typedef ZB_PACKED_PRE struct zb_zcl_ias_ace_get_zone_status_s
 /******************************* Arm Response command ******************************/
 
 /*! @brief Values of the Arm Notification
- * see ZCL spec 8.3.2.5.1.2
+ * see ZCL8 spec 8.3.2.4.1.2
 */
 enum zb_zcl_ias_ace_arm_not_e
 {
-  /*! All Zones Disarmed */
+  /*! @brief All Zones Disarmed
+      @deprecated Enumerator is deprecated. It will be removed after February 2023. Use ZB_ZCL_IAS_ACE_ARM_NOTIF_ALL_ZONES_DISARMED instead.*/
   ZB_ZCL_IAS_ACE_ARM_NOT_DISARM  = 0x00,
-  /*! Only Day/Home Zones Armed */
+  /*! @brief All Zones Disarmed */
+  ZB_ZCL_IAS_ACE_ARM_NOTIF_ALL_ZONES_DISARMED = 0x00,
+  /*! @brief Only Day/Home Zones Armed
+      @deprecated Enumerator is deprecated. It will be removed after February 2023. Use ZB_ZCL_IAS_ACE_ARM_NOTIF_ONLY_DAY_HOME_ZONES_ARMED instead.*/
   ZB_ZCL_IAS_ACE_ARM_NOT_DAY     = 0x01,
-  /*! Only Night/Sleep Zones Armed */
+  /*! @brief Only Day/Home Zones Armed */
+  ZB_ZCL_IAS_ACE_ARM_NOTIF_ONLY_DAY_HOME_ZONES_ARMED = 0x01,
+  /*! @brief Only Night/Sleep Zones Armed
+      @deprecated Enumerator is deprecated. It will be removed after February 2023. Use ZB_ZCL_IAS_ACE_ARM_NOTIF_ONLY_NIGHT_SLEEP_ZONES_ARMED instead.*/
   ZB_ZCL_IAS_ACE_ARM_NOT_NIGHT   = 0x02,
-  /*! All Zones Armed */
+  /*! @brief Only Night/Sleep Zones Armed */
+  ZB_ZCL_IAS_ACE_ARM_NOTIF_ONLY_NIGHT_SLEEP_ZONES_ARMED = 0x02,
+  /*! @brief All Zones Armed
+      @deprecated Enumerator is deprecated. It will be removed after February 2023. Use ZB_ZCL_IAS_ACE_ARM_NOTIF_ALL_ZONES_ARMED instead.*/
   ZB_ZCL_IAS_ACE_ARM_NOT_ALL     = 0x03,
+  /*! @brief All Zones Armed */
+  ZB_ZCL_IAS_ACE_ARM_NOTIF_ALL_ZONES_ARMED = 0x03,
+  /*! @brief Invalid Arm/Disarm Code */
+  ZB_ZCL_IAS_ACE_ARM_NOTIF_INVALID_ARM_DISARM_CODE = 0x04,
+  /*! @brief Not ready to arm */
+  ZB_ZCL_IAS_ACE_ARM_NOTIF_NOT_READY_TO_ARM = 0x05,
+  /*! @brief Already disarmed */
+  ZB_ZCL_IAS_ACE_ARM_NOTIF_ALREADY_DISARMED = 0x06,
 };
 
 /*! @brief Structure representation of Arm Response command, ZCL spec 8.3.2.5.1  */
@@ -765,7 +788,7 @@ typedef ZB_PACKED_PRE struct zb_zcl_ias_ace_arm_resp_s
   */
 #define ZB_ZCL_IAS_ACE_GET_ARM_RESP(data_ptr, buffer, status)       \
 {                                                                   \
-  if (zb_buf_len((buffer)) != sizeof(zb_zcl_ias_ace_arm_resp_t))    \
+  if (zb_buf_len((buffer)) < sizeof(zb_zcl_ias_ace_arm_resp_t))     \
   {                                                                 \
     (status) = ZB_ZCL_PARSE_STATUS_FAILURE;                         \
   }                                                                 \
@@ -829,7 +852,7 @@ typedef ZB_PACKED_PRE struct zb_zcl_ias_ace_get_zone_id_map_resp_s
   */
 #define ZB_ZCL_IAS_ACE_GET_GET_ZONE_ID_MAP_RESP(data_ptr, buffer, status)       \
 {                                                                               \
-  if (zb_buf_len((buffer)) != sizeof(zb_zcl_ias_ace_get_zone_id_map_resp_t))    \
+  if (zb_buf_len((buffer)) < sizeof(zb_zcl_ias_ace_get_zone_id_map_resp_t))     \
   {                                                                             \
     (status) = ZB_ZCL_PARSE_STATUS_FAILURE;                                     \
   }                                                                             \
@@ -911,7 +934,7 @@ typedef ZB_PACKED_PRE struct zb_zcl_ias_ace_get_zone_info_resp_s
 #define ZB_ZCL_IAS_ACE_GET_GET_ZONE_INFO_RESP(data_ptr, buffer, status)         \
 {                                                                               \
   zb_uint8_t *data = zb_buf_begin(buffer);                                      \
-  if (zb_buf_len((buffer)) != ZB_ZCL_IAS_ACE_GET_ZONE_INFO_RESP_PAYLOAD_SIZE(data)) \
+  if (zb_buf_len((buffer)) < ZB_ZCL_IAS_ACE_GET_ZONE_INFO_RESP_PAYLOAD_SIZE(data))  \
   {                                                                             \
     (status) = ZB_ZCL_PARSE_STATUS_FAILURE;                                     \
   }                                                                             \
@@ -1012,7 +1035,7 @@ typedef ZB_PACKED_PRE struct zb_zcl_ias_ace_zone_status_changed_s
 #define ZB_ZCL_IAS_ACE_GET_ZONE_STATUS_CHANGED_REQ(data_ptr, buffer, status)    \
 {                                                                               \
   zb_uint8_t *data = zb_buf_begin(buffer);                                      \
-  if (zb_buf_len((buffer)) != ZB_ZCL_IAS_ACE_ZONE_STATUS_CHANGED_PAYLOAD_SIZE(data)) \
+  if (zb_buf_len((buffer)) < ZB_ZCL_IAS_ACE_ZONE_STATUS_CHANGED_PAYLOAD_SIZE(data))  \
   {                                                                             \
     (status) = ZB_ZCL_PARSE_STATUS_FAILURE;                                     \
   }                                                                             \
@@ -1147,7 +1170,7 @@ typedef ZB_PACKED_PRE struct zb_zcl_ias_ace_panel_status_changed_s
 #define ZB_ZCL_IAS_ACE_GET_PANEL_STATUS_CHANGED_REQ(data_ptr, buffer, status)   \
 {                                                                               \
   zb_uint8_t *data = zb_buf_begin(buffer);                                      \
-  if (zb_buf_len((buffer)) != sizeof(zb_zcl_ias_ace_panel_status_changed_t))    \
+  if (zb_buf_len((buffer)) < sizeof(zb_zcl_ias_ace_panel_status_changed_t))     \
   {                                                                             \
     (status) = ZB_ZCL_PARSE_STATUS_FAILURE;                                     \
   }                                                                             \
@@ -1219,7 +1242,7 @@ typedef ZB_PACKED_PRE struct zb_zcl_ias_ace_get_panel_status_resp_s
 #define ZB_ZCL_IAS_ACE_GET_GET_PANEL_STATUS_RESP(data_ptr, buffer, status)      \
 {                                                                               \
   zb_uint8_t *data = zb_buf_begin(buffer);                                      \
-  if (zb_buf_len((buffer)) != sizeof(zb_zcl_ias_ace_panel_status_changed_t))    \
+  if (zb_buf_len((buffer)) < sizeof(zb_zcl_ias_ace_panel_status_changed_t))     \
   {                                                                             \
     (status) = ZB_ZCL_PARSE_STATUS_FAILURE;                                     \
   }                                                                             \
@@ -1344,7 +1367,7 @@ typedef ZB_PACKED_PRE struct zb_zcl_ias_ace_set_bypassed_zone_list_s
 #define ZB_ZCL_IAS_ACE_GET_SET_BYPASSED_ZONE_LIST(data_ptr, buffer, status)     \
 {                                                                               \
   zb_uint8_t *data = zb_buf_begin(buffer);                                      \
-  if (zb_buf_len((buffer)) != ZB_ZCL_IAS_ACE_SET_BYPASSED_ZONE_LIST_PAYLOAD_SIZE(data)) \
+  if (zb_buf_len((buffer)) < ZB_ZCL_IAS_ACE_SET_BYPASSED_ZONE_LIST_PAYLOAD_SIZE(data))  \
   {                                                                             \
     (status) = ZB_ZCL_PARSE_STATUS_FAILURE;                                     \
   }                                                                             \
@@ -1447,7 +1470,7 @@ typedef ZB_PACKED_PRE struct zb_zcl_ias_ace_bypass_resp_s
 #define ZB_ZCL_IAS_ACE_GET_BYPASS_RESP(data_ptr, buffer, status)                \
 {                                                                               \
   zb_uint8_t *data = zb_buf_begin(buffer);                                      \
-  if (zb_buf_len((buffer)) != ZB_ZCL_IAS_ACE_BYPASS_RESP_PAYLOAD_SIZE(data))    \
+  if (zb_buf_len((buffer)) < ZB_ZCL_IAS_ACE_BYPASS_RESP_PAYLOAD_SIZE(data))     \
   {                                                                             \
     (status) = ZB_ZCL_PARSE_STATUS_FAILURE;                                     \
   }                                                                             \
@@ -1546,7 +1569,7 @@ typedef ZB_PACKED_PRE struct zb_zcl_ias_ace_get_zone_status_resp_s
 #define ZB_ZCL_IAS_ACE_GET_GET_ZONE_STATUS_RESP(data_ptr, buffer, status)       \
 {                                                                               \
   zb_uint8_t *data = zb_buf_begin(buffer);                                      \
-  if (zb_buf_len((buffer)) != ZB_ZCL_IAS_ACE_GET_ZONE_STATUS_RESP_PAYLOAD_SIZE(data)) \
+  if (zb_buf_len((buffer)) < ZB_ZCL_IAS_ACE_GET_ZONE_STATUS_RESP_PAYLOAD_SIZE(data))  \
   {                                                                             \
     (status) = ZB_ZCL_PARSE_STATUS_FAILURE;                                     \
   }                                                                             \

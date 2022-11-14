@@ -113,6 +113,9 @@ enum zb_zcl_pressure_measurement_attr_e
 #endif
 };
 
+/** @brief Default value for Pressure Measurement cluster revision global attribute */
+#define ZB_ZCL_PRESSURE_MEASUREMENT_CLUSTER_REVISION_DEFAULT ((zb_uint16_t)0x0002u)
+
  /* (See: Table 4.15 Pressure Measurement Information Attribute Set) */
 
 /** @brief MeasuredValue attribute unknown value */
@@ -195,6 +198,7 @@ enum zb_zcl_pressure_measurement_attr_e
   ZB_ZCL_ATTR_PRESSURE_MEASUREMENT_VALUE_ID,                    \
   ZB_ZCL_ATTR_TYPE_S16,                                         \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY | ZB_ZCL_ATTR_ACCESS_REPORTING,  \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                           \
   (void*) data_ptr                                              \
 }
 
@@ -203,6 +207,7 @@ enum zb_zcl_pressure_measurement_attr_e
   ZB_ZCL_ATTR_PRESSURE_MEASUREMENT_MIN_VALUE_ID,        \
   ZB_ZCL_ATTR_TYPE_S16,                                 \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                         \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                   \
   (void*) data_ptr                                      \
 }
 
@@ -211,6 +216,7 @@ enum zb_zcl_pressure_measurement_attr_e
   ZB_ZCL_ATTR_PRESSURE_MEASUREMENT_MAX_VALUE_ID,        \
   ZB_ZCL_ATTR_TYPE_S16,                                 \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                         \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                   \
   (void*) data_ptr                                      \
 }
 
@@ -219,6 +225,7 @@ enum zb_zcl_pressure_measurement_attr_e
   ZB_ZCL_ATTR_PRESSURE_MEASUREMENT_TOLERANCE_ID,               \
   ZB_ZCL_ATTR_TYPE_U16,                                        \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                          \
   (void*) data_ptr                                             \
 }
 
@@ -227,6 +234,7 @@ enum zb_zcl_pressure_measurement_attr_e
   ZB_ZCL_ATTR_PRESSURE_MEASUREMENT_SCALED_VALUE_ID,            \
   ZB_ZCL_ATTR_TYPE_S16,                                        \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                          \
   (void*) data_ptr                                             \
 }
 
@@ -235,6 +243,7 @@ enum zb_zcl_pressure_measurement_attr_e
   ZB_ZCL_ATTR_PRESSURE_MEASUREMENT_MIN_SCALED_VALUE_ID,        \
   ZB_ZCL_ATTR_TYPE_S16,                                        \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                          \
   (void*) data_ptr                                             \
 }
 
@@ -243,6 +252,7 @@ enum zb_zcl_pressure_measurement_attr_e
   ZB_ZCL_ATTR_PRESSURE_MEASUREMENT_MAX_SCALED_VALUE_ID,        \
   ZB_ZCL_ATTR_TYPE_S16,                                        \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                          \
   (void*) data_ptr                                             \
 }
 
@@ -251,6 +261,7 @@ enum zb_zcl_pressure_measurement_attr_e
   ZB_ZCL_ATTR_PRESSURE_MEASUREMENT_SCALED_TOLERANCE_ID,        \
   ZB_ZCL_ATTR_TYPE_U16,                                        \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                          \
   (void*) data_ptr                                             \
 }
 
@@ -259,6 +270,7 @@ enum zb_zcl_pressure_measurement_attr_e
   ZB_ZCL_ATTR_PRESSURE_MEASUREMENT_SCALE_ID,                   \
   ZB_ZCL_ATTR_TYPE_S8,                                         \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                          \
   (void*) data_ptr                                             \
 }
 
@@ -282,7 +294,7 @@ void zb_zcl_pressure_measurement_write_attr_hook(
 */
 #define ZB_ZCL_DECLARE_PRESSURE_MEASUREMENT_ATTRIB_LIST(attr_list,                  \
     value, min_value, max_value, tolerance)                                         \
-  ZB_ZCL_START_DECLARE_ATTRIB_LIST(attr_list)                                       \
+  ZB_ZCL_START_DECLARE_ATTRIB_LIST_CLUSTER_REVISION(attr_list, ZB_ZCL_PRESSURE_MEASUREMENT) \
   ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_ATTR_PRESSURE_MEASUREMENT_VALUE_ID, (value))          \
   ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_ATTR_PRESSURE_MEASUREMENT_MIN_VALUE_ID, (min_value))  \
   ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_ATTR_PRESSURE_MEASUREMENT_MAX_VALUE_ID, (max_value))  \
