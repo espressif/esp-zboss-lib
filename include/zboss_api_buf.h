@@ -383,7 +383,7 @@ void *zb_buf_alloc_left_func(TRACE_PROTO zb_bufid_t buf, zb_uint_t size);
    @param src_buf - source buffer
    @param dst_buf - destination buffer
  */
-#define zb_buf_copy(src_buf,dst_buf) zb_buf_copy_func(TRACE_CALL (src_buf),(dst_buf))
+#define zb_buf_copy(dst_buf,src_buf) zb_buf_copy_func(TRACE_CALL (dst_buf),(src_buf))
 
 /**
    @brief Initial data space allocation in buffer.

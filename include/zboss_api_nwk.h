@@ -40,6 +40,8 @@
 #ifndef ZB_ZBOSS_API_NWK_H
 #define ZB_ZBOSS_API_NWK_H 1
 
+#include "zboss_api_mm.h"
+
 /** \addtogroup nwk_api */
 /** @{ */
 
@@ -450,10 +452,15 @@ zb_nlme_status_indication_t;
                                               ZB_PAGE0_2_4_GHZ_START_CHANNEL_NUMBER  + 1U)
 /** @cond DOXYGEN_SE_SECTION */
 /**
-   Maximal number of channels for all pages
+   Maximal number of ed scan channels for all pages
 */
 #define ZB_ED_SCAN_MAX_CHANNELS_COUNT                                   \
   ((ZB_IO_BUF_SIZE - sizeof(zb_uint8_t)) / sizeof(zb_energy_detect_channel_info_t))
+/**
+   Max # of network descriptors which can fit into a single buffer.
+*/
+#define ZB_ACTIVE_SCAN_MAX_NETWORK_COUNT                                   \
+  ((ZB_IO_BUF_SIZE - sizeof(zb_nlme_network_discovery_confirm_t)) / sizeof(zb_nlme_network_descriptor_t))
 
 #define ZB_CHANNEL_PAGE_MAX_CHANNELS_COUNT ZB_PAGE28_SUB_GHZ_MAX_CHANNELS_COUNT
 /** @endcond */ /* DOXYGEN_SE_SECTION */
@@ -472,19 +479,20 @@ zb_nlme_status_indication_t;
  */
 typedef struct zb_nwk_pib_cache_s
 {
-  zb_uint16_t             mac_short_address;             /*!< The 16-bit address that the device uses
-                                                           to communicate in the PAN. */
-  zb_uint16_t             mac_pan_id;                    /*!< The 16-bit identifier of the PAN on which
-                                                           the device is operating. If this value is 0xffff,
-                                                           the device is not associated. */
-  zb_ieee_addr_t          mac_extended_address;          /*!< The 64-bit (IEEE) address assigned to the device. */
+  zb_uint16_t          mac_short_address;                              /*!< The 16-bit address that the device uses
+                                                                              to communicate in the PAN. */
+  zb_uint16_t          mac_pan_id;                                     /*!< The 16-bit identifier of the PAN on which
+                                                                              the device is operating. If this value is 0xffff,
+                                                                              the device is not associated. */
+  zb_ieee_addr_t       mac_extended_address;                           /*!< The 64-bit (IEEE) address assigned to the device. */
 
-  zb_uint8_t              mac_association_permit;        /*!< Indication of whether a coordinator is currently
-                                                           allowing association. A value of TRUE indicates*/
-  zb_uint8_t              mac_rx_on_when_idle;           /*!< Indication of whether the MAC sublayer is to enable
-                                                           its receiver during idle periods. */
-  zb_uint8_t              phy_current_page;              /*!< Index of current physical channel page  */
-  zb_uint8_t              phy_current_channel;           /*!< Index of current physical channel */
+  zb_uint8_t           mac_association_permit;                         /*!< Indication of whether a coordinator is currently
+                                                                              allowing association. A value of TRUE indicates*/
+  zb_uint8_t           mac_rx_on_when_idle;                            /*!< Indication of whether the MAC sublayer is to enable
+                                                                              its receiver during idle periods. */
+  zb_uint8_t           phy_current_page[ZB_NWK_MAC_IFACE_TBL_SIZE];    /*!< Index of current physical channel page  */
+  zb_uint8_t           phy_current_channel[ZB_NWK_MAC_IFACE_TBL_SIZE]; /*!< Index of current physical channel */
+  zb_uint8_t           phy_primary_iface;                              /*!< Index of MAC interface that is used for joining */
 } zb_nwk_pib_cache_t;
 
 /** @} */
@@ -540,10 +548,19 @@ zb_nwk_pib_cache_t *zb_nwk_get_pib_cache(void);
 #endif
 /** Cached value of AssociationPermit attribute */
 #define ZB_PIBCACHE_ASSOCIATION_PERMIT() ZB_PIB_CACHE()->mac_association_permit
+
+#define ZB_PIBCACHE_PRIMARY_IFACE()  ZB_PIB_CACHE()->phy_primary_iface
+#define ZB_PIBCACHE_PRIMARY_IFACE_PAGE() ZB_PIB_CACHE()->phy_current_page[ZB_PIB_CACHE()->phy_primary_iface]
+#define ZB_PIBCACHE_PRIMARY_IFACE_CHANNEL() ZB_PIB_CACHE()->phy_current_channel[ZB_PIB_CACHE()->phy_primary_iface]
+
 /** Cached value of CurrentChannel attribute */
-#define ZB_PIBCACHE_CURRENT_CHANNEL()  ZB_PIB_CACHE()->phy_current_channel
+#define ZB_PIBCACHE_CURRENT_CHANNEL()  ZB_PIBCACHE_PRIMARY_IFACE_CHANNEL()
+#define ZB_PIBCACHE_CURRENT_CHANNEL_BY_IFACE(iface_id)  ZB_PIB_CACHE()->phy_current_channel[iface_id]
+#define ZB_PIBCACHE_CURRENT_CHANNELS_LIST() ZB_PIB_CACHE()->phy_current_channel
 /** Cached value of CurrentPage attribute */
-#define ZB_PIBCACHE_CURRENT_PAGE()  ZB_PIB_CACHE()->phy_current_page
+#define ZB_PIBCACHE_CURRENT_PAGE()  ZB_PIBCACHE_PRIMARY_IFACE_PAGE()
+#define ZB_PIBCACHE_CURRENT_PAGE_BY_IFACE(iface_id)  ZB_PIB_CACHE()->phy_current_page[iface_id]
+#define ZB_PIBCACHE_CURRENT_PAGES_LIST() ZB_PIB_CACHE()->phy_current_page
 
 #else /* NCP_MODE_HOST */
 
@@ -837,6 +854,14 @@ zb_nwk_nbr_iterator_entry_t;
 zb_ret_t zb_nwk_nbr_iterator_next(zb_uint8_t bufid, zb_callback_t cb);
 
 /** @} */ /* nwk_management_service */
+
+zb_ret_t zb_mac_enable_interface(zb_uint8_t iface_id);
+zb_ret_t zb_mac_disable_interface(zb_uint8_t iface_id);
+
+zb_bool_t zb_mac_is_interface_active(zb_uint8_t iface_id);
+
+void zb_nwk_mm_set_channel_mask(zb_uint8_t iface_id, zb_uint8_t page_index, zb_uint32_t channel_mask);
+
 /** @} */ /* nwk_api */
 
 #endif /*#ifndef ZB_ZBOSS_API_NWK_H*/

@@ -78,13 +78,16 @@ enum zb_zcl_groups_name_support_e
   ZB_ZCL_ATTR_GROUPS_NAME_SUPPORTED  = 1 << 7 /* set to 1 the most significant bit */
 };
 
+/** @brief Default value for Groups cluster revision global attribute */
+#define ZB_ZCL_GROUPS_CLUSTER_REVISION_DEFAULT ((zb_uint16_t)0x0003u)
+
 /**
  *  @brief Declare attribute list for Groups cluster.
  *  @param attr_list - attribute list name.
  *  @param name_support - pointer to variable to store name_support attribute value
  */
 #define ZB_ZCL_DECLARE_GROUPS_ATTRIB_LIST(attr_list, name_support)      \
-  ZB_ZCL_START_DECLARE_ATTRIB_LIST(attr_list)                           \
+  ZB_ZCL_START_DECLARE_ATTRIB_LIST_CLUSTER_REVISION(attr_list, ZB_ZCL_GROUPS) \
   ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_ATTR_GROUPS_NAME_SUPPORT_ID, (name_support)) \
   ZB_ZCL_FINISH_DECLARE_ATTRIB_LIST
 
@@ -161,14 +164,6 @@ enum zb_zcl_groups_cmd_resp_e
  *    Filling and sending Add Group request:
  *    @snippet HA_samples/door_lock/sample_zed.c send_add_group_req
  *
- *    Parsing Add Group request:
- *    @code
- *    ZB_ZCL_GROUPS_GET_ADD_GROUP_REQ(buffer, add_group);
- *    @endcode
- *
- *    Parsing Add Group response:
- *    @snippet doxygen_snippets.dox Parse Add Group response_snippet_groups_dut_553_c
- *    @par
  *
  */
 
@@ -285,9 +280,6 @@ zb_zcl_groups_add_group_res_t;
  *    @par Examples
  *    View Group request command can be formed as:
  *    @snippet HA_samples/door_lock/sample_zed.c view_group_req
- *    View Group response command can be parsed as:
- *    @snippet doxygen_snippets.dox Parse View Group response_snippet_groups_dut_c
- *    @par
  *
  */
 
@@ -399,10 +391,6 @@ zb_zcl_groups_view_group_res_t;
  *    Get Group Membership request can be filled in as:
  *    @snippet HA_samples/door_lock/sample_zed.c send_get_group_membership_req
  *
- *    Get Group Membership response can be parsed as:
- *    @snippet doxygen_snippets.dox Parse Get Group Membership response_snippet_groups_dut_c
- *    If there are more then one response record, macro call can be iterated.
- *    @par
  *
  */
 
@@ -557,9 +545,6 @@ zb_zcl_groups_get_group_membership_res_t;
  *    Remove Group request sending:
  *    @snippet HA_samples/door_lock/sample_zed.c send_remove_group_req
  *
- *    Remove Group response parsing:
- *    @snippet doxygen_snippets.dox Parse Remove Group response_snippet_groups_dut_c
- *    @par
  *
  */
 
@@ -772,7 +757,8 @@ zb_bool_t zb_zcl_process_groups_commands_cli(zb_uint8_t param);
   ZB_ZCL_ATTR_GROUPS_NAME_SUPPORT_ID,                             \
   ZB_ZCL_ATTR_TYPE_8BITMAP,                                       \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                   \
-  (void*) data_ptr                                           \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                             \
+  (void*) data_ptr                                                \
 }
 
 /** @internal @brief Number of attributes mandatory for reporting in Groups cluster. */

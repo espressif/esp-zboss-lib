@@ -53,6 +53,35 @@
 
 /*! @cond internals_doc */
 
+#ifdef ZB_INTERRUPT_SAFE_ALARMS
+#define ZB_ALARM_INT_DISABLE() ZB_OSIF_GLOBAL_LOCK()
+#define ZB_ALARM_INT_ENABLE() ZB_OSIF_GLOBAL_UNLOCK()
+#else /* ZB_INTERRUPT_SAFE_ALARMS */
+#define ZB_ALARM_INT_DISABLE()
+#define ZB_ALARM_INT_ENABLE()
+#endif /* ZB_INTERRUPT_SAFE_ALARMS */
+
+#ifdef ZB_INTERRUPT_SAFE_CALLBACKS
+#define ZB_CB_INT_DISABLE() ZB_OSIF_GLOBAL_LOCK()
+#define ZB_CB_INT_ENABLE() ZB_OSIF_GLOBAL_UNLOCK()
+#else /* ZB_INTERRUPT_SAFE_CALLBACKS */
+#define ZB_CB_INT_DISABLE()
+#define ZB_CB_INT_ENABLE()
+#endif /* ZB_INTERRUPT_SAFE_CALLBACKS */
+
+/* When running in multithreaded environment, is it possible
+when a callback is scheduled from another thread. 
+The scheduler itself if thread-safe, so, this is possible. 
+However, if scheduler is sleeping in a main ZBOSS thread now, 
+it should be signalled somehow.
+In this case there is a zb_scheduler_wakeup() routine shall be defined.
+Since it is a platform-specific item, it shall be defined in OSIF */ 
+#if defined(ZB_THREADS) && !defined(ZB_SCHEDULER_NO_AUTOWAKEUP)
+#define ZB_SCHEDULER_WAKEUP() zb_scheduler_wakeup()
+#else
+#define ZB_SCHEDULER_WAKEUP()
+#endif
+
 #if defined ZB_NWK_STOCHASTIC_ADDRESS_ASSIGN && defined ZB_ROUTER_ROLE     /* Zigbee pro */
 
 /**
@@ -151,6 +180,7 @@ typedef struct zb_sched_globals_s
   zb_uint8_t tm_buffer_usage;   /*!< Usage of timer queue  */
   zb_uint8_t delayed_buf_usage; /*!< Usage of waiting for free buffer queue  */
   zb_bool_t stop;
+  zb_bool_t stopping;
 } zb_sched_globals_t;
 
 /**
@@ -247,7 +277,7 @@ while(0)
 
 /**
    Global lock operation
-   Protect manupulation with queues in the main loop by this macro.
+   Protect manipulation with queues in the main loop by this macro.
    It disables interrupts on 8051 device and locks mutex in Linux.
  */
 #define ZB_SCHED_GLOBAL_LOCK ZB_OSIF_GLOBAL_LOCK
@@ -255,7 +285,7 @@ while(0)
 
 /**
    Global unlock operation
-   Protect manupulation with queues by this macro.
+   Protect manipulation with queues by this macro.
    It enables interrupts on 8051 device and unlocks mutex in Linux.
  */
 #define ZB_SCHED_GLOBAL_UNLOCK ZB_OSIF_GLOBAL_UNLOCK
@@ -433,6 +463,16 @@ zb_ret_t zb_schedule_alarm(zb_callback_t func, zb_uint8_t param, zb_time_t timeo
    See reporting_srv sample
  */
 #define ZB_SCHEDULE_ALARM_CANCEL_AND_GET_BUF(func, param, p_param) (void)zb_schedule_alarm_cancel((func), (param), (p_param))
+
+
+/**
+   Start ZBOSS shutdown procedure in the scheduler.
+
+   Drop all callbacks and alarms, disable alarms planning - but keep callbacks
+   planning and scheduler working.
+   That is necessary to complete MAC reset at shut.
+ */
+void zb_scheduler_start_shutting(void);
 
 /** @endcond */ /* internals_doc */
 /*! @} */

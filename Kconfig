@@ -33,7 +33,7 @@ menu "Zigbee"
     choice ZB_RADIO_TYPE
         prompt "Configure the Zigbee radio type"
         depends on ZB_ENABLED
-        default ZB_RADIO_NATIVE if IDF_TARGET_ESP32H2
+        default ZB_RADIO_NATIVE if IDF_TARGET_ESP32H4
         default ZB_RADIO_MACSPLIT_UART
 
         config ZB_RADIO_NATIVE

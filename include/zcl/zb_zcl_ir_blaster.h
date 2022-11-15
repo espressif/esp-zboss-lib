@@ -325,9 +325,10 @@ void zb_zcl_ir_blaster_init_client();
 #define ZB_ZCL_CLUSTER_ID_IR_BLASTER_SERVER_ROLE_INIT zb_zcl_ir_blaster_init_server
 #define ZB_ZCL_CLUSTER_ID_IR_BLASTER_CLIENT_ROLE_INIT zb_zcl_ir_blaster_init_client
 
+/*! @} */ /* Ir_Blaster cluster commands */
+/*! @} */ /* addtogroup */
+
 /* @endcond */
 #endif /*defined ZB_ZCL_SUPPORT_CLUSTER_IR_BLASTER */
-
-/*! @} */ /* addtogroup */
 
 #endif /* ZB_ZCL_IR_BLASTER_H */

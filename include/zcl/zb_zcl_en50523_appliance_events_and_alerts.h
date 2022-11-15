@@ -72,6 +72,17 @@ enum zb_zcl_en50523_appl_ev_and_alerts_send_cmd_e
   ZB_ZCL_CMD_EN50523_APPL_EV_AND_ALERTS_EVENT_NOTIFICATION_ID  = 0x02,
 };
 
+/** @brief Default value for EN50523 Appliance events and alerts cluster revision global attribute */
+#define ZB_ZCL_EN50523_APPL_EV_AND_ALERTS_CLUSTER_REVISION_DEFAULT ((zb_uint16_t)0x0001u)
+
+/*!
+  @brief Declare attribute list for EN50523 Appliance events and alerts cluster (only cluster revision attribute)
+  @param attr_list - attribute list name
+*/
+#define ZB_ZCL_DECLARE_EN50523_APPL_EV_AND_ALERTS_ATTR_LIST(attr_list)                            \
+  ZB_ZCL_START_DECLARE_ATTRIB_LIST_CLUSTER_REVISION(attr_list, ZB_ZCL_EN50523_APPL_EV_AND_ALERTS) \
+  ZB_ZCL_FINISH_DECLARE_ATTRIB_LIST
+
 /** @cond internals_doc */
 /* en50523 cluster commands list : only for information - do not modify */
 #define ZB_ZCL_CLUSTER_ID_APPL_EV_AND_ALERTS_SERVER_ROLE_RECEIVED_CMD_LIST ZB_ZCL_CMD_EN50523_APPL_EV_AND_ALERTS_GET_ALERTS_ID
@@ -250,7 +261,7 @@ typedef ZB_PACKED_PRE struct zb_zcl_en50523_appl_ev_and_alerts_get_alerts_resp_s
 #define ZB_ZCL_EN50523_APPL_EV_AND_ALERTS_GET_GET_ALERTS_RESP(data_ptr, buffer, status) \
 {                                                                    \
   zb_uint8_t *data = zb_buf_begin(buffer);                           \
-  if (zb_buf_len((buffer)) !=                                        \
+  if (zb_buf_len((buffer)) <                                         \
       ZB_ZCL_EN50523_APPL_EV_AND_ALERTS_GET_ALERTS_RESP_PAYLOAD_SIZE(data)) \
   {                                                                  \
     (status) = ZB_ZCL_PARSE_STATUS_FAILURE;                          \
@@ -341,7 +352,7 @@ typedef ZB_PACKED_PRE struct zb_zcl_en50523_appl_ev_and_alerts_alerts_notif_s
 #define ZB_ZCL_EN50523_APPL_EV_AND_ALERTS_GET_ALERTS_NOTIF(data_ptr, buffer, status) \
 {                                                                    \
   zb_uint8_t *data = zb_buf_begin(buffer);                           \
-  if (zb_buf_len((buffer)) !=                                        \
+  if (zb_buf_len((buffer)) <                                         \
       ZB_ZCL_EN50523_APPL_EV_AND_ALERTS_ALERTS_NOTIF_PAYLOAD_SIZE(data)) \
   {                                                                  \
     (status) = ZB_ZCL_PARSE_STATUS_FAILURE;                          \
@@ -419,7 +430,7 @@ typedef ZB_PACKED_PRE struct zb_zcl_en50523_appl_ev_and_alerts_event_notif_s
 #define ZB_ZCL_EN50523_APPL_EV_AND_ALERTS_GET_EVENT_NOTIF(data_ptr, buffer, status) \
 {                                                              \
   zb_uint8_t *data = zb_buf_begin(buffer);                     \
-  if (zb_buf_len((buffer)) !=                                  \
+  if (zb_buf_len((buffer)) <                                   \
       sizeof(zb_zcl_en50523_appl_ev_and_alerts_event_notif_t)) \
   {                                                            \
     (status) = ZB_ZCL_PARSE_STATUS_FAILURE;                    \

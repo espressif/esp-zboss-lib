@@ -53,7 +53,7 @@
 #endif
 
 #ifndef ZBOSS_MINOR
-#define ZBOSS_MINOR 10U
+#define ZBOSS_MINOR 14U
 #endif
 
 #endif /* ZB_VERSION_H */

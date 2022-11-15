@@ -105,6 +105,10 @@ enum zb_zcl_on_off_start_up_on_off_e
   /*! "Previous" value */
   ZB_ZCL_ON_OFF_START_UP_ON_OFF_IS_PREVIOUS = 0xFF
 };
+
+/** @brief Default value for OnOff cluster revision global attribute */
+#define ZB_ZCL_ON_OFF_CLUSTER_REVISION_DEFAULT ((zb_uint16_t)0x0002u)
+
 /** @brief Default value for OnOff attribute */
 #define ZB_ZCL_ON_OFF_ON_OFF_DEFAULT_VALUE (ZB_ZCL_ON_OFF_IS_OFF)
 
@@ -122,7 +126,7 @@ enum zb_zcl_on_off_start_up_on_off_e
     @param on_off - pointer to variable to store On/Off attribute value
 */
 #define ZB_ZCL_DECLARE_ON_OFF_ATTRIB_LIST(attr_list, on_off)            \
-  ZB_ZCL_START_DECLARE_ATTRIB_LIST(attr_list)                           \
+  ZB_ZCL_START_DECLARE_ATTRIB_LIST_CLUSTER_REVISION(attr_list, ZB_ZCL_ON_OFF) \
   ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_ATTR_ON_OFF_ON_OFF_ID, (on_off))          \
   ZB_ZCL_FINISH_DECLARE_ATTRIB_LIST
 
@@ -137,7 +141,7 @@ enum zb_zcl_on_off_start_up_on_off_e
 #define ZB_ZCL_DECLARE_ON_OFF_ATTRIB_LIST_EXT(                                                  \
     attr_list, on_off, global_scene_ctrl, on_time, off_wait_time                                \
     )                                                                                           \
-    ZB_ZCL_START_DECLARE_ATTRIB_LIST(attr_list)                                                 \
+    ZB_ZCL_START_DECLARE_ATTRIB_LIST_CLUSTER_REVISION(attr_list, ZB_ZCL_ON_OFF)                 \
     ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_ATTR_ON_OFF_ON_OFF_ID, (on_off))                                \
     ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_ATTR_ON_OFF_GLOBAL_SCENE_CONTROL, (global_scene_ctrl))          \
     ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_ATTR_ON_OFF_ON_TIME, (on_time))                                 \
@@ -341,7 +345,7 @@ typedef ZB_PACKED_PRE struct zb_zcl_on_off_on_with_timed_off_req_s
   */
 #define ZB_ZCL_ON_OFF_GET_OFF_WITH_EFFECT_REQ(data_ptr, buffer, status)             \
 {                                                                                   \
-  if (zb_buf_len((buffer)) != sizeof(zb_zcl_on_off_off_with_effect_req_t))          \
+  if (zb_buf_len((buffer)) < sizeof(zb_zcl_on_off_off_with_effect_req_t))           \
   {                                                                                 \
    (status) = ZB_ZCL_PARSE_STATUS_FAILURE;                                          \
   }                                                                                 \
@@ -363,7 +367,7 @@ typedef ZB_PACKED_PRE struct zb_zcl_on_off_on_with_timed_off_req_s
   */
 #define ZB_ZCL_ON_OFF_GET_ON_WITH_TIMED_OFF_REQ(data_ptr, buffer, status)           \
 {                                                                                   \
-  if (zb_buf_len((buffer)) != sizeof(zb_zcl_on_off_on_with_timed_off_req_t))        \
+  if (zb_buf_len((buffer)) < sizeof(zb_zcl_on_off_on_with_timed_off_req_t))         \
   {                                                                                 \
    (status) = ZB_ZCL_PARSE_STATUS_FAILURE;                                          \
   }                                                                                 \
@@ -411,7 +415,7 @@ typedef struct zb_zcl_on_off_effect_user_app_schedule_e
   ZB_MEMMOVE(&(user_data->cmd_info), (pcmd_info), sizeof(zb_zcl_parsed_hdr_t));             \
   user_data->param.effect_id = (effectId);                                                  \
   user_data->param.effect_variant = (effectVar);                                            \
-  ZB_SCHEDULE_CALLBACK(zb_zcl_on_off_effect_invoke_user_app, (buffer));    \
+  ZB_SCHEDULE_CALLBACK(zb_zcl_on_off_effect_invoke_user_app, (buffer));                     \
 }
 
 /*! @}
@@ -430,7 +434,8 @@ typedef struct zb_zcl_on_off_effect_user_app_schedule_e
   ZB_ZCL_ATTR_ON_OFF_ON_OFF_ID,                                                              \
   ZB_ZCL_ATTR_TYPE_BOOL,                                                                     \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY | ZB_ZCL_ATTR_ACCESS_REPORTING | ZB_ZCL_ATTR_ACCESS_SCENE,    \
-  (void*) data_ptr                                                                      \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                                        \
+  (void*) data_ptr                                                                           \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_ON_OFF_GLOBAL_SCENE_CONTROL(data_ptr) \
@@ -438,7 +443,8 @@ typedef struct zb_zcl_on_off_effect_user_app_schedule_e
   ZB_ZCL_ATTR_ON_OFF_GLOBAL_SCENE_CONTROL,                                       \
   ZB_ZCL_ATTR_TYPE_BOOL,                                                         \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                  \
-  (void*) data_ptr                                                          \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                            \
+  (void*) data_ptr                                                               \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_ON_OFF_ON_TIME(data_ptr)  \
@@ -446,7 +452,8 @@ typedef struct zb_zcl_on_off_effect_user_app_schedule_e
   ZB_ZCL_ATTR_ON_OFF_ON_TIME,                                        \
   ZB_ZCL_ATTR_TYPE_U16,                                              \
   ZB_ZCL_ATTR_ACCESS_READ_WRITE,                                     \
-  (void*) data_ptr                                              \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                \
+  (void*) data_ptr                                                   \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_ON_OFF_OFF_WAIT_TIME(data_ptr)    \
@@ -454,7 +461,8 @@ typedef struct zb_zcl_on_off_effect_user_app_schedule_e
   ZB_ZCL_ATTR_ON_OFF_OFF_WAIT_TIME,                                          \
   ZB_ZCL_ATTR_TYPE_U16,                                                      \
   ZB_ZCL_ATTR_ACCESS_READ_WRITE,                                             \
-  (void*) data_ptr                                                      \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                        \
+  (void*) data_ptr                                                           \
 }
 
 /** @struct zb_zcl_on_off_attrs_s
@@ -470,10 +478,11 @@ typedef struct zb_zcl_on_off_attrs_s
   ZB_ZCL_ATTR_ON_OFF_START_UP_ON_OFF,                                        \
   ZB_ZCL_ATTR_TYPE_8BIT_ENUM,                                                \
   ZB_ZCL_ATTR_ACCESS_READ_WRITE,                                             \
-  (void*) data_ptr                                                      \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                        \
+  (void*) data_ptr                                                           \
 }
 
-#define ZB_ZCL_DECLARE_ON_OFF_ATTR_LIST(attr_list, attrs)               \
+#define ZB_ZCL_DECLARE_ON_OFF_ATTR_LIST(attr_list, attrs)                    \
   ZB_ZCL_DECLARE_ON_OFF_ATTRIB_LIST(attr_list, &attrs.on_off)
 
 /*! @internal Number of attributes mandatory for reporting in On/Off cluster */

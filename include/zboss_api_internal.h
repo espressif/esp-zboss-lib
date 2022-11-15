@@ -517,7 +517,7 @@ typedef ZB_PACKED_PRE struct zb_mac_diagnostic_info_s
                                       * Transactions. So if the Mac send a
                                       * single packet, it will be retried 4
                                       * times without ack, that counts as 1 failure */
-  zb_uint16_t mac_tx_ucast_retries; /* Total number of Mac Retries regardles of
+  zb_uint16_t mac_tx_ucast_retries; /* Total number of Mac Retries regardless of
                                      * whether the transaction resulted in
                                      * success or failure. */
 
@@ -636,7 +636,7 @@ typedef ZB_PACKED_PRE struct zdo_diagnostics_info_s
   /** A non-standard counter of the number of times the NWK broadcast was
    *  dropped because the broadcast table was full.
    *  01/15/2021 In ZBOSS fired if any of the broadcast_transaction or
-   *  broadcast_retransmition tables are full */
+   *  broadcast_retransmission tables are full */
   zb_uint16_t nwk_bcast_table_full;
 
 } ZB_PACKED_STRUCT zdo_diagnostics_info_t;

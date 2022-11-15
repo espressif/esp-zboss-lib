@@ -100,6 +100,13 @@ typedef zb_channel_page_t zb_channel_list_t[ZB_CHANNEL_PAGES_NUM];
 #define ZB_PAGE30_SUB_GHZ_CHANNEL_FROM  35U
 #define ZB_PAGE30_SUB_GHZ_CHANNEL_TO    61U
 
+#define ZB_PAGES_28_29_30_SUG_GHZ_CHANNEL_FROM ZB_PAGE28_SUB_GHZ_CHANNEL_FROM
+/**
+ * NR: Adding one more channel since page 29 takes channels (27-34) and 62
+ */
+#define ZB_PAGES_28_29_30_SUG_GHZ_CHANNEL_TO   62U
+#define ZB_PAGE29_SUB_GHZ_CHANNEL_62           62U
+
 #define ZB_PAGE31_SUB_GHZ_CHANNEL_FROM  0U
 #define ZB_PAGE31_SUB_GHZ_CHANNEL_TO    26U
 

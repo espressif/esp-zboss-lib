@@ -469,6 +469,21 @@ zb_bool_t zb_scheduler_is_stop(void);
 */
 #define ZB_SCHEDULER_IS_STOP() zb_scheduler_is_stop()
 
+/**
+   Is scheduler is going to stop/stopped - Is scheduler running now
+
+   @return ZB_TRUE in case of scheduler is going to stop/stopped or ZB_FALSE otherwise
+ */
+zb_bool_t zb_scheduler_is_going_to_stop(void);
+/** @endcond */ /* internals_doc */
+
+/**
+   Is scheduler is going to stop/stopped - Is scheduler running now
+
+   @return ZB_TRUE in case of scheduler is going to stop/stopped or ZB_FALSE otherwise
+*/
+#define ZB_SCHEDULER_IS_GOING_TO_STOP() zb_scheduler_is_going_to_stop()
+
 /*! @} */
 
 
@@ -483,16 +498,39 @@ zb_bool_t zb_scheduler_is_stop(void);
 /**
  * Generate random 32-bit value
  *
+ * Internal software algorithm using LFSRs
+ * can be overridden by define ZB_RANDOM_HARDWARE
+ *
  * @return random value between 0 to 2^32-1
  */
 zb_uint32_t zb_random(void);
 
 /**
- * Generate random value between 0 to max_value, inclusively.
+ * Generate random value using zb_random() between 0 to max_value, inclusively.
  *
  * @return random value between 0 and 'max_value' (32 bits).
  */
 zb_uint32_t zb_random_val(zb_uint32_t max_value);
+
+/**
+ * Generate random 8-bit value
+ *
+ * Internal software algorithm using LFSRs
+ * can be overridden by define ZB_RANDOM_HARDWARE
+ *
+ * @return random value between 0 to 0xff
+ */
+zb_uint8_t zb_random_u8(void);
+
+/**
+ * Generate random 16-bit value
+ *
+ * Internal software algorithm using LFSRs
+ * can be overridden by define ZB_RANDOM_HARDWARE
+ *
+ * @return random value between 0 to 0xffff
+ */
+zb_uint16_t zb_random_u16(void);
 
 /**
  * Equivalent of zb_random_val(). The macro is left for compatibility reasons.
@@ -500,25 +538,21 @@ zb_uint32_t zb_random_val(zb_uint32_t max_value);
 #define ZB_RANDOM_VALUE(max_value) zb_random_val(max_value)
 
 /**
- * Generate random 8-bit value
- *
- * @return random value between 0 to 255
+ * Equivalent of zb_random_u8(). The macro is left for compatibility reasons.
  */
-#define ZB_RANDOM_U8() (zb_uint8_t)zb_random_val(0xFFU)
+#define ZB_RANDOM_U8() zb_random_u8()
 
 /**
- * Generate random 16-bit value
- *
- * @return random value between 0 to 0xffff
+ * Equivalent of zb_random_u16(). The macro is left for compatibility reasons.
  */
-#define ZB_RANDOM_U16() (zb_uint16_t)zb_random_val(0xFFFFU)
+#define ZB_RANDOM_U16() zb_random_u16()
 
 /**
  * Analogue of bzero() for volatile data.
  *
  * A custom version should be implemented because there is no standard library function for that
  * purpose. Also, this function is not platform-dependent in contrast to ZB_BZERO() macro and
- * therefore can't be overriden by specific ZBOSS platform.
+ * therefore can't be overridden by specific ZBOSS platform.
  *
  * The function sets individually every byte of provided memory region to zero.
  */

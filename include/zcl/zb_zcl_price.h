@@ -170,9 +170,10 @@ enum zb_zcl_price_set_tier_label_e
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_PRICE_SRV_TIERN_PRICE_LABEL_GNR(tierN, data_ptr) \
 {                                                                               \
   ZB_ZCL_ATTR_PRICE_SRV_TIER ## tierN ## _PRICE_LABEL,                          \
-  ZB_ZCL_ATTR_TYPE_OCTET_STRING,                                                  \
+  ZB_ZCL_ATTR_TYPE_OCTET_STRING,                                                \
   ZB_ZCL_ATTR_ACCESS_READ_WRITE,                                                \
-  (void*) (data_ptr)                                                       \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                           \
+  (void*) (data_ptr)                                                            \
 }
 
 /** @endcond */ /* internals_doc */
@@ -495,7 +496,8 @@ enum zb_zcl_set_block_threshold_e
   ZB_ZCL_ATTR_PRICE_SRV_BLOCK ## blockN ## _THRESHOLD,                                        \
   ZB_ZCL_ATTR_TYPE_48BIT,                                                                     \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                               \
-  (void*) data_ptr                                                                       \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                                         \
+  (void*) data_ptr                                                                            \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_PRICE_SRV_BLOCK_THRESHOLD_COUNT_GNR(data_ptr)  \
@@ -503,7 +505,8 @@ enum zb_zcl_set_block_threshold_e
   ZB_ZCL_ATTR_PRICE_SRV_BLOCK_THRESHOLD_COUNT,                                            \
   ZB_ZCL_ATTR_TYPE_U8,                                                                    \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                           \
-  (void*) data_ptr                                                                   \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                                     \
+  (void*) data_ptr                                                                        \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_PRICE_SRV_TIERN_BLOCKM_THRESHOLD_GNR(blockN, tierN, data_ptr)  \
@@ -511,7 +514,8 @@ enum zb_zcl_set_block_threshold_e
   ZB_ZCL_ATTR_PRICE_SRV_TIER ## tierN ## _BLOCK ## blockN ## _THRESHOLD,                                  \
   ZB_ZCL_ATTR_TYPE_8BIT_ENUM,                                                                             \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                                           \
-  (void*) (data_ptr)                                                                                 \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                                                     \
+  (void*) (data_ptr)                                                                                      \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_PRICE_SRV_TIERN_BLOCK_THRESHOLD_COUNT_GNR(tierN, data_ptr) \
@@ -519,7 +523,8 @@ enum zb_zcl_set_block_threshold_e
   ZB_ZCL_ATTR_PRICE_SRV_TIER ## tierN ## _BLOCK_THRESHOLD_COUNT,                                      \
   ZB_ZCL_ATTR_TYPE_U8,                                                                                \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                                       \
-  (void*) data_ptr                                                                               \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                                                 \
+  (void*) data_ptr                                                                                    \
 }
 
 /** @endcond */ /* internals_doc */
@@ -577,7 +582,8 @@ enum zb_zcl_price_set_block_period_e
   ZB_ZCL_ATTR_PRICE_SRV_START_OF_BLOCK_PERIOD,                                \
   ZB_ZCL_ATTR_TYPE_UTC_TIME,                                                  \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                               \
-  (void*) (data_ptr)                                                     \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                         \
+  (void*) (data_ptr)                                                          \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_PRICE_SRV_BLOCK_PERIOD_DURATION(data_ptr) \
@@ -585,15 +591,17 @@ enum zb_zcl_price_set_block_period_e
   ZB_ZCL_ATTR_PRICE_SRV_BLOCK_PERIOD_DURATION,                                \
   ZB_ZCL_ATTR_TYPE_U24,                                                       \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                               \
-  (void*) (data_ptr)                                                     \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                         \
+  (void*) (data_ptr)                                                          \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_PRICE_SRV_THRESHOLD_MULTIPLIER(data_ptr) \
 {                                                                             \
-  ZB_ZCL_ATTR_PRICE_SRV_THRESHOLD_MULTIPLIER,                                  \
+  ZB_ZCL_ATTR_PRICE_SRV_THRESHOLD_MULTIPLIER,                                 \
   ZB_ZCL_ATTR_TYPE_U24,                                                       \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                               \
-  (void*) (data_ptr)                                                     \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                         \
+  (void*) (data_ptr)                                                          \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_PRICE_SRV_THRESHOLD_DIVISOR(data_ptr) \
@@ -601,7 +609,8 @@ enum zb_zcl_price_set_block_period_e
   ZB_ZCL_ATTR_PRICE_SRV_THRESHOLD_DIVISOR,                                    \
   ZB_ZCL_ATTR_TYPE_U24,                                                       \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                               \
-  (void*) (data_ptr)                                                     \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                         \
+  (void*) (data_ptr)                                                          \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_PRICE_SRV_BLOCK_PERIOD_DURATION_TYPE(data_ptr) \
@@ -609,7 +618,8 @@ enum zb_zcl_price_set_block_period_e
   ZB_ZCL_ATTR_PRICE_SRV_BLOCK_PERIOD_DURATION_TYPE,                           \
   ZB_ZCL_ATTR_TYPE_8BITMAP,                                                   \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                               \
-  (void*) (data_ptr)                                                     \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                         \
+  (void*) (data_ptr)                                                          \
 }
 
 /** @endcond */ /* internals_doc */
@@ -696,7 +706,8 @@ enum zb_zcl_price_set_commodity_e
   ZB_ZCL_ATTR_PRICE_SRV_COMMODITY_TYPE,                                       \
   ZB_ZCL_ATTR_TYPE_8BIT_ENUM,                                                 \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                               \
-  (void*) data_ptr                                                       \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                         \
+  (void*) data_ptr                                                            \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_PRICE_SRV_STANDING_CHARGE(data_ptr)  \
@@ -704,7 +715,8 @@ enum zb_zcl_price_set_commodity_e
   ZB_ZCL_ATTR_PRICE_SRV_STANDING_CHARGE,                                        \
   ZB_ZCL_ATTR_TYPE_U32,                                                         \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                 \
-  (void*) (data_ptr)                                                       \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                           \
+  (void*) (data_ptr)                                                            \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_PRICE_SRV_CONVERSION_FACTOR(data_ptr)  \
@@ -712,7 +724,8 @@ enum zb_zcl_price_set_commodity_e
   ZB_ZCL_ATTR_PRICE_SRV_CONVERSION_FACTOR,                                        \
   ZB_ZCL_ATTR_TYPE_U32,                                                           \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                   \
-  (void*) (data_ptr)                                                         \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                             \
+  (void*) (data_ptr)                                                              \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_PRICE_SRV_CONVERSION_FACTOR_TRAILING_DIGIT(data_ptr) \
@@ -720,7 +733,8 @@ enum zb_zcl_price_set_commodity_e
   ZB_ZCL_ATTR_PRICE_SRV_CONVERSION_FACTOR_TRAILING_DIGIT,                                       \
   ZB_ZCL_ATTR_TYPE_8BITMAP,                                                                     \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                                 \
-  (void*) (data_ptr)                                                                       \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                                           \
+  (void*) (data_ptr)                                                                            \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_PRICE_SRV_CALORIFIC_VALUE(data_ptr)  \
@@ -728,15 +742,17 @@ enum zb_zcl_price_set_commodity_e
   ZB_ZCL_ATTR_PRICE_SRV_CALORIFIC_VALUE,                                        \
   ZB_ZCL_ATTR_TYPE_U32,                                                         \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                 \
-  (void*) (data_ptr)                                                       \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                           \
+  (void*) (data_ptr)                                                            \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_PRICE_SRV_CALORIFIC_VALUE_UNIT(data_ptr) \
 {                                                                                   \
-  ZB_ZCL_ATTR_PRICE_SRV_CALORIFIC_VALUE_UNIT,                                      \
+  ZB_ZCL_ATTR_PRICE_SRV_CALORIFIC_VALUE_UNIT,                                       \
   ZB_ZCL_ATTR_TYPE_8BIT_ENUM,                                                       \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                     \
-  (void*) (data_ptr)                                                           \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                               \
+  (void*) (data_ptr)                                                                \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_PRICE_SRV_CALORIFIC_VALUE_TRAILING_DIGIT(data_ptr) \
@@ -744,7 +760,8 @@ enum zb_zcl_price_set_commodity_e
   ZB_ZCL_ATTR_PRICE_SRV_CALORIFIC_VALUE_TRAILING_DIGIT,                                       \
   ZB_ZCL_ATTR_TYPE_8BITMAP,                                                                   \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                               \
-  (void*) (data_ptr)                                                                     \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                                         \
+  (void*) (data_ptr)                                                                          \
 }
 
 /** @endcond */ /* internals_doc */
@@ -1053,7 +1070,8 @@ enum zb_zcl_price_set_block_price_information_e
   ZB_ZCL_ATTR_PRICE_SRV_NO_TIER_BLOCK ## blockN ## _PRICE,                                  \
   ZB_ZCL_ATTR_TYPE_U32,                                                                     \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                             \
-  (void*)  (data_ptr)                                                                  \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                                       \
+  (void*)  (data_ptr)                                                                       \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_PRICE_SRV_TIERN_BLOCKM_PRICE_GNR(tierN, blockM, data_ptr) \
@@ -1061,7 +1079,8 @@ enum zb_zcl_price_set_block_price_information_e
   ZB_ZCL_ATTR_PRICE_SRV_TIER ## tierN ## _BLOCK ## blockM ## _PRICE,                        \
   ZB_ZCL_ATTR_TYPE_U32,                                                                     \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                             \
-  (void*) (data_ptr)                                                                   \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                                       \
+  (void*) (data_ptr)                                                                        \
 }
 
 /** @endcond */ /* internals_doc */
@@ -1146,15 +1165,17 @@ enum zb_zcl_price_set_extended_price_information_e
   ZB_ZCL_ATTR_PRICE_SRV_PRICE_TIER ## tierN,                                      \
   ZB_ZCL_ATTR_TYPE_U32,                                                           \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                   \
-  (void*)  (data_ptr)                                                        \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                             \
+  (void*)  (data_ptr)                                                             \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_PRICE_SRV_CPPN_PRICE_GNR(cppN, data_ptr)   \
 {                                                                                 \
-  ZB_ZCL_ATTR_PRICE_SRV_CPP ## cppN ## _PRICE,                                       \
+  ZB_ZCL_ATTR_PRICE_SRV_CPP ## cppN ## _PRICE,                                    \
   ZB_ZCL_ATTR_TYPE_U32,                                                           \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                   \
-  (void*) (data_ptr)                                                      \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                             \
+  (void*) (data_ptr)                                                              \
 }
 
 /** @endcond */ /* internals_doc */
@@ -1241,17 +1262,19 @@ enum zb_zcl_price_set_tariff_information_e
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_PRICE_SRV_TARIFF_LABEL(data_ptr) \
 {                                                                           \
   ZB_ZCL_ATTR_PRICE_SRV_TARIFF_LABEL,                                       \
-  ZB_ZCL_ATTR_TYPE_OCTET_STRING,                                              \
+  ZB_ZCL_ATTR_TYPE_OCTET_STRING,                                            \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                             \
-  (void*) (data_ptr)                                                   \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                       \
+  (void*) (data_ptr)                                                        \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_PRICE_SRV_NUMBER_OF_PRICE_TIERS_IN_USE(data_ptr)  \
-{                                                                                           \
+{                                                                                            \
   ZB_ZCL_ATTR_PRICE_SRV_NUMBER_OF_PRICE_TIERS_IN_USE,                                        \
-  ZB_ZCL_ATTR_TYPE_U8,                                                                      \
-  ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                             \
-  (void*) (data_ptr)                                                                   \
+  ZB_ZCL_ATTR_TYPE_U8,                                                                       \
+  ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                              \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                                        \
+  (void*) (data_ptr)                                                                         \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_PRICE_SRV_NUMBER_OF_BLOCK_THRESHOLDS_IN_USE(data_ptr)  \
@@ -1259,7 +1282,8 @@ enum zb_zcl_price_set_tariff_information_e
   ZB_ZCL_ATTR_PRICE_SRV_NUMBER_OF_BLOCK_THRESHOLDS_IN_USE,                                        \
   ZB_ZCL_ATTR_TYPE_U8,                                                                            \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                                   \
-  (void*) (data_ptr)                                                                         \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                                             \
+  (void*) (data_ptr)                                                                              \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_PRICE_SRV_TIER_BLOCK_MODE(data_ptr)  \
@@ -1267,7 +1291,8 @@ enum zb_zcl_price_set_tariff_information_e
   ZB_ZCL_ATTR_PRICE_SRV_TIER_BLOCK_MODE,                                        \
   ZB_ZCL_ATTR_TYPE_8BIT_ENUM,                                                   \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                 \
-  (void*) (data_ptr)                                                       \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                           \
+  (void*) (data_ptr)                                                            \
 }
 
 /** @see SE spec, table D-82. */
@@ -1276,7 +1301,8 @@ enum zb_zcl_price_set_tariff_information_e
   ZB_ZCL_ATTR_PRICE_SRV_TIER_BLOCK_MODE,                                        \
   ZB_ZCL_ATTR_TYPE_8BIT_ENUM,                                                   \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                 \
-  (void*) (data_ptr)                                                       \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                           \
+  (void*) (data_ptr)                                                            \
 }
 
 /** @see @ref zb_zcl_metering_unit_of_measure_e */
@@ -1285,7 +1311,8 @@ enum zb_zcl_price_set_tariff_information_e
   ZB_ZCL_ATTR_PRICE_SRV_UNIT_OF_MEASURE,                                        \
   ZB_ZCL_ATTR_TYPE_8BIT_ENUM,                                                   \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                 \
-  (void*) (data_ptr)                                                       \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                           \
+  (void*) (data_ptr)                                                            \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_PRICE_SRV_CURRENCY(data_ptr)         \
@@ -1293,7 +1320,8 @@ enum zb_zcl_price_set_tariff_information_e
   ZB_ZCL_ATTR_PRICE_SRV_CURRENCY,                                               \
   ZB_ZCL_ATTR_TYPE_U16,                                                         \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                 \
-  (void*) (data_ptr)                                                       \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                           \
+  (void*) (data_ptr)                                                            \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_PRICE_SRV_PRICE_TRAILING_DIGIT(data_ptr)  \
@@ -1301,7 +1329,8 @@ enum zb_zcl_price_set_tariff_information_e
   ZB_ZCL_ATTR_PRICE_SRV_PRICE_TRAILING_DIGIT,                                        \
   ZB_ZCL_ATTR_TYPE_8BITMAP,                                                          \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                      \
-  (void*) (data_ptr)                                                            \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                                \
+  (void*) (data_ptr)                                                                 \
 }
 
 /** @endcond */ /* internals_doc */
@@ -1325,7 +1354,8 @@ typedef enum zb_zcl_price_tariff_resolution_period_e
   ZB_ZCL_ATTR_PRICE_SRV_TARIFF_RESOLUTION_PERIOD,                                         \
   ZB_ZCL_ATTR_TYPE_8BIT_ENUM,                                                             \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                           \
-  (void*) (data_ptr)                                                                 \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                                     \
+  (void*) (data_ptr)                                                                      \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_PRICE_SRV_CO2(data_ptr)  \
@@ -1333,7 +1363,8 @@ typedef enum zb_zcl_price_tariff_resolution_period_e
   ZB_ZCL_ATTR_PRICE_SRV_CO2,                                        \
   ZB_ZCL_ATTR_TYPE_U32,                                             \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                     \
-  (void*) (data_ptr)                                           \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                               \
+  (void*) (data_ptr)                                                \
 }
 
 /** @endcond */ /* internals_doc */
@@ -1357,7 +1388,8 @@ typedef enum zb_zcl_price_co2_unit_e
   ZB_ZCL_ATTR_PRICE_SRV_CO2_UNIT,                                         \
   ZB_ZCL_ATTR_TYPE_8BIT_ENUM,                                             \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                           \
-  (void*) (data_ptr)                                                 \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                     \
+  (void*) (data_ptr)                                                      \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_PRICE_SRV_CO2_TRAILING_DIGIT(data_ptr)   \
@@ -1365,7 +1397,8 @@ typedef enum zb_zcl_price_co2_unit_e
   ZB_ZCL_ATTR_PRICE_SRV_CO2_TRAILING_DIGIT,                               \
   ZB_ZCL_ATTR_TYPE_8BITMAP,                                               \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                           \
-  (void*) (data_ptr)                                                 \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                     \
+  (void*) (data_ptr)                                                      \
 }
 
 /** @endcond */ /* internals_doc */
@@ -1421,42 +1454,47 @@ enum zb_zcl_price_set_billing_information_e
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_PRICE_SRV_CURRENT_BILLING_PERIOD_START(data_ptr)   \
 {                                                                         \
-  ZB_ZCL_ATTR_PRICE_SRV_CURRENT_BILLING_PERIOD_START,                               \
-  ZB_ZCL_ATTR_TYPE_UTC_TIME,                                               \
+  ZB_ZCL_ATTR_PRICE_SRV_CURRENT_BILLING_PERIOD_START,                     \
+  ZB_ZCL_ATTR_TYPE_UTC_TIME,                                              \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                           \
-  (void*) (data_ptr)                                                 \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                     \
+  (void*) (data_ptr)                                                      \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_PRICE_SRV_CURRENT_BILLING_PERIOD_DURATION(data_ptr)   \
 {                                                                                                \
-  ZB_ZCL_ATTR_PRICE_SRV_CURRENT_BILLING_PERIOD_DURATION,                                            \
-  ZB_ZCL_ATTR_TYPE_U24,                                                                     \
+  ZB_ZCL_ATTR_PRICE_SRV_CURRENT_BILLING_PERIOD_DURATION,                                         \
+  ZB_ZCL_ATTR_TYPE_U24,                                                                          \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                                  \
-  (void*) (data_ptr)                                                                        \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                                            \
+  (void*) (data_ptr)                                                                             \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_PRICE_SRV_LAST_BILLING_PERIOD_START(data_ptr)   \
-{                                                                         \
-  ZB_ZCL_ATTR_PRICE_SRV_LAST_BILLING_PERIOD_START,                               \
-  ZB_ZCL_ATTR_TYPE_UTC_TIME,                                               \
-  ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                           \
-  (void*) (data_ptr)                                                 \
+{                                                                                          \
+  ZB_ZCL_ATTR_PRICE_SRV_LAST_BILLING_PERIOD_START,                                         \
+  ZB_ZCL_ATTR_TYPE_UTC_TIME,                                                               \
+  ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                            \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                                      \
+  (void*) (data_ptr)                                                                       \
 }
 
-#define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_PRICE_SRV_LAST_BILLING_PERIOD_DURATION(data_ptr)   \
+#define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_PRICE_SRV_LAST_BILLING_PERIOD_DURATION(data_ptr)      \
 {                                                                                                \
   ZB_ZCL_ATTR_PRICE_SRV_LAST_BILLING_PERIOD_DURATION,                                            \
-  ZB_ZCL_ATTR_TYPE_U24,                                                                     \
+  ZB_ZCL_ATTR_TYPE_U24,                                                                          \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                                  \
-  (void*) (data_ptr)                                                                        \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                                            \
+  (void*) (data_ptr)                                                                             \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_PRICE_SRV_LAST_BILLING_PERIOD_CONSOLIDATED_BILL(data_ptr)   \
-{                                                                                                \
-  ZB_ZCL_ATTR_PRICE_SRV_LAST_BILLING_PERIOD_CONSOLIDATED_BILL,                                            \
-  ZB_ZCL_ATTR_TYPE_U32,                                                                     \
-  ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                                  \
-  (void*) (data_ptr)                                                                        \
+{                                                                                                      \
+  ZB_ZCL_ATTR_PRICE_SRV_LAST_BILLING_PERIOD_CONSOLIDATED_BILL,                                         \
+  ZB_ZCL_ATTR_TYPE_U32,                                                                                \
+  ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                                        \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                                                  \
+  (void*) (data_ptr)                                                                                   \
 }
 
 /** @endcond */ /* internals_doc */
@@ -1548,7 +1586,8 @@ enum zb_zcl_price_set_credit_payment_e
   ZB_ZCL_ATTR_PRICE_SRV_CREDIT_PAYMENT_DUE_DATE,                                         \
   ZB_ZCL_ATTR_TYPE_U32,                                                                  \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                          \
-  (void*) (data_ptr)                                                                \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                                    \
+  (void*) (data_ptr)                                                                     \
 }
 
 /** @endcond */ /* internals_doc */
@@ -1577,7 +1616,8 @@ typedef enum zb_zcl_price_credit_payment_status_e
   ZB_ZCL_ATTR_PRICE_SRV_CREDIT_PAYMENT_STATUS,                                       \
   ZB_ZCL_ATTR_TYPE_8BIT_ENUM,                                                        \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                      \
-  (void*) (data_ptr)                                                            \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                                \
+  (void*) (data_ptr)                                                                 \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_PRICE_SRV_CREDIT_PAYMENT_OVER_DUE_AMOUNT(data_ptr) \
@@ -1585,47 +1625,53 @@ typedef enum zb_zcl_price_credit_payment_status_e
   ZB_ZCL_ATTR_PRICE_SRV_CREDIT_PAYMENT_OVER_DUE_AMOUNT,                                  \
   ZB_ZCL_ATTR_TYPE_S32,                                                                  \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                          \
-  (void*) (data_ptr)                                                                \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                                    \
+  (void*) (data_ptr)                                                                     \
 }
 
-#define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_PRICE_SRV_CREDIT_PAYMENT(data_ptr) \
+#define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_PRICE_SRV_CREDIT_PAYMENT(data_ptr)   \
 {                                                                               \
-  ZB_ZCL_ATTR_PRICE_SRV_CREDIT_PAYMENT,                                       \
+  ZB_ZCL_ATTR_PRICE_SRV_CREDIT_PAYMENT,                                         \
   ZB_ZCL_ATTR_TYPE_S32,                                                         \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                 \
-  (void*) (data_ptr)                                                       \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                           \
+  (void*) (data_ptr)                                                            \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_PRICE_SRV_CREDIT_PAYMENT_PERIOD(data_ptr) \
 {                                                                               \
-  ZB_ZCL_ATTR_PRICE_SRV_CREDIT_PAYMENT_PERIOD,                                \
+  ZB_ZCL_ATTR_PRICE_SRV_CREDIT_PAYMENT_PERIOD,                                  \
   ZB_ZCL_ATTR_TYPE_S32,                                                         \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                 \
-  (void*) (data_ptr)                                                       \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                           \
+  (void*) (data_ptr)                                                            \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_PRICE_SRV_CREDIT_PAYMENT_N(paymentN, data_ptr) \
 {                                                                               \
-  ZB_ZCL_ATTR_PRICE_SRV_CREDIT_PAYMENT_ ## paymentN,                                \
+  ZB_ZCL_ATTR_PRICE_SRV_CREDIT_PAYMENT_ ## paymentN,                            \
   ZB_ZCL_ATTR_TYPE_U32,                                                         \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                 \
-  (void*) (data_ptr)                                                       \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                           \
+  (void*) (data_ptr)                                                            \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_PRICE_SRV_CREDIT_PAYMENT_DATE_N(paymentN, data_ptr) \
 {                                                                               \
-  ZB_ZCL_ATTR_PRICE_SRV_CREDIT_PAYMENT_DATE_ ## paymentN,                                \
-  ZB_ZCL_ATTR_TYPE_UTC_TIME,                                                         \
+  ZB_ZCL_ATTR_PRICE_SRV_CREDIT_PAYMENT_DATE_ ## paymentN,                       \
+  ZB_ZCL_ATTR_TYPE_UTC_TIME,                                                    \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                 \
-  (void*) (data_ptr)                                                       \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                           \
+  (void*) (data_ptr)                                                            \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_PRICE_SRV_CREDIT_PAYMENT_REF_N(paymentN, data_ptr) \
 {                                                                               \
-  ZB_ZCL_ATTR_PRICE_SRV_CREDIT_PAYMENT_REF_ ## paymentN,                                \
-  ZB_ZCL_ATTR_TYPE_UTC_TIME,                                                         \
+  ZB_ZCL_ATTR_PRICE_SRV_CREDIT_PAYMENT_REF_ ## paymentN,                        \
+  ZB_ZCL_ATTR_TYPE_UTC_TIME,                                                    \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                 \
-  (void*) (data_ptr)                                                       \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                           \
+  (void*) (data_ptr)                                                            \
 }
 
 /** @endcond */ /* internals_doc */
@@ -1703,9 +1749,10 @@ enum zb_zcl_price_set_received_tier_label
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_PRICE_SRV_RECEIVED_TIERN_PRICE_LABEL_GNR(tierN, data_ptr) \
 {                                                                               \
   ZB_ZCL_ATTR_PRICE_SRV_RECEIVED_TIER ## tierN ## _PRICE_LABEL,                 \
-  ZB_ZCL_ATTR_TYPE_OCTET_STRING,                                                  \
+  ZB_ZCL_ATTR_TYPE_OCTET_STRING,                                                \
   ZB_ZCL_ATTR_ACCESS_READ_WRITE,                                                \
-  (void*) (data_ptr)                                                       \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                           \
+  (void*) (data_ptr)                                                            \
 }
 
 /** @endcond */
@@ -1756,7 +1803,8 @@ enum zb_zcl_price_set_received_block_threshold_e
   ZB_ZCL_ATTR_PRICE_SRV_RECEIVED_BLOCK ## blockN ## _THRESHOLD,                         \
   ZB_ZCL_ATTR_TYPE_48BIT,                                                               \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                         \
-  (void*) (data_ptr)                                                               \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                                   \
+  (void*) (data_ptr)                                                                    \
 }
 
 /** @endcond */
@@ -1807,7 +1855,8 @@ enum zb_zcl_price_set_received_block_period_e
   ZB_ZCL_ATTR_PRICE_SRV_RECEIVED_START_OF_BLOCK_PERIOD,                               \
   ZB_ZCL_ATTR_TYPE_UTC_TIME,                                                          \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                       \
-  (void*) (data_ptr)                                                             \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                                 \
+  (void*) (data_ptr)                                                                  \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_PRICE_SRV_RECEIVED_BLOCK_PERIOD_DURATION(data_ptr)  \
@@ -1815,7 +1864,8 @@ enum zb_zcl_price_set_received_block_period_e
   ZB_ZCL_ATTR_PRICE_SRV_RECEIVED_BLOCK_PERIOD_DURATION,                               \
   ZB_ZCL_ATTR_TYPE_U24,                                                               \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                       \
-  (void*) (data_ptr)                                                             \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                                 \
+  (void*) (data_ptr)                                                                  \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_PRICE_SRV_RECEIVED_THRESHOLD_MULTIPLIER(data_ptr)  \
@@ -1823,7 +1873,8 @@ enum zb_zcl_price_set_received_block_period_e
   ZB_ZCL_ATTR_PRICE_SRV_RECEIVED_THRESHOLD_MULTIPLIER,                                \
   ZB_ZCL_ATTR_TYPE_U24,                                                               \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                       \
-  (void*) (data_ptr)                                                             \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                                 \
+  (void*) (data_ptr)                                                                  \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_PRICE_SRV_RECEIVED_THRESHOLD_DIVISOR(data_ptr)  \
@@ -1831,7 +1882,8 @@ enum zb_zcl_price_set_received_block_period_e
   ZB_ZCL_ATTR_PRICE_SRV_RECEIVED_THRESHOLD_DIVISOR,                                   \
   ZB_ZCL_ATTR_TYPE_U24,                                                               \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                       \
-  (void*) (data_ptr)                                                             \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                                 \
+  (void*) (data_ptr)                                                                  \
 }
 
 /** @endcond */ /* internals_doc */
@@ -2130,10 +2182,11 @@ enum zb_zcl_price_set_received_block_price_information_e
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_PRICE_SRV_RX_NO_TIER_BLOCKN_PRICE_GNR(blockN, data_ptr) \
 {                                                                                             \
-  ZB_ZCL_ATTR_PRICE_SRV_RX_NO_TIER_BLOCK ## blockN ## _PRICE,                                      \
+  ZB_ZCL_ATTR_PRICE_SRV_RX_NO_TIER_BLOCK ## blockN ## _PRICE,                                 \
   ZB_ZCL_ATTR_TYPE_U32,                                                                       \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                               \
-  (void*) (data_ptr)                                                                     \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                                         \
+  (void*) (data_ptr)                                                                          \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_PRICE_SRV_RX_TIERN_BLOCKM_PRICE_GNR(tierN, blockM, data_ptr)  \
@@ -2141,7 +2194,8 @@ enum zb_zcl_price_set_received_block_price_information_e
   ZB_ZCL_ATTR_PRICE_SRV_RX_TIER ## tierN ## _BLOCK ## blockM ## _PRICE,                             \
   ZB_ZCL_ATTR_TYPE_U32,                                                                             \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                                     \
-  (void*) (data_ptr)                                                                           \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                                               \
+  (void*) (data_ptr)                                                                                \
 }
 
 /** @endcond */ /* internals_doc */
@@ -2205,6 +2259,9 @@ enum zb_zcl_price_set_received_extended_price_information_e
   ZB_ZCL_ATTR_PRICE_SRV_RECEIVED_PRICE_TIER48,
   /* reserved 0x8530 - 0x85FF */
 };
+
+/** @brief Default value for Price cluster revision global attribute */
+#define ZB_ZCL_PRICE_CLUSTER_REVISION_DEFAULT ((zb_uint16_t)0x0002u)
 
 /** @brief Default value for Tier1_PriceLabel attribute */
 #define ZB_ZCL_PRICE_SRV_TIER1_PRICE_LABEL_DEFAULT_VALUE {0x54, 0x49, 0x45, 0x52, 0x20, 0x31 ,0x00}
@@ -2272,7 +2329,8 @@ enum zb_zcl_price_set_received_extended_price_information_e
   ZB_ZCL_ATTR_PRICE_SRV_RECEIVED_PRICE_TIER ## tierN,                                           \
   ZB_ZCL_ATTR_TYPE_U32,                                                                         \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                                 \
-  (void*) (data_ptr)                                                                       \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                                           \
+  (void*) (data_ptr)                                                                            \
 }
 
 /** @endcond */ /* internals_doc */
@@ -2344,9 +2402,10 @@ enum zb_zcl_price_set_received_tariff_information_e
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_PRICE_SRV_RECEIVED_TARIFF_LABEL(data_ptr)  \
 {                                                                                     \
   ZB_ZCL_ATTR_PRICE_SRV_RECEIVED_TARIFF_LABEL,                                        \
-  ZB_ZCL_ATTR_TYPE_OCTET_STRING,                                                        \
+  ZB_ZCL_ATTR_TYPE_OCTET_STRING,                                                      \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                       \
-  (void*) (data_ptr)                                                             \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                                 \
+  (void*) (data_ptr)                                                                  \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_PRICE_SRV_RECEIVED_NUMBER_OF_PRICE_TIERS_IN_USE(data_ptr)  \
@@ -2354,7 +2413,8 @@ enum zb_zcl_price_set_received_tariff_information_e
   ZB_ZCL_ATTR_PRICE_SRV_RECEIVED_NUMBER_OF_PRICE_TIERS_IN_USE,                                        \
   ZB_ZCL_ATTR_TYPE_U8,                                                                                \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                                       \
-  (void*) (data_ptr)                                                                             \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                                                 \
+  (void*) (data_ptr)                                                                                  \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_PRICE_SRV_RECEIVED_NUMBER_OF_BLOCK_THRESHOLDS_IN_USE(data_ptr)  \
@@ -2362,7 +2422,8 @@ enum zb_zcl_price_set_received_tariff_information_e
   ZB_ZCL_ATTR_PRICE_SRV_RECEIVED_NUMBER_OF_BLOCK_THRESHOLDS_IN_USE,                                        \
   ZB_ZCL_ATTR_TYPE_U8,                                                                                     \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                                            \
-  (void*) (data_ptr)                                                                                  \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                                                      \
+  (void*) (data_ptr)                                                                                       \
 }
 
 /** @see SE spec, table D-82. */
@@ -2371,7 +2432,8 @@ enum zb_zcl_price_set_received_tariff_information_e
   ZB_ZCL_ATTR_PRICE_SRV_RECEIVED_TIER_BLOCK_MODE,                                         \
   ZB_ZCL_ATTR_TYPE_8BIT_ENUM,                                                             \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                           \
-  (void*) (data_ptr)                                                                 \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                                     \
+  (void*) (data_ptr)                                                                      \
 }
 
 /** @see @ref zb_zcl_price_tariff_resolution_period_t. */
@@ -2380,7 +2442,8 @@ enum zb_zcl_price_set_received_tariff_information_e
   ZB_ZCL_ATTR_PRICE_SRV_RECEIVED_TARIFF_RESOLUTION_PERIOD,                                          \
   ZB_ZCL_ATTR_TYPE_8BIT_ENUM,                                                                       \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                                     \
-  (void*) (data_ptr)                                                                           \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                                               \
+  (void*) (data_ptr)                                                                                \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_PRICE_SRV_RECEIVED_CO2(data_ptr)   \
@@ -2388,7 +2451,8 @@ enum zb_zcl_price_set_received_tariff_information_e
   ZB_ZCL_ATTR_PRICE_SRV_RECEIVED_CO2,                                         \
   ZB_ZCL_ATTR_TYPE_U32,                                                       \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                               \
-  (void*) (data_ptr)                                                     \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                         \
+  (void*) (data_ptr)                                                          \
 }
 
 /** @see @ref zb_zcl_price_co2_unit_t */
@@ -2397,7 +2461,8 @@ enum zb_zcl_price_set_received_tariff_information_e
   ZB_ZCL_ATTR_PRICE_SRV_RECEIVED_CO2_UNIT,                                          \
   ZB_ZCL_ATTR_TYPE_8BIT_ENUM,                                                       \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                     \
-  (void*) (data_ptr)                                                           \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                               \
+  (void*) (data_ptr)                                                                \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_PRICE_SRV_RECEIVED_CO2_TRAILING_DIGIT(data_ptr)    \
@@ -2405,7 +2470,8 @@ enum zb_zcl_price_set_received_tariff_information_e
   ZB_ZCL_ATTR_PRICE_SRV_RECEIVED_CO2_TRAILING_DIGIT,                                          \
   ZB_ZCL_ATTR_TYPE_8BITMAP,                                                                   \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                               \
-  (void*) (data_ptr)                                                                     \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                                         \
+  (void*) (data_ptr)                                                                          \
 }
 
 /** @endcond */ /* internals_doc */
@@ -2461,7 +2527,8 @@ enum zb_zcl_price_set_received_billing_information
   ZB_ZCL_ATTR_PRICE_SRV_RECEIVED_CURRENT_BILLING_PERIOD_START,                                        \
   ZB_ZCL_ATTR_TYPE_UTC_TIME,                                                                          \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                                       \
-  (void*) (data_ptr)                                                                             \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                                                 \
+  (void*) (data_ptr)                                                                                  \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_PRICE_SRV_RECEIVED_CURRENT_BILLING_PERIOD_DURATION(data_ptr)   \
@@ -2469,7 +2536,8 @@ enum zb_zcl_price_set_received_billing_information
   ZB_ZCL_ATTR_PRICE_SRV_RECEIVED_CURRENT_BILLING_PERIOD_DURATION,                                         \
   ZB_ZCL_ATTR_TYPE_U24,                                                                                   \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                                           \
-  (void*) (data_ptr)                                                                                 \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                                                     \
+  (void*) (data_ptr)                                                                                      \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_PRICE_SRV_RECEIVED_LAST_BILLING_PERIOD_START(data_ptr) \
@@ -2477,7 +2545,8 @@ enum zb_zcl_price_set_received_billing_information
   ZB_ZCL_ATTR_PRICE_SRV_RECEIVED_LAST_BILLING_PERIOD_START,                                       \
   ZB_ZCL_ATTR_TYPE_UTC_TIME,                                                                      \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                                   \
-  (void*) (data_ptr)                                                                         \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                                             \
+  (void*) (data_ptr)                                                                              \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_PRICE_SRV_RECEIVED_LAST_BILLING_PERIOD_DURATION(data_ptr)    \
@@ -2485,7 +2554,8 @@ enum zb_zcl_price_set_received_billing_information
   ZB_ZCL_ATTR_PRICE_SRV_RECEIVED_LAST_BILLING_PERIOD_DURATION,                                          \
   ZB_ZCL_ATTR_TYPE_U24,                                                                                 \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                                         \
-  (void*) (data_ptr)                                                                               \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                                                   \
+  (void*) (data_ptr)                                                                                    \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_PRICE_SRV_RECEIVED_LAST_BILLING_PERIOD_CONSOLIDATED_BILL(data_ptr)   \
@@ -2493,7 +2563,8 @@ enum zb_zcl_price_set_received_billing_information
   ZB_ZCL_ATTR_PRICE_SRV_RECEIVED_LAST_BILLING_PERIOD_CONSOLIDATED_BILL,                                         \
   ZB_ZCL_ATTR_TYPE_U32,                                                                                         \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                                                 \
-  (void*) (data_ptr)                                                                                       \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                                                           \
+  (void*) (data_ptr)                                                                                            \
 }
 
 /** @endcond */ /* internals_doc */
@@ -2509,7 +2580,7 @@ enum zb_zcl_price_set_received_billing_information
  *  @param commodity_type - pointer to variable to store @ref ZB_ZCL_ATTR_PRICE_SRV_COMMODITY_TYPE "CommodityType" attribute value.
 */
 #define ZB_ZCL_DECLARE_PRICE_SRV_ATTRIB_LIST(attr_list, commodity_type)           \
-  ZB_ZCL_START_DECLARE_ATTRIB_LIST(attr_list)                                   \
+  ZB_ZCL_START_DECLARE_ATTRIB_LIST_CLUSTER_REVISION(attr_list, ZB_ZCL_PRICE)    \
   ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_ATTR_PRICE_SRV_COMMODITY_TYPE, (commodity_type))  \
   ZB_ZCL_FINISH_DECLARE_ATTRIB_LIST
 
@@ -2544,18 +2615,20 @@ typedef enum zb_zcl_price_cli_attr_e
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_PRICE_CLI_PRICE_INCREASE_RANDOMIZE_MINUTES(data_ptr)   \
 {                                                                                                 \
-  ZB_ZCL_ATTR_PRICE_CLI_PRICE_INCREASE_RANDOMIZE_MINUTES,                           \
-  ZB_ZCL_ATTR_TYPE_U8,                                                                           \
-  ZB_ZCL_ATTR_ACCESS_READ_WRITE,                                                                   \
-  (void*) (data_ptr)                                                                         \
+  ZB_ZCL_ATTR_PRICE_CLI_PRICE_INCREASE_RANDOMIZE_MINUTES,                                         \
+  ZB_ZCL_ATTR_TYPE_U8,                                                                            \
+  ZB_ZCL_ATTR_ACCESS_READ_WRITE,                                                                  \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                                             \
+  (void*) (data_ptr)                                                                              \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_PRICE_CLI_PRICE_DECREASE_RANDOMIZE_MINUTES(data_ptr)   \
 {                                                                                                 \
-  ZB_ZCL_ATTR_PRICE_CLI_PRICE_DECREASE_RANDOMIZE_MINUTES,                           \
-  ZB_ZCL_ATTR_TYPE_U8,                                                                           \
-  ZB_ZCL_ATTR_ACCESS_READ_WRITE,                                                                   \
-  (void*) (data_ptr)                                                                         \
+  ZB_ZCL_ATTR_PRICE_CLI_PRICE_DECREASE_RANDOMIZE_MINUTES,                                         \
+  ZB_ZCL_ATTR_TYPE_U8,                                                                            \
+  ZB_ZCL_ATTR_ACCESS_READ_WRITE,                                                                  \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                                             \
+  (void*) (data_ptr)                                                                              \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_PRICE_CLI_COMMODITY_TYPE(data_ptr)   \
@@ -2563,7 +2636,8 @@ typedef enum zb_zcl_price_cli_attr_e
   ZB_ZCL_ATTR_PRICE_CLI_COMMODITY_TYPE,                                         \
   ZB_ZCL_ATTR_TYPE_8BIT_ENUM,                                                   \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                 \
-  (void*) (data_ptr)                                                       \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                           \
+  (void*) (data_ptr)                                                            \
 }
 
 /** @endcond */ /* internals_doc */
@@ -2576,7 +2650,7 @@ typedef enum zb_zcl_price_cli_attr_e
  *  @param commodity_type - pointer to variable to store "CommodityType" attribute value.
  */
 #define ZB_ZCL_DECLARE_PRICE_CLI_ATTRIB_LIST(attr_list, inc_rand_min, dec_rand_min, commodity_type) \
-  ZB_ZCL_START_DECLARE_ATTRIB_LIST(attr_list)                                   \
+  ZB_ZCL_START_DECLARE_ATTRIB_LIST_CLUSTER_REVISION(attr_list, ZB_ZCL_PRICE)                    \
   ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_ATTR_PRICE_CLI_PRICE_INCREASE_RANDOMIZE_MINUTES, (inc_rand_min))  \
   ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_ATTR_PRICE_CLI_PRICE_DECREASE_RANDOMIZE_MINUTES, (dec_rand_min))  \
   ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_ATTR_PRICE_CLI_COMMODITY_TYPE, (commodity_type))  \
@@ -3034,12 +3108,10 @@ typedef ZB_PACKED_PRE struct zb_zcl_price_publish_price_payload_s
 
 
 /** @def ZB_ZCL_PRICE_PUBLISH_PRICE_PAYLOAD_SIZE_IS_VALID
- *  @brief Returns 'true' if payload is in range [min_payload_size, max_payload_size]
  */
 #define ZB_ZCL_PRICE_PUBLISH_PRICE_PAYLOAD_SIZE_IS_VALID(size) \
-  (size <= sizeof(zb_zcl_price_publish_price_payload_t)) \
-  && (size > (sizeof(zb_zcl_price_publish_price_payload_t) \
-              - ZB_SIZEOF_FIELD(zb_zcl_price_publish_price_payload_t, rate_label)))
+  (size > (sizeof(zb_zcl_price_publish_price_payload_t) \
+           - ZB_SIZEOF_FIELD(zb_zcl_price_publish_price_payload_t, rate_label)))
 
 /** @def ZB_ZCL_PRICE_PUBLISH_PRICE_PAYLOAD_EXPECTED_SIZE
  *  @brief Returns actual size of payload.
@@ -3116,7 +3188,7 @@ typedef ZB_PACKED_PRE struct zb_zcl_price_ack_payload_s
 /** Check if @ref ZB_ZCL_PRICE_CLI_CMD_PRICE_ACK "PriceAcknowledgement" Command payload is valid
  */
 #define ZB_ZCL_PRICE_ACK_PAYLOAD_SIZE_IS_VALID(size) \
-  ((size) == sizeof(zb_zcl_price_ack_payload_t))
+  ((size) >= sizeof(zb_zcl_price_ack_payload_t))
 
 /** @ref zb_zcl_price_ack_payload_t initializer */
 #define ZB_ZCL_PRICE_ACK_PAYLOAD_INIT (zb_zcl_price_ack_payload_t) {0}
@@ -3134,6 +3206,27 @@ typedef ZB_PACKED_PRE struct zb_zcl_price_ack_payload_s
 
 /** @endcond */ /* internals_doc */
 
+/** @brief @ref ZB_ZCL_PRICE_CLI_CMD_GET_CURRENT_PRICE "GetCurrentPrice" Command Payload Format
+ */
+typedef ZB_PACKED_PRE struct zb_zcl_price_get_current_price_payload_s
+{
+  /** @e CommandOptions field is 8 Bits in length
+   * @note Zero bit is Requestor Rx On When Idle, others are reserved.
+   */
+  zb_uint8_t command_options;
+} ZB_PACKED_STRUCT zb_zcl_price_get_current_price_payload_t;
+
+/** @def ZB_ZCL_PRICE_GET_CURRENT_PRICE_PAYLOAD_INIT
+ *  @brief Macro for initializing @ref ZB_ZCL_PRICE_CLI_CMD_GET_CURRENT_PRICE "GetCurrentPrice" Command payload
+ */
+#define ZB_ZCL_PRICE_GET_CURRENT_PRICE_PAYLOAD_INIT \
+  (zb_zcl_price_get_current_price_payload_t) {0}
+
+/** @def ZB_ZCL_PRICE_GET_CURRENT_PRICE_PAYLOAD_SIZE_IS_VALID
+ *  @brief Check if @ref ZB_ZCL_PRICE_CLI_CMD_GET_CURRENT_PRICE "GetCurrentPrice" Command payload is valid
+ */
+#define ZB_ZCL_PRICE_GET_CURRENT_PRICE_PAYLOAD_SIZE_IS_VALID(size) \
+  ((size) >= sizeof(zb_zcl_price_get_current_price_payload_t))
 
 /** @brief @ref ZB_ZCL_PRICE_CLI_CMD_GET_SCHEDULED_PRICES "GetScheduledPrices" Command Payload Format
  *  @see SE spec, D.4.2.3.3.1
@@ -3163,10 +3256,7 @@ typedef ZB_PACKED_PRE struct zb_zcl_price_get_scheduled_prices_payload_s
  *  @brief Check if @ref ZB_ZCL_PRICE_CLI_CMD_GET_SCHEDULED_PRICES "GetScheduledPrices" Command payload is valid
  */
 #define ZB_ZCL_PRICE_GET_SCHEDULED_PRICES_PAYLOAD_SIZE_IS_VALID(size) \
-  ((size) == sizeof(zb_zcl_price_get_scheduled_prices_payload_t))
-
-/** @brief @ref ZB_ZCL_PRICE_CLI_CMD_GET_CURRENT_PRICE "GetCurrentPrice" Command Payload Format */
-typedef zb_uint8_t zb_zcl_price_get_current_price_payload_t;
+  ((size) >= sizeof(zb_zcl_price_get_scheduled_prices_payload_t))
 
 /** @ref ZB_ZCL_PRICE_CLI_CMD_GET_BLOCK_PERIOD "GetBlockPeriod" command payload
  * @see SE spec, subclause D.4.2.3.5
@@ -3335,7 +3425,7 @@ typedef ZB_PACKED_PRE struct zb_zcl_price_get_tier_labels_payload_s
 } ZB_PACKED_STRUCT zb_zcl_price_get_tier_labels_payload_t;
 
 #define ZB_ZCL_PRICE_GET_TIER_LABELS_PAYLOAD_SIZE_IS_VALID(size) \
-  ((size) == sizeof(zb_zcl_price_get_tier_labels_payload_t))
+  ((size) >= sizeof(zb_zcl_price_get_tier_labels_payload_t))
 
 /** @ref ZB_ZCL_PRICE_CLI_CMD_GET_BILLING_PERIOD "GetBillingPeriod" command payload
  * @see SE spec, subclause D.4.2.3.13.2
@@ -4395,6 +4485,21 @@ typedef ZB_PACKED_PRE struct zb_zcl_price_cancel_tariff_payload_s
   zb_zcl_price_send_cmd_price_ack( \
     _param, _dst_addr, _dst_addr_mode, _dst_ep, _src_ep, _payload, NULL)
 
+/** @cond internals_doc */
+/** @def ZB_ZCL_PRICE_SEND_CMD_PRICE_ACK_TSN
+ *  @brief Macro for sending @ref ZB_ZCL_PRICE_SEND_CMD_PRICE_ACK_TSN "PriceAcknowledgement" command.
+ *  @param _param - Reference to buffer.
+ *  @param _dst_addr - Address of the device to send command to.
+ *  @param _dst_addr_mode - Address mode for _dst_addr.
+ *  @param _dst_ep - Destination endpoint.
+ *  @param _src_ep - Current endpoint.
+ *  @param _payload - Packet payload (@ref zb_zcl_price_ack_payload_t).
+ *  @param _tsn - sequnce number of source command
+ */
+#define ZB_ZCL_PRICE_SEND_CMD_PRICE_ACK_TSN( \
+  _param, _dst_addr, _dst_addr_mode, _dst_ep, _src_ep, _payload, _tsn) \
+  zb_zcl_price_send_cmd_price_ack_tsn( \
+    _param, _dst_addr, _dst_addr_mode, _dst_ep, _src_ep, _payload, _tsn, NULL)
 
 void zb_zcl_price_send_cmd_publish_price(zb_uint8_t param, const zb_addr_u *dst_addr,
                                               zb_aps_addr_mode_t dst_addr_mode, zb_uint8_t dst_ep,
@@ -4411,6 +4516,23 @@ void zb_zcl_price_send_cmd_price_ack(zb_uint8_t param, const zb_addr_u *dst_addr
                                           zb_aps_addr_mode_t dst_addr_mode,
                                           zb_uint8_t dst_ep, zb_uint8_t src_ep,
                                           const zb_zcl_price_ack_payload_t *payload,
+                                          zb_callback_t cb);
+
+/** Function for sending @ref ZB_ZCL_PRICE_CLI_CMD_PRICE_ACK_TSN "PriceAcknowledgement" command.
+ *  @param _param - Reference to buffer.
+ *  @param _dst_addr - Address of the device to send command to.
+ *  @param _dst_addr_mode - Address mode for _dst_addr.
+ *  @param _dst_ep - Destination endpoint.
+ *  @param _src_ep - Current endpoint.
+ *  @param _payload - Packet payload (@ref zb_zcl_price_ack_payload_t).
+ *  @param _tsn - sequnce number of source command
+ *  @param cb - Callback which should be called when the ZCL stack receives APS ack.
+ */
+void zb_zcl_price_send_cmd_price_ack_tsn(zb_uint8_t param, const zb_addr_u *dst_addr,
+                                          zb_aps_addr_mode_t dst_addr_mode,
+                                          zb_uint8_t dst_ep, zb_uint8_t src_ep,
+                                          const zb_zcl_price_ack_payload_t *payload,
+                                          zb_uint8_t tsn,
                                           zb_callback_t cb);
 
 void zb_zcl_price_send_cmd_get_scheduled_prices(zb_uint8_t param, const zb_addr_u *dst_addr,

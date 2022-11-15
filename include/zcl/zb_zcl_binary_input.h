@@ -53,12 +53,6 @@
  *    commands. Cluster attributes could be queried with
  *    @ref ZB_ZCL_COMMANDS "general ZCL commands".
  *
- *    @par Example
- *    @code
- *    #define DUT_ENDPOINT 5
- *    @endcode
- *    @snippet doxygen_snippets.dox Binary input_snippet_binary_input_dut_c
- *    @par
  *
  */
 
@@ -124,6 +118,9 @@ enum zb_zcl_binary_input_status_flag_value_e
   ZB_ZCL_BINARY_INPUT_STATUS_FLAG_OUT_OF_SERVICE = 0x08,  /**< Out of service bit. */
 };
 
+/** @brief Default value for Binary Input cluster revision global attribute */
+#define ZB_ZCL_BINARY_INPUT_CLUSTER_REVISION_DEFAULT ((zb_uint16_t)0x0001u)
+
 /** @brief Default value for ActiveText attribute */
 #define ZB_ZCL_BINARY_INPUT_ACTIVE_TEXT_DEFAULT_VALUE {0}
 
@@ -159,7 +156,7 @@ enum zb_zcl_binary_input_status_flag_value_e
 */
 #define ZB_ZCL_DECLARE_BINARY_INPUT_ATTRIB_LIST(                                     \
     attr_list, out_of_service, present_value, status_flag)                           \
-  ZB_ZCL_START_DECLARE_ATTRIB_LIST(attr_list)                                        \
+  ZB_ZCL_START_DECLARE_ATTRIB_LIST_CLUSTER_REVISION(attr_list, ZB_ZCL_BINARY_INPUT)  \
   ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_ATTR_BINARY_INPUT_OUT_OF_SERVICE_ID, (out_of_service)) \
   ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_ATTR_BINARY_INPUT_PRESENT_VALUE_ID, (present_value))   \
   ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_ATTR_BINARY_INPUT_STATUS_FLAG_ID, (status_flag))       \
@@ -253,16 +250,18 @@ enum zb_zcl_binary_input_status_flag_value_e
   ZB_ZCL_ATTR_BINARY_INPUT_OUT_OF_SERVICE_ID,                       \
   ZB_ZCL_ATTR_TYPE_BOOL,                                            \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY | ZB_ZCL_ATTR_ACCESS_WRITE_OPTIONAL, \
-  (void*) data_ptr                                             \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                               \
+  (void*) data_ptr                                                  \
 }
 
 /* Optionally, access to this attribute may be changed to READ_WRITE */
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_BINARY_INPUT_PRESENT_VALUE_ID(data_ptr) \
-{                                                                   \
-  ZB_ZCL_ATTR_BINARY_INPUT_PRESENT_VALUE_ID,                        \
-  ZB_ZCL_ATTR_TYPE_BOOL,                                            \
+{                                                                                                  \
+  ZB_ZCL_ATTR_BINARY_INPUT_PRESENT_VALUE_ID,                                                       \
+  ZB_ZCL_ATTR_TYPE_BOOL,                                                                           \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY | ZB_ZCL_ATTR_ACCESS_WRITE_OPTIONAL | ZB_ZCL_ATTR_ACCESS_REPORTING, \
-  (void*) data_ptr                                             \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                                              \
+  (void*) data_ptr                                                                                 \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_BINARY_INPUT_STATUS_FLAG_ID(data_ptr) \
@@ -270,7 +269,8 @@ enum zb_zcl_binary_input_status_flag_value_e
   ZB_ZCL_ATTR_BINARY_INPUT_STATUS_FLAG_ID,                          \
   ZB_ZCL_ATTR_TYPE_8BITMAP,                                         \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY | ZB_ZCL_ATTR_ACCESS_REPORTING,      \
-  (void*) data_ptr                                             \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                               \
+  (void*) data_ptr                                                  \
 }
 
 /*! Number of attributes mandatory for reporting in Binary Input cluster */

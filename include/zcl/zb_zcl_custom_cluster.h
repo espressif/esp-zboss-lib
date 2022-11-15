@@ -89,6 +89,9 @@ enum zb_zcl_custom_cluster_attr_e
 #define ZB_ZCL_CUSTOM_CLUSTER_ATTR_BOOL_DEFAULT_VALUE ZB_FALSE
 #define ZB_ZCL_CUSTOM_CLUSTER_ATTR_128_BIT_KEY_DEFAULT_VALUE { 0 }
 
+/** @brief Default value for Custom cluster revision global attribute */
+#define ZB_ZCL_CUSTOM_CLUSTER_REVISION_DEFAULT ((zb_uint16_t)0x0001u)
+
 /*! @brief Max size of char string attribute (with length byte) */
 #define ZB_ZCL_CUSTOM_CLUSTER_ATTR_CHAR_STRING_MAX_SIZE 11
 
@@ -384,7 +387,8 @@ ZB_PACKED_STRUCT zb_zcl_custom_cluster_cmd3_req_t;
   ZB_ZCL_CUSTOM_CLUSTER_ATTR_U8_ID,                                                 \
   ZB_ZCL_ATTR_TYPE_U8,                                                              \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                     \
-  (void*) data_ptr                                                             \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                               \
+  (void*) data_ptr                                                                  \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_CUSTOM_CLUSTER_ATTR_S16_ID(data_ptr)          \
@@ -392,7 +396,8 @@ ZB_PACKED_STRUCT zb_zcl_custom_cluster_cmd3_req_t;
   ZB_ZCL_CUSTOM_CLUSTER_ATTR_S16_ID,                                                \
   ZB_ZCL_ATTR_TYPE_S16,                                                             \
   ZB_ZCL_ATTR_ACCESS_WRITE_ONLY,                                                    \
-  (void*) data_ptr                                                             \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                               \
+  (void*) data_ptr                                                                  \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_CUSTOM_CLUSTER_ATTR_24BIT_ID(data_ptr)        \
@@ -400,7 +405,8 @@ ZB_PACKED_STRUCT zb_zcl_custom_cluster_cmd3_req_t;
   ZB_ZCL_CUSTOM_CLUSTER_ATTR_24BIT_ID,                                              \
   ZB_ZCL_ATTR_TYPE_24BIT,                                                           \
   ZB_ZCL_ATTR_ACCESS_READ_WRITE,                                                    \
-  (void*) data_ptr                                                             \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                               \
+  (void*) data_ptr                                                                  \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_CUSTOM_CLUSTER_ATTR_32BITMAP_ID(data_ptr)     \
@@ -408,7 +414,8 @@ ZB_PACKED_STRUCT zb_zcl_custom_cluster_cmd3_req_t;
   ZB_ZCL_CUSTOM_CLUSTER_ATTR_32BITMAP_ID,                                           \
   ZB_ZCL_ATTR_TYPE_32BITMAP,                                                        \
   ZB_ZCL_ATTR_ACCESS_WRITE_OPTIONAL,                                                \
-  (void*) data_ptr                                                             \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                               \
+  (void*) data_ptr                                                                  \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_CUSTOM_CLUSTER_ATTR_IEEE_ID(data_ptr)         \
@@ -416,7 +423,8 @@ ZB_PACKED_STRUCT zb_zcl_custom_cluster_cmd3_req_t;
   ZB_ZCL_CUSTOM_CLUSTER_ATTR_IEEE_ID,                                               \
   ZB_ZCL_ATTR_TYPE_IEEE_ADDR,                                                       \
   ZB_ZCL_ATTR_ACCESS_WRITE_OPTIONAL | ZB_ZCL_ATTR_ACCESS_WRITE_ONLY,                \
-  (void*) data_ptr                                                             \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                               \
+  (void*) data_ptr                                                                  \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_CUSTOM_CLUSTER_ATTR_CHAR_STRING_ID(data_ptr)  \
@@ -424,7 +432,8 @@ ZB_PACKED_STRUCT zb_zcl_custom_cluster_cmd3_req_t;
   ZB_ZCL_CUSTOM_CLUSTER_ATTR_CHAR_STRING_ID,                                        \
   ZB_ZCL_ATTR_TYPE_CHAR_STRING,                                                     \
   ZB_ZCL_ATTR_ACCESS_INTERNAL,                                                      \
-  (void*) data_ptr                                                             \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                               \
+  (void*) data_ptr                                                                  \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_CUSTOM_CLUSTER_ATTR_UTC_TIME_ID(data_ptr)     \
@@ -432,7 +441,8 @@ ZB_PACKED_STRUCT zb_zcl_custom_cluster_cmd3_req_t;
   ZB_ZCL_CUSTOM_CLUSTER_ATTR_UTC_TIME_ID,                                           \
   ZB_ZCL_ATTR_TYPE_UTC_TIME,                                                        \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY | ZB_ZCL_ATTR_ACCESS_REPORTING,                      \
-  (void*) data_ptr                                                             \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                               \
+  (void*) data_ptr                                                                  \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_CUSTOM_CLUSTER_ATTR_OCTET_STRING_ID(data_ptr) \
@@ -440,7 +450,8 @@ ZB_PACKED_STRUCT zb_zcl_custom_cluster_cmd3_req_t;
   ZB_ZCL_CUSTOM_CLUSTER_ATTR_OCTET_STRING_ID,                                       \
   ZB_ZCL_ATTR_TYPE_OCTET_STRING,                                                    \
   ZB_ZCL_ATTR_ACCESS_WRITE_ONLY | ZB_ZCL_ATTR_ACCESS_REPORTING,                     \
-  (void*) data_ptr                                                             \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                               \
+  (void*) data_ptr                                                                  \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_CUSTOM_CLUSTER_ATTR_BOOL_ID(data_ptr)         \
@@ -448,7 +459,8 @@ ZB_PACKED_STRUCT zb_zcl_custom_cluster_cmd3_req_t;
   ZB_ZCL_CUSTOM_CLUSTER_ATTR_BOOL_ID,                                               \
   ZB_ZCL_ATTR_TYPE_BOOL,                                                            \
   ZB_ZCL_ATTR_ACCESS_READ_WRITE | ZB_ZCL_ATTR_ACCESS_SCENE,                         \
-  (void*) data_ptr                                                             \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                               \
+  (void*) data_ptr                                                                  \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_CUSTOM_CLUSTER_ATTR_128_BIT_KEY_ID(data_ptr)  \
@@ -456,7 +468,8 @@ ZB_PACKED_STRUCT zb_zcl_custom_cluster_cmd3_req_t;
   ZB_ZCL_CUSTOM_CLUSTER_ATTR_128_BIT_KEY_ID,                                        \
   ZB_ZCL_ATTR_TYPE_128_BIT_KEY,                                                     \
   ZB_ZCL_ATTR_MANUF_SPEC,                                                           \
-  (void*) data_ptr                                                             \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                               \
+  (void*) data_ptr                                                                  \
 }
 
 /** @internal @brief Declare attribute list for Custom Attributes cluster
@@ -465,7 +478,7 @@ ZB_PACKED_STRUCT zb_zcl_custom_cluster_cmd3_req_t;
 #define ZB_ZCL_DECLARE_CUSTOM_ATTR_CLUSTER_ATTRIB_LIST(                                   \
   attr_list, u8_attr, s16_attr, _24bit_attr, _32bitmap_attr, ieee_attr,                   \
   char_string_attr, utc_time_attr, octet_string_attr, bool_attr, _128_bit_key_attr)       \
-    ZB_ZCL_START_DECLARE_ATTRIB_LIST(attr_list)                                           \
+    ZB_ZCL_START_DECLARE_ATTRIB_LIST_CLUSTER_REVISION(attr_list, ZB_ZCL_CUSTOM)           \
     ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_CUSTOM_CLUSTER_ATTR_U8_ID, (u8_attr))                     \
     ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_CUSTOM_CLUSTER_ATTR_S16_ID, (s16_attr))                   \
     ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_CUSTOM_CLUSTER_ATTR_24BIT_ID, (_24bit_attr))              \

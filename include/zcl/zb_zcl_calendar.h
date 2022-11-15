@@ -278,6 +278,16 @@ typedef ZB_PACKED_PRE struct zb_zcl_calendar_get_calendar_payload_s
   zb_uint32_t provider_id;
 } ZB_PACKED_STRUCT zb_zcl_calendar_get_calendar_payload_t;
 
+/** @brief Default value for Calendar cluster revision global attribute */
+#define ZB_ZCL_CALENDAR_CLUSTER_REVISION_DEFAULT ((zb_uint16_t)0x0001u)
+
+/*!
+  @brief Declare attribute list for Calendar cluster (only cluster revision attribute)
+  @param attr_list - attribute list name
+*/
+#define ZB_ZCL_DECLARE_CALENDAR_ATTR_LIST(attr_list)                            \
+  ZB_ZCL_START_DECLARE_ATTRIB_LIST_CLUSTER_REVISION(attr_list, ZB_ZCL_CALENDAR) \
+  ZB_ZCL_FINISH_DECLARE_ATTRIB_LIST
 
 /** Macro for initialization @ref ZB_ZCL_CALENDAR_CLI_CMD_GET_CALENDAR "GetCalendar" command payload
  */
@@ -309,33 +319,33 @@ typedef ZB_PACKED_PRE struct zb_zcl_calendar_get_calendar_payload_s
  * @param size - size of received data payload
  */
 #define ZB_ZCL_CALENDAR_GET_CALENDAR_PL_SIZE_IS_VALID(size) \
-  ((size == sizeof(zb_zcl_calendar_get_calendar_payload_t) ? ZB_TRUE : ZB_FALSE))
+  ((size >= sizeof(zb_zcl_calendar_get_calendar_payload_t) ? ZB_TRUE : ZB_FALSE))
 
 
 /** Check if @ref ZB_ZCL_CALENDAR_CLI_CMD_GET_DAY_PROFILES "GetDayProfiles" command payload size is valid
  * @param size - size of received data payload
  */
 #define ZB_ZCL_CALENDAR_GET_DAY_PROFILES_PL_SIZE_IS_VALID(size) \
-  ((size == sizeof(zb_zcl_calendar_get_day_profiles_payload_t) ? ZB_TRUE : ZB_FALSE))
+  ((size >= sizeof(zb_zcl_calendar_get_day_profiles_payload_t) ? ZB_TRUE : ZB_FALSE))
 
 
 /** Check if @ref ZB_ZCL_CALENDAR_CLI_CMD_GET_WEEK_PROFILES "GetWeekProfiles" command payload size is valid
  * @param size - size of received data payload
  */
 #define ZB_ZCL_CALENDAR_GET_WEEK_PROFILES_PL_SIZE_IS_VALID(size) \
-  ((size == sizeof(zb_zcl_calendar_get_week_profiles_payload_t) ? ZB_TRUE : ZB_FALSE))
+  ((size >= sizeof(zb_zcl_calendar_get_week_profiles_payload_t) ? ZB_TRUE : ZB_FALSE))
 
 /** Check if @ref ZB_ZCL_CALENDAR_CLI_CMD_GET_SEASONS "GetSeasons" command payload size is valid
  * @param size - size of received data payload
  */
 #define ZB_ZCL_CALENDAR_GET_SEASONS_PL_SIZE_IS_VALID(size) \
-  ((size == sizeof(zb_zcl_calendar_get_seasons_payload_t) ? ZB_TRUE : ZB_FALSE))
+  ((size >= sizeof(zb_zcl_calendar_get_seasons_payload_t) ? ZB_TRUE : ZB_FALSE))
 
 /** Check if @ref ZB_ZCL_CALENDAR_CLI_CMD_GET_SPECIAL_DAYS "GetSpecialDays" command payload size is valid
  * @param size - size of received data payload
  */
 #define ZB_ZCL_CALENDAR_GET_SPECIAL_DAYS_PL_SIZE_IS_VALID(size) \
-  ((size == sizeof(zb_zcl_calendar_get_special_days_payload_t) ? ZB_TRUE : ZB_FALSE))
+  ((size >= sizeof(zb_zcl_calendar_get_special_days_payload_t) ? ZB_TRUE : ZB_FALSE))
 
 
 /** This enumeration presents possible values of Calendar Time Reference field
@@ -460,7 +470,7 @@ typedef ZB_PACKED_PRE struct zb_zcl_calendar_publish_calendar_payload_s
  * @param size - size of received data payload
  */
 #define ZB_ZCL_CALENDAR_PUBLISH_CALENDAR_PL_SIZE_IS_VALID(pl, size) \
-  ((size == ZB_ZCL_CALENDAR_PUBLISH_CALENDAR_PL_EXPECTED_SIZE(pl)) ? ZB_TRUE : ZB_FALSE)
+  ((size >= ZB_ZCL_CALENDAR_PUBLISH_CALENDAR_PL_EXPECTED_SIZE(pl)) ? ZB_TRUE : ZB_FALSE)
 
 
 /** Check if @ref ZB_ZCL_CALENDAR_SRV_CMD_PUBLISH_DAY_PROFILE "PublishDayProfile" command payload size is valid
@@ -474,7 +484,7 @@ typedef ZB_PACKED_PRE struct zb_zcl_calendar_publish_calendar_payload_s
  * @param size - size of received data payload
  */
 #define ZB_ZCL_CALENDAR_PUBLISH_WEEK_PROFILE_PL_SIZE_IS_VALID(size) \
-  ((size == sizeof(zb_zcl_calendar_publish_week_profile_payload_t) ? ZB_TRUE : ZB_FALSE))
+  ((size >= sizeof(zb_zcl_calendar_publish_week_profile_payload_t) ? ZB_TRUE : ZB_FALSE))
 
 
 /** Check if @ref ZB_ZCL_CALENDAR_SRV_CMD_PUBLISH_SEASONS "PublishSeasons" command payload size is valid
@@ -495,7 +505,7 @@ typedef ZB_PACKED_PRE struct zb_zcl_calendar_publish_calendar_payload_s
  * @param size - size of received data payload
  */
 #define ZB_ZCL_CALENDAR_CANCEL_CALENDAR_PL_SIZE_IS_VALID(size) \
-  ((size == sizeof(zb_zcl_calendar_cancel_calendar_payload_t) ? ZB_TRUE : ZB_FALSE))
+  ((size >= sizeof(zb_zcl_calendar_cancel_calendar_payload_t) ? ZB_TRUE : ZB_FALSE))
 
 
 /** The format of Day Schedule entries is dependent on the Calendar Type (@ref

@@ -106,62 +106,72 @@ typedef enum zb_zcl_energy_management_srv_attr_e
                                                              */
 } zb_zcl_energy_management_srv_attr_t;
 
+/** @brief Default value for Energy Management cluster revision global attribute (not defined anywhere) */
+#define ZB_ZCL_ENERGY_MANAGEMENT_CLUSTER_REVISION_DEFAULT ((zb_uint16_t)0x0001u)
+
 /** @endcond */ /* (DOXYGEN_ZCL_SECTION && DOXYGEN_SE_SECTION) */
 /** @cond DOXYGEN_INTERNAL_DOC */
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_ENERGY_MANAGEMENT_LOAD_CONTROL_STATE(data_ptr) \
-{                                                                                  \
+{                                                                                         \
   ZB_ZCL_ATTR_ENERGY_MANAGEMENT_LOAD_CONTROL_STATE,                                       \
-  ZB_ZCL_ATTR_TYPE_8BITMAP,                                                             \
-  ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                    \
-  (void*) data_ptr                                                            \
+  ZB_ZCL_ATTR_TYPE_8BITMAP,                                                               \
+  ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                           \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                                     \
+  (void*) data_ptr                                                                        \
 }
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_ENERGY_MANAGEMENT_CURRENT_EVENT_ID(data_ptr) \
-{                                                                                \
+{                                                                                       \
   ZB_ZCL_ATTR_ENERGY_MANAGEMENT_CURRENT_EVENT_ID,                                       \
-  ZB_ZCL_ATTR_TYPE_U32,                                                          \
-  ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                  \
-  (void*) data_ptr                                                          \
+  ZB_ZCL_ATTR_TYPE_U32,                                                                 \
+  ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                         \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                                   \
+  (void*) data_ptr                                                                      \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_ENERGY_MANAGEMENT_CURRENT_EVENT_STATUS(data_ptr) \
-{                                                                                    \
+{                                                                                           \
   ZB_ZCL_ATTR_ENERGY_MANAGEMENT_CURRENT_EVENT_STATUS,                                       \
-  ZB_ZCL_ATTR_TYPE_8BITMAP,                                                               \
-  ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                      \
-  (void*) data_ptr                                                              \
+  ZB_ZCL_ATTR_TYPE_8BITMAP,                                                                 \
+  ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                             \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                                       \
+  (void*) data_ptr                                                                          \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_ENERGY_MANAGEMENT_CONFORMANCE_LEVEL(data_ptr) \
-{                                                                                 \
+{                                                                                        \
   ZB_ZCL_ATTR_ENERGY_MANAGEMENT_CONFORMANCE_LEVEL,                                       \
-  ZB_ZCL_ATTR_TYPE_U8,                                                            \
-  ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                   \
-  (void*) data_ptr                                                           \
+  ZB_ZCL_ATTR_TYPE_U8,                                                                   \
+  ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                          \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                                    \
+  (void*) data_ptr                                                                       \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_ENERGY_MANAGEMENT_MINIMUM_OFF_TIME(data_ptr) \
-{                                                                                \
+{                                                                                       \
   ZB_ZCL_ATTR_ENERGY_MANAGEMENT_MINIMUM_OFF_TIME,                                       \
-  ZB_ZCL_ATTR_TYPE_U16,                                                          \
-  ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                  \
-  (void*) data_ptr                                                          \
+  ZB_ZCL_ATTR_TYPE_U16,                                                                 \
+  ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                         \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                                   \
+  (void*) data_ptr                                                                      \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_ENERGY_MANAGEMENT_MINIMUM_ON_TIME(data_ptr) \
-{                                                                               \
+{                                                                                      \
   ZB_ZCL_ATTR_ENERGY_MANAGEMENT_MINIMUM_ON_TIME,                                       \
-  ZB_ZCL_ATTR_TYPE_U16,                                                         \
-  ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                 \
-  (void*) data_ptr                                                         \
+  ZB_ZCL_ATTR_TYPE_U16,                                                                \
+  ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                        \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                                  \
+  (void*) data_ptr                                                                     \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_ENERGY_MANAGEMENT_MINIMUM_CYCLE_PERIOD(data_ptr) \
 {                                                                                    \
-  ZB_ZCL_ATTR_ENERGY_MANAGEMENT_MINIMUM_CYCLE_PERIOD,                                       \
+  ZB_ZCL_ATTR_ENERGY_MANAGEMENT_MINIMUM_CYCLE_PERIOD,                                \
   ZB_ZCL_ATTR_TYPE_U16,                                                              \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                                                      \
-  (void*) data_ptr                                                              \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                                \
+  (void*) data_ptr                                                                   \
 }
 
 
@@ -179,7 +189,7 @@ typedef enum zb_zcl_energy_management_srv_attr_e
 #define ZB_ZCL_DECLARE_ENERGY_MANAGEMENT_ATTRIB_LIST(attr_list, load_control_state, current_event_id,           \
                                                      current_event_status, conformance_level, minimum_off_time, \
                                                      minimum_on_time, minimum_cycle_period)                     \
-  ZB_ZCL_START_DECLARE_ATTRIB_LIST(attr_list)                                               \
+  ZB_ZCL_START_DECLARE_ATTRIB_LIST_CLUSTER_REVISION(attr_list, ZB_ZCL_ENERGY_MANAGEMENT)           \
   ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_ATTR_ENERGY_MANAGEMENT_LOAD_CONTROL_STATE, (load_control_state))     \
   ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_ATTR_ENERGY_MANAGEMENT_CURRENT_EVENT_ID, (current_event_id))         \
   ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_ATTR_ENERGY_MANAGEMENT_CURRENT_EVENT_STATUS, (current_event_status)) \
@@ -376,6 +386,10 @@ typedef ZB_PACKED_PRE struct zb_zcl_energy_management_manage_event_payload_s
   zb_uint8_t actions_required;          /* (O) */
 } ZB_PACKED_STRUCT zb_zcl_energy_management_manage_event_payload_t;
 
+/** @def ZB_ZCL_ENERGY_MANAGEMENT_MANAGE_EVENT_PAYLOAD_SIZE_IS_VALID
+ */
+#define ZB_ZCL_ENERGY_MANAGEMENT_MANAGE_EVENT_PAYLOAD_SIZE_IS_VALID(size) \
+  ((size) >= sizeof(zb_zcl_energy_management_manage_event_payload_t))
 
 /** Action(s) Required BitMap/Encoding
  *  @see SE spec, Table D-196
@@ -469,6 +483,10 @@ typedef ZB_PACKED_PRE struct zb_zcl_energy_management_report_event_status_payloa
   zb_uint8_t event_control;                              /* (M) */
 } ZB_PACKED_STRUCT zb_zcl_energy_management_report_event_status_payload_t;
 
+/** @def ZB_ZCL_ENERGY_MANAGEMENT_REPORT_EVENT_STATUS_PAYLOAD_SIZE_IS_VALID
+ */
+#define ZB_ZCL_ENERGY_MANAGEMENT_REPORT_EVENT_STATUS_PAYLOAD_SIZE_IS_VALID(size) \
+  ((size) >= sizeof(zb_zcl_energy_management_report_event_status_payload_t))
 
 /** Macro for initialization @ref ZB_ZCL_ENERGY_MANAGEMENT_SRV_CMD_REPORT_EVENT_STATUS "ReportEventStatus" command payload
  * @see @ref zb_zcl_energy_management_report_event_status_payload_t

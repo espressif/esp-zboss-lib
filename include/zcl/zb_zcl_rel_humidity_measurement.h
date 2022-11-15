@@ -35,7 +35,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-/* PURPOSE: Relative Humidity Measurement cluster defintions
+/* PURPOSE: Relative Humidity Measurement cluster definitions
 */
 
 #ifndef ZB_ZCL_REL_HUMIDITY_MEASUREMENT_H
@@ -74,6 +74,9 @@ enum zb_zcl_rel_humidity_measurement_attr_e
    */
   ZB_ZCL_ATTR_REL_HUMIDITY_TOLERANCE_ID             = 0x0003,
 };
+
+/** @brief Default value for Water Content Measurement cluster revision global attribute */
+#define ZB_ZCL_WATER_CONTENT_MEASUREMENT_CLUSTER_REVISION_DEFAULT ((zb_uint16_t)0x0002u)
 
 /** @brief MeasuredValue attribute unknown value */
 #define ZB_ZCL_ATTR_REL_HUMIDITY_MEASUREMENT_VALUE_UNKNOWN        0xFFFF
@@ -116,7 +119,8 @@ enum zb_zcl_rel_humidity_measurement_attr_e
   ZB_ZCL_ATTR_REL_HUMIDITY_MEASUREMENT_VALUE_ID,                \
   ZB_ZCL_ATTR_TYPE_U16,                                         \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY | ZB_ZCL_ATTR_ACCESS_REPORTING,  \
-  (void*) data_ptr                                         \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                           \
+  (void*) data_ptr                                              \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_REL_HUMIDITY_MEASUREMENT_MIN_VALUE_ID(data_ptr) \
@@ -124,7 +128,8 @@ enum zb_zcl_rel_humidity_measurement_attr_e
   ZB_ZCL_ATTR_REL_HUMIDITY_MEASUREMENT_MIN_VALUE_ID,    \
   ZB_ZCL_ATTR_TYPE_U16,                                 \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                         \
-  (void*) data_ptr                                 \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                   \
+  (void*) data_ptr                                      \
 }
 
 #define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_ATTR_REL_HUMIDITY_MEASUREMENT_MAX_VALUE_ID(data_ptr) \
@@ -132,7 +137,8 @@ enum zb_zcl_rel_humidity_measurement_attr_e
   ZB_ZCL_ATTR_REL_HUMIDITY_MEASUREMENT_MAX_VALUE_ID,    \
   ZB_ZCL_ATTR_TYPE_U16,                                 \
   ZB_ZCL_ATTR_ACCESS_READ_ONLY,                         \
-  (void*) data_ptr                                 \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                   \
+  (void*) data_ptr                                      \
 }
 
 #define ZB_ZCL_REL_HUMIDITY_MEASUREMENT_REPORT_ATTR_COUNT 1
@@ -149,7 +155,7 @@ enum zb_zcl_rel_humidity_measurement_attr_e
 */
 #define ZB_ZCL_DECLARE_REL_HUMIDITY_MEASUREMENT_ATTRIB_LIST(attr_list,          \
     value, min_value, max_value)                                                \
-  ZB_ZCL_START_DECLARE_ATTRIB_LIST(attr_list)                                   \
+  ZB_ZCL_START_DECLARE_ATTRIB_LIST_CLUSTER_REVISION(attr_list, ZB_ZCL_WATER_CONTENT_MEASUREMENT) \
   ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_ATTR_REL_HUMIDITY_MEASUREMENT_VALUE_ID, (value))          \
   ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_ATTR_REL_HUMIDITY_MEASUREMENT_MIN_VALUE_ID, (min_value))  \
   ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_ATTR_REL_HUMIDITY_MEASUREMENT_MAX_VALUE_ID, (max_value))  \
