@@ -43,7 +43,9 @@
 
 #define ZB_ESP
 #define ZB_CONFIG_ESP
+#if CONFIG_ZB_RADIO_MACSPLIT_UART
 #define ZB_PLATFORM_ESP
+#endif
 
 #define ZB_LEDS_MASK
 #define ZB_USE_BUTTONS
