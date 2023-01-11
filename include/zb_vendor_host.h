@@ -39,7 +39,6 @@
 #define ZB_MACSPLIT_HOST
 #define ZB_MACSPLIT_FW_UPGRADE
 #define ZB_HAVE_IOCTX
-#define ZB_ALIEN_MAC
 #define MAC_AUTO_DELAY_IN_MAC_GP_SEND
 #define ZB_MACSPLIT_DISABLE_IO_BUFFERS
 #define ZB_MACSPLIT_TRANSPORT_SERIAL
@@ -49,3 +48,5 @@
 /* by define this rcp could transmit ieee mac address to gateway */
 #define USE_HW_LONG_ADDR
 #define MACSPLIT_APP_REVISION 1
+/* TRACE FILE ID NO NEED */
+#define ZB_DONT_NEED_TRACE_FILE_ID
