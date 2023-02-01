@@ -422,7 +422,7 @@ void zb_trace_msg_port(
 
 #ifndef ZB_TRACE_FILE_ID
 #ifndef ZB_DONT_NEED_TRACE_FILE_ID
-//#warning ZB_TRACE_FILE_ID undefined! Insert #define ZB_TRACE_FILE_ID NNN before 1-st #include
+#warning ZB_TRACE_FILE_ID undefined! Insert #define ZB_TRACE_FILE_ID NNN before 1-st #include
 #endif
 #define ZB_TRACE_FILE_ID 0
 #else
