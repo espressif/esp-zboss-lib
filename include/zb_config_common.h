@@ -1249,9 +1249,9 @@ The CCA detection time shall be equal to 8 symbol periods.
 #ifndef ZB_MAC_QUEUE_SIZE
 #if defined ZB_SUBGHZ_ONLY_MODE || defined ZB_R22_MULTIMAC_MODE
 /* Increased MAC queue size for Sub-GHz because the LBT mechanism periodically blocks the radio */
-#define ZB_MAC_QUEUE_SIZE 7U
+#define ZB_MAC_QUEUE_SIZE 15U
 #else
-#define ZB_MAC_QUEUE_SIZE 5U
+#define ZB_MAC_QUEUE_SIZE 10U
 #endif
 #endif /* ZB_MAC_QUEUE_SIZE */
 
