@@ -34,7 +34,7 @@ before_script:
 
 .build_esp_idf_zigbee_gateway_template: 
   stage: build
-  image: ${CI_DOCKER_REGISTRY}/esp-env-v5.0:2
+  image: ${CI_DOCKER_REGISTRY}/esp-env-v5.2:1
   variables:
     TARGET_NAME: "esp32"
     EXAMPLE_PATH: ""
@@ -54,7 +54,7 @@ before_script:
 
 .build_esp_idf_light_example_template:
   stage: build
-  image: ${CI_DOCKER_REGISTRY}/esp-env-v5.0:2
+  image: ${CI_DOCKER_REGISTRY}/esp-env-v5.2:1
   variables:
     TARGET_NAME: ""
     EXAMPLE_PATH: ""
@@ -74,7 +74,7 @@ before_script:
 
 .build_esp_idf_non_light_example_template:
   stage: build
-  image: ${CI_DOCKER_REGISTRY}/esp-env-v5.0:2
+  image: ${CI_DOCKER_REGISTRY}/esp-env-v5.2:1
   variables:
     TARGET_NAME: ""
     EXAMPLE_PATH: ""
@@ -93,7 +93,7 @@ before_script:
 
 .build_esp_sdk_zigbee_gateway_template:
     stage: build
-    image: ${CI_DOCKER_REGISTRY}/esp-env-v5.0:2
+    image: ${CI_DOCKER_REGISTRY}/esp-env-v5.2:1
     variables:
         TARGET_NAME: ""
         EXAMPLE_PATH: ""
@@ -115,7 +115,7 @@ before_script:
 
 .build_esp_zigbee_sdk_example_zigbee_template:
     stage: build
-    image: ${CI_DOCKER_REGISTRY}/esp-env-v5.0:2
+    image: ${CI_DOCKER_REGISTRY}/esp-env-v5.2:1
     variables:
         TARGET_NAME: ""
         EXAMPLE_PATH: ""
@@ -132,7 +132,7 @@ before_script:
 
 .build_esp_zigbee_sdk_example_non_h2_zigbee_template:
     stage: build
-    image: ${CI_DOCKER_REGISTRY}/esp-env-v5.0:2
+    image: ${CI_DOCKER_REGISTRY}/esp-env-v5.2:1
     variables:
         TARGET_NAME: ""
         EXAMPLE_PATH: ""
