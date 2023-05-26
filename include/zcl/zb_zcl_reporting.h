@@ -188,7 +188,8 @@ typedef void (*zb_zcl_no_reporting_cb_t)(
 
 /** @brief Informs application about received attribute report
     @param addr - source address
-    @param ep - source endpoint number
+    @param src_ep - source endpoint number
+    @param dst_ep - destination endpoint number
     @param cluster_id - cluster ID
     @param attr_id - attribute ID
     @param attr_type - attribute type
@@ -196,7 +197,7 @@ typedef void (*zb_zcl_no_reporting_cb_t)(
 */
 
 typedef void (*zb_zcl_report_attr_cb_t)(
-    zb_zcl_addr_t *addr, zb_uint8_t ep, zb_uint16_t cluster_id, zb_uint16_t attr_id, zb_uint8_t attr_type, zb_uint8_t *value);
+    zb_zcl_addr_t *addr, zb_uint8_t src_ep, zb_uint8_t dst_ep, zb_uint16_t cluster_id, zb_uint16_t attr_id, zb_uint8_t attr_type, zb_uint8_t *value);
 /** @cond internals_doc */
 
 /** Enumeration of reporting info flag values */
