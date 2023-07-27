@@ -124,3 +124,8 @@
 
 /* TRACE FILE ID NO NEED */
 #define ZB_DONT_NEED_TRACE_FILE_ID
+
+/* Support Max Endpoint Number */
+#define ZB_MAX_EP_NUMBER 35U
+
+/*  */
