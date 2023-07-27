@@ -128,4 +128,15 @@
 /* Support Max Endpoint Number */
 #define ZB_MAX_EP_NUMBER 35U
 
-/*  */
+/* Touchlink */
+#define ZB_BDB_TOUCHLINK
+#ifdef ZB_BDB_TOUCHLINK
+#define ZB_ENABLE_ZLL
+#define ZB_ENABLE_INTER_PAN_EXCHANGE
+#endif // ZB_BDB_TOUCHLINK
+/* Add dependency to the Inter-Pan exchange */
+#ifdef  ZB_ENABLE_INTER_PAN_NON_DEFAULT_CHANNEL
+#ifndef ZB_ENABLE_INTER_PAN_EXCHANGE
+#define ZB_ENABLE_INTER_PAN_EXCHANGE
+#endif
+#endif
