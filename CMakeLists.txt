@@ -62,7 +62,7 @@ if(CONFIG_ZB_ENABLED)
     endif()
 
     target_compile_definitions(${COMPONENT_LIB} INTERFACE -DRCP_COMPILE_DEFINE="${RCP_FULL_VERSION_STRING}")
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-strict-prototypes")
+    target_compile_options(${COMPONENT_LIB} INTERFACE $<$<COMPILE_LANGUAGE:C>:-Wno-strict-prototypes>)
     target_link_libraries(${COMPONENT_LIB} INTERFACE ${ZBOSS_LIBS})
 
 endif()
