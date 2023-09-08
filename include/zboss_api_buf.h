@@ -80,7 +80,8 @@ typedef ZB_PACKED_PRE struct zb_buf_hdr_s
                                      * to increase APS packets counter in diagnostic data on packet sending
                                      */
   zb_bitfield_t has_aps_user_payload:1;   /*!< if 1, than packet comes with APS user's payload */
-  zb_uint8_t reserved:7;
+
+  zb_bitfield_t tail_len:7;    /*!< the length of the perameters section  */
 } ZB_PACKED_STRUCT zb_buf_hdr_t;
 
 /* if there is a platform with failed assertion, ZB_RESERVED_BUF_TO_ALIGN_HDR_SIZE
@@ -496,7 +497,6 @@ void *zb_buf_alloc_left_func(TRACE_PROTO zb_bufid_t buf, zb_uint_t size);
  * @return pointer to new data begin
  */
 #define zb_buf_alloc_left(buf,size) zb_buf_alloc_left_func(TRACE_CALL (buf),(size))
-
 
 /**
  * @name Buffer's internals flags bitmask

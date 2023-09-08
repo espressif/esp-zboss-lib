@@ -75,16 +75,16 @@ zb_mac_pending_data_t;
  */
 typedef ZB_PACKED_PRE struct zb_aps_retrans_ent_s
 {
-  zb_uint16_t  addr;            /*!< Destination address*/
-  zb_uint16_t  clusterid;       /*!< Cluster ID*/
-  zb_uint8_t   aps_counter;     /*!< APS counter */
-  zb_uint8_t   src_endpoint;    /*!< Source endpoint */
-  zb_uint8_t   dst_endpoint;    /*!< Destination endpoint */
-  zb_uint8_t   buf;             /*!< Buffer index for retranslate */
+  zb_uint16_t           clusterid;      /*!< Cluster ID*/
+  zb_address_ieee_ref_t addr_ref;       /*!< Destination address*/
+  zb_uint8_t            aps_counter;    /*!< APS counter */
+  zb_uint8_t            src_endpoint;   /*!< Source endpoint */
+  zb_uint8_t            dst_endpoint;   /*!< Destination endpoint */
+  zb_uint8_t            buf;            /*!< Buffer index for retranslate */
 
-  zb_bitfield_t aps_retries:4;  /*!< Number of attempts */
-  zb_bitfield_t nwk_insecure:1; /*!< Flag 'Is NWK secure' */
-  zb_bitfield_t state:3;        /*!< @see @ref aps_retrans_ent_state */
+  zb_bitfield_t         aps_retries:4;  /*!< Number of attempts */
+  zb_bitfield_t         nwk_insecure:1; /*!< Flag 'Is NWK secure' */
+  zb_bitfield_t         state:3;        /*!< @see @ref aps_retrans_ent_state */
 } ZB_PACKED_STRUCT zb_aps_retrans_ent_t;
 
 #endif /* !ZB_MINIMAL_CONTEXT */
@@ -214,6 +214,31 @@ typedef ZB_PACKED_PRE struct zb_nwk_routing_s /* do not pack for IAR */
   zb_uint16_t dest_addr; /*!< 16-bit network address or Group ID of this route */
 } ZB_PACKED_STRUCT
 zb_nwk_routing_t;
+
+/**
+   NWK route discovery
+*/
+typedef struct zb_nwk_route_discovery_s /* do not pack for IAR */
+{
+  zb_bitfield_t used:1; /*!< 1 if entry is used, 0 - otherwise   */
+  zb_bitfield_t expiration_time:7; /*!< Countdown timer indicating when route
+                                    * discovery expires. ZB_NWK_ROUTE_DISCOVERY_EXPIRY 10 */
+  zb_uint8_t request_id; /*!< Sequence number for a route request */
+  /* TODO: use 1 byte - index in the translation table */
+  zb_uint16_t source_addr; /*!< 16-bit network address of the route
+                            * requests initiator */
+  /* TODO: use 1 byte - index in the translation table */
+  zb_uint16_t sender_addr; /*!< 16-bit network address of the device that
+                            * has sent the most recent lowest cost route
+                            * request */
+  zb_uint16_t dest_addr; /*!< 16-bit network destination address of this
+                          * request */
+  zb_uint8_t forward_cost; /*!< Path cost from the source of the route request
+                            * to the current device */
+  zb_uint8_t residual_cost; /*!< Path cost from the current to the destination
+                             * device */
+} ZB_PACKED_STRUCT
+zb_nwk_route_discovery_t;
 
 #if defined ZB_PRO_STACK && !defined ZB_LITE_NO_SOURCE_ROUTING
 /**
@@ -348,9 +373,10 @@ typedef ZB_PACKED_PRE struct zb_neighbor_tbl_ent_s /* not need to pack it at IAR
 
   zb_bitfield_t             need_rejoin:1; 	/*!< Need send rejoin response without receive request */
 
-  zb_bitfield_t             send_via_routing: 1;  /*!< Due to bad link to that device send packets
-                                                   *   via NWK routing.
-                                                   */
+  /* there was send_via_routing field which marked asymmetrical links when we
+   * can head the device but it can't hear us. Now that functionality is
+   * implemented using outgoing_cost field. */
+  zb_bitfield_t             reserved:1;
 
   zb_bitfield_t             keepalive_received:1; /*!< This value indicates at least one keepalive
                                                    *   has been received from the end device since
@@ -532,6 +558,12 @@ typedef ZB_PACKED_PRE struct zb_mac_diagnostic_info_s
   zb_uint8_t period_of_time;    /* Time period over which MACTx results are measured */
   zb_uint8_t last_msg_lqi;      /* LQI value of the last received packet */
   zb_int8_t last_msg_rssi;      /* RSSI value of the last received packet */
+  zb_uint32_t cca_retries;         /* Total number of CCA retries */
+  zb_uint32_t pta_lo_pri_req;      /* Total number of low priority PTA request */
+  zb_uint32_t pta_hi_pri_req;      /* Total number of high priority PTA request */
+  zb_uint32_t pta_lo_pri_denied;   /* Total number of low priority PTA request denied by master */
+  zb_uint32_t pta_hi_pri_denied;   /* Total number of high priority PTA request denied by master */
+  zb_uint32_t pta_denied_rate;     /* PTA deny rate*/
 } ZB_PACKED_STRUCT
 zb_mac_diagnostic_info_t;
 
@@ -541,7 +573,7 @@ typedef ZB_PACKED_PRE struct zb_mac_diagnostic_ex_info_s
   zb_mac_diagnostic_info_t mac_diag_info;
   /* Internal variables/counters that should be transferred
    * from MAC to ZDO and should not go to the NHLE */
-  zb_uint32_t mac_tx_for_aps_messages; /* Internal counter used to calculate 
+  zb_uint32_t mac_tx_for_aps_messages; /* Internal counter used to calculate
                                           average_mac_retry_per_aps_message_sent in ZDO */
 } ZB_PACKED_STRUCT
 zb_mac_diagnostic_ex_info_t;

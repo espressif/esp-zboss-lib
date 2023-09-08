@@ -4494,7 +4494,7 @@ typedef ZB_PACKED_PRE struct zb_zcl_price_cancel_tariff_payload_s
  *  @param _dst_ep - Destination endpoint.
  *  @param _src_ep - Current endpoint.
  *  @param _payload - Packet payload (@ref zb_zcl_price_ack_payload_t).
- *  @param _tsn - sequnce number of source command
+ *  @param _tsn - sequence number of source command
  */
 #define ZB_ZCL_PRICE_SEND_CMD_PRICE_ACK_TSN( \
   _param, _dst_addr, _dst_addr_mode, _dst_ep, _src_ep, _payload, _tsn) \
@@ -4525,7 +4525,7 @@ void zb_zcl_price_send_cmd_price_ack(zb_uint8_t param, const zb_addr_u *dst_addr
  *  @param _dst_ep - Destination endpoint.
  *  @param _src_ep - Current endpoint.
  *  @param _payload - Packet payload (@ref zb_zcl_price_ack_payload_t).
- *  @param _tsn - sequnce number of source command
+ *  @param _tsn - sequence number of source command
  *  @param cb - Callback which should be called when the ZCL stack receives APS ack.
  */
 void zb_zcl_price_send_cmd_price_ack_tsn(zb_uint8_t param, const zb_addr_u *dst_addr,

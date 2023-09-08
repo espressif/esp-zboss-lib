@@ -151,6 +151,8 @@ ZB_RING_BUFFER_DECLARE(zb_delayed_cb_q, zb_delayed_buf_q_ent_t, ZB_BUF_Q_SIZE);
 
 typedef void (ZB_CODE * zb_zdo_sleep_ind_cb_t)(zb_uint32_t sleep_tmo);
 
+typedef zb_bool_t (* zb_sched_stopping_cb_checker_t)(zb_callback_t cb);
+
 typedef struct zb_sched_globals_s
 {
 #ifndef ZB_CONFIGURABLE_MEM
@@ -181,6 +183,7 @@ typedef struct zb_sched_globals_s
   zb_uint8_t delayed_buf_usage; /*!< Usage of waiting for free buffer queue  */
   zb_bool_t stop;
   zb_bool_t stopping;
+  zb_sched_stopping_cb_checker_t stopping_cb_checker;
 } zb_sched_globals_t;
 
 /**
@@ -473,6 +476,8 @@ zb_ret_t zb_schedule_alarm(zb_callback_t func, zb_uint8_t param, zb_time_t timeo
    That is necessary to complete MAC reset at shut.
  */
 void zb_scheduler_start_shutting(void);
+
+void zb_scheduler_set_cb_checker(zb_sched_stopping_cb_checker_t checker);
 
 /** @endcond */ /* internals_doc */
 /*! @} */

@@ -60,22 +60,23 @@
 */
 
 /*! @brief Custom Attributes attribute identifiers
-    @see ZCL spec, subclause 3.12.2.2
+
 */
 enum zb_zcl_custom_cluster_attr_e
 {
-  ZB_ZCL_CUSTOM_CLUSTER_ATTR_U8_ID           = 0x0001,
-  ZB_ZCL_CUSTOM_CLUSTER_ATTR_S16_ID          = 0x0002,
-  ZB_ZCL_CUSTOM_CLUSTER_ATTR_24BIT_ID        = 0x0003,
-  ZB_ZCL_CUSTOM_CLUSTER_ATTR_32BITMAP_ID     = 0x0004,
-  ZB_ZCL_CUSTOM_CLUSTER_ATTR_IEEE_ID         = 0x0005,
-  ZB_ZCL_CUSTOM_CLUSTER_ATTR_CHAR_STRING_ID  = 0x0006,
-  ZB_ZCL_CUSTOM_CLUSTER_ATTR_UTC_TIME_ID     = 0x0007,
-  ZB_ZCL_CUSTOM_CLUSTER_ATTR_OCTET_STRING_ID = 0x0008,
-  ZB_ZCL_CUSTOM_CLUSTER_ATTR_BOOL_ID         = 0x0009,
-  ZB_ZCL_CUSTOM_CLUSTER_ATTR_128_BIT_KEY_ID  = 0x000a,
-  ZB_ZCL_CUSTOM_CLUSTER_ATTR_U16_ID          = 0x000b,
-  ZB_ZCL_CUSTOM_CLUSTER_ATTR_U32_ID          = 0x000c
+  ZB_ZCL_CUSTOM_CLUSTER_ATTR_U8_ID                = 0x0001,
+  ZB_ZCL_CUSTOM_CLUSTER_ATTR_S16_ID               = 0x0002,
+  ZB_ZCL_CUSTOM_CLUSTER_ATTR_24BIT_ID             = 0x0003,
+  ZB_ZCL_CUSTOM_CLUSTER_ATTR_32BITMAP_ID          = 0x0004,
+  ZB_ZCL_CUSTOM_CLUSTER_ATTR_IEEE_ID              = 0x0005,
+  ZB_ZCL_CUSTOM_CLUSTER_ATTR_CHAR_STRING_ID       = 0x0006,
+  ZB_ZCL_CUSTOM_CLUSTER_ATTR_UTC_TIME_ID          = 0x0007,
+  ZB_ZCL_CUSTOM_CLUSTER_ATTR_OCTET_STRING_ID      = 0x0008,
+  ZB_ZCL_CUSTOM_CLUSTER_ATTR_BOOL_ID              = 0x0009,
+  ZB_ZCL_CUSTOM_CLUSTER_ATTR_128_BIT_KEY_ID       = 0x000a,
+  ZB_ZCL_CUSTOM_CLUSTER_ATTR_U16_ID               = 0x000b,
+  ZB_ZCL_CUSTOM_CLUSTER_ATTR_U32_ID               = 0x000c,
+  ZB_ZCL_CUSTOM_CLUSTER_ATTR_LONG_OCTET_STRING_ID = 0x000d
 };
 
 #define ZB_ZCL_CUSTOM_CLUSTER_ATTR_U8_DEFAULT_VALUE 0
@@ -342,7 +343,7 @@ ZB_PACKED_STRUCT zb_zcl_custom_cluster_cmd3_req_t;
 {                                                                   \
   zb_uint8_t zcl_str_len = *((zb_uint8_t*)zb_buf_begin(buf));       \
   parse_status = ZB_ZCL_PARSE_STATUS_FAILURE;                       \
-  if (((zb_uint_t)(zcl_str_len + 1)) ==  zb_buf_len(buf))                          \
+  if (((zb_uint_t)(zcl_str_len + 1)) ==  zb_buf_len(buf))           \
   {                                                                 \
     ZB_MEMCPY(&(req), zb_buf_begin(buf), zcl_str_len + 1);          \
     parse_status = ZB_ZCL_PARSE_STATUS_SUCCESS;                     \
@@ -472,23 +473,33 @@ ZB_PACKED_STRUCT zb_zcl_custom_cluster_cmd3_req_t;
   (void*) data_ptr                                                                  \
 }
 
+#define ZB_SET_ATTR_DESCR_WITH_ZB_ZCL_CUSTOM_CLUSTER_ATTR_LONG_OCTET_STRING_ID(data_ptr)  \
+{                                                                                         \
+  ZB_ZCL_CUSTOM_CLUSTER_ATTR_LONG_OCTET_STRING_ID,                                        \
+  ZB_ZCL_ATTR_TYPE_LONG_OCTET_STRING,                                                     \
+  ZB_ZCL_ATTR_ACCESS_READ_WRITE,                                                          \
+  (ZB_ZCL_NON_MANUFACTURER_SPECIFIC),                                                     \
+  (void*) data_ptr                                                                        \
+}
+
 /** @internal @brief Declare attribute list for Custom Attributes cluster
 */
 
-#define ZB_ZCL_DECLARE_CUSTOM_ATTR_CLUSTER_ATTRIB_LIST(                                   \
-  attr_list, u8_attr, s16_attr, _24bit_attr, _32bitmap_attr, ieee_attr,                   \
-  char_string_attr, utc_time_attr, octet_string_attr, bool_attr, _128_bit_key_attr)       \
-    ZB_ZCL_START_DECLARE_ATTRIB_LIST_CLUSTER_REVISION(attr_list, ZB_ZCL_CUSTOM)           \
-    ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_CUSTOM_CLUSTER_ATTR_U8_ID, (u8_attr))                     \
-    ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_CUSTOM_CLUSTER_ATTR_S16_ID, (s16_attr))                   \
-    ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_CUSTOM_CLUSTER_ATTR_24BIT_ID, (_24bit_attr))              \
-    ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_CUSTOM_CLUSTER_ATTR_32BITMAP_ID, (_32bitmap_attr))        \
-    ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_CUSTOM_CLUSTER_ATTR_IEEE_ID, (ieee_attr))                 \
-    ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_CUSTOM_CLUSTER_ATTR_CHAR_STRING_ID, (char_string_attr))   \
-    ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_CUSTOM_CLUSTER_ATTR_UTC_TIME_ID, (utc_time_attr))         \
-    ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_CUSTOM_CLUSTER_ATTR_OCTET_STRING_ID, (octet_string_attr)) \
-    ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_CUSTOM_CLUSTER_ATTR_BOOL_ID, (bool_attr))                 \
-    ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_CUSTOM_CLUSTER_ATTR_128_BIT_KEY_ID, (_128_bit_key_attr))  \
+#define ZB_ZCL_DECLARE_CUSTOM_ATTR_CLUSTER_ATTRIB_LIST(                                                     \
+  attr_list, u8_attr, s16_attr, _24bit_attr, _32bitmap_attr, ieee_attr,                                     \
+  char_string_attr, utc_time_attr, octet_string_attr, bool_attr, _128_bit_key_attr, long_octet_string_attr) \
+    ZB_ZCL_START_DECLARE_ATTRIB_LIST_CLUSTER_REVISION(attr_list, ZB_ZCL_CUSTOM)                             \
+    ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_CUSTOM_CLUSTER_ATTR_U8_ID, (u8_attr))                                       \
+    ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_CUSTOM_CLUSTER_ATTR_S16_ID, (s16_attr))                                     \
+    ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_CUSTOM_CLUSTER_ATTR_24BIT_ID, (_24bit_attr))                                \
+    ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_CUSTOM_CLUSTER_ATTR_32BITMAP_ID, (_32bitmap_attr))                          \
+    ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_CUSTOM_CLUSTER_ATTR_IEEE_ID, (ieee_attr))                                   \
+    ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_CUSTOM_CLUSTER_ATTR_CHAR_STRING_ID, (char_string_attr))                     \
+    ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_CUSTOM_CLUSTER_ATTR_UTC_TIME_ID, (utc_time_attr))                           \
+    ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_CUSTOM_CLUSTER_ATTR_OCTET_STRING_ID, (octet_string_attr))                   \
+    ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_CUSTOM_CLUSTER_ATTR_BOOL_ID, (bool_attr))                                   \
+    ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_CUSTOM_CLUSTER_ATTR_128_BIT_KEY_ID, (_128_bit_key_attr))                    \
+    ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_CUSTOM_CLUSTER_ATTR_LONG_OCTET_STRING_ID, (long_octet_string_attr))         \
     ZB_ZCL_FINISH_DECLARE_ATTRIB_LIST
 
 /*! @internal Number of attributes mandatory for reporting in Custom Attributes cluster */
