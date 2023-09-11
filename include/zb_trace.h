@@ -453,20 +453,41 @@ void zb_trace_msg_port_vl(
 
 #endif
 
+
+#if defined ZB_BINARY_TRACE && defined ESP_ZIGBEE_TRACE
+void esp_zb_trace_msg_port(
+  zb_uint_t mask,
+  zb_uint_t level,
+  zb_char_t *fmt,
+  const zb_char_t *file_name,
+  zb_uint16_t line_number,
+  zb_uint_t args_size, ...);
+#endif /* ZB_BINARY_TRACE && defined ESP_ZIGBEE_TRACE */
+
+
 #ifdef ZB_BINARY_TRACE
 #define ZB_T0_TRACE(...) __VA_ARGS__
+#if defined ESP_ZIGBEE_TRACE
+#define ZB_T1_TRACE(s, l, fmt, args) if ((zb_int_t)g_trace_level>=(zb_int_t)l && ((s) == (zb_uint_t)-1 || (s) & g_trace_mask) && !ZB_TRACE_INSIDE_INTR_BLOCK()) esp_zb_trace_msg_port(s, l, fmt, ZB_T0_TRACE args)
+#else
 #define ZB_T1_TRACE(s, l, args) if ((zb_int_t)ZB_TRACE_LEVEL>=(zb_int_t)l && ((s) == (zb_uint_t)-1 || (s) & ZB_TRACE_MASK) && !ZB_TRACE_INSIDE_INTR_BLOCK()) zb_trace_msg_port(s, l, ZB_T0_TRACE args)
-
+#endif /* ESP_ZIGBEE_TRACE */
 #else
 #define ZB_T1_TRACE(s, l, args) \
   if ((zb_int_t)ZB_TRACE_LEVEL>=(zb_int_t)l && ((s) == -1 || ((s) & ZB_TRACE_MASK)) && !ZB_TRACE_INSIDE_INTR_BLOCK()) zb_trace_msg_port args
 #endif
 
-
+#if defined ESP_ZIGBEE_TRACE
+#define TRACE_MSG(lm, fmt, args) \
+  do { \
+    ZB_T1_TRACE(lm, fmt, args); \
+  } while (0)
+#else
 #define TRACE_MSG(lm, fmt, args) \
   do { \
     ZB_T1_TRACE(lm, args); \
   } while (0)
+#endif /* ESP_ZIGBEE_TRACE*/
 
 #else
 
@@ -500,7 +521,7 @@ void zb_trace_msg_port_vl(
  *  @addtogroup TRACE_DATA_FORMAT_ADDITIONAL Trace data format for keys
  *  @{
  */
-#if defined ZB_TRACE_TO_FILE || defined ZB_TRACE_TO_SYSLOG || defined DOXYGEN
+#if defined ZB_TRACE_TO_FILE || defined ZB_TRACE_TO_SYSLOG || defined DOXYGEN || defined ESP_ZIGBEE_TRACE
 /**
    Trace format for 64-bit address.
 
@@ -657,7 +678,7 @@ typedef struct zb_byte128_struct_s
 /* IAR for Cortex passes 1-byte abd 2-bytes arguments as 4-bytes to vararg functions.
  * Pointers are 4-bytes. */
 
-#if defined ZB_BINARY_TRACE && !defined ZB_TRACE_TO_SYSLOG
+#if defined ZB_BINARY_TRACE && !defined ZB_TRACE_TO_SYSLOG && !defined ESP_ZIGBEE_TRACE
 #if defined ZB_BINARY_AND_TEXT_TRACE_MODE
   #define TRACE_ARG_SIZE(n_h, n_d, n_l, n_p, n_a) __FILE__,ZB_TRACE_FILE_ID,__LINE__, (n_h*4 + n_d*4 + n_l*4 + n_p*4 + n_a*8)
 #else

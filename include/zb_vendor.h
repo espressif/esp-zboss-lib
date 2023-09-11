@@ -38,6 +38,7 @@
 #pragma once
 
 #include "sdkconfig.h"
+#include "esp_log.h"
 
 #if CONFIG_ZB_RCP
 #include "zb_vendor_rcp.h"
@@ -58,6 +59,16 @@
 /* trace */
 #define ZB_TRACE_LEVEL CONFIG_ZB_TRACE_LEVEL
 #define ZB_TRACE_MASK  CONFIG_ZB_TRACE_MASK
+
+/* use assert in ZBOSS */
+#define USE_ASSERT
+/* Using for ZBOSS assert and change ZBOSS assert logic*/
+#define ESP_ZB_USE_ASSERT
+
+#if defined CONFIG_ESP_ZB_TRACE_ENABLE
+#define ESP_ZIGBEE_TRACE
+#define ESP_ZBOSS_TRACE_VPRINTF_STACK_BUFFER_SIZE 250
+#endif
 
 #ifdef ZB_TRACE_LEVEL
 #define ZB_TRACE_TO_PORT
