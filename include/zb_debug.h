@@ -69,7 +69,7 @@ ZB_NORETURN void zb_assert(const zb_char_t *file_name, zb_int_t line_number);
 
    @param expr expression to check
 */
-#define ZB_ASSERT(expr) ({if(!(expr)){zb_assert(__FILE__, __LINE__);}})
+#define ZB_ASSERT(expr) do {if(!(expr)){zb_assert(__FILE__, __LINE__);}} while (0)
 /** @cond internals_doc */
 #define ZB_INLINE_ASSERT_SIMPLE(expr)  ((expr) ? 1 : (zb_assert(__FILE__, __LINE__), 1))
 /** @endcond */
@@ -89,7 +89,7 @@ ZB_NORETURN void zb_assert(zb_uint16_t file_id, zb_int_t line_number);
 
    @param expr expression to check
 */
-#define ZB_ASSERT(expr) ({if(!(expr)) { zb_assert(ZB_TRACE_FILE_ID, __LINE__);} })
+#define ZB_ASSERT(expr) do {if(!(expr)) { zb_assert(ZB_TRACE_FILE_ID, __LINE__);} } while (0)
 /** @cond internals_doc */
 #define ZB_INLINE_ASSERT_SIMPLE(expr)  ((expr) ? 1 : (zb_assert(ZB_TRACE_FILE_ID, __LINE__), 1))
 /** @endcond */
@@ -254,9 +254,9 @@ void dump_usb_traf(zb_uint8_t *buf, zb_ushort_t len);
 #endif
 
 #ifdef DEBUG
-void dump_hex_data(zb_uint_t trace_mask, zb_uint8_t trace_level, zb_uint8_t *buf, zb_ushort_t len);
+void dump_hex_data(zb_uint_t trace_mask, zb_uint8_t trace_level, const zb_uint8_t *buf, zb_ushort_t len);
 
-void trace_hex_data_func(zb_uint8_t *ptr, zb_short_t size, zb_bool_t format);
+void trace_hex_data_func(const zb_uint8_t *ptr, zb_short_t size, zb_bool_t format);
 #define trace_8hex_per_line(ptr, size) trace_hex_data_func((ptr), (size), ZB_FALSE)
 #define trace_16hex_per_line(ptr, size) trace_hex_data_func((ptr), (size), ZB_TRUE)
 #else

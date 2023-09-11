@@ -78,8 +78,14 @@
 #if defined (ZB_ZCL_SUPPORT_CLUSTER_DOOR_LOCK)
 #include "zcl/zb_zcl_door_lock.h"
 #endif
+#if defined (ZB_ZCL_SUPPORT_CLUSTER_ANALOG_INPUT)
+#include "zcl/zb_zcl_analog_input.h"
+#endif
 #if defined (ZB_ZCL_SUPPORT_CLUSTER_BINARY_INPUT)
 #include "zcl/zb_zcl_binary_input.h"
+#endif
+#if defined (ZB_ZCL_SUPPORT_CLUSTER_MULTISTATE_INPUT)
+#include "zcl/zb_zcl_multistate_input.h"
 #endif
 #if defined (ZB_ZCL_SUPPORT_CLUSTER_LEVEL_CONTROL)
 #ifndef ZB_CVC_FEATURE_SUPPORT

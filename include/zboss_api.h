@@ -635,6 +635,12 @@ zb_ret_t zboss_start(void);
  *  @returns Pointer to zero-terminated version string.
  */
 const zb_char_t ZB_IAR_CODE *zb_get_version(void);
+
+/**
+ *  @brief Get ZBOSS numeric version.
+ *  @returns (MAJOR << 24 | MINOR << 16 | REVISION)
+ */
+zb_uint32_t zboss_version_get(void);
 /*! @} */ /* zb_general_get */
 
 /*! @addtogroup zb_general_start */
@@ -672,6 +678,34 @@ void zboss_start_continue(void);
 
 
 #ifdef ZB_ZBOSS_DEINIT
+
+#if defined ZB_MACSPLIT_HOST || defined ZB_EXTMAC
+/**
+   Initiate ZBOSS shut with pseudo reset procedure.
+
+   ZBOSS shutdown with pseudo reset as well as zboss_start_shut is meaningful for Linux platform where it is necessary to stop
+   or restart ZBOSS without stopping the current process.
+
+   It is used when it is impossible to reset MAC layer on MACSPLIT architecture and resets only host.
+
+   That function must be called after application received @ref ZB_SIGNAL_READY_TO_SHUT signal.
+   It then must call @ref zboss_complete_shut() and must not use ZBOSS afterwords.
+
+ */
+void zboss_shut_with_host_reset(zb_bufid_t param);
+#endif /* #if defined ZB_MACSPLIT_HOST || defined ZB_EXTMAC */
+
+/**
+   Initiate ZBOSS aborting procedure.
+
+   ZBOSS abort as well as zboss_start_shut is meaningful for Linux platform where it is necessary to stop
+   or restart ZBOSS without stopping the current process.
+
+   Important use case is OOM situation, when it's impossible to allocate a buffer to reset MAC layer and send @ref ZB_SIGNAL_READY_TO_SHUT signal.
+
+   The function doesn't send @ref ZB_SIGNAL_READY_TO_SHUT signal to application and calls @ref zboss_complete_shut() directly.
+ */
+void zboss_abort(void);
 
 /**
    Initiate ZBOSS shut procedure.
@@ -855,6 +889,26 @@ zb_uint8_t zb_get_current_page(void);
    Get the currently used channel.
 */
 zb_uint8_t zb_get_current_channel(void);
+
+#ifdef ZB_ENABLE_PTA
+/**
+   Enable or disable PTA
+
+   This API can be called before zboss_start but after ZB_INIT or after stack is
+   started already.
+
+   Ok to call it between ZB_INIT and zboss_start/zboss_start_no_autostart or after
+   receiving signals ZB_ZDO_SIGNAL_SKIP_STARTUP or
+   ZB_BDB_SIGNAL_DEVICE_FIRST_START.  Do not call it when ZBOSS start is already
+   initiated by, for example, zboss_start_continue() or
+   bdb_start_top_level_commissioning() but commissioning is not completed yet
+   (ZB_BDB_SIGNAL_DEVICE_FIRST_START is not received), else there is a risk of race
+   conditions.
+
+   @param state: 0 - disable PTA, 1 - enable PTA
+*/
+void zb_enable_pta(zb_uint8_t state);
+#endif
 
 /*! @} */ /* zb_general_get */
 
@@ -1173,11 +1227,29 @@ typedef enum zb_nvram_dataset_types_e
 #define ZB_NVRAM_APP_DATASET_NUMBER 4U
 
 /**
+ * @brief Structure that contains report about any NVRAM failure.
+ *  Pointer to this structure will be set as additional info in error_app_handler
+ *    with error code ERROR_CODE(ERROR_CATEGORY_NVRAM, ZB_ERROR_NVRAM_WRITE_VALIDATION_FAILURE).
+ *  Upon receiving of this error, user can decide what to do:
+ *  1. Do nothing - stack will be reset immediately,
+ *  all not corrupted datasets will be copied to another page.
+ *  2. Clear nvram.
+ *  3. Manually implement function that implements user logic in this case.
+ */
+typedef struct zb_nvram_failure_report_s
+{
+  zb_uint32_t pos;            /*!< Position of dataset payload that haven't been written */
+  zb_uint16_t ds_type;        /*!< Dataset type @see zb_nvram_dataset_types_t */
+  zb_uint8_t page;            /*!< Page of dataset payload that haven't been written */
+  zb_uint8_t reserved[1];     /*!< Reserved for future use */
+} zb_nvram_failure_report_t;
+
+/**
  * Declares application callback used for reading application datasets from NVRAM.
  *
  * @param page - page in NVRAM from data will be read
  * @param pos - offset in page
- * @param payload_length - number of bytes to read
+ * @param payload_length - number of bytes to read (aligned to 4)
  */
 typedef void (*zb_nvram_read_app_data_t)(zb_uint8_t page, zb_uint32_t pos, zb_uint16_t payload_length);
 
@@ -1821,5 +1893,23 @@ zb_bool_t zb_control4_network_permitted(void);
  * @param ms - value in milliseconds
  */
 void zb_set_mac_transaction_persistence_time(zb_uint16_t ms);
+
+#ifdef ZB_ALLOW_PROVISIONAL_KEY_AS_TCLK
+/**
+ * @brief Allow joining to trust centers that claim revision r21 or higher
+ *        but sends provisional key as a trust center link key
+ *
+ * @note That behaviour is against specification and disabled by default
+ */
+void zb_allow_provisional_key_as_tclk(void);
+
+/**
+ * @brief Disallow joining to trust centers that claim revision r21 or higher
+ *        but sends provisional key as a trust center link key
+ *
+ * @note That behaviour is against specification and disabled by default
+ */
+void zb_disallow_provisional_key_as_tclk(void);
+#endif /* ZB_ALLOW_PROVISIONAL_KEY_AS_TCLK */
 
 #endif /*ZBOSS_API_H*/

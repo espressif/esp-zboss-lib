@@ -496,37 +496,31 @@ zb_bool_t zb_scheduler_is_going_to_stop(void);
 #define ZB_RAND_MAX ((zb_uint32_t)~0U)
 
 /**
- * Generate random 32-bit value
- *
- * Internal software algorithm using LFSRs
- * can be overridden by define ZB_RANDOM_HARDWARE
+ * Generate random 32-bit value using zb_random_val() with ZB_UINT32_MAX
  *
  * @return random value between 0 to 2^32-1
  */
 zb_uint32_t zb_random(void);
 
 /**
- * Generate random value using zb_random() between 0 to max_value, inclusively.
+ * Generate random value between 0 to max_value, inclusively.
+ *
+ * Internal software algorithm using LFSRs
+ * can be overridden by define ZB_RANDOM_HARDWARE
  *
  * @return random value between 0 and 'max_value' (32 bits).
  */
 zb_uint32_t zb_random_val(zb_uint32_t max_value);
 
 /**
- * Generate random 8-bit value
- *
- * Internal software algorithm using LFSRs
- * can be overridden by define ZB_RANDOM_HARDWARE
+ * Generate random 8-bit value using zb_random_val() with ZB_UINT8_MAX
  *
  * @return random value between 0 to 0xff
  */
 zb_uint8_t zb_random_u8(void);
 
 /**
- * Generate random 16-bit value
- *
- * Internal software algorithm using LFSRs
- * can be overridden by define ZB_RANDOM_HARDWARE
+ * Generate random 16-bit value using zb_random_val() with ZB_UINT16_MAX
  *
  * @return random value between 0 to 0xffff
  */
@@ -595,7 +589,7 @@ void zb_memcpy8(void *vptr, void *vsrc);
 #define ZB_SET_BIT_IN_BIT_VECTOR(vector, nbit) ( (vector)[ (nbit) / 8U ] |= ( 1U << ( (nbit) % 8U )) )
 #define ZB_CLR_BIT_IN_BIT_VECTOR(vector, nbit) ( (vector)[ (nbit) / 8U ] &= ~( 1U << ( (nbit) % 8U )) )
 #define ZB_CHECK_BIT_IN_BIT_VECTOR(vector, nbit) (ZB_U2B( (vector)[ (nbit) / 8U ] & ( 1U << ( (nbit) % 8U )) ))
-#define ZB_SIZE_OF_BIT_VECTOR(bit_count) (bit_count / 8U + !!(bit_count % 8U != 0U))
+#define ZB_SIZE_OF_BIT_VECTOR(bit_count) (((bit_count) + 7U) / 8U)
 
 /**
  * Checks if the bits specified by 'bitmask' are set in the 'val'. Bit-mask may contain one or

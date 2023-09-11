@@ -122,7 +122,7 @@ enum zb_zcl_pressure_measurement_attr_e
 #define ZB_ZCL_ATTR_PRESSURE_MEASUREMENT_VALUE_UNKNOWN                  ((zb_int16_t)0x8000)
 
 /** @brief MinMeasuredValue attribute minimum value */
-#define ZB_ZCL_ATTR_PRESSURE_MEASUREMENT_MIN_VALUE_MIN_VALUE            ((zb_int16_t)0x954d)
+#define ZB_ZCL_ATTR_PRESSURE_MEASUREMENT_MIN_VALUE_MIN_VALUE            ((zb_int16_t)0x8001)
 
 /** @brief MinMeasuredValue attribute maximum value */
 #define ZB_ZCL_ATTR_PRESSURE_MEASUREMENT_MIN_VALUE_MAX_VALUE            ((zb_int16_t)0x7ffe)
@@ -131,10 +131,10 @@ enum zb_zcl_pressure_measurement_attr_e
 #define ZB_ZCL_ATTR_PRESSURE_MEASUREMENT_MIN_VALUE_INVALID              ((zb_int16_t)0x8000)
 
 /** @brief MaxMeasuredValue attribute minimum value */
-#define ZB_ZCL_ATTR_PRESSURE_MEASUREMENT_MAX_VALUE_MIN_VALUE            ((zb_int16_t)0x954e)
+#define ZB_ZCL_ATTR_PRESSURE_MEASUREMENT_MAX_VALUE_MIN_VALUE            ((zb_int16_t)0x8002)
 
 /** @brief MaxMeasuredValue attribute maximum value */
-#define ZB_ZCL_ATTR_PRESSURE_MEASUREMENT_MAX_VALUE_MAX_VALUE            0x7fff
+#define ZB_ZCL_ATTR_PRESSURE_MEASUREMENT_MAX_VALUE_MAX_VALUE            ((zb_int16_t)0x7fff)
 
 /** @brief MaxMeasuredValue attribute invalid value */
 #define ZB_ZCL_ATTR_PRESSURE_MEASUREMENT_MAX_VALUE_INVALID              ((zb_int16_t)0x8000)

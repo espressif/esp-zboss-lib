@@ -220,6 +220,7 @@ typedef zb_uint8_t zb_zdp_status_t;
  *
  * Status codes:
  *  - RET_OK: Device started after the NVRAM erase
+ *  - RET_INTERRUPTED: The operation was cancelled with zb_bdb_reset_via_local_action()
  *  - RET_ERROR: An error of any type.
  *
  * Signal parameters:
@@ -239,6 +240,7 @@ typedef zb_uint8_t zb_zdp_status_t;
  *
  * Status codes:
  *  - RET_OK: Device started using configuration stored in NVRAM
+ *  - RET_INTERRUPTED: The operation was cancelled with zb_bdb_reset_via_local_action()
  *  - RET_ERROR: An error of any type.
  *
  * Signal parameters:
@@ -301,6 +303,7 @@ typedef zb_uint8_t zb_zdp_status_t;
  *    2. No touchlink commissioning cluster scan response inter-PAN commands were received with the
  *       inter-PAN transaction identifier field equal to that used by the initiator in its scan request
  *       command.
+ *  - RET_INTERRUPTED: The operation was cancelled with zb_bdb_reset_via_local_action()
  *
  * Signal parameters:
  *  - none
@@ -319,6 +322,7 @@ typedef zb_uint8_t zb_zdp_status_t;
  * Status codes:
  *  - RET_OK: Network steering completed.
  *  - RET_INTERRUPTED: was cancelled with bdb_cancel_joining()
+ *    or with zb_bdb_reset_via_local_action()
  *
  * Has additional data of type zb_zdo_signal_leave_indication_params_t.
  *
@@ -336,6 +340,7 @@ typedef zb_uint8_t zb_zdp_status_t;
  * Status codes:
  *  - RET_OK: Network formation completed.
  *  - RET_INTERRUPTED: was cancelled with bdb_cancel_formation()
+ *    or with zb_bdb_reset_via_local_action()
  *
  * Signal parameters:
  *  - none
@@ -380,6 +385,10 @@ typedef zb_uint8_t zb_zdp_status_t;
  * @parblock
  * When generated:
  *  - Touchlink procedure started on the Target device.
+ * 
+ * Status codes:
+ *  - RET_OK: Procedure started on the Target device
+ *  - RET_INTERRUPTED: The operation was cancelled with zb_bdb_reset_via_local_action()
  *
  * Signal parameters:
  *  - none
@@ -393,7 +402,7 @@ typedef zb_uint8_t zb_zdp_status_t;
  *
  * Status codes:
  *  - RET_OK: Touchlink network started successfully.
- *  - Does not return error status.
+ *  - RET_INTERRUPTED: The operation was cancelled with zb_bdb_reset_via_local_action()
  *
  * Signal parameters:
  *  - none
@@ -544,6 +553,19 @@ typedef zb_uint8_t zb_zdp_status_t;
  *  - N/A
  */
 #define ZB_SE_SIGNAL_SKIP_JOIN 25U
+
+/** SE Rejoin start indication.
+ * @parblock
+ * When generated:
+ *  - Device lost communication with the parent and started SE rejoin procedure.
+ *
+ * Status codes:
+ *  - RET_OK: Leave command received from the child device.
+ *  - Does not return error status.
+ *
+ * Signal parameters: no
+ * @endparblock */
+#define ZB_SE_SIGNAL_REJOIN_STARTED ZB_BDB_SIGNAL_WWAH_REJOIN_STARTED
 
 /** We are rejoined
  * @par Signal parameter
@@ -1109,7 +1131,7 @@ typedef struct zb_zdo_signal_macsplit_dev_boot_params_s
 {
   zb_uint32_t    dev_version; /*!< macsplit device version */
   zb_ieee_addr_t extended_address; /*!< The 64-bit (IEEE) address assigned to the device. */
-  zb_char_t      version_str[80];
+  zb_char_t      version_str[80];  /*!< The macsplit device version string */
 } zb_zdo_signal_macsplit_dev_boot_params_t;
 
 /**
@@ -1949,6 +1971,21 @@ zb_uint8_t zb_zdo_system_server_discovery_req(zb_uint8_t param, zb_callback_t cb
 /*! \addtogroup zdo_mgmt */
 /*! @{ */
 
+#ifdef ZB_JOIN_CLIENT
+/**
+ * @brief Set the number of network scan attempts
+ *  
+ * Sets the number of scan attempts to make before the NWK layer decides which Zigbee 
+ * coordinator or router to associate with.
+ * The default value is 5, see @ref ZB_ZDO_NWK_SCAN_ATTEMPTS.
+ * 
+ * @param [IN] attempts - value of scan attempts. Valid values between 1 and 255.
+ * 
+ * @return RET_OK - if success,
+ *         RET_INVALID_PARAMETER_1 - if the attempts value is incorrect.
+ */
+zb_ret_t zb_zdo_set_nwk_scan_attempts(zb_uint8_t attempts);
+#endif /* ZB_JOIN_CLIENT */
 
 /** @brief Header of parameters for Mgmt_NWK_Update_req */
 typedef ZB_PACKED_PRE struct zb_zdo_mgmt_nwk_update_req_hdr_s
@@ -2156,6 +2193,19 @@ void zb_zdo_mgmt_nwk_unsol_enh_update_notify(zb_uint8_t param, zb_callback_t cb)
 
 #endif /* ZB_MGMT_NWK_ENHANCED_UPDATE_ENABLED */
 
+/** @brief Sends  Mgmt_Lqi_req (see Zigbee spec 2.4.3.3.2)
+   @param param - index of buffer with Lqi request parameters. \ref zb_zdo_mgmt_lqi_param_s
+   @param cb    - user's function to call when got response from the remote.
+   @return        - ZDP transaction sequence number or 0xFF if operation cannot be
+                  performed now (nor enough memory, resources, etc.)
+   @ref zb_zdo_mgmt_lqi_resp_s, \ref zb_zdo_neighbor_table_record_s
+
+   @b Example:
+@snippet doxygen_snippets.dox zboss_api_zdo_h_2
+
+*/
+zb_uint8_t zb_zdo_mgmt_lqi_req(zb_uint8_t param, zb_callback_t cb);
+
 /** @brief Parameters for Mgmt_Lqi_req.
   * @see ZB spec, subclause 2.4.3.3.2.
   */
@@ -2276,18 +2326,53 @@ ZB_PACKED_STRUCT
 zb_zdo_neighbor_table_record_t;
 
 
-/** @brief Sends  Mgmt_Lqi_req (see Zigbee spec 2.4.3.3.2)
-   @param param - index of buffer with Lqi request parameters. \ref zb_zdo_mgmt_lqi_param_s
-   @param cb    - user's function to call when got response from the remote.
-   @return        - ZDP transaction sequence number or 0xFF if operation cannot be
-                  performed now (nor enough memory, resources, etc.)
-   @ref zb_zdo_mgmt_lqi_resp_s, \ref zb_zdo_neighbor_table_record_s
+#define ZB_ZDO_MGMT_RTG_RESP_RECORD_FLAGS_STATUS             0U
+#define ZB_ZDO_MGMT_RTG_RESP_RECORD_FLAGS_MEM_CONST          3U
+#define ZB_ZDO_MGMT_RTG_RESP_RECORD_FLAGS_MANY_TO_ONE        4U
+#define ZB_ZDO_MGMT_RTG_RESP_RECORD_FLAGS_ROUTE_REC_REQUIRED 5U
 
-   @b Example:
-@snippet doxygen_snippets.dox zboss_api_zdo_h_2
+zb_uint8_t zb_zdo_mgmt_rtg_req(zb_uint8_t param, zb_callback_t cb);
 
-*/
-zb_uint8_t zb_zdo_mgmt_lqi_req(zb_uint8_t param, zb_callback_t cb);
+void zdo_mgmt_rtg_resp(zb_uint8_t param);
+
+/** @brief Parameters for Mgmt_rtg_req.
+  * @see ZB spec, subclause 2.4.3.3.4.
+  */
+typedef struct zb_zdo_mgmt_rtg_param_s
+{
+  zb_uint8_t start_index; /*!< Starting Index for the requested elements
+                           * of the Routing Table */
+  zb_uint16_t dst_addr;   /*!< destination address */
+}
+zb_zdo_mgmt_rtg_param_t;
+
+/** @brief Request for Mgmt_rtg_req.
+  * @see ZB spec, subclause 2.4.3.3.4.
+  */
+typedef ZB_PACKED_PRE struct zb_zdo_mgmt_rtg_req_s
+{
+  zb_uint8_t start_index; /*!< Starting Index for the requested elements
+                           * of the Routing Table */
+}
+ZB_PACKED_STRUCT
+zb_zdo_mgmt_rtg_req_t;
+
+/** @brief Response for Mgmt_Rtg_rsp.
+  * @see ZB spec, subclause 2.4.4.3.2.
+  */
+typedef ZB_PACKED_PRE struct zb_zdo_mgmt_rtg_resp_s
+{
+  zb_uint8_t tsn;                        /*!< ZDP transaction sequence number */
+  zb_uint8_t status;                     /*!< The status of the Mgmt_Rtg_req command.*/
+  zb_uint8_t routing_table_entries;     /*!< Total number of Routing
+                                          * Table entries within the Remote Device */
+  zb_uint8_t start_index;                /*!< Starting index within the Routing
+                                          * Table to begin reporting for the RoutingTableList.*/
+  zb_uint8_t routing_table_list_count;  /*!< Number of Routing Table
+                                          * entries included within RoutingTableList*/
+}
+ZB_PACKED_STRUCT
+zb_zdo_mgmt_rtg_resp_t;
 
 /** @brief RoutingTableList Record Format for mgmt_rtg_resp */
 typedef ZB_PACKED_PRE struct zb_zdo_routing_table_record_s
@@ -2300,6 +2385,24 @@ typedef ZB_PACKED_PRE struct zb_zdo_routing_table_record_s
 }
 ZB_PACKED_STRUCT
 zb_zdo_routing_table_record_t;
+
+/**
+ * @brief Performs active scan
+ *
+ * The result will be provided via callback that is passed within
+ * zb_nlme_network_discovery_request_t. The only
+ * argument from this callback is the index of a buffer with
+ * zb_nlme_network_discovery_confirm_t param, followed by a sequence of
+ * zb_nlme_network_descriptor_t params (count is determined by 
+ * zb_nlme_network_discovery_confirm_t - network_count)
+ *
+ * Sample use of active scan request:
+ * @snippet zdo_startup_nwk_scan/zdo_start_ze.c active_scan_complete_cb
+ * @snippet zdo_startup_nwk_scan/zdo_start_ze.c zb_zdo_active_scan_request
+ * 
+ * @param param - index of buffer with zb_nlme_network_discovery_request_t param
+ */
+void zb_zdo_active_scan_request(zb_uint8_t param);
 
 /** @} */ /* zdo_mgmt */
 /** @addtogroup zdo_bind
@@ -2657,8 +2760,10 @@ zb_zdo_mgmt_leave_res_t;
 
    @param param - index of buffer with Lqi request parameters. @ref zb_zdo_mgmt_leave_param_s
    @param cb    - user's function to call when got response from the remote.
-   @return      - transaction sequence number of request or 0xFF if operation can't be
-                  performed right now (if there is no free slot for registering the callback)
+   @return      - transaction sequence number of request or 0xFF if operation
+                  was NOT executed (if there is no free slot for registering the callback)
+
+   @snippet samples/se/energy_service_interface/se_esi_zc_ncp_leave_zdo.c mgmt_leave_req
 
    @b Example:
 @code
@@ -2805,8 +2910,9 @@ zb_zdo_mgmt_permit_joining_req_param_t;
    @brief sends   Mgmt_Permit_Joining_req (See Zigbee spec 2.4.3.3.7)
    @param param - Index of buffer with request
    @param cb    - user's function to call when got response from the remote.
-   @return        ZDP transaction sequence number
-   @return        0xFF if operation cannot be performed now (nor enough memory, resources, etc.)
+   @return        0xFF if the operation was NOT executed (not enough memory,
+                  resources, etc.), a valid ZDP transaction sequence number
+                  otherwise
 
    @snippet onoff_server/on_off_switch_zed.c zdo_mgmt_permit_joining_req
 
@@ -2970,6 +3076,17 @@ zb_zdo_pim_get_long_poll_interval_resp_t;
  * @param permit ZB_TRUE to enable, ZB_FALSE to disable Turbo Poll.
 */
 void zb_zdo_pim_permit_turbo_poll(zb_bool_t permit);
+
+/**
+ * @brief Toggle Turbo Poll retry feature.
+ * This feature enables device to retry polling attempt some times
+ * in case if device haven't got any data after receiving ack with pending bit set.
+ * This feature can be toggled after joining/rejoining any network.
+ * It restores its default value upon leave.
+ * Default value: disabled.
+ * @param enable ZB_TRUE to enable, ZB_FALSE to disable retries.
+*/
+void zb_zdo_pim_toggle_turbo_poll_retry_feature(zb_bool_t enable);
 
 #ifndef ZB_USE_INTERNAL_HEADERS
 
@@ -3145,16 +3262,84 @@ void zb_zdo_set_tc_standard_distributed_key(zb_uint8_t *key_ptr);
 void zb_zdo_setup_network_as_distributed(void);
 
 /**
-   Enable distributed security linkage
-
-   Without that call ZR is not able to create a Distributed network.
+ *  Enable distributed security linkage
+ * 
+ *  Without that call ZR is not able to create a Distributed network.
+ * 
+ *  @deprecated This function will be removed in January 2024. 
+ *  Use instead:
+ *  - @ref zb_bdb_enable_distributed_network_formation
  */
 void zb_enable_distributed(void);
 
 /**
  *  @brief Disable distributed security network formation at runtime
+ *  
+ * 
+ *  @deprecated This function will be removed in January 2024. 
+ *  Use instead:
+ *  - @ref zb_bdb_enable_distributed_network_formation
  */
 void zb_disable_distributed(void);
+
+/**
+ *  @brief Enable distributed security network formation at runtime
+ * 
+ * After call the function device won't try
+ * to join, but will form a distributed security network instead.
+ */
+void zb_bdb_enable_distributed_network_formation (void);
+
+
+/**
+ *  @brief Disable distributed security network formation at runtime
+ * 
+ * After call the function the device will not be able to form a distributed security
+ * network, but can join another distributed network.
+ */
+void zb_bdb_disable_distributed_network_formation (void);
+
+
+/**
+ * @brief Enable/disable distributed security network formation at runtime
+ *
+ * After call the function with the enable param set to ZB_TRUE, device won't try
+ * to join, but will form a distributed security network instead. If enable param
+ * is set to ZB_FALSE, the device will not be able to form a distributed security
+ * network, but can join another network.
+ *
+ * @param enable - ZB_TRUE to enable distributed formation, ZB_FALSE to disable.
+ *
+ * @deprecated This function will be moved to the private header in April 2025. Use @ref
+ * zb_bdb_enable_distributed_network_formation() or @ref zb_bdb_disable_distributed_network_formation() instead.
+ */
+void zb_bdb_enable_distributed_formation(zb_bool_t enable);
+
+#if defined ZB_JOIN_CLIENT
+/**
+ *  @brief Enable joining to a distributed network
+ **/
+void zb_enable_joining_to_distributed_network (void);
+
+
+/**
+ *  @brief Disable joining to a distributed network
+ */
+void zb_disable_joining_to_distributed_network (void);
+
+
+/**
+ * @brief Enable joining to a distributed network
+ *
+ * @param enable - ZB_TRUE to enable, ZB_FALSE to disable
+ *
+ * @deprecated This function will be moved to the private header in April 2025. Use @ref
+ * zb_enable_joining_to_distributed_network() or @ref zb_disable_joining_to_distributed_network() instead.
+ */
+void zb_enable_joining_to_distributed(zb_bool_t enable);
+
+#endif /* ZB_JOIN_CLIENT */
+
 #endif /* ZB_DISTRIBUTED_SECURITY_ON */
 
 /**

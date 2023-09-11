@@ -611,6 +611,26 @@ void zb_ieee_addr_compress(const zb_ieee_addr_t address, zb_ieee_addr_compressed
  */
 void zb_ieee_addr_decompress(zb_ieee_addr_t address, zb_ieee_addr_compressed_t *compressed_address);
 
+/**
+   Check that two address refs refer to the one address.
+   In this case one record is regular, second - redirect.
+   Also returns returns true if addr_ref_a is equal to addr_ref_b.
+
+   @param addr_ref_a Address ref to compare.
+   @param addr_ref_b Address ref to compare.
+   @return zb_bool_t ZB_FALSE if these address refs refer to different addresses.
+                     ZB_TRUE otherwise.
+ */
+zb_bool_t zb_address_cmp_two_refs(zb_address_ieee_ref_t addr_ref_a, zb_address_ieee_ref_t addr_ref_b);
+
+/**
+ * @brief Check that address reference is used
+ *
+ * @param ref Address ref to check
+ * @return zb_bool_t ZB_TRUE if address is used, ZB_FALSE otherwise.
+ */
+zb_bool_t zb_address_in_use(zb_address_ieee_ref_t ref);
+
 /*! @endcond */
 
 /*! @} */

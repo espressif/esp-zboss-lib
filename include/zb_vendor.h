@@ -67,6 +67,7 @@
 #ifndef ZB_TRACE_OVER_JTAG
 #define ZB_TRACE_OVER_USART
 #define ZB_HAVE_SERIAL
+#define ZB_HAVE_SERIAL_SINGLE
 #endif  /* not over jtag */
 #endif  /* if trace */
 
@@ -79,3 +80,9 @@
 #define ZB_PROMISCUOUS_MODE
 
 #define DEBUG 1
+
+#if defined ZB_SUBGHZ_ONLY_MODE || defined ZB_R22_MULTIMAC_MODE
+#define ZB_MAC_QUEUE_SIZE 15U
+#else
+#define ZB_MAC_QUEUE_SIZE 10U
+#endif

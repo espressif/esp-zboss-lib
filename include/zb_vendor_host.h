@@ -43,6 +43,7 @@
 #define ZB_MACSPLIT_DISABLE_IO_BUFFERS
 #define ZB_MACSPLIT_TRANSPORT_SERIAL
 #define ZB_HAVE_SERIAL
+#define ZB_HAVE_SERIAL_SINGLE
 
 #define ZB_MACSPLIT_RESET_DEVICE_AT_START
 /* by define this rcp could transmit ieee mac address to gateway */

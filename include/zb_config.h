@@ -181,7 +181,7 @@ constants etc.
 
 /**
  * Default commissioning exit mode. According to spec should be "On pairing success" (0x01)
- * 
+ *
  * @see ZGP spec, A.3.3.2 Server Attributes */
 #define ZB_ZGP_DEFAULT_COMMISSIONING_EXIT_MODE ZGP_COMMISSIONING_EXIT_MODE_ON_PAIRING_SUCCESS
 
@@ -203,7 +203,7 @@ constants etc.
 #define MAX_ZGP_CLUSTER_GPDF_PAYLOAD_SIZE 65U /* (64 for APP_000 + 1 byte header size) */
 #endif
 #define ZB_GP_DMIN_U_MS 5U
-#define ZB_GP_DMIN_D_MS 32U
+#define ZB_GP_DMIN_B_MS 32U
 
 /* A.3.3.2 Server Attributes, default value 0x01 */
 #ifndef ZB_ZGP_DEFAULT_COMMUNICATION_MODE
@@ -502,6 +502,9 @@ Ideally should rework the whole zb_config.h to suit better for that new concept.
 #ifdef ZB_MACSPLIT_TRANSPORT_SPI
 #define ZB_MACSPLIT_TRANSPORT_TYPE ZB_MACSPLIT_TRANSPORT_TYPE_SPI
 #endif
+#ifdef ZB_MACSPLIT_TRANSPORT_MUX
+#define ZB_MACSPLIT_TRANSPORT_TYPE ZB_MACSPLIT_TRANSPORT_TYPE_MUX
+#endif
 #endif  /* ZB_MACSPLIT */
 
 
@@ -628,6 +631,23 @@ Ideally should rework the whole zb_config.h to suit better for that new concept.
 /* 10/21/2019 EE CR:MINOR Better indicate in const name that this is time in seconds by adding _S suffix */
 /*! Expiration time of the source route table (300 sec) */
 #define ZB_NWK_SRC_ROUTE_TABLE_EXPIRY 60U
+
+/**
+   Minimal time between MTORR when ZBOSS decided to run MTORR at some event
+ */
+#define ZB_MIN_TIME_BETWEEN_MTORR ZB_MILLISECONDS_TO_BEACON_INTERVAL(10000u)
+/**
+   If advised to send MTORR, do it after that delay
+ */
+#define ZB_DELAY_BEFORE_ADVISED_MTORR ZB_MILLISECONDS_TO_BEACON_INTERVAL(2000u)
+
+
+#define ZB_DELAY_BEFORE_ADVISED_MTORR_HIPRI ZB_MILLISECONDS_TO_BEACON_INTERVAL(500u)
+
+/**
+   Delay to Send MTORR just after boot
+ */
+#define ZB_DELAY_BEFORE_MTORR_AT_BOOT ZB_MILLISECONDS_TO_BEACON_INTERVAL(100u)
 
 #endif /*ZB_PRO_STACK*/
 
@@ -968,7 +988,7 @@ ZB_ED_RX_OFF_WHEN_IDLE
    See Zigbee specification revision 22 subclause 4.4.11
 */
 #ifdef ZB_PRO_STACK
-#define ZB_APS_SECURITY_TIME_OUT_PERIOD ZB_MILLISECONDS_TO_BEACON_INTERVAL(1700U)
+#define ZB_APS_SECURITY_TIME_OUT_PERIOD ZB_MILLISECONDS_TO_BEACON_INTERVAL(10000U)
 #else
 /* i.e. 700 milliseconds on 2.4 GHz */
 #define ZB_APS_SECURITY_TIME_OUT_PERIOD ZB_MILLISECONDS_TO_BEACON_INTERVAL(700U)
@@ -1381,14 +1401,20 @@ exponent.
 #define ZB_BINARY_TRACE
 /* #define ZB_TRAFFIC_DUMP_ON */
 /* #define ZB_TRAF_DUMP_V2 */
+
 #endif /*ZB_SERIAL_FOR_TRACE || defined ZB_TRACE_OVER_JTAG || defined ZB_NET_TRACE*/
 #endif /*ZB_PLATFORM_LINUX*/
+
+/* If trace baudrate isn't set, set it to 115200 by default */
+#ifndef ZB_TRACE_SERIAL_BAUDRATE
+#define ZB_TRACE_SERIAL_BAUDRATE 115200U
+#endif /* ZB_TRACE_SERIAL_BAUDRATE */
 
 /** @cond DOXYGEN_INTERNAL_DOC */
 #ifdef ZB_PLATFORM_LINUX
 
-/* NSNG run in the single thread */
-#if (defined ZB_NSNG && defined NCP_MODE) || (!defined ZB_NSNG)
+/* NS runs in multi-threaded mode only if it has been compiled with `ZB_NCP_TRANSPORT_TYPE_NSNG`. */
+#if (defined ZB_NSNG && defined ZB_NCP_TRANSPORT_TYPE_NSNG) || (!defined ZB_NSNG)
 #define ZB_THREADS
 #endif
 #ifndef ZB_INIT_HAS_ARGS
@@ -1496,7 +1522,7 @@ exponent.
 
 /************************Special modes for testing*******************/
 
-#if defined DEBUG && defined ZB_CERTIFICATION_HACKS
+#if defined ZB_CERTIFICATION_HACKS
 
 /**
  * This define turns on/off test profile
@@ -1505,7 +1531,7 @@ exponent.
 #define ZB_TEST_PROFILE
 #endif
 
-#endif /* DEBUG && ZB_CERTIFICATION_HACKS */
+#endif /* ZB_CERTIFICATION_HACKS */
 
 
 /* Testing mode for some pro certification tests */
@@ -2262,6 +2288,11 @@ compatibility with some old code. */
 
 #ifndef ZB_NWK_ADDR_REQ_PENDING_LIMIT
 #define ZB_NWK_ADDR_REQ_PENDING_LIMIT 3U
+#endif
+
+/* By default keep counting children: it covered by ZOI CI, don't want to update it.. */
+#if !defined ZB_NO_COUNT_CHILDREN && !defined ZB_COUNT_CHILDREN
+#define ZB_COUNT_CHILDREN
 #endif
 
 #endif /* ZB_CONFIG_H */

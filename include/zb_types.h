@@ -53,7 +53,7 @@
 /*
  * C standard being used during compilation.
  * The preferred standard is C99 and it should be used whenever possible.
- * However, C90 compatibility should be maintained. Macroses ZB_STDC_* can be
+ * However, C90 compatibility should be maintained. Macros ZB_STDC_* can be
  * used for conditional compilation based on C standard. Note: __STDC__ and
  * __STDC_VERSION__ are expected to be supported by all compilers in use.
  */

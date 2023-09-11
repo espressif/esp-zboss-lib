@@ -263,7 +263,17 @@ key. They use same algorithm.
  APS: APS ACK wait time from Sleepy devices. After this timeout resend APS packet
       see Zigbee specification revision 22 section 2.2.7.1 APS Constants
 */
-  #define ZB_N_APS_ACK_WAIT_DURATION_FROM_SLEEPY (10U*ZB_TIME_ONE_SECOND)
+#ifndef ZB_NONSLEEPY_ACK_WAIT_DURATION_DECREASE
+/*
+Motivation of increasing wait dueration: be able to retry send when ZED polling not so fast, else it all will be expired in MAC.
+ */
+#define ZB_N_APS_ACK_WAIT_DURATION_FROM_SLEEPY (10U*ZB_TIME_ONE_SECOND)
+#else
+/*
+To satisfy negative test in the testsute of some customer use same value as for ZR
+*/
+#define ZB_N_APS_ACK_WAIT_DURATION_FROM_SLEEPY (3U*ZB_TIME_ONE_SECOND)
+#endif
 /** @cond internals_doc */
 /*!
  APS: The base amount of delay before each broadcast parent announce is sent.
@@ -576,14 +586,15 @@ At the worst case our NWK can skip long address at tx: 8 bytes of reserve.
 
 /****************************NWK layer options**************************/
 /** @cond internals_doc */
+
 /*!
-   Define maximum number of children per node.
+ Define maximum number of nodes on network
+ that can be defined using configurable memory feature.
 
- This value should be defined in stack profile.
-
- See Zigbee specification revision 22 subclause 3.5.2
+ Maximum number of nodes on network in build
+ with configurable memory feature enabled shouldn't be greater than this value.
 */
-#define ZB_NWK_MAX_CHILDREN 4U
+#define ZB_NWK_CONFIGURABLE_MEM_MAX_NETWORK_SIZE 200U
 
 /*!
  Define maximum number of routers per node.
@@ -605,12 +616,15 @@ At the worst case our NWK can skip long address at tx: 8 bytes of reserve.
 #define ZB_NWK_STOCH_DEPTH    15U
 
 
+#ifndef ZB_CONFIGURABLE_MEM
 /*!
    NWK Mesh route stuff: route discovery table size
 */
 #ifndef ZB_NWK_ROUTE_DISCOVERY_TABLE_SIZE
 #define ZB_NWK_ROUTE_DISCOVERY_TABLE_SIZE 6U
 #endif
+
+#endif /* ZB_CONFIGURABLE_MEM */
 
 /* nwkcRouteDiscoveryTime == 0x2710 ms == 10 sec. Expiry function called once
  * per second */
@@ -983,6 +997,10 @@ Workaround for secure rejoin
    Timeout for turbo poll
  */
 #define ZB_PIM_TURBO_POLL_LEAVE_TIMEOUT (ZB_TIME_ONE_SECOND / 3U)
+/*!
+   Maximal number of turbo poll retries when data receiving failed
+ */
+#define ZB_PIM_TURBO_POLL_MAX_RETRIES (3U)
 /**@cond internals_doc*/
 /*!
    Timeout for poll buffer allocation retry
@@ -1249,9 +1267,9 @@ The CCA detection time shall be equal to 8 symbol periods.
 #ifndef ZB_MAC_QUEUE_SIZE
 #if defined ZB_SUBGHZ_ONLY_MODE || defined ZB_R22_MULTIMAC_MODE
 /* Increased MAC queue size for Sub-GHz because the LBT mechanism periodically blocks the radio */
-#define ZB_MAC_QUEUE_SIZE 15U
+#define ZB_MAC_QUEUE_SIZE 7U
 #else
-#define ZB_MAC_QUEUE_SIZE 10U
+#define ZB_MAC_QUEUE_SIZE 5U
 #endif
 #endif /* ZB_MAC_QUEUE_SIZE */
 
@@ -1321,7 +1339,10 @@ request command frame.
 /*!
 *  Sets MAC address at start
 */
+
+#ifndef ZB_DONT_SET_DEFAULT_IEEE_ADDRESS
 #define ZB_SET_MAC_ADDRESS
+#endif
 
 #ifndef ZB_SEND_BEACON_IMMEDIATELY
 /*!
@@ -1717,8 +1738,8 @@ request command frame.
 #define ZB_ZGP_MAX_PAIRED_ENDPOINTS 2U
 /*! Maximum number of paired Green Power devices commands */
 #ifndef ZB_ZGP_MAX_PAIRED_CONF_GPD_COMMANDS
-#define ZB_ZGP_MAX_PAIRED_CONF_GPD_COMMANDS 2U
-#endif /* ZB_ZGP_MAX_PAIRED_CONF_GPD_COMMANDS */ 
+#define ZB_ZGP_MAX_PAIRED_CONF_GPD_COMMANDS 6U
+#endif /* ZB_ZGP_MAX_PAIRED_CONF_GPD_COMMANDS */
 /*! Maximum number of paired configuration clusters */
 #ifndef ZB_ZGP_MAX_PAIRED_CONF_CLUSTERS
 #define ZB_ZGP_MAX_PAIRED_CONF_CLUSTERS 2U

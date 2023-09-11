@@ -196,12 +196,12 @@ enum zb_zcl_level_control_options_e
   @param remaining_time - pointer to variable to store remaining_time attribute value
 */
 #define ZB_ZCL_DECLARE_LEVEL_CONTROL_ATTRIB_LIST(attr_list, current_level, remaining_time)  \
-  zb_zcl_level_control_move_status_t move_status_data_ctx## _attr_list;                     \
+  zb_zcl_level_control_move_status_t move_status_data_ctx_## attr_list;                     \
   ZB_ZCL_START_DECLARE_ATTRIB_LIST_CLUSTER_REVISION(attr_list, ZB_ZCL_LEVEL_CONTROL)        \
   ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_ATTR_LEVEL_CONTROL_CURRENT_LEVEL_ID, (current_level))         \
   ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_ATTR_LEVEL_CONTROL_REMAINING_TIME_ID, (remaining_time))       \
   ZB_ZCL_SET_ATTR_DESC(ZB_ZCL_ATTR_LEVEL_CONTROL_MOVE_STATUS_ID,                            \
-                       (&(move_status_data_ctx## _attr_list)))                              \
+                       (&(move_status_data_ctx_## attr_list)))                              \
   ZB_ZCL_FINISH_DECLARE_ATTRIB_LIST
 
 

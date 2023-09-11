@@ -679,20 +679,26 @@ void zb_enable_panid_conflict_resolution(zb_bool_t status);
 /** @endcond */ /* internals_doc */
 /** @} */ /* nwk_panid_conflicts */
 
-#ifdef ZB_LOW_SECURITY_MODE
 /** @addtogroup nwk_management_service NWK management service
  * @{
  */
+#ifdef ZB_LOW_SECURITY_MODE
 /**
     Public API to set device security level to 0
+    @deprecated This function will be removed in the next Major release after june 2023.
+                Now security level is always equal to 5.
 */
 void zb_disable_nwk_security(void);
 
 /**
     Public API to set device security level to 5
+    @deprecated This function will be removed in the next Major release after june 2023.
+                Now security level is always equal to 5.
 */
 void zb_enable_nwk_security(void);
+#endif /* ZB_LOW_SECURITY_MODE */
 
+#ifdef ZB_NWK_CONFIGURABLE_DST_IEEE_IN_HDR
 /**
    Configure Destination IEEE policy for out NWK frames
 
@@ -701,8 +707,8 @@ void zb_enable_nwk_security(void);
    Default value is ZB_TRUE.
 */
 void zb_nwk_set_ieee_policy(zb_bool_t put_always);
+#endif /* ZB_NWK_CONFIGURABLE_DST_IEEE_IN_HDR */
 /** @} */ /* nwk_management_service */
-#endif /*ZB_LOW_SECURITY_MODE*/
 
 /** @addtogroup nwk_mtorr NWK MTORR functionality
  * @{
@@ -811,9 +817,9 @@ typedef ZB_PACKED_PRE struct zb_nwk_nbr_iterator_entry_s
                                          *   This field shall be present in every neighbour table entry.
                                          *   @if DOXYGEN_INTERNAL_DOC See @ref nwk_relationship @endif
                                          */
-  zb_uint8_t      send_via_routing;     /*!< Due to bad link to that device send packets
-                                         *   via NWK routing.
-                                         */
+  zb_uint8_t      send_via_routing;     /*!< That field is deprecated. Removed
+                                         * from zb_neighbor_tbl_ent_t, always 0
+                                         * here. */
 
   zb_uint8_t      keepalive_received;   /*!< This value indicates at least one keepalive
                                          *   has been received from the end device since
