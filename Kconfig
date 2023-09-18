@@ -47,4 +47,13 @@ menu "Zigbee"
                 Select this to connect to a Radio Co-Processor via UART.
     endchoice
 
+    menu "Zigbee trace log option"
+        depends on ZB_ENABLED
+
+        config ESP_ZB_TRACE_ENABLE
+            bool "Zigbee Trace Enable"
+            default 0
+            help
+                Setting Zigbee stack trace enable.
+    endmenu
 endmenu

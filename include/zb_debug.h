@@ -52,7 +52,7 @@
  */
 void zb_abort(char *caller_file, int caller_line);
 
-#ifndef ZB_BINARY_TRACE
+#if !defined(ZB_BINARY_TRACE) || defined(ESP_ZB_USE_ASSERT)
 /** @cond internals_doc */
 /**
    Assert: print diagnostic and force core dump
