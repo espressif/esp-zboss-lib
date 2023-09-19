@@ -42,6 +42,8 @@
 
 #include <stdint.h>
 #include <string.h>
+#include <sys/select.h>
+#include "zb_types.h"
 #include "freertos/portmacro.h"
 
 #define ZB_VOLATILE
