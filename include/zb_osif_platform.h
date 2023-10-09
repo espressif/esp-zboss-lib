@@ -104,23 +104,4 @@ void zb_esp_radio_process(void);
 #define ZB_OSIF_SERIAL_FLUSH() zb_esp_console_process()
 #endif
 
-typedef enum {
-    ESP_ZB_TRACE_LEVEL_DISABLE = -1,  /* Disable trace.*/
-    ESP_ZB_TRACE_LEVEL0 = 0,          /* trace level 0.*/
-    ESP_ZB_TRACE_LEVEL1 = 1,          /* trace level 1*/
-    ESP_ZB_TRACE_LEVEL2 = 2,          /* trace level 2*/
-    ESP_ZB_TRACE_LEVEL3 = 3,          /* trace level 3*/
-    ESP_ZB_TRACE_LEVEL4 = 4,          /* trace level 4*/
-} esp_zb_trace_level_cfg_t;
-
-#if defined CONFIG_ESP_ZB_TRACE_ENABLE
-/**
- * @note Please ensure to call `esp_zb_set_trace_level_mask` before invoking `esp_zb_init`
- * @brief The Zigbee trace level configuration.
- *
- * @param[in] trace_level set trace level refer to esp_zb_trace_level_cfg_t
- * @param[in] trace_mask Set trace mask refer to `zb_trace.h`
- *
- */
-void esp_zb_set_trace_level_mask(esp_zb_trace_level_cfg_t trace_level, uint32_t trace_mask);
-#endif // CONFIG_ESP_ZB_TRACE_ENABLE
+void zb_esp_trace_config(uint32_t trace_level, uint32_t trace_mask);

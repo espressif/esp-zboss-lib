@@ -935,6 +935,9 @@ void* zb_put_next_2_htole32(zb_uint8_t *dst, zb_uint32_t val1, zb_uint32_t val2)
  *
  *    @typedef zb_bitbool_t
  *    @brief Type to be used for boolean bit fields inside structure.
+ *
+ *    @typedef zb_single_t
+ *    @brief Project-local single precision float type.
  *  @}
  */
 
@@ -1615,5 +1618,15 @@ typedef zb_uint32_t           zb_uint24_t;
 #endif /* ZB_UINT24_48_SUPPORT */
 
 /** @} */
+
+/**
+ * @addtogroup float_types
+ * @{
+ */
+
+typedef float zb_single_t;
+
+/** @} */
+
 
 #endif /* ZB_TYPES_H */
