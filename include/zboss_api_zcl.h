@@ -47,6 +47,23 @@
 #include "zcl/zb_zcl_common.h"
 #include "zcl/zb_zcl_commands.h"
 
+#if defined (ZB_NO_SINGLE_PRECISION_DATA_TYPE)
+
+/*
+ * The following ZCL clusters use zb_single_t, which is not supported
+ * if ZB_NO_SINGLE_PRECISION_DATA_TYPE is defined.
+ */
+
+// TODO: Analog Input (Basic) also uses zb_single_t
+#undef ZB_ZCL_SUPPORT_CLUSTER_ANALOG_VALUE
+#undef ZB_ZCL_SUPPORT_CLUSTER_MULTISTATE_VALUE
+
+/* All 4.13 Concentration Measurement clusters */
+#undef ZB_ZCL_SUPPORT_CLUSTER_PM2_5_MEASUREMENT
+#undef ZB_ZCL_SUPPORT_CLUSTER_CARBON_DIOXIDE_MEASUREMENT
+
+#endif /* ZB_NO_SINGLE_PRECISION_DATA_TYPE */
+
 #if !(defined ZB_ZCL_DISABLE_REPORTING)
 #include "zcl/zb_zcl_reporting.h"
 #endif
@@ -81,11 +98,26 @@
 #if defined (ZB_ZCL_SUPPORT_CLUSTER_ANALOG_INPUT)
 #include "zcl/zb_zcl_analog_input.h"
 #endif
+#if defined (ZB_ZCL_SUPPORT_CLUSTER_ANALOG_VALUE)
+#include "zcl/zb_zcl_analog_value.h"
+#endif
 #if defined (ZB_ZCL_SUPPORT_CLUSTER_BINARY_INPUT)
 #include "zcl/zb_zcl_binary_input.h"
 #endif
 #if defined (ZB_ZCL_SUPPORT_CLUSTER_MULTISTATE_INPUT)
 #include "zcl/zb_zcl_multistate_input.h"
+#endif
+#if defined (ZB_ZCL_SUPPORT_CLUSTER_MULTISTATE_VALUE)
+#include "zcl/zb_zcl_multistate_value.h"
+#endif
+#if defined (ZB_ZCL_SUPPORT_CLUSTER_CARBON_DIOXIDE_MEASUREMENT)
+#include "zcl/zb_zcl_carbon_dioxide_measurement.h"
+#endif
+#if defined (ZB_ZCL_SUPPORT_CLUSTER_PM2_5_MEASUREMENT)
+#include "zcl/zb_zcl_pm2_5_measurement.h"
+#endif
+#if defined (ZB_ZCL_SUPPORT_CLUSTER_DEVICE_TEMP_CONFIG)
+#include "zcl/zb_zcl_device_temp_config.h"
 #endif
 #if defined (ZB_ZCL_SUPPORT_CLUSTER_LEVEL_CONTROL)
 #ifndef ZB_CVC_FEATURE_SUPPORT
@@ -2441,6 +2473,17 @@ typedef struct zcl_cluster_handlers_s
 #define ZB_ZCL_NON_VALUE_INT16 ((zb_int16_t)0x8000)
 /** ZCL8 non-value for int8 type, see subclause 2.6.2.8 */
 #define ZB_ZCL_NON_VALUE_INT8 ((zb_int8_t)0x80)
+/** ZCL8 non-value for int24 type, see subclause 2.6.2.8 */
+#define ZB_ZCL_NON_VALUE_INT24  ((zb_int24_t)  { .low = 0x0000U, .high = 0x80U })
+
+/** ZCL8 non-value for uint8 type, see subclause 2.6.2.7 */
+#define ZB_ZCL_NON_VALUE_UINT8  ((zb_uint8_t)0xff)
+/** ZCL8 non-value for uint16 type, see subclause 2.6.2.7 */
+#define ZB_ZCL_NON_VALUE_UINT16 ((zb_uint16_t)0xffff)
+/** ZCL8 non-value for uint32 type, see subclause 2.6.2.7 */
+#define ZB_ZCL_NON_VALUE_UINT32 ((zb_uint32_t)0xffffffff)
+/** ZCL8 non-value for uint24 type, see subclause 2.6.2.7 */
+#define ZB_ZCL_NON_VALUE_UINT24 ((zb_uint24_t) { .low = 0xffffU, .high = 0xffU })
 
 typedef struct zb_discover_cmd_list
 {

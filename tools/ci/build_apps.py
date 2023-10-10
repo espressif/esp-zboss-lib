@@ -58,6 +58,7 @@ def update_component_yml_files():
 
     os.chdir(os.path.join(PROJECT_ROOT, 'examples', 'zigbee', 'esp_zigbee_gateway'))
     os.remove('main/idf_component.yml')
+    os.system(f'cp {os.path.join(idf_path, "../", "esp-zboss-lib", "esp-zigbee-sdk", "tools", "managed_component_yml", "gw_idf_component.yml")} main/idf_component.yml')
 
     os.chdir(os.path.join(PROJECT_ROOT, 'examples', 'zigbee', 'light_sample', 'HA_on_off_switch'))
     os.remove('main/idf_component.yml')

@@ -273,6 +273,10 @@ zb_zcl_cluster_write_attr_hook_t zb_zcl_get_control4_cluster_write_attr_hook(zb_
 #define ZB_ZCL_CLUSTER_ID_REL_HUMIDITY_MEASUREMENT 0x0405U /*!< Relative humidity measurement */
 #define ZB_ZCL_CLUSTER_ID_OCCUPANCY_SENSING        0x0406U /*!< Occupancy sensing */
 
+/* Measurement and Sensing: Concentration Measurement */
+#define ZB_ZCL_CLUSTER_ID_CARBON_DIOXIDE_MEASUREMENT 0x040DU /*!< Carbon Dioxide (CO2) measurement */
+#define ZB_ZCL_CLUSTER_ID_PM2_5_MEASUREMENT          0x042AU /*!< PM2.5 measurement */
+
 /* IAS clusters */
 #define ZB_ZCL_CLUSTER_ID_IAS_ZONE 0x0500U /*!< IAS Zone cluster identifier */
 #define ZB_ZCL_CLUSTER_ID_IAS_ACE  0x0501U /*!< IAS ACE cluster identifier */
@@ -966,6 +970,10 @@ zb_zcl_attr_t;
 /*! Get 32-bit unsigned attribute value (without any check) */
 #define ZB_ZCL_GET_ATTRIBUTE_VAL_S32(attr_desc)          \
   (*(zb_int32_t*)attr_desc->data_p)
+
+/*! Get 32-bit unsigned attribute value (without any check) */
+#define ZB_ZCL_GET_ATTRIBUTE_VAL_SINGLE(attr_desc)        \
+  (*(zb_single_t*)attr_desc->data_p)
 
 
 /*! @} */ /* General attributes' description */
@@ -1889,12 +1897,16 @@ zb_uint48_t zb_zcl_attr_get48(zb_uint8_t *value);
 #define ZB_ZCL_ATTR_GET24(value) zb_zcl_attr_get24(value)
 #define ZB_ZCL_ATTR_GET48(value) zb_zcl_attr_get48(value)
 
+zb_single_t zb_zcl_attr_getsingle(zb_uint8_t *value);
+#define ZB_ZCL_ATTR_GETSINGLE(value) zb_zcl_attr_getsingle(value)
+
 #else
 
 #define ZB_ZCL_ATTR_GET16(value) (*((zb_uint16_t *)value))
 #define ZB_ZCL_ATTR_GETS16(value) (*((zb_int16_t *)value))
 #define ZB_ZCL_ATTR_GET32(value) (*((zb_uint32_t *)value))
 #define ZB_ZCL_ATTR_GETS32(value) (*((zb_int32_t *)value))
+#define ZB_ZCL_ATTR_GETSINGLE(value) (*((zb_single_t *)value))
 
 #define ZB_ZCL_ATTR_GET24(value) (*((zb_int24_t *)value))
 #define ZB_ZCL_ATTR_GET48(value) (*((zb_uint48_t *)value))
