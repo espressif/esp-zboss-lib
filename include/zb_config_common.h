@@ -839,11 +839,6 @@ nwkMaxBroadcastRetries
 */
 #define ZB_TC_REJOIN_ENABLE
 
- /*!
-   Define policy of ignoring assoc. permit and corresponding flags during rejoin
- */
-#define  ZB_REJOIN_IGNORES_FLAGS
-
 /*!
 Workaround for secure rejoin
 */

@@ -218,19 +218,6 @@ while (0)
 #define ZB_CHK_ARR(arr, len)
 #endif  /* ZB_ARRAYS_CHECK */
 
-
-#if !defined ZB_NS_BUILD && defined ZB8051 && defined C8051F120
-#define ZB_P3_ON() LED1 = 0
-#define ZB_P3_OFF() LED1 = 1
-#define ZB_P4_ON() LED2 = 0
-#define ZB_P4_OFF() LED2 = 1
-#else
-#define ZB_P3_ON()
-#define ZB_P3_OFF()
-#define ZB_P4_ON()
-#define ZB_P4_OFF()
-#endif
-
 #if defined ZB_TRAFFIC_DUMP_ON
 /**
    Dump array of byte
