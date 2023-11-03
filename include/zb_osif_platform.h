@@ -105,3 +105,5 @@ void zb_esp_radio_process(void);
 #endif
 
 void zb_esp_trace_config(uint32_t trace_level, uint32_t trace_mask);
+typedef uint32_t (*get_utc_time_callback_t)(void);
+void esp_zb_get_utc_time_callback_register(get_utc_time_callback_t cb);
