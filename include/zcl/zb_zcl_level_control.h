@@ -1400,13 +1400,13 @@ void zb_zcl_level_control_init_client(void);
  *
  * @note spec 3.10.2.1.1: Effect of On/Off Commands on the CurrentLevel Attribute
  *
- * @param[in] endpoint          The endpoint identifer of On/Off cluster
- * @param[in] on_off            The status of ON_OFF attribute
+ * @param[in] param   The buffer id identifies the parameter of On/Off command
+ * @param[in] on_off  The status of On/Off attribute
  * @return
  *        - ZB_TRUE: The command has been processed without invoking the on/off device ID callback;
  *                   otherwise, it has not been processed.
  */
-zb_bool_t zb_zcl_process_level_associate_with_on_off(zb_uint8_t endpoint, zb_uint8_t on_off);
+zb_bool_t zb_zcl_process_level_associate_with_on_off(zb_uint8_t param, zb_bool_t on_off);
 
 #define ZB_ZCL_CLUSTER_ID_LEVEL_CONTROL_SERVER_ROLE_INIT zb_zcl_level_control_init_server
 #define ZB_ZCL_CLUSTER_ID_LEVEL_CONTROL_CLIENT_ROLE_INIT zb_zcl_level_control_init_client
