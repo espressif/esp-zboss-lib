@@ -110,6 +110,7 @@ typedef struct zb_zll_ext_device_info_s
   zb_uint8_t sub_device_count;
   zb_uint8_t total_group_id_count;
   zb_uint8_t ep_info_idx;
+  zb_int8_t rssi;
 } zb_zll_ext_device_info_t;
 
 /**
@@ -169,7 +170,7 @@ typedef union zb_zll_command_target_data_u
  *  @param action [IN] - action to check.
  *  @returns ZB_TRUE if action allowed, ZB_FALSE otherwise.
  */
-typedef zb_uint8_t (*zb_zll_is_action_allowed_cb_t)(zb_uint8_t action);
+typedef zb_bool_t (*zb_zll_is_action_allowed_cb_t)(zb_uint8_t action);
 
 /** Touchlink device info data */
 typedef struct zb_zll_device_info_s

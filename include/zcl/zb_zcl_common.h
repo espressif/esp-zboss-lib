@@ -428,7 +428,7 @@ typedef zb_uint8_t zb_zcl_status_t;
 /** @brief ZCL global attribute: cluster revision returned by default.
     Used if the GLOBAL_CLUSTER_REVISION attribute is undefined for the cluster/role.
 */
-#define ZB_ZCL_GLOBAL_CLUSTER_REVISION_DEFAULT 1
+#define ZB_ZCL_GLOBAL_CLUSTER_REVISION_DEFAULT 4
 
 /** @brief ZCL pre-ZCL8 API default cluster revision (minimal Cluster revision)
 */
