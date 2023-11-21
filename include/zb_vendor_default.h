@@ -130,6 +130,10 @@
 /* Support Max Endpoint Number */
 #define ZB_MAX_EP_NUMBER 35U
 
+/* Interrupt Safe */
+#define ZB_INTERRUPT_SAFE_ALARMS
+#define ZB_INTERRUPT_SAFE_CALLBACKS
+
 /* Touchlink */
 #define ZB_BDB_TOUCHLINK
 #ifdef ZB_BDB_TOUCHLINK

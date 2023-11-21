@@ -52,6 +52,7 @@
 #include "zb_ringbuffer.h"
 
 /*! @cond internals_doc */
+#define ZB_CB_SCHEDULER_EVENT() ZB_OSIF_SCHEDULER_EVENT()
 
 #ifdef ZB_INTERRUPT_SAFE_ALARMS
 #define ZB_ALARM_INT_DISABLE() ZB_OSIF_GLOBAL_LOCK()

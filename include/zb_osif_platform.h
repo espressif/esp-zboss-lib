@@ -43,50 +43,77 @@
 #include <stdint.h>
 #include <string.h>
 #include <sys/select.h>
-#include "zb_types.h"
 #include "freertos/portmacro.h"
+#include "zb_errors.h"
+#include "zb_types.h"
 
+/**
+ * @brief ZBOSS platform interface
+ *
+ */
+/* At ARM all types from 1 to 4 bytes are passed to vararg with casting to 4 bytes */
+typedef zb_uint32_t zb_minimal_vararg_t;
+
+/* use macros to be able to redefine */
 #define ZB_VOLATILE
 #define ZB_SDCC_XDATA
 #define ZB_CALLBACK
 #define ZB_SDCC_BANKED
 #define ZB_KEIL_REENTRANT
-/* At ARM all types from 1 to 4 bytes are passed to vararg with casting to 4 bytes */
-typedef zb_uint32_t zb_minimal_vararg_t;
-/* use macros to be able to redefine */
 #define ZB_MEMCPY   memcpy
 #define ZB_MEMMOVE  memmove
 #define ZB_MEMSET   memset
 #define ZB_MEMCMP   memcmp
 #define ZB_BZERO(s,l) ZB_MEMSET((char*)(s), 0, (l))
 #define ZB_BZERO2(s) ZB_BZERO(s, 2)
+#define ZB_ABORT abort
+#define ZB_GO_IDLE()
 #define ZVUNUSED(v) (void)v
+
+/* Initialize platform */
+#define ZB_PLATFORM_INIT() zb_esp_init()
+
+/* Random */
 void random_init(unsigned short seed);
 uint32_t random_rand(void);
 #define ZB_RANDOM_INIT()
 #define ZB_RANDOM_RAND() random_rand()
-#define ZB_PLATFORM_INIT() zb_esp_init()
-void zb_esp_init();
-void zb_esp_abort();
+
+/* Timer */
 #define ZB_CHECK_TIMER_IS_ON() 1
 #define ZB_START_HW_TIMER()
 #define ZB_STOP_HW_TIMER()
-void zb_osif_iteration();
-#define ZB_TRANSPORT_BLOCK() zb_osif_iteration()
-#define ZB_TRANSPORT_NONBLOCK_ITERATION() zb_osif_iteration()
-extern portMUX_TYPE zboss_mux;
-extern uint8_t g_dis_inter_flag;
-#define ZB_ENABLE_ALL_INTER()  if(g_dis_inter_flag){portEXIT_CRITICAL(&zboss_mux);} g_dis_inter_flag = 0;
-#define ZB_DISABLE_ALL_INTER() portENTER_CRITICAL(&zboss_mux); g_dis_inter_flag =1;
+
+/* Iteration */
+void zb_osif_iteration(bool block);
+#define ZB_TRANSPORT_BLOCK() zb_osif_iteration(true)
+#define ZB_TRANSPORT_NONBLOCK_ITERATION() zb_osif_iteration(false)
+
+/* Scheduler */
+void zb_osif_scheduler_event(void);
+#define ZB_OSIF_SCHEDULER_EVENT() zb_osif_scheduler_event()
+
+/* Interrupts */
+zb_bool_t zb_osif_is_inside_isr(void);
+void zb_osif_enable_all_interrupts(void);
+void zb_osif_disable_all_interrupts(void);
+#define ZB_ENABLE_ALL_INTER()  zb_osif_enable_all_interrupts()
+#define ZB_DISABLE_ALL_INTER() zb_osif_disable_all_interrupts()
 #define ZB_OSIF_GLOBAL_LOCK()      ZB_DISABLE_ALL_INTER()
 #define ZB_OSIF_GLOBAL_UNLOCK()    ZB_ENABLE_ALL_INTER()
-#define ZB_ABORT abort
-#define ZB_GO_IDLE()
+
+/* Userial */
+void zb_osif_userial_poll(void);
+
+/* Product configurations */
 zb_bool_t zb_osif_prod_cfg_check_presence(void);
 zb_ret_t zb_osif_prod_cfg_read_header(zb_uint8_t *prod_cfg_hdr, zb_uint16_t hdr_len);
 zb_ret_t zb_osif_prod_cfg_read(zb_uint8_t *buffer, zb_uint16_t len, zb_uint16_t offset);
-void zb_osif_userial_poll(void);
 
+/**
+ * @brief ESP tools for zboss osif
+ *
+ */
 typedef struct {
     fd_set         read_fds;    /* The read file descriptors.*/
     fd_set         write_fds;   /* The write file descriptors.*/
@@ -95,6 +122,13 @@ typedef struct {
     struct timeval timeout;     /* The timeout.*/
 } zb_osif_iteration_context_t;
 
+extern portMUX_TYPE zboss_mux;
+extern bool g_dis_inter_flag;
+
+void zb_esp_init(void);
+void zb_esp_abort(void);
+void zb_esp_set_event(int event);
+void zb_esp_clr_event(int event);
 void zb_esp_console_update(zb_osif_iteration_context_t *iteration);
 void zb_esp_radio_update(zb_osif_iteration_context_t *iteration);
 void zb_esp_console_process(void);
