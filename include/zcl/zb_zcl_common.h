@@ -756,7 +756,7 @@ zb_zcl_attr_t;
 /** @brief ZCL 6.0: Default value for cluster revision global attribute,
  *  see @ref zcl_attr_global
  */
-#define ZB_ZCL_CLUSTER_REVISION_DEFAULT 1
+#define ZB_ZCL_CLUSTER_REVISION_DEFAULT 4
 
 /** @cond internals_doc */
 
