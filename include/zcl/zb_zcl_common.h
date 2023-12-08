@@ -667,6 +667,9 @@ static ZB_INLINE zb_uint16_t zb_zcl_string_append_byte(zb_uint8_t *zcl_str,
 #define ZB_ZCL_ATTR_TYPE_IEEE_ADDR         0xf0U /*!< IEEE address (U64) type */
 #define ZB_ZCL_ATTR_TYPE_128_BIT_KEY       0xf1U /*!< 128-bit security key */
 
+/** Custom array of 16 elems data type */
+#define ZB_ZCL_ATTR_TYPE_CUSTOM_16ARRAY 0x49U
+
 /** Custom array of 32 elems data type (now is equal to ZB_ZCL_ATTR_TYPE_ARRAY) */
 #define ZB_ZCL_ATTR_TYPE_CUSTOM_32ARRAY 0x4aU
 
@@ -1922,6 +1925,10 @@ zb_single_t zb_zcl_attr_getsingle(zb_uint8_t *value);
 /** @internal @brief Calculates byte array size (add 2 bytes for full length). */
 #define ZB_ZCL_ARRAY_GET_SIZE(ar, val) ZB_LETOH16(ar, val)
 #define ZB_ZCL_ARRAY_SET_SIZE(ar, val) ZB_HTOLE16_VAL(ar, val)
+
+/** @internal @brief Calculates 16-byte array size (add 2 bytes for full length). */
+#define ZB_BYTE_16ARRAY_GET_SIZE(ar, val) { ZB_ZCL_ARRAY_GET_SIZE(ar, val); *(zb_uint16_t*)(ar) *= 2U; }
+#define ZB_BYTE_16ARRAY_SET_SIZE(ar, val) { ZB_ZCL_ARRAY_SET_SIZE(ar, val); *(zb_uint16_t*)(ar) /= 2U; }
 
 /** @internal @brief Calculates 32-byte array size (add 2 bytes for full length). */
 #define ZB_BYTE_32ARRAY_GET_SIZE(ar, val) { ZB_ZCL_ARRAY_GET_SIZE(ar, val); *(zb_uint16_t*)(ar) *= 4U; }
