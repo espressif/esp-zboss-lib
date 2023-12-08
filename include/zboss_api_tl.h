@@ -199,6 +199,7 @@ typedef struct zb_zll_device_info_s
   zb_uint8_t nwk_channel;       /* Logical channel number for start/join the network (as initiator
                                  * role) */
   zb_int8_t rssi_threshold;     /* RSSI threshold */
+  zb_uint32_t target_timeout;   /* Timeout for target to wait initiator */
 }
 zb_zll_device_info_t;
 
