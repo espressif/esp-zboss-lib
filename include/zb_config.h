@@ -1075,7 +1075,7 @@ ZB_ED_RX_OFF_WHEN_IDLE
 #ifdef SNCP_MODE
 #define ZB_DEFAULT_SCAN_DURATION 3U
 #else
-#define ZB_DEFAULT_SCAN_DURATION 5U
+#define ZB_DEFAULT_SCAN_DURATION 3U
 #endif /* SNCP_MODE */
 #else
 /* Increase scan duration for NSNG: usually it runs with high trace level, so we can miss beacons if scan too fast */

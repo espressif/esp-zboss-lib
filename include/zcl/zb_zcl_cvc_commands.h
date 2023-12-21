@@ -65,7 +65,7 @@
 /** @brief CVC Invalid Alarm Id */
 #define ZB_ZCL_CVC_INVALID_ALARM_ID (zb_uint8_t)-1
 /** @brief CVC Transition Timer Quant (in msec) */
-#define ZB_ZCL_CVC_TRANSITION_TIMER_QUANT_MS 15
+#define ZB_ZCL_CVC_TRANSITION_TIMER_QUANT_MS 100
 /** @brief CVC Transition Timer Quant */
 #define ZB_ZCL_CVC_TRANSITION_TIMER_QUANT_BE \
   ZB_MILLISECONDS_TO_BEACON_INTERVAL(ZB_ZCL_CVC_TRANSITION_TIMER_QUANT_MS)

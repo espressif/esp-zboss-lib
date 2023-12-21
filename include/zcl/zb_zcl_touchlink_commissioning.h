@@ -498,9 +498,10 @@ typedef ZB_PACKED_PRE struct zb_zll_commissioning_device_information_req_s
 {                                                                           \
   zb_zll_commissioning_device_information_req_t *req;                       \
   zb_uint8_t* data_ptr = ZB_ZCL_START_PACKET((buffer));                     \
-  ZB_ZCL_CONSTRUCT_GENERAL_COMMAND_RESP_FRAME_CONTROL_A(data_ptr,           \
+  ZB_ZCL_CONSTRUCT_SPECIFIC_COMMAND_REQ_FRAME_CONTROL_A(data_ptr,           \
         ZB_ZCL_FRAME_DIRECTION_TO_SRV,                                      \
-        ZB_ZCL_NOT_MANUFACTURER_SPECIFIC);                                  \
+        ZB_ZCL_NOT_MANUFACTURER_SPECIFIC,                                   \
+        ZB_ZCL_DISABLE_DEFAULT_RESPONSE);                                   \
   ZB_ZCL_CONSTRUCT_COMMAND_HEADER(                                          \
       data_ptr,                                                             \
       ZB_ZCL_GET_SEQ_NUM(),                                                 \
@@ -684,7 +685,7 @@ typedef ZB_PACKED_PRE struct zb_zll_commissioning_device_information_ep_info_res
     zb_zll_commissioning_device_information_ep_info_res_t* src_ptr =                           \
       (zb_zll_commissioning_device_information_ep_info_res_t*)zb_buf_begin((buffer));          \
     (status) = ZB_ZCL_PARSE_STATUS_SUCCESS;                                                    \
-    ZB_ZCL_PACKET_GET_DATA_IEEE((data_ptr)->ieee_addr, (src_ptr));                             \
+    ZB_IEEE_ADDR_COPY((data_ptr)->ieee_addr, (src_ptr->ieee_addr));                            \
     (data_ptr)->ep_id = src_ptr->ep_id;                                                        \
     ZB_LETOH16(&((data_ptr)->profile_id), &(src_ptr->profile_id));                             \
     ZB_LETOH16(&((data_ptr)->device_id), &(src_ptr->device_id));                               \
