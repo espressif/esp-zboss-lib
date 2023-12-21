@@ -58,7 +58,7 @@
  */
 
 /** Controls number of device info record stored in Touchlink transaction context. */
-#define ZB_ZLL_TRANS_CTX_DEV_INFO_MAX_NUMBER 4U
+#define ZB_ZLL_TRANS_CTX_DEV_INFO_MAX_NUMBER 8U
 
 /** Controls number of endpoint descriptions stored in Touchlink transaction context. */
 #define ZB_ZLL_TRANS_CTX_EP_INFO_MAX_NUMBER 6U
@@ -237,7 +237,7 @@ typedef struct zb_zll_transaction_ctx_s
   /** Number of filled endpoint info records. */
   zb_uint8_t n_ep_infos;
   /** Sub-device (endpoint) info table. */
-  zb_zll_sub_device_info_t ep_infos[ZB_ZLL_TRANS_CTX_EP_INFO_MAX_NUMBER];
+  zb_zll_sub_device_info_t ep_infos[ZB_ZLL_TRANS_CTX_DEV_INFO_MAX_NUMBER * ZB_ZLL_TRANS_CTX_EP_INFO_MAX_NUMBER];
 
   /** @brief User-provided "check action allowed" callback. */
   zb_zll_is_action_allowed_cb_t check_action_allowed;

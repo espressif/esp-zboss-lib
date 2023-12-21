@@ -682,7 +682,7 @@ At the worst case our NWK can skip long address at tx: 8 bytes of reserve.
 *  Broadcast transaction record table size
 *  See Zigbee Specification subclause 3.6.5
 */
-#define ZB_NWK_BTR_TABLE_SIZE 16U
+#define ZB_NWK_BTR_TABLE_SIZE 90U
 #endif
 
 #ifndef ZB_NWK_BRR_TABLE_SIZE
@@ -1041,7 +1041,7 @@ Workaround for secure rejoin
 *
 *  Table 2-154 of Zigbee Specification revision 22 : Config_NWK_Scan_Attempts default value is 5.
 */
-#define ZB_ZDO_NWK_SCAN_ATTEMPTS 5U
+#define ZB_ZDO_NWK_SCAN_ATTEMPTS 1U
 /** @cond internals_doc */
 /*! Delay for sending the end device request command. */
 #define ZB_ZDO_SEND_ED_TIMEOUT_REQ_DELAY ZB_MILLISECONDS_TO_BEACON_INTERVAL(100U)
