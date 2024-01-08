@@ -122,20 +122,17 @@ typedef struct {
     struct timeval timeout;     /* The timeout.*/
 } zb_osif_iteration_context_t;
 
-extern portMUX_TYPE zboss_mux;
-extern bool g_dis_inter_flag;
-
 void zb_esp_init(void);
 void zb_esp_abort(void);
 void zb_esp_set_event(int event);
 void zb_esp_clr_event(int event);
 void zb_esp_console_update(zb_osif_iteration_context_t *iteration);
 void zb_esp_radio_update(zb_osif_iteration_context_t *iteration);
-void zb_esp_console_process(void);
-void zb_esp_radio_process(void);
+void zb_esp_console_process(zb_osif_iteration_context_t *iteration);
+void zb_esp_radio_process(zb_osif_iteration_context_t *iteration);
 
 #ifdef ZB_SERIAL_FOR_TRACE
-#define ZB_OSIF_SERIAL_FLUSH() zb_esp_console_process()
+#define ZB_OSIF_SERIAL_FLUSH() zb_esp_console_process(NULL)
 #endif
 
 void zb_esp_trace_config(uint32_t trace_level, uint32_t trace_mask);

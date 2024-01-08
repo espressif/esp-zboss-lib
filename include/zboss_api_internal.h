@@ -273,8 +273,9 @@ typedef ZB_PACKED_PRE struct zb_aps_bind_src_table_s
   zb_address_ieee_ref_t src_addr;   /*!< source address as ref from nwkAddressMap */
   zb_uint8_t            src_end;    /*!< source endpoint */
   zb_uint16_t           cluster_id; /*!< cluster id */
+  zb_uint8_t align[12];
 } ZB_PACKED_STRUCT zb_aps_bind_src_table_t;
-
+ZB_ASSERT_IF_NOT_ALIGNED_TO_16(zb_aps_bind_src_table_t);
 /**
    Global binding table - destination part with 64-bit address
 */
@@ -321,7 +322,10 @@ typedef ZB_PACKED_PRE struct zb_aps_bind_dst_table_s
                                           *  other elements) */
   zb_uint8_t            align;
 #endif
+  zb_uint8_t align[8];
 } ZB_PACKED_STRUCT zb_aps_bind_dst_table_t;
+
+ZB_ASSERT_IF_NOT_ALIGNED_TO_16(zb_aps_bind_dst_table_t);
 
 /**
    Neighbor table entry

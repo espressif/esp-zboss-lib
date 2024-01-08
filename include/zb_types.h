@@ -612,7 +612,7 @@ zb_addr_u;
 #define ZB_ASSERT_IF_NOT_ALIGNED(data_type,length)                \
   ZB_ASSERT_COMPILE_DECL(((sizeof(data_type) % (length)) == 0U))
 
-#define ZB_ASSERT_IF_NOT_ALIGNED_TO_4(data_type) ZB_ASSERT_IF_NOT_ALIGNED(data_type,4U)
+#define ZB_ASSERT_IF_NOT_ALIGNED_TO_16(data_type) ZB_ASSERT_IF_NOT_ALIGNED(data_type,16U)
 
 #define ZB_ASSERT_VALUE_ALIGNED(const_expr, length)               \
   ZB_ASSERT_COMPILE_DECL((((const_expr) % (length)) == 0U))

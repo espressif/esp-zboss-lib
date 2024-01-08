@@ -311,6 +311,7 @@ zb_zcl_cluster_write_attr_hook_t zb_zcl_get_control4_cluster_write_attr_hook(zb_
 /** @endcond */ /* touchlink */
 
 /************** Manufacturer specific clusters ****************/
+#define ZB_ZCL_CLUSTER_CUSTOM_ID_MIN_VAL 0xfc00U /*!< Manufacturer specific minimum custom cluster */
 
 #define ZB_ZCL_CLUSTER_ID_TUNNEL     0xfc00U /*!< Manufacturer specific Tunnel cluster */
 #define ZB_ZCL_CLUSTER_ID_IR_BLASTER 0xfc01U /*!< Manufacturer specific IR Blaster cluster */
@@ -2108,9 +2109,9 @@ void zb_zcl_set_attr_val_post_process_cluster_specific(zb_zcl_parsed_hdr_t *cmd_
  * @param attr_type - attribute type in question (see @ref zcl_attr_type)
  * @param attr_value - pointer to value in question (needed for variable sized types)
  *
- * @return size in bytes or 0xFF if type is invalid
+ * @return size in bytes or 0xFFFF if type is invalid
  */
-zb_uint8_t zb_zcl_get_attribute_size(zb_uint8_t attr_type, zb_uint8_t *attr_value);
+zb_uint16_t zb_zcl_get_attribute_size(zb_uint8_t attr_type, zb_uint8_t *attr_value);
 
 /**
  * @brief Get size of analog data type
