@@ -21,16 +21,12 @@ if(CONFIG_ZB_ENABLED)
         else()
             add_prebuilt_library(zboss_stack_lib "${CMAKE_CURRENT_SOURCE_DIR}/lib/${idf_target}/libzboss_stack.ed.a")
         endif()
-    elseif(CONFIG_ZB_RCP)
-        add_prebuilt_library(zboss_stack_lib "${CMAKE_CURRENT_SOURCE_DIR}/lib/${idf_target}/libzboss_stack.rcp.a")
     endif()
 
     add_prebuilt_library(zboss_port_lib "${CMAKE_CURRENT_SOURCE_DIR}/lib/${idf_target}/libzboss_port.a"
                          PRIV_REQUIRES ieee802154 efuse esp_system esp_hw_support)
 
     list(APPEND ZBOSS_LIBS zboss_stack_lib zboss_port_lib)
-
-    set(rcp_compile_define  "zigbee")
 
     execute_process(
     COMMAND git rev-parse --short HEAD
@@ -52,16 +48,16 @@ if(CONFIG_ZB_ENABLED)
 
     string(TIMESTAMP ZB_BUILD_TIMESTAMP "%Y-%m-%d %H:%M:%S UTC" UTC)
     string(CONCAT RCP_FULL_VERSION_STRING
-       "${rcp_compile_define}-"
        "${IDF_VERSION_FOR_ZIGBEE_PACKAGE}-${ZIGBEE_SDK_BUILD_VERSION}-"
        "${ZBOSS_LIB_VERSION}-${ZB_BUILD_TIMESTAMP}")
     message(${RCP_FULL_VERSION_STRING})
-    if(CONFIG_ZB_RCP)
-	file(WRITE ${CMAKE_BINARY_DIR}/rcp_version ${RCP_FULL_VERSION_STRING})
-    endif()
 
-    target_compile_definitions(${COMPONENT_LIB} INTERFACE -DRCP_COMPILE_DEFINE="${RCP_FULL_VERSION_STRING}")
     target_compile_options(${COMPONENT_LIB} INTERFACE $<$<COMPILE_LANGUAGE:C>:-Wno-strict-prototypes>)
     target_link_libraries(${COMPONENT_LIB} INTERFACE ${ZBOSS_LIBS})
+
+    if (CONFIG_ZB_RADIO_SPINEL_UART)
+        idf_component_get_property(openthread_lib openthread COMPONENT_LIB)
+        target_link_libraries(${COMPONENT_LIB} INTERFACE zboss_port_lib $<TARGET_FILE:${openthread_lib}> zboss_port_lib)
+    endif()
 
 endif()

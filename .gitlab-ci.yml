@@ -46,8 +46,6 @@ build_non_pytest_examples:
   image: ${CI_DOCKER_REGISTRY}/esp-env-v5.3:1
   artifacts:
     paths:
-      - "**/build*/size.json"
-      - "**/build*/build_log.txt"
       - "**/build*/*.bin"
       - "**/build*/flasher_args.json"
       - "**/build*/config/sdkconfig.json"
@@ -69,8 +67,6 @@ build_pytest_examples:
   image: ${CI_DOCKER_REGISTRY}/esp-env-v5.3:1
   artifacts:
     paths:
-      - "**/build*/size.json"
-      - "**/build*/build_log.txt"
       - "**/build*/*.bin"
       - "**/build*/*.map"
       - "**/build*/*.elf"

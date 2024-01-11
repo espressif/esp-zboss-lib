@@ -44,9 +44,6 @@
 
 #define ZB_ESP
 #define ZB_CONFIG_ESP
-#if CONFIG_ZB_RADIO_MACSPLIT_UART
-#define ZB_PLATFORM_SOC
-#endif
 
 #define ZB_LEDS_MASK
 #define ZB_USE_BUTTONS
@@ -158,7 +155,13 @@ void esp_zb_macsplit_host_reset_rcp();
 
 void esp_zb_add_rcp_failure_cb(esp_rcp_failure_callback_t cb);
 
-void esp_zb_macsplit_uart_deinit();
+/**
+ * @brief  Deinitilaize the RCP
+ *
+ * @return - ESP_OK on success
+ *
+ */
+esp_err_t esp_zb_rcp_deinit(void);
 
 /**
  * @brief  Set zigbee default long poll interval

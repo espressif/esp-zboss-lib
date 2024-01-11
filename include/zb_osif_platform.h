@@ -138,3 +138,8 @@ void zb_esp_radio_process(zb_osif_iteration_context_t *iteration);
 void zb_esp_trace_config(uint32_t trace_level, uint32_t trace_mask);
 typedef uint32_t (*get_utc_time_callback_t)(void);
 void esp_zb_get_utc_time_callback_register(get_utc_time_callback_t cb);
+
+uint8_t esp_zb_rssi_to_lqi(int8_t rssi);
+
+#define is_ack_required(frame) (frame[1] & BIT(5))
+#define is_ack_pending(frame) (frame[1] & BIT(4))

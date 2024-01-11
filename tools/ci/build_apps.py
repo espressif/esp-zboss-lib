@@ -6,11 +6,13 @@
 
 import argparse
 import sys
+import logging
 import os
 from pathlib import Path
 from typing import List
 
-from idf_build_apps import LOGGER, App, build_apps, find_apps, setup_logging
+idf_build_apps_logger = logging.getLogger('idf_build_apps')
+from idf_build_apps import App, build_apps, find_apps, setup_logging
 
 # from idf_ci_utils import IDF_PATH, get_pytest_app_paths, get_pytest_cases, get_ttfw_app_paths
 
@@ -45,8 +47,6 @@ def get_cmake_apps(
         target=target,
         build_dir='build_@t_@w',
         config_rules_str=config_rules_str,
-        build_log_path='build_log.txt',
-        size_json_path='size.json',
         check_warnings=True,
         preserve=True,
         manifest_files=MAINFEST_FILES,
@@ -61,9 +61,6 @@ def update_component_yml_files():
     os.system(f'cp {os.path.join(idf_path, "../", "esp-zboss-lib", "esp-zigbee-sdk", "tools", "managed_component_yml", "gw_idf_component.yml")} main/idf_component.yml')
 
     os.chdir(os.path.join(PROJECT_ROOT, 'examples', 'zigbee', 'light_sample', 'HA_on_off_switch'))
-    os.remove('main/idf_component.yml')
-
-    os.chdir(os.path.join(PROJECT_ROOT, 'examples', 'zigbee', 'esp_zigbee_rcp'))
     os.remove('main/idf_component.yml')
 
     os.chdir(os.path.join(PROJECT_ROOT, 'examples', 'zigbee', 'light_sample', 'HA_on_off_light'))
@@ -82,8 +79,8 @@ def main(args: argparse.Namespace) -> None:
     else:
         apps_for_build = apps[:]
 
-    LOGGER.info('Found %d apps after filtering', len(apps_for_build))
-    LOGGER.info(
+    logging.info('Found %d apps after filtering', len(apps_for_build))
+    logging.info(
         'Suggest setting the parallel count to %d for this build job',
         len(apps_for_build) // APPS_BUILD_PER_JOB + 1,
     )

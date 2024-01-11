@@ -40,16 +40,10 @@
 #include "sdkconfig.h"
 #include "esp_log.h"
 
-#if CONFIG_ZB_RCP
-#include "zb_vendor_rcp.h"
-#elif CONFIG_ZB_ZCZR || CONFIG_ZB_ZED
+#if CONFIG_ZB_ZCZR || CONFIG_ZB_ZED
 #include "zb_vendor_default.h"
 #elif CONFIG_ZB_ZGPD
 #include "zb_vendor_zgpd.h"
-#endif
-
-#if CONFIG_ZB_RADIO_MACSPLIT_UART
-#include "zb_vendor_host.h"
 #endif
 
 #define ZB_IOBUF_POOL_SIZE 80
