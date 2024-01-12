@@ -2169,6 +2169,17 @@ typedef enum zb_bdb_commissioning_mode_mask_e
 zb_bool_t bdb_start_top_level_commissioning(zb_uint8_t mode_mask);
 
 /**
+ * @brief Cannel touchlink target prodedure
+ *
+ * @return
+ *    - RET_OK: On success
+ *    - RET_ERROR: Not in touchlink target prodedure
+ */
+#ifdef ZB_BDB_TOUCHLINK
+zb_ret_t bdb_cancel_touchlink_target(void);
+#endif /* ZB_BDB_TOUCHLINK */
+
+/**
    @brief Cancel Steering procedure for a node not on a network started with
    bdb_start_top_level_commissioning(ZB_BDB_NETWORK_STEERING).
    The ZBOSS signal ZB_BDB_SIGNAL_STEERING_CANCELLED with the status of this operation will be

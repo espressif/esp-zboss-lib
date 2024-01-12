@@ -44,6 +44,8 @@
 #include "zb_vendor_rcp.h"
 #elif CONFIG_ZB_ZCZR || CONFIG_ZB_ZED
 #include "zb_vendor_default.h"
+#elif CONFIG_ZB_ZGPD
+#include "zb_vendor_zgpd.h"
 #endif
 
 #if CONFIG_ZB_RADIO_MACSPLIT_UART

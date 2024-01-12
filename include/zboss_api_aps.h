@@ -252,7 +252,7 @@ typedef ZB_PACKED_PRE struct zb_aps_hdr_s
   zb_uint8_t block_num;         /*!< Fragmentation: block number. */
   zb_uint8_t block_ack;         /*!< Fragmentation: block ack. */
   zb_uint8_t radius;            /*!< radius from nwk header */
-  zb_uint8_t align[3];
+  zb_uint8_t align[7];
 } ZB_PACKED_STRUCT zb_aps_hdr_t;
 
 
@@ -262,7 +262,7 @@ typedef ZB_PACKED_PRE struct zb_aps_hdr_s
     Also used as a parameter in different APS calls.
  */
 typedef zb_aps_hdr_t zb_apsde_data_indication_t;
-ZB_ASSERT_IF_NOT_ALIGNED_TO_4(zb_apsde_data_indication_t);
+ZB_ASSERT_IF_NOT_ALIGNED_TO_16(zb_apsde_data_indication_t);
 
 /** @} */ /* APS data service */
 /** @} */
