@@ -44,8 +44,9 @@
 #include <string.h>
 #include <sys/select.h>
 #include "freertos/portmacro.h"
-#include "zb_errors.h"
+#include "zb_config.h"
 #include "zb_types.h"
+#include "zb_errors.h"
 
 /**
  * @brief ZBOSS platform interface
@@ -110,6 +111,11 @@ zb_bool_t zb_osif_prod_cfg_check_presence(void);
 zb_ret_t zb_osif_prod_cfg_read_header(zb_uint8_t *prod_cfg_hdr, zb_uint16_t hdr_len);
 zb_ret_t zb_osif_prod_cfg_read(zb_uint8_t *buffer, zb_uint16_t len, zb_uint16_t offset);
 
+/* Zboss stack lock */
+esp_err_t zb_esp_osif_lock_init(void);
+bool zb_esp_osif_lock_acquire(TickType_t block_ticks);
+void zb_esp_osif_lock_release(void);
+
 /**
  * @brief ESP tools for zboss osif
  *
@@ -138,3 +144,8 @@ void zb_esp_radio_process(zb_osif_iteration_context_t *iteration);
 void zb_esp_trace_config(uint32_t trace_level, uint32_t trace_mask);
 typedef uint32_t (*get_utc_time_callback_t)(void);
 void esp_zb_get_utc_time_callback_register(get_utc_time_callback_t cb);
+
+uint8_t esp_zb_rssi_to_lqi(int8_t rssi);
+
+#define is_ack_required(frame) (frame[1] & BIT(5))
+#define is_ack_pending(frame) (frame[1] & BIT(4))

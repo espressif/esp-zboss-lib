@@ -29,28 +29,24 @@ menu "Zigbee"
             help
                 Select this to enable Zigbee Green Power Device.
 
-        config ZB_RCP
-            bool "Zigbee Radio Co-processor device"
-            help
-                Select this to enable Zigbee Radio Only device which can only forward 802.15.4 packets to the host.
-                The Zigbee stack will be run on the host SoC.
     endchoice
 
     choice ZB_RADIO_TYPE
         prompt "Configure the Zigbee radio type"
         depends on ZB_ENABLED
         default ZB_RADIO_NATIVE if SOC_IEEE802154_SUPPORTED
-        default ZB_RADIO_MACSPLIT_UART
+        default ZB_RADIO_SPINEL_UART
 
         config ZB_RADIO_NATIVE
             bool "Native 15.4 radio"
             help
                 Select this to use the native 15.4 radio.
 
-        config ZB_RADIO_MACSPLIT_UART
-            bool "Connect to 15.4 radio via UART"
+        config ZB_RADIO_SPINEL_UART
+            bool "Connect to 15.4 radio via Radio Spinel UART"
+            select OPENTHREAD_SPINEL_ONLY
             help
-                Select this to connect to a Radio Co-Processor via UART.
+                Select this to connect to a Radio Co-Processor via Spinel UART.
     endchoice
     
     menu "Zigbee Example"
