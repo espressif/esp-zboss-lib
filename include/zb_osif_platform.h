@@ -44,8 +44,9 @@
 #include <string.h>
 #include <sys/select.h>
 #include "freertos/portmacro.h"
-#include "zb_errors.h"
+#include "zb_config.h"
 #include "zb_types.h"
+#include "zb_errors.h"
 
 /**
  * @brief ZBOSS platform interface
@@ -109,6 +110,11 @@ void zb_osif_userial_poll(void);
 zb_bool_t zb_osif_prod_cfg_check_presence(void);
 zb_ret_t zb_osif_prod_cfg_read_header(zb_uint8_t *prod_cfg_hdr, zb_uint16_t hdr_len);
 zb_ret_t zb_osif_prod_cfg_read(zb_uint8_t *buffer, zb_uint16_t len, zb_uint16_t offset);
+
+/* Zboss stack lock */
+esp_err_t zb_esp_osif_lock_init(void);
+bool zb_esp_osif_lock_acquire(TickType_t block_ticks);
+void zb_esp_osif_lock_release(void);
 
 /**
  * @brief ESP tools for zboss osif

@@ -126,11 +126,13 @@ zb_ret_t zb_zll_send_packet(zb_bufid_t buffer, zb_uint8_t* data_ptr, zb_ieee_add
 
 /* TODO Provide normal battle-time implementation */
 /** @brief Provides new response identifier. */
-#define ZB_ZLL_GET_NEW_RESPONSE_ID() 0x01
+zb_uint32_t zb_zll_get_new_response_id(void);
+#define ZB_ZLL_GET_NEW_RESPONSE_ID() zb_zll_get_new_response_id()
 
 /* TODO Provide normal battle-time implementation */
 /** @brief Provides new inter-PAN transaction identifier. */
-#define ZB_ZLL_GET_NEW_TRANS_ID() 0x01
+zb_uint32_t zb_zll_get_new_trans_id(void);
+#define ZB_ZLL_GET_NEW_TRANS_ID() zb_zll_get_new_trans_id()
 
 /* TODO Remove internal API function calling */
 /** @brief Get NIB Ext Pan ID */

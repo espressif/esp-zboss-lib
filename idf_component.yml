@@ -1,4 +1,4 @@
-version: 1.0.9
+version: 1.1.0
 description: esp-zboss library component
 url: https://github.com/espressif/esp-zboss-lib
 dependencies:

@@ -357,6 +357,8 @@ enum zb_zcl_color_control_color_mode_e
 /** @brief Primary Intensity attribute not used value */
 #define ZB_ZCL_COLOR_CONTROL_PRIMARY_INTENSITY_NON_USED_VALUE    0xff
 
+/** @brief Enhanced Hue Min attribute default value */
+#define ZB_ZCL_COLOR_CONTROL_ENHANCED_HUE_MIN_DEF_VALUE        0
 
 /** @brief Enhanced Hue Max attribute default value */
 #define ZB_ZCL_COLOR_CONTROL_ENHANCED_HUE_MAX_DEF_VALUE        0xffff
