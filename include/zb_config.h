@@ -1053,11 +1053,13 @@ ZB_ED_RX_OFF_WHEN_IDLE
 /** @endcond */ /* DOXYGEN_INTERNAL_DOC */
 /* Some defaults for ZDO startup */
 
+uint8_t bdb_get_scan_duration(void);
 #ifndef ZB_TRACE_LEVEL
 /**
    NWK: default energy/active scan duration
 */
-#define ZB_DEFAULT_SCAN_DURATION 4U
+#define ZB_DEFAULT_SCAN_DURATION_VALUE 4U
+#define ZB_DEFAULT_SCAN_DURATION       bdb_get_scan_duration()
 
 #ifdef ZB_SUBGHZ_BAND_ENABLED
 /** @cond DOXYGEN_SUBGHZ_FEATURE */
@@ -1073,13 +1075,16 @@ ZB_ED_RX_OFF_WHEN_IDLE
 #ifndef ZB_NSNG
 /* SNCP release build has enabled trace and in the same time requires to have scan duration value set to 3 */
 #ifdef SNCP_MODE
-#define ZB_DEFAULT_SCAN_DURATION 3U
+#define ZB_DEFAULT_SCAN_DURATION_VALUE 3U
+#define ZB_DEFAULT_SCAN_DURATION       bdb_get_scan_duration()
 #else
-#define ZB_DEFAULT_SCAN_DURATION 3U
+#define ZB_DEFAULT_SCAN_DURATION_VALUE 3U
+#define ZB_DEFAULT_SCAN_DURATION       bdb_get_scan_duration()
 #endif /* SNCP_MODE */
 #else
 /* Increase scan duration for NSNG: usually it runs with high trace level, so we can miss beacons if scan too fast */
-#define ZB_DEFAULT_SCAN_DURATION 6U
+#define ZB_DEFAULT_SCAN_DURATION_VALUE 6U
+#define ZB_DEFAULT_SCAN_DURATION       bdb_get_scan_duration()
 #endif
 
 #if defined ZB_SUBGHZ_BAND_ENABLED
