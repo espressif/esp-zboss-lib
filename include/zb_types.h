@@ -404,6 +404,8 @@ typedef bool zb_bitbool_t;
 #define ZB_INT32_MAX       2147483647L
 #define ZB_UINT32_MIN      0UL
 #define ZB_UINT32_MAX      4294967295UL
+#define ZB_UINT64_MIN      0UL
+#define ZB_UINT64_MAX      UINT64_MAX
 
 #define ZB_UINT_MIN      0UL
 

@@ -560,9 +560,21 @@ Ideally should rework the whole zb_config.h to suit better for that new concept.
 /*! @} */ /* ZB_CONFIG */
 
 /**
+   Use 64-bit timer
+*/
+#if ZB_TIMER_TYPE == 64
+#define ZB_TIMER_64
+/**
    Use 32-bit timer
 */
+#elif ZB_TIMER_TYPE == 32
 #define ZB_TIMER_32
+/**
+   Use 16-bit timer
+*/
+#else
+#define ZB_TIMER_16
+#endif /* ZB_TIMER_TYPE */
 
 #ifndef ZB_CB_QUANT
 #define ZB_CB_QUANT 1U

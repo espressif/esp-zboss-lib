@@ -2764,6 +2764,7 @@ void zb_zgp_notification_network_join_done(void);
 
 /*ZGP functionality setting */
 void zb_zgp_set_proxy_functionality(zb_uint32_t functionality, zb_uint32_t active_functionality);
+void zb_zgp_get_proxy_functionality(zb_uint32_t *functionality, zb_uint32_t *active_functionality);
 void zb_zgp_set_sink_functionality(zb_uint32_t functionality, zb_uint32_t active_functionality);
-
+void zb_zgp_get_sink_functionality(zb_uint32_t *functionality, zb_uint32_t *active_functionality);
 #endif /* ZGP_INTERNAL_H */

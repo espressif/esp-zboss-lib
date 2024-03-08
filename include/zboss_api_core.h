@@ -96,7 +96,17 @@ typedef void (ZB_CODE * zb_callback2_t)(zb_uint8_t param, zb_uint16_t cb_param);
    Timer type.
  */
 
-#ifdef ZB_TIMER_32
+#ifdef ZB_TIMER_64
+  typedef zb_uint64_t zb_time_t;
+/**
+ * Maximum timer value, if 64-bit timer is used.
+ */
+  #define ZB_MAX_TIME_VAL ZB_UINT64_MAX
+/**
+ * Minimum timer value, if 64-bit timer is used.
+ */
+  #define ZB_MIN_TIME_VAL ZB_UINT64_MIN
+#elif ZB_TIMER_32
   typedef zb_uint32_t zb_time_t;
 /**
  * Maximum timer value, if 32-bit timer is used.
@@ -188,7 +198,7 @@ zb_time_t zb_timer_get(void);
 #define ZB_TIME_ONE_SECOND ZB_MILLISECONDS_TO_BEACON_INTERVAL(1000U)
 
 
-#ifdef ZB_TIMER_32
+#if defined ZB_TIMER_32 || defined ZB_TIMER_64
 
 /**
   Convert time from milliseconds to beacon intervals (32-bit platforms). Round the result up.
@@ -232,7 +242,7 @@ zb_time_t zb_timer_get(void);
 #define ZB_BEACON_INTERVAL_USEC (ZB_SYMBOL_DURATION_USEC * ZB_ABASE_SUPERFRAME_DURATION)
 
 
-#ifdef ZB_TIMER_32
+#if defined ZB_TIMER_32 || defined ZB_TIMER_64
 /**
   Convert time from beacon intervals to milliseconds (32-bit platform).
 */
@@ -280,7 +290,7 @@ zb_time_t zb_timer_get(void);
 /**
  Convert from seconds to beacon
 
- This macro works correctly on 32-bit platforms for intervals smaller than 71 minutes.
+ This macro works correctly on 64-bit platform.
  The calculation was not tested on 16-bit platforms.
 */
 #define ZB_SECONDS_TO_BEACON_INTERVAL(_s) ZB_MILLISECONDS_TO_BEACON_INTERVAL(1000UL * (_s))
