@@ -52,12 +52,6 @@ menu "Zigbee"
     menu "Zigbee Example"
         depends on ZB_ENABLED
 
-        config ZB_R22_ENABLE
-            depends on ZB_ZCZR || ZB_ZED
-            bool "Zigbee R22 test enable"
-            help 
-                when enable R22, enable zb_console_monitor input and other R22 test related function included.
-
         config ZB_GP_ENABLED
             depends on (ZB_ZCZR || ZB_ZGPD) && SOC_IEEE802154_SUPPORTED
             bool "Zigbee Green Power enable"
@@ -78,22 +72,6 @@ menu "Zigbee"
             default 0
             help
                 Setting Zigbee stack trace enable.
-
-        config ZB_TRACE_LEVEL
-            depends on ZB_ENABLED
-            int "Zigbee stack trace level"
-            default -1
-            range -1 4
-            help
-                Setting Zigbee stack trace level, normally if level set -1, it will disable trace.
-
-        config ZB_TRACE_MASK
-            depends on ZB_ENABLED
-            hex "Zigbee stack trace mask"
-            range 0 0x3FFFFFFF
-            default 0x0
-            help
-                Setting Zigbee stack trace mask, mask please refer to `zb_trace.h`.
     endmenu
     
 endmenu

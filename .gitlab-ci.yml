@@ -17,7 +17,7 @@ before_script:
 .setup_idf: &setup_idf
   - cd $CI_PROJECT_DIR/..
   - rm -rf esp-idf
-  - git clone --recursive -b master ${ESP_IDF_URL}
+  - git clone --recursive -b v5.1.3 ${ESP_IDF_URL}
   - cd esp-idf
   - git checkout --track origin/$CI_COMMIT_REF_NAME || git branch
   - git submodule sync --recursive
@@ -43,7 +43,7 @@ before_script:
 
 build_non_pytest_examples:
   stage: build
-  image: ${CI_DOCKER_REGISTRY}/esp-env-v5.3:1
+  image: ${CI_DOCKER_REGISTRY}/esp-env-v5.1:1
   artifacts:
     paths:
       - "**/build*/*.bin"
@@ -64,7 +64,7 @@ build_non_pytest_examples:
 
 build_pytest_examples:
   stage: build
-  image: ${CI_DOCKER_REGISTRY}/esp-env-v5.3:1
+  image: ${CI_DOCKER_REGISTRY}/esp-env-v5.1:1
   artifacts:
     paths:
       - "**/build*/*.bin"
@@ -85,7 +85,7 @@ build_pytest_examples:
 
 build_idf_examples:
   stage: build
-  image: ${CI_DOCKER_REGISTRY}/esp-env-v5.3:1
+  image: ${CI_DOCKER_REGISTRY}/esp-env-v5.1:1
   artifacts:
     paths:
       - "**/build*/size.json"

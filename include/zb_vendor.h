@@ -99,3 +99,6 @@
 
 /* The time allotted for adding route information using frame data at the beginning (beacon interval units) */
 #define ZB_NWK_AGGRESSIVE_ROUTE_ADD_TIME 10U
+
+/* Platform timer type */
+#define ZB_TIMER_TYPE 64
