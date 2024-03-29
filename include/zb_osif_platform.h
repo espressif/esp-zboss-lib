@@ -47,6 +47,8 @@
 #include "zb_config.h"
 #include "zb_types.h"
 #include "zb_errors.h"
+#include "zb_esp_sleep.h"
+#include "zb_osif_platform.h"
 
 /**
  * @brief ZBOSS platform interface
@@ -87,7 +89,12 @@ uint32_t random_rand(void);
 
 /* Iteration */
 void zb_osif_iteration(bool block);
+#if CONFIG_PM_ENABLE && CONFIG_FREERTOS_USE_TICKLESS_IDLE
+#define ZB_TRANSPORT_BLOCK() zb_osif_iteration(!zb_esp_sleep_enable_get())
+#else
 #define ZB_TRANSPORT_BLOCK() zb_osif_iteration(true)
+#endif
+
 #define ZB_TRANSPORT_NONBLOCK_ITERATION() zb_osif_iteration(false)
 
 /* Scheduler */

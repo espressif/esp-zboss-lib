@@ -160,6 +160,13 @@ void lwip_zb_assert(zb_uint16_t file_id, zb_int_t line_number);
 #define ZB_ASSERT_COMPILE_DECL(expr)
 #endif
 
+#define ZB_ASSERT_PRINTF(expr, format, ...)             \
+    do {                                                \
+        if (!(expr)) {                                  \
+            fprintf(stderr, format"\n", ##__VA_ARGS__); \
+            ZB_ASSERT(0);                               \
+        }                                               \
+    } while (0)
 
 /**
    Ensures, that size of type `type' is not greater than `limit'.  If it is not,
