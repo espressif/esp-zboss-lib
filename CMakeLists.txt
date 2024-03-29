@@ -8,23 +8,28 @@ if(CONFIG_ZB_ENABLED)
 
     set(ZBOSS_LIBS "")
     if(CONFIG_ZB_ZCZR)
-        if(CONFIG_ESP_ZB_TRACE_ENABLE)
-            add_prebuilt_library(zboss_stack_lib "${CMAKE_CURRENT_SOURCE_DIR}/lib/${idf_target}/libzboss_stack.zczr.trace.a")
+        if(CONFIG_ZB_DEBUG_MODE)
+            add_prebuilt_library(zboss_stack_lib "${CMAKE_CURRENT_SOURCE_DIR}/lib/${idf_target}/libzboss_stack.zczr.debug.a")
         else()
             add_prebuilt_library(zboss_stack_lib "${CMAKE_CURRENT_SOURCE_DIR}/lib/${idf_target}/libzboss_stack.zczr.a")
         endif()
     elseif(CONFIG_ZB_ZGPD)
         add_prebuilt_library(zboss_stack_lib "${CMAKE_CURRENT_SOURCE_DIR}/lib/${idf_target}/libzboss_stack.gpd.a")
     elseif(CONFIG_ZB_ZED)
-        if(CONFIG_ESP_ZB_TRACE_ENABLE)
-            add_prebuilt_library(zboss_stack_lib "${CMAKE_CURRENT_SOURCE_DIR}/lib/${idf_target}/libzboss_stack.ed.trace.a")
+        if(CONFIG_ZB_DEBUG_MODE)
+            add_prebuilt_library(zboss_stack_lib "${CMAKE_CURRENT_SOURCE_DIR}/lib/${idf_target}/libzboss_stack.ed.debug.a")
         else()
             add_prebuilt_library(zboss_stack_lib "${CMAKE_CURRENT_SOURCE_DIR}/lib/${idf_target}/libzboss_stack.ed.a")
         endif()
     endif()
 
-    add_prebuilt_library(zboss_port_lib "${CMAKE_CURRENT_SOURCE_DIR}/lib/${idf_target}/libzboss_port.a"
-                         PRIV_REQUIRES ieee802154 efuse esp_system esp_hw_support)
+    if(CONFIG_ZB_DEBUG_MODE)
+        add_prebuilt_library(zboss_port_lib "${CMAKE_CURRENT_SOURCE_DIR}/lib/${idf_target}/libzboss_port.a"
+            PRIV_REQUIRES ieee802154 efuse esp_system esp_hw_support)
+    else()
+        add_prebuilt_library(zboss_port_lib "${CMAKE_CURRENT_SOURCE_DIR}/lib/${idf_target}/libzboss_port.debug.a"
+            PRIV_REQUIRES ieee802154 efuse esp_system esp_hw_support)
+    endif()
 
     list(APPEND ZBOSS_LIBS zboss_stack_lib zboss_port_lib)
 
