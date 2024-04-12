@@ -47,8 +47,9 @@
 #include "zb_config.h"
 #include "zb_types.h"
 #include "zb_errors.h"
+#if CONFIG_PM_ENABLE && CONFIG_FREERTOS_USE_TICKLESS_IDLE
 #include "zb_esp_sleep.h"
-#include "zb_osif_platform.h"
+#endif /* CONFIG_PM_ENABLE && CONFIG_FREERTOS_USE_TICKLESS_IDLE */
 
 /**
  * @brief ZBOSS platform interface

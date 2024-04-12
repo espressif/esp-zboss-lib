@@ -1051,7 +1051,7 @@ typedef struct zb_zcl_color_control_step_loop_s
     loop_data->attr_id2 = 0;                                                                \
     loop_data->rate = (rate_);                                                              \
     loop_data->last_time = ZB_TIMER_GET();                                                  \
-    loop_data->step_time = ZB_TIME_UNITS_TO_BEACON_INTERVAL(transition_time);               \
+    loop_data->step_time = ZB_TIME_UNITS_TO_SYS_TIMER_INTERVAL(transition_time);               \
     loop_data->limit = (limit_);                                                            \
 }
 
@@ -3389,8 +3389,8 @@ void zb_zcl_color_control_send_step_color_temp_req(zb_bufid_t buffer, const zb_a
 #define ZB_ZCL_COLOR_CONTROL_TIMER_INTERVAL    100
 
 /** Standard Color Control time uint = 1/10 sec, beacon */
-#define ZB_ZCL_COLOR_CONTROL_TIMER_BEACON_INTERVAL    \
-    ZB_MILLISECONDS_TO_BEACON_INTERVAL(ZB_ZCL_COLOR_CONTROL_TIMER_INTERVAL)
+#define ZB_ZCL_COLOR_CONTROL_TIMER_SYS_INTERVAL    \
+    ZB_MILLISECONDS_TO_SYS_TIMER_INTERVAL(ZB_ZCL_COLOR_CONTROL_TIMER_INTERVAL)
 
 /**
  * @brief Struct for process one iteration of move command for one attribute

@@ -96,38 +96,15 @@ typedef void (ZB_CODE * zb_callback2_t)(zb_uint8_t param, zb_uint16_t cb_param);
    Timer type.
  */
 
-#ifdef ZB_TIMER_64
-  typedef zb_uint64_t zb_time_t;
+typedef zb_uint64_t zb_time_t;
 /**
  * Maximum timer value, if 64-bit timer is used.
  */
-  #define ZB_MAX_TIME_VAL ZB_UINT64_MAX
+#define ZB_MAX_TIME_VAL ZB_UINT64_MAX
 /**
  * Minimum timer value, if 64-bit timer is used.
  */
-  #define ZB_MIN_TIME_VAL ZB_UINT64_MIN
-#elif ZB_TIMER_32
-  typedef zb_uint32_t zb_time_t;
-/**
- * Maximum timer value, if 32-bit timer is used.
- */
-  #define ZB_MAX_TIME_VAL ZB_UINT32_MAX
-/**
- * Minimum timer value, if 32-bit timer is used.
- */
-  #define ZB_MIN_TIME_VAL ZB_UINT32_MIN
-#else
-/* 16 bits for 8051 - it will be hw timer value. */
-  typedef zb_uint16_t zb_time_t;
-/**
- * Maximum timer value, if 16-bit timer is used.
- */
-  #define ZB_MAX_TIME_VAL ZB_UINT16_MAX
-/**
- * Minimum timer value, if 16-bit timer is used.
- */
- #define ZB_MIN_TIME_VAL ZB_UINT16_MIN
-#endif
+#define ZB_MIN_TIME_VAL ZB_UINT64_MIN
 
 /**
  * A half of defined maximum timer value.
@@ -144,7 +121,7 @@ zb_time_t zb_timer_get(void);
 /** @endcond */ /* internals_doc */
 
 /**
- * @return Get current timer value (beacon intervals)
+ * @return Get current timer value (system timer intervals)
  */
 #define ZB_TIMER_GET() (zb_timer_get())
 
@@ -195,41 +172,22 @@ zb_time_t zb_timer_get(void);
 /**
  One second timeout
 */
-#define ZB_TIME_ONE_SECOND ZB_MILLISECONDS_TO_BEACON_INTERVAL(1000U)
-
-
-#if defined ZB_TIMER_32 || defined ZB_TIMER_64
+#define ZB_TIME_ONE_SECOND ZB_MILLISECONDS_TO_SYS_TIMER_INTERVAL(1000U)
 
 /**
-  Convert time from milliseconds to beacon intervals (32-bit platforms). Round the result up.
+  Convert time from milliseconds to system timer intervals. Round the result up.
 */
-#define ZB_MILLISECONDS_TO_BEACON_INTERVAL_CEIL(ms) (((zb_time_t)(ms) * 1000U + (ZB_BEACON_INTERVAL_USEC - 1U)) / ZB_BEACON_INTERVAL_USEC)
+#define ZB_MILLISECONDS_TO_SYS_TIMER_INTERVAL_CEIL(ms) (((zb_time_t)(ms) * 1000U))
 
 /**
-  Convert time from milliseconds to beacon intervals (32-bit platforms). Round the result down.
+  Convert time from milliseconds to system timer intervals. Round the result down.
 */
-#define ZB_MILLISECONDS_TO_BEACON_INTERVAL_FLOOR(ms) ((zb_time_t)(ms) * 1000U / ZB_BEACON_INTERVAL_USEC)
-
-#else
-/**
-  Convert time from milliseconds to beacon intervals
-  Try to not cause overflow in 16-bit arithmetic (with some precision lost...).
-  Round the result down.
-*/
-#define ZB_MILLISECONDS_TO_BEACON_INTERVAL_FLOOR(ms) (((10UL * (zb_time_t)(ms) + 0U) / (ZB_BEACON_INTERVAL_USEC / 100U)))
+#define ZB_MILLISECONDS_TO_SYS_TIMER_INTERVAL_FLOOR(ms) ((zb_time_t)(ms) * 1000U)
 
 /**
-  Convert time from milliseconds to beacon intervals
-  Try to not cause overflow in 16-bit arithmetic (with some precision lost...).
-  Round the result up.
+  Convert time from milliseconds to system timer intervals.
 */
-#define ZB_MILLISECONDS_TO_BEACON_INTERVAL_CEIL(ms) (((10UL * (zb_time_t)(ms) + (ZB_BEACON_INTERVAL_USEC / 100U - 1U)) / (ZB_BEACON_INTERVAL_USEC / 100U)))
-#endif
-
-/**
-  Convert time from milliseconds to beacon intervals.
-*/
-#define ZB_MILLISECONDS_TO_BEACON_INTERVAL(ms) ZB_MILLISECONDS_TO_BEACON_INTERVAL_CEIL(ms)
+#define ZB_MILLISECONDS_TO_SYS_TIMER_INTERVAL(ms) ZB_MILLISECONDS_TO_SYS_TIMER_INTERVAL_CEIL(ms)
 
 /**
  * Beacon interval in microseconds
@@ -239,33 +197,20 @@ zb_time_t zb_timer_get(void);
  * 1 symbol = 16e-6 sec (mac spec 6.5.3.2 Symbol rate) for 2.4GHz ZB.
  * 1 beacon interval = 15.360 ms.
  */
-#define ZB_BEACON_INTERVAL_USEC (ZB_SYMBOL_DURATION_USEC * ZB_ABASE_SUPERFRAME_DURATION)
+#define ZB_BEACON_INTERVAL (ZB_SYMBOL_DURATION_USEC * ZB_ABASE_SUPERFRAME_DURATION)
 
-
-#if defined ZB_TIMER_32 || defined ZB_TIMER_64
-/**
-  Convert time from beacon intervals to milliseconds (32-bit platform).
-*/
-#define ZB_TIME_BEACON_INTERVAL_TO_MSEC(t) ((ZB_BEACON_INTERVAL_USEC * (zb_time_t)(t)) / 1000U)
-#else
-/**
-  Convert time from beacon intervals to milliseconds
-
-  Try to not cause overflow in 16-bit arithmetic (with some precision lost...)
-*/
-#define ZB_TIME_BEACON_INTERVAL_TO_MSEC(t) ((ZB_BEACON_INTERVAL_USEC / 100U * (t) - 0U) / 10U)
-#endif
+#define ZB_SYS_TIMER_INTERVAL_TO_MSEC(t) ((zb_time_t)(t) / 1000U)
 
 /**
-  Convert time from beacon intervals to microseconds
+  Convert time from system timer intervals to microseconds
 
 */
-#define ZB_TIME_BEACON_INTERVAL_TO_USEC(t) ((zb_uint64_t)ZB_BEACON_INTERVAL_USEC * (t))
+#define ZB_SYS_TIMER_INTERVAL_TO_USEC(t) ((zb_time_t)(t))
 
 /**
  Quarterseconds timeout
 */
-#define ZB_TIME_QUARTERECONDS(n)  (ZB_TIME_BEACON_INTERVAL_TO_MSEC((n)) / 250U)
+#define ZB_SYS_TIMER_QUARTERECONDS(n)  (ZB_SYS_TIMER_INTERVAL_TO_MSEC((n)) / 250U)
 
 /**
  Convert from msec to quarterseconds
@@ -278,9 +223,9 @@ zb_time_t zb_timer_get(void);
 #define ZB_QUARTERECONDS_TO_MSEC(n)  250UL*(n)
 
 /**
- Convert from quarterseconds to beacon
+ Convert from quarterseconds to system timer interval
 */
-#define ZB_QUARTERECONDS_TO_BEACON_INTERVAL(qsec) ZB_MILLISECONDS_TO_BEACON_INTERVAL(250U * (qsec))
+#define ZB_QUARTERECONDS_TO_SYS_TIMER_INTERVAL(qsec) ZB_MILLISECONDS_TO_SYS_TIMER_INTERVAL(250U * (qsec))
 
 /**
  * Convert from seconds to milliseconds
@@ -288,12 +233,12 @@ zb_time_t zb_timer_get(void);
 #define ZB_SECONDS_TO_MILLISECONDS(_s) (1000ul*(_s))
 
 /**
- Convert from seconds to beacon
+ Convert from seconds to system timer interval
 
  This macro works correctly on 64-bit platform.
  The calculation was not tested on 16-bit platforms.
 */
-#define ZB_SECONDS_TO_BEACON_INTERVAL(_s) ZB_MILLISECONDS_TO_BEACON_INTERVAL(1000UL * (_s))
+#define ZB_SECONDS_TO_SYS_TIMER_INTERVAL(_s) ZB_MILLISECONDS_TO_SYS_TIMER_INTERVAL(1000UL * (_s))
 
 /**
  Convert from milliseconds to microseconds
@@ -388,12 +333,12 @@ zb_ret_t zb_schedule_app_alarm(zb_callback_t func, zb_uint8_t param, zb_time_t r
 
    @param func - function to call via scheduler
    @param param - parameter to pass to the function
-   @param timeout_bi - timeout, in beacon intervals
+   @param timer_interval - timeout, in system timer intervals
    @return RET_OK or RET_OVERFLOW
 
  */
 #ifndef ZB_SCHEDULE_APP_ALARM
-#define ZB_SCHEDULE_APP_ALARM(func, param, timeout_bi) zb_schedule_app_alarm(func, param, timeout_bi)
+#define ZB_SCHEDULE_APP_ALARM(func, param, timer_interval) zb_schedule_app_alarm(func, param, timer_interval)
 #endif /* ZB_SCHEDULE_APP_ALARM */
 
 /**
@@ -447,10 +392,10 @@ zb_ret_t zb_schedule_alarm_cancel(zb_callback_t func, zb_uint8_t param, zb_uint8
 
    @param func - function to call via scheduler
    @param param - parameter to pass to the function
-   @param timeout_bi - pointer on alarm timeout, in beacon intervals
+   @param timer_interval - pointer on alarm timeout, in system timer intervals
    @return RET_OK or error code
  */
-zb_ret_t zb_schedule_get_alarm_time(zb_callback_t func, zb_uint8_t param, zb_time_t *timeout_bi);
+zb_ret_t zb_schedule_get_alarm_time(zb_callback_t func, zb_uint8_t param, zb_time_t *timer_interval);
 /** @endcond */ /* internals_doc */
 
 /**
@@ -458,10 +403,10 @@ zb_ret_t zb_schedule_get_alarm_time(zb_callback_t func, zb_uint8_t param, zb_tim
 
    @param func - function to call via scheduler
    @param param - parameter to pass to the function
-   @param timeout_bi - pointer on alarm timeout, in beacon intervals
+   @param timer_interval - pointer on alarm timeout, in system timer intervals
    @return RET_OK or error code
 */
-#define ZB_SCHEDULE_GET_ALARM_TIME(func, param, timeout_bi) zb_schedule_get_alarm_time(func, param, timeout_bi)
+#define ZB_SCHEDULE_GET_ALARM_TIME(func, param, timer_interval) zb_schedule_get_alarm_time(func, param, timer_interval)
 
 /** @cond internals_doc */
 /**

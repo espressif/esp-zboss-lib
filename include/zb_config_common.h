@@ -214,7 +214,7 @@ key. They use same algorithm.
 /*! Sets APS dup checks time out. By default it is 21 sec. This
 *  interval guaranties total APS retransmission interval (1 original + 2 retransmits).
 */
-#define ZB_APS_DUP_CHECK_TIMEOUT ZB_MILLISECONDS_TO_BEACON_INTERVAL(1000)
+#define ZB_APS_DUP_CHECK_TIMEOUT ZB_MILLISECONDS_TO_SYS_TIMER_INTERVAL(1000)
 
 #ifndef ZB_APS_DUPS_TABLE_SIZE
 /**
@@ -229,7 +229,7 @@ key. They use same algorithm.
 /*!
    Maximum MAC packet waiting time to expire
  */
-  #define ZB_MAC_INDIRECT_POLL_EXPIRE_TMO ZB_MILLISECONDS_TO_BEACON_INTERVAL(7680U)
+  #define ZB_MAC_INDIRECT_POLL_EXPIRE_TMO ZB_MILLISECONDS_TO_SYS_TIMER_INTERVAL(7680U)
 
 
 
@@ -279,12 +279,12 @@ To satisfy negative test in the testsute of some customer use same value as for 
 /*!
  APS: The base amount of delay before each broadcast parent announce is sent.
  */
-#define ZB_APS_PARENT_ANNOUNCE_BASE_TIMER (ZB_SECONDS_TO_BEACON_INTERVAL(10U))
+#define ZB_APS_PARENT_ANNOUNCE_BASE_TIMER (ZB_SECONDS_TO_SYS_TIMER_INTERVAL(10U))
 
 /*!
 The max amount of jitter that is added to the apsParentAnnounceBaseTimer before each broadcast parent announce is sent.
 */
-#define ZB_APS_PARENT_ANNOUNCE_JITTER_MAX (ZB_SECONDS_TO_BEACON_INTERVAL(10U) - 2U)
+#define ZB_APS_PARENT_ANNOUNCE_JITTER_MAX (ZB_SECONDS_TO_SYS_TIMER_INTERVAL(10U) - 2U)
 /** @endcond */ /*internals_doc*/
 
 /**
@@ -429,7 +429,7 @@ At the worst case our NWK can skip long address at tx: 8 bytes of reserve.
  * The delay between network layer retries.
  * Value: 50 ms
  */
-#define ZB_NWKC_UNICAST_RETRY_DELAY ZB_MILLISECONDS_TO_BEACON_INTERVAL(50U)
+#define ZB_NWKC_UNICAST_RETRY_DELAY ZB_MILLISECONDS_TO_SYS_TIMER_INTERVAL(50U)
 
 /* max nsdulength = aMaxPHYFrameSize -(nwkcMACFrameOverhead + nwkcMinHeaderOverhead) (D.4 aMaxMACFrameSize) */
 /*! Maximum NSDU(Network Service Data Unit) length */
@@ -921,7 +921,7 @@ Workaround for secure rejoin
 /*!
    Default fast poll interval
  */
-#define ZB_PIM_DEFAULT_FAST_POLL_INTERVAL ZB_QUARTERECONDS_TO_BEACON_INTERVAL(2U)
+#define ZB_PIM_DEFAULT_FAST_POLL_INTERVAL ZB_QUARTERECONDS_TO_SYS_TIMER_INTERVAL(2U)
 
 /*!
    Default long poll interval
@@ -964,25 +964,25 @@ Workaround for secure rejoin
 #if defined ZB_SUBGHZ_ONLY_MODE || defined ZB_R22_MULTIMAC_MODE
 /* For the Sub-GHz bands the minimum and default turbo polling intervals are increased,
    because the LBT mechanism periodically blocks the radio */
-#define ZB_PIM_DEFAULT_TURBO_POLL_INTERVAL ZB_MILLISECONDS_TO_BEACON_INTERVAL(250U)
+#define ZB_PIM_DEFAULT_TURBO_POLL_INTERVAL ZB_MILLISECONDS_TO_SYS_TIMER_INTERVAL(250U)
 #else
-#define ZB_PIM_DEFAULT_TURBO_POLL_INTERVAL ZB_MILLISECONDS_TO_BEACON_INTERVAL(100U)
+#define ZB_PIM_DEFAULT_TURBO_POLL_INTERVAL ZB_MILLISECONDS_TO_SYS_TIMER_INTERVAL(100U)
 #endif
 
 /*!
    Minimal possible turbo poll interval
  */
 #if defined ZB_SUBGHZ_ONLY_MODE || defined ZB_R22_MULTIMAC_MODE && !defined SNCP_MODE
-#define ZB_PIM_DEFAULT_MIN_TURBO_POLL_INTERVAL ZB_MILLISECONDS_TO_BEACON_INTERVAL(250U)
+#define ZB_PIM_DEFAULT_MIN_TURBO_POLL_INTERVAL ZB_MILLISECONDS_TO_SYS_TIMER_INTERVAL(250U)
 #else
-#define ZB_PIM_DEFAULT_MIN_TURBO_POLL_INTERVAL ZB_MILLISECONDS_TO_BEACON_INTERVAL(100U)
-//#define ZB_PIM_DEFAULT_MIN_TURBO_POLL_INTERVAL ZB_MILLISECONDS_TO_BEACON_INTERVAL(60)
+#define ZB_PIM_DEFAULT_MIN_TURBO_POLL_INTERVAL ZB_MILLISECONDS_TO_SYS_TIMER_INTERVAL(100U)
+//#define ZB_PIM_DEFAULT_MIN_TURBO_POLL_INTERVAL ZB_MILLISECONDS_TO_SYS_TIMER_INTERVAL(60)
 #endif
 
 /*!
    Maximal possible turbo poll interval
  */
-#define ZB_PIM_DEFAULT_MAX_TURBO_POLL_INTERVAL ZB_MILLISECONDS_TO_BEACON_INTERVAL(3000U)
+#define ZB_PIM_DEFAULT_MAX_TURBO_POLL_INTERVAL ZB_MILLISECONDS_TO_SYS_TIMER_INTERVAL(3000U)
 
 /*!
    Timeout for turbo poll
@@ -1001,7 +1001,7 @@ Workaround for secure rejoin
 /*!
    Timeout for poll buffer allocation retry
  */
-#define ZB_PIM_POLL_ALLOC_TIMEOUT ZB_MILLISECONDS_TO_BEACON_INTERVAL(500U)
+#define ZB_PIM_POLL_ALLOC_TIMEOUT ZB_MILLISECONDS_TO_SYS_TIMER_INTERVAL(500U)
 /** @endcond *//* internals_doc */
 /*!
    Integer value representing the
@@ -1045,7 +1045,7 @@ Workaround for secure rejoin
 #define ZB_ZDO_NWK_SCAN_ATTEMPTS 1U
 /** @cond internals_doc */
 /*! Delay for sending the end device request command. */
-#define ZB_ZDO_SEND_ED_TIMEOUT_REQ_DELAY ZB_MILLISECONDS_TO_BEACON_INTERVAL(100U)
+#define ZB_ZDO_SEND_ED_TIMEOUT_REQ_DELAY ZB_MILLISECONDS_TO_SYS_TIMER_INTERVAL(100U)
 /** @endcond *//*internals_doc*/
 /**********************************************************************/
 /************************** MAC SECTION********************************/
@@ -1311,7 +1311,7 @@ request command frame.
 *
 *  @note Make sure the time value is not too big.
 */
-#define ZB_MAX_FRAME_TOTAL_WAIT_TIME_2_4_GHZ (ZB_MILLISECONDS_TO_BEACON_INTERVAL(40U) + 1U)
+#define ZB_MAX_FRAME_TOTAL_WAIT_TIME_2_4_GHZ (ZB_MILLISECONDS_TO_SYS_TIMER_INTERVAL(40U) + 1U)
 /*!
 *  Maximum time to wait for indirect data for SUB GHZ.
 *
@@ -1322,7 +1322,7 @@ request command frame.
 *  delay in case of it's own transmission right before Received Date Req. This value calculated
 *  taking into account this possible situation.
 */
-#define ZB_MAX_FRAME_TOTAL_WAIT_TIME_SUB_GHZ (ZB_MILLISECONDS_TO_BEACON_INTERVAL(136U) + 1U)
+#define ZB_MAX_FRAME_TOTAL_WAIT_TIME_SUB_GHZ (ZB_MILLISECONDS_TO_SYS_TIMER_INTERVAL(136U) + 1U)
 
 
 /*!
@@ -1653,9 +1653,9 @@ request command frame.
 /*! Timeout in seconds for the Trust Center to remove the Trust Center link key of the newly joined
    node that did not successfully establish a new link key. This attribute
    is used by Zigbee coordinator nodes.*/
-#define ZB_DEFAULT_BDB_TRUST_CENTER_NODE_JOIN_TIMEOUT ZB_MILLISECONDS_TO_BEACON_INTERVAL(0xfU * 1000U)
+#define ZB_DEFAULT_BDB_TRUST_CENTER_NODE_JOIN_TIMEOUT ZB_MILLISECONDS_TO_SYS_TIMER_INTERVAL(0xfU * 1000U)
 /*! Timeout in seconds for the Trust Center to exchange link keys with the newly joined node */
-#define ZB_BDBC_TCLINK_KEY_EXCHANGE_TIMEOUT ZB_MILLISECONDS_TO_BEACON_INTERVAL(5000U)
+#define ZB_BDBC_TCLINK_KEY_EXCHANGE_TIMEOUT ZB_MILLISECONDS_TO_SYS_TIMER_INTERVAL(5000U)
 /*! Minimum commissioning period */
 #define ZB_BDBC_MIN_COMMISSIONING_TIME_S 180U
 /*! Number of Trust Center link attempts to exchange link keys with the newly joined node. */
@@ -1667,12 +1667,12 @@ request command frame.
 
 /*! @cond touchlink */
 /* Table 2 Constants used by nodes supporting touchlink */
-#define ZB_BDBC_TL_INTER_PANTRANS_ID_LIFETIME ZB_MILLISECONDS_TO_BEACON_INTERVAL(8000U)
-#define ZB_BDBC_TL_MIN_STARTUP_DELAY_TIME     ZB_MILLISECONDS_TO_BEACON_INTERVAL(2000U)
+#define ZB_BDBC_TL_INTER_PANTRANS_ID_LIFETIME ZB_MILLISECONDS_TO_SYS_TIMER_INTERVAL(8000U)
+#define ZB_BDBC_TL_MIN_STARTUP_DELAY_TIME     ZB_MILLISECONDS_TO_SYS_TIMER_INTERVAL(2000U)
 /* used for a non-extended touchlink scan */
 #define ZB_BDBC_TL_PRIMARY_CHANNEL_SET        0x02108800
-#define ZB_BDBC_TL_RX_WINDOW_DURATION         ZB_MILLISECONDS_TO_BEACON_INTERVAL(5000U)
-#define ZB_BDBC_TL_SCAN_TIME_BASE_DURATION    ZB_MILLISECONDS_TO_BEACON_INTERVAL(250U)
+#define ZB_BDBC_TL_RX_WINDOW_DURATION         ZB_MILLISECONDS_TO_SYS_TIMER_INTERVAL(5000U)
+#define ZB_BDBC_TL_SCAN_TIME_BASE_DURATION    ZB_MILLISECONDS_TO_SYS_TIMER_INTERVAL(250U)
 /* used for an extended touchlink scan after the bdbcTLPrimaryChannelSet
  * channels have been scanned. */
 #define ZB_BDBC_TL_SECONDARY_CHANNEL_SET      (0x07fff800U ^ ZB_BDBC_TL_PRIMARY_CHANNEL_SET)

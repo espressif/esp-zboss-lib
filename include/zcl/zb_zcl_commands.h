@@ -124,7 +124,7 @@ typedef zb_uint8_t zb_zcl_cmd_t;
 #define ZB_ZCL_BROADCAST_ENDPOINT   0xFFU
 
 /** @brief Minimum time delay between responses to ZCL command sent to broadcast endpoint */
-#define ZB_ZCL_BROADCAST_ENDPOINT_CMD_RESP_JITTER (ZB_MILLISECONDS_TO_BEACON_INTERVAL(100))
+#define ZB_ZCL_BROADCAST_ENDPOINT_CMD_RESP_JITTER (ZB_MILLISECONDS_TO_SYS_TIMER_INTERVAL(100))
 
 /** @cond internals_doc */
 

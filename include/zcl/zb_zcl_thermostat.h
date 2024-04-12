@@ -1863,16 +1863,9 @@ typedef ZB_PACKED_PRE struct zb_zcl_thermostat_get_relay_status_log_resp_s
 /** @brief Subtract time in seconds round week */
 #define ZB_WEEK_TIME_SUBTRACT(a, b) ((a) > (b)) ? ((a) - (b)) : ((a) + ZB_SECOND_PER_WEEK - (b))
 
-#if defined ZB_TIMER_32 || defined ZB_TIMER_64
-  // 1 day (24h)
+// 1 day (24h)
 /** @brief Maximum period of Thermostat process loop */
-  #define ZB_ZCL_THERMOSTAT_TIMER_MAX          (24*60*60)
-#else
-  // 5 min
-/** @brief Maximum period of Thermostat process loop */
-  #define ZB_ZCL_THERMOSTAT_TIMER_MAX          (5*60)
-#endif
-
+#define ZB_ZCL_THERMOSTAT_TIMER_MAX          (24*60*60)
 
 /** @brief Struct with one Weekly Schedule attribute */
 typedef struct zb_zcl_thermostat_weekly_schedule_record_s

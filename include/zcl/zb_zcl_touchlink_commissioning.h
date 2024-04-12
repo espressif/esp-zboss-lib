@@ -77,23 +77,23 @@
 /** @brief aplcInterPANTransIdLifetime constant value.
   * @see ZCL spec, subclause 13.3.4.2.
   */
-#define ZB_ZLL_APLC_INTRP_TRANSID_LIFETIME ( ZB_MILLISECONDS_TO_BEACON_INTERVAL(8000))
+#define ZB_ZLL_APLC_INTRP_TRANSID_LIFETIME ( ZB_MILLISECONDS_TO_SYS_TIMER_INTERVAL(8000))
 
 /** @brief aplcScanTimeBaseDuration constant value.
   * @see ZCL spec, subclause 13.3.4.2.
   */
-#define ZB_ZLL_APLC_SCAN_TIME_BASE_DURATION ( ZB_MILLISECONDS_TO_BEACON_INTERVAL(250))
+#define ZB_ZLL_APLC_SCAN_TIME_BASE_DURATION ( ZB_MILLISECONDS_TO_SYS_TIMER_INTERVAL(250))
 
 /** @brief aplcRxWindowDuration constant value.
   * @see ZCL spec, subclause 13.3.4.2.
   */
-#define ZB_ZLL_APLC_RX_WINDOW_DURATION (ZB_MILLISECONDS_TO_BEACON_INTERVAL(5000))
+#define ZB_ZLL_APLC_RX_WINDOW_DURATION (ZB_MILLISECONDS_TO_SYS_TIMER_INTERVAL(5000))
 
 /**
  *  @brief aplcMinStartupDelayTime constant value.
  *  @see ZCL spec, subclause 13.3.4.2.
  */
-#define ZB_ZLL_APLC_MIN_STARTUP_DELAY_TIME  (ZB_MILLISECONDS_TO_BEACON_INTERVAL(2000))
+#define ZB_ZLL_APLC_MIN_STARTUP_DELAY_TIME  (ZB_MILLISECONDS_TO_SYS_TIMER_INTERVAL(2000))
 
 /** No attributes for reporting in Touchlink profile. */
 #define ZB_ZLL_REPORT_ATTR_COUNT  0
