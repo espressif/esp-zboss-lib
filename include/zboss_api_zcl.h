@@ -435,19 +435,19 @@
  *  @brief Get current time in units.
  *  Uint = 1/10 sec
  */
-#define ZB_GET_TIME_IN_UNITS()    ZB_BEACON_INTERVAL_TO_TIME_UNITS(ZB_TIMER_GET())
+#define ZB_GET_TIME_IN_UNITS()    ZB_SYS_TIMER_INTERVAL_TO_TIME_UNITS(ZB_TIMER_GET())
 
 /**
- *  @brief Convert beacon interval to units
+ *  @brief Convert system timer interval to units
  *  Uint = 1/10 sec
  */
-#define ZB_BEACON_INTERVAL_TO_TIME_UNITS(beacons)    ZB_TIME_BEACON_INTERVAL_TO_MSEC(beacons) / 100U
+#define ZB_SYS_TIMER_INTERVAL_TO_TIME_UNITS(interval)    ZB_SYS_TIMER_INTERVAL_TO_MSEC(interval) / 100U
 
 /**
- *  @brief Convert units to beacon interval.
+ *  @brief Convert units to system timer interval.
  *  Uint = 1/10 sec
  */
-#define ZB_TIME_UNITS_TO_BEACON_INTERVAL(uints)  ZB_MILLISECONDS_TO_BEACON_INTERVAL((uints)*100U)
+#define ZB_TIME_UNITS_TO_SYS_TIMER_INTERVAL(uints)  ZB_MILLISECONDS_TO_SYS_TIMER_INTERVAL((uints)*100U)
 /** @endcond */ /* internals_doc */
 
 /**
