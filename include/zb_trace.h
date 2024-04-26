@@ -165,6 +165,7 @@ extern zb_uint_t g_trace_inside_intr;
 #define TRACE_SUBSYSTEM_ZBDIRECT  0x8000000U /**< Zigbee Direct subsystem */
 #define TRACE_SUBSYSTEM_DIAGNOSTIC  0x10000000U /**< Diagnostic subsystem */
 #define TRACE_SUBSYSTEM_NS          0x20000000U /**< Network simulator subsystem */
+#define TRACE_SUBSYSTEM_TEST        0x40000000U /**< Subsystem for tests and CI */
 /** @endcond */ /* DOXYGEN_INTERNAL_DOC */
 
 #define TRACE_SUBSYSTEM_INFO      ((zb_uint_t)-1)  /**< Common subsystem */
@@ -1274,6 +1275,11 @@ typedef struct zb_byte128_struct_s
 #define TRACE_NS2 TRACE_SUBSYSTEM_NS, 2U
 #define TRACE_NS3 TRACE_SUBSYSTEM_NS, 3U
 #define TRACE_NS4 TRACE_SUBSYSTEM_NS, 4U
+
+#define TRACE_TEST1 TRACE_SUBSYSTEM_TEST, 1U
+#define TRACE_TEST2 TRACE_SUBSYSTEM_TEST, 2U
+#define TRACE_TEST3 TRACE_SUBSYSTEM_TEST, 3U
+#define TRACE_TEST4 TRACE_SUBSYSTEM_TEST, 4U
 #endif /* DOXYGEN */
 
 #ifndef ZB_SET_TRACE_LEVEL

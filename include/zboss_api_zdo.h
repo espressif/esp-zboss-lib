@@ -147,11 +147,15 @@ typedef zb_uint8_t zb_zdp_status_t;
 
 /** Notifies the application that ZBOSS framework (scheduler, buffer pool, etc.) has started, but no
  * join/rejoin/formation/BDB initialization has been done yet.
+ *
  * @parblock
  * When generated:
  *  - When the application calls zboss_start_no_autostart() instead of zboss_start() before the
  *    zboss_main_loop(). Used when some hardware must be initialized before the Zigbee commissioning,
  *    but already has ZBOSS scheduler running. Example: sensor connected through UART.
+ *  - On macsplit architecture, when the application calls zboss_start_no_autostart() and both
+ *    host, SoC components completed initialization procedure.
+ *    This signal is always generated after ZB_MACSPLIT_DEVICE_BOOT in such case.
  *
  * Status codes:
  *  - RET_OK: Only ZBOSS framework has been initialized.
@@ -191,6 +195,10 @@ typedef zb_uint8_t zb_zdp_status_t;
  *
  * Signal parameters:
  *  - @ref zb_zdo_signal_leave_params_t
+ *
+ * @note All callbacks for ZDO requests will be cleared and will be never called.
+ *       For example, if zb_zdo_simple_desc_req has been sent with cb argument set
+ *       and leave received before ZDO cb called, then this cb will be never called later.
  *
  * @snippet light_sample/light_control/light_control.c signal_leave
  * @endparblock */
@@ -314,6 +322,7 @@ typedef zb_uint8_t zb_zdp_status_t;
 #endif /*ZB_ENABLE_ZLL*/
 
 /** BDB network steering completed (Network steering only).
+ *
  * @parblock
  * When generated:
  *  - Upon completing Network steering initiated by
@@ -332,6 +341,7 @@ typedef zb_uint8_t zb_zdp_status_t;
 #define ZB_BDB_SIGNAL_STEERING 10U
 
 /** BDB network formation completed (Network formation only).
+ *
  * @parblock
  * When generated:
  *  - Upon completing Network formation initiated by
@@ -348,6 +358,7 @@ typedef zb_uint8_t zb_zdp_status_t;
 #define ZB_BDB_SIGNAL_FORMATION 11U
 
 /** BDB finding and binding for a target endpoint completed.
+ *
  * @parblock
  * When generated:
  *  - F&B target timeout expires.
@@ -363,6 +374,7 @@ typedef zb_uint8_t zb_zdp_status_t;
 #define ZB_BDB_SIGNAL_FINDING_AND_BINDING_TARGET_FINISHED 12U
 
 /** BDB finding and binding for an initiator endpoint completed.
+ *
  * @parblock
  * When generated:
  *  - F&B with a Target succeeded or F&B initiator timeout expired or cancelled.
@@ -382,10 +394,11 @@ typedef zb_uint8_t zb_zdp_status_t;
  * @{ */
 
 /** Touchlink procedure started.
+ *
  * @parblock
  * When generated:
  *  - Touchlink procedure started on the Target device.
- * 
+ *
  * Status codes:
  *  - RET_OK: Procedure started on the Target device
  *  - RET_INTERRUPTED: The operation was cancelled with zb_bdb_reset_via_local_action()
@@ -396,6 +409,7 @@ typedef zb_uint8_t zb_zdp_status_t;
 #define ZB_BDB_SIGNAL_TOUCHLINK_TARGET 14U
 
 /** Touchlink Target network started (Target only).
+ *
  * @parblock
  * When generated:
  *  - Touchlink target initiated by bdb_touchlink_target_start().
@@ -410,6 +424,7 @@ typedef zb_uint8_t zb_zdp_status_t;
 #define ZB_BDB_SIGNAL_TOUCHLINK_NWK 15U
 
 /** Touchlink Target finished (Target only).
+ *
  * @parblock
  * When generated:
  *  - Touchlink target finished
@@ -433,6 +448,7 @@ typedef zb_uint8_t zb_zdp_status_t;
 
 /** Obsolete signal, used for pre-R21 ZBOSS API compatibility. Use ZB_ZDO_SIGNAL_DEVICE_ANNCE signal
  * instead!
+ *
  * @parblock
  * When generated:
  *  - Indicates that there is a new device associated with Zigbee Coordinator or router.
@@ -447,6 +463,7 @@ typedef zb_uint8_t zb_zdp_status_t;
 #define ZB_NWK_SIGNAL_DEVICE_ASSOCIATED 18U
 
 /** Network leave indication.
+ *
  * @parblock
  * When generated:
  *  - The child device has left the network.
@@ -463,6 +480,7 @@ typedef zb_uint8_t zb_zdp_status_t;
 #define ZB_ZDO_SIGNAL_LEAVE_INDICATION 19U
 
 /** WWAH Rejoin start indication.
+ *
  * @parblock
  * When generated:
  *  - Device lost communication with the parent and started WWAH Rejoin procedure.
@@ -477,6 +495,7 @@ typedef zb_uint8_t zb_zdp_status_t;
 
 /** @cond DOXYGEN_ZGP_SECTION */
 /** ZGP commissioning signal.
+ *
  * @parblock
  * When generated:
  *  - GPCB commissioned/decommissioned a device.
@@ -514,6 +533,7 @@ typedef zb_uint8_t zb_zdp_status_t;
 
 /** Notifies the application that the application specific part of the production configuration was
  * found and restored and provides the application with this data.
+ *
  * @parblock
  * When generated:
  *  - After restoring the production configuration.
@@ -524,12 +544,15 @@ typedef zb_uint8_t zb_zdp_status_t;
  *
  * Signal parameters:
  *  - Passed up with application specific data from production configuration.
- * @endparblock */
+ *
+ * @endparblock
+ */
 #define ZB_ZDO_SIGNAL_PRODUCTION_CONFIG_READY 23U
 
 /** Notifies the application about the Neighbor Table expiration.
  * It means that the neighbor devices did not send the Link Status messages for @ref
  * ZB_NWK_ROUTER_AGE_LIMIT * @ref ZB_NWK_LINK_STATUS_PERIOD seconds.
+ *
  * @parblock
  * When generated:
  *  - All routes expired (usually when the link is down).
@@ -555,6 +578,7 @@ typedef zb_uint8_t zb_zdp_status_t;
 #define ZB_SE_SIGNAL_SKIP_JOIN 25U
 
 /** SE Rejoin start indication.
+ *
  * @parblock
  * When generated:
  *  - Device lost communication with the parent and started SE rejoin procedure.
@@ -709,7 +733,21 @@ typedef zb_uint8_t zb_zdp_status_t;
 
 /** @endcond */ /* DOXYGEN_SE_SECTION */
 #ifdef ZB_MACSPLIT
-#define ZB_MACSPLIT_DEVICE_BOOT              43U /*!< macsplit mac device is booted  */
+/** Notifies the application about macsplit mac device boot.
+ *
+ * When generated:
+ *  - When MAC device completed initialization procedure.
+ *  - When the application calls zboss_start_no_autostart() and both
+ *    host, SoC components have completed initialization procedure.
+ *    This signal is always generated before @ref ZB_ZDO_SIGNAL_SKIP_STARTUP in such case.
+ *
+ * Status codes:
+ *  - RET_OK: Device information updated.
+ *  - Does not return error status.
+ * Signal parameters:
+ *  - @ref zb_zdo_signal_macsplit_dev_boot_params_t
+ */
+#define ZB_MACSPLIT_DEVICE_BOOT              43U
 
 #define ZB_MACSPLIT_DEVICE_READY_FOR_UPGRADE 44U /*!< macsplit mac device is ready for upgrade */
 
@@ -783,6 +821,7 @@ typedef zb_uint8_t zb_zdp_status_t;
 /** @endcond */ /* internals_doc */
 
 /** TC rejoin is completed
+ *
  * @parblock
  * When generated:
  *  - Device completes TC rejoin procedure.
@@ -825,6 +864,7 @@ typedef zb_uint8_t zb_zdp_status_t;
 
 
 /** BDB steering cancel request processed
+ *
  * @parblock
  * When generated:
  *  - after the cancel request called with bdb_cancel_steering() is processed
@@ -844,6 +884,7 @@ typedef zb_uint8_t zb_zdp_status_t;
 
 
 /** BDB formation cancel request processed
+ *
  * @parblock
  * When generated:
  *  - after the cancel request called with bdb_cancel_formation() is processed
@@ -861,6 +902,7 @@ typedef zb_uint8_t zb_zdp_status_t;
 #define ZB_BDB_SIGNAL_FORMATION_CANCELLED 56U
 
 /** ZBOSS is ready to shutdown signal
+ *
  * @parblock
  * When generated:
  *  - after ZBOSS preparations to shutdown initiated by zboss_start_shut() is done
@@ -876,6 +918,7 @@ typedef zb_uint8_t zb_zdp_status_t;
 #define ZB_SIGNAL_READY_TO_SHUT           57U
 
 /** ZBOSS interpan preinit done signal
+ *
  * @parblock
  * When generated:
  *  - after ZBOSS preinit enough to send interpan initiated by zboss_preinit_for_interpan() is done
@@ -885,11 +928,13 @@ typedef zb_uint8_t zb_zdp_status_t;
  * Signal parameters:
  *  - none
  *
- * @endparblock */
+ * @endparblock
+ */
 #define ZB_SIGNAL_INTERPAN_PREINIT        58U
 
 /** @cond DOXYGEN_ZGP_SECTION */
 /** ZGP Mode change signal.
+ *
  * @parblock
  * When generated:
  *  - GPCB Sink change mode between operational mode and commissioning mode.
@@ -902,6 +947,7 @@ typedef zb_uint8_t zb_zdp_status_t;
  *  - zb_zgp_signal_mode_change_params_s
  *
  * @snippet simple_combo/zc_combo.c zgp_signal_mode_change
+ *
  * @endparblock */
 #define ZB_ZGP_SIGNAL_MODE_CHANGE 59U
 /** @endcond */ /* DOXYGEN_ZGP_SECTION */
@@ -930,13 +976,13 @@ typedef zb_uint8_t zb_zdp_status_t;
  * Status codes:
  * - RET_OK.
  *
- * After receiving that signal application SHALL decide whether to connect 
- * GP device or not. After that, application SHALL send acceptance status 
- * by calling zb_zgps_accept_commissioning(). It is impossible to continue 
+ * After receiving that signal application SHALL decide whether to connect
+ * GP device or not. After that, application SHALL send acceptance status
+ * by calling zb_zgps_accept_commissioning(). It is impossible to continue
  * GP commissioning operation without a calling zb_zgps_accept_commissioning(),
  * and the sink will exit commissioning mode after commissioning timeout
  * expired.
- * 
+ *
  * Signal parameters:
  *  - @ref zb_zgp_signal_approve_comm_params_t
  *
@@ -1974,13 +2020,13 @@ zb_uint8_t zb_zdo_system_server_discovery_req(zb_uint8_t param, zb_callback_t cb
 #ifdef ZB_JOIN_CLIENT
 /**
  * @brief Set the number of network scan attempts
- *  
- * Sets the number of scan attempts to make before the NWK layer decides which Zigbee 
+ *
+ * Sets the number of scan attempts to make before the NWK layer decides which Zigbee
  * coordinator or router to associate with.
  * The default value is 5, see @ref ZB_ZDO_NWK_SCAN_ATTEMPTS.
- * 
+ *
  * @param [IN] attempts - value of scan attempts. Valid values between 1 and 255.
- * 
+ *
  * @return RET_OK - if success,
  *         RET_INVALID_PARAMETER_1 - if the attempts value is incorrect.
  */
@@ -2393,13 +2439,13 @@ zb_zdo_routing_table_record_t;
  * zb_nlme_network_discovery_request_t. The only
  * argument from this callback is the index of a buffer with
  * zb_nlme_network_discovery_confirm_t param, followed by a sequence of
- * zb_nlme_network_descriptor_t params (count is determined by 
+ * zb_nlme_network_descriptor_t params (count is determined by
  * zb_nlme_network_discovery_confirm_t - network_count)
  *
  * Sample use of active scan request:
  * @snippet zdo_startup_nwk_scan/zdo_start_ze.c active_scan_complete_cb
  * @snippet zdo_startup_nwk_scan/zdo_start_ze.c zb_zdo_active_scan_request
- * 
+ *
  * @param param - index of buffer with zb_nlme_network_discovery_request_t param
  */
 void zb_zdo_active_scan_request(zb_uint8_t param);
@@ -3263,10 +3309,10 @@ void zb_zdo_setup_network_as_distributed(void);
 
 /**
  *  Enable distributed security linkage
- * 
+ *
  *  Without that call ZR is not able to create a Distributed network.
- * 
- *  @deprecated This function will be removed in January 2024. 
+ *
+ *  @deprecated This function will be removed in January 2024.
  *  Use instead:
  *  - @ref zb_bdb_enable_distributed_network_formation
  */
@@ -3274,9 +3320,9 @@ void zb_enable_distributed(void);
 
 /**
  *  @brief Disable distributed security network formation at runtime
- *  
- * 
- *  @deprecated This function will be removed in January 2024. 
+ *
+ *
+ *  @deprecated This function will be removed in January 2024.
  *  Use instead:
  *  - @ref zb_bdb_enable_distributed_network_formation
  */
@@ -3284,7 +3330,7 @@ void zb_disable_distributed(void);
 
 /**
  *  @brief Enable distributed security network formation at runtime
- * 
+ *
  * After call the function device won't try
  * to join, but will form a distributed security network instead.
  */
@@ -3293,7 +3339,7 @@ void zb_bdb_enable_distributed_network_formation (void);
 
 /**
  *  @brief Disable distributed security network formation at runtime
- * 
+ *
  * After call the function the device will not be able to form a distributed security
  * network, but can join another distributed network.
  */

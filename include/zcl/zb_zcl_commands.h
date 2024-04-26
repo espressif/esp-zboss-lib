@@ -2444,7 +2444,7 @@ zb_zcl_disc_attr_ext_res_t;
 
   /*! Convert internal attribute access bitmask into ZCL/HA1.2 bitmask
  *  value (actually, support 0 and 1 bits) */
-#define ZB_ZCL_CONVERT_ATTR_ACCESS_BITMASK(_access) ((_access) & 0x3U)
+#define ZB_ZCL_CONVERT_ATTR_ACCESS_BITMASK(_access) ((_access) & 0x7U)
 
 /******************** Command handlers ***************************/
 

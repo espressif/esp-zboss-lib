@@ -181,7 +181,6 @@ typedef struct zb_sched_globals_s
   ZB_POOLED_LIST8_DEFINE(tm_freelist); /*!< freelist of the timer queue entries  */
   zb_delayed_cb_q_t delayed_queue[2]; /*!< queue to store delayed callbacks for getting in and out buffers (@ref buffer_types)*/
   zb_uint8_t tm_buffer_usage;   /*!< Usage of timer queue  */
-  zb_uint8_t delayed_buf_usage; /*!< Usage of waiting for free buffer queue  */
   zb_bool_t stop;
   zb_bool_t stopping;
   zb_sched_stopping_cb_checker_t stopping_cb_checker;

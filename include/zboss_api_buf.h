@@ -313,7 +313,9 @@ void *zb_buf_alloc_left_func(TRACE_PROTO zb_bufid_t buf, zb_uint_t size);
  * Depending on the specific value, the buffer pool may decide to use a fraction
  * of buffer or long buffers. If the value is set to 0, the payload size will be equal
  * to the size of a single default buffer.
- * @return RET_OK or error code.
+ * @return RET_OK if allocation has successfully scheduled.
+ *         RET_ERROR if there is no room to schedule buffer allocation.
+ *         RET_OUT_OF_RANGE if buffer with such payload size can't be allocated.
  */
 #ifndef zb_buf_get_out_delayed_ext
 #define zb_buf_get_out_delayed_ext(callback,arg,max_size) zb_buf_get_out_delayed_ext_func(TRACE_CALL (callback),(arg),(max_size))
@@ -333,7 +335,9 @@ void *zb_buf_alloc_left_func(TRACE_PROTO zb_bufid_t buf, zb_uint_t size);
  * Depending on the specific value, the buffer pool may decide to use a fraction
  * of buffer or long buffers. If the value is set to 0, the payload size will be equal
  * to the size of a single default buffer.
- * @return RET_OK or error code.
+ * @return RET_OK if allocation has successfully scheduled.
+ *         RET_ERROR if there is no room to schedule buffer allocation.
+ *         RET_OUT_OF_RANGE if buffer with such payload size can't be allocated.
  */
 #ifndef zb_buf_get_in_delayed_ext
 #define zb_buf_get_in_delayed_ext(callback,arg,max_size) zb_buf_get_in_delayed_ext_func(TRACE_CALL (callback),(arg),(max_size))

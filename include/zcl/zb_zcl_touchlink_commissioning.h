@@ -100,6 +100,7 @@
 
 /*! @name Touchlink Commissioning cluster internals
     Internal structures for Touchlink Commissioning cluster
+    @cond internals_doc
     @internal
     @{
 */
@@ -142,7 +143,8 @@ zb_uint8_t* zb_zll_get_nib_ext_pan_id(void);
 /** @brief Get NIB Update ID */
 zb_uint8_t zb_zll_get_nib_update_id(void);
 
-/*! @} */ /* Commissioning cluster internals */
+/*! @} 
+    @endcond*/ /* Commissioning cluster internals */
 
 /*! @name Touchlink Commissioning cluster commands
     @{
@@ -773,8 +775,8 @@ typedef ZB_PACKED_PRE struct zb_zll_commissioning_identify_req_param_s
   /**
    *  @brief Time to identify.
    *  Has special values:
-   *  @li @ref ZB_ZLL_IDENTIFY_STOP - instructs target to exit identify mode.
-   *  @li @ref ZB_ZLL_IDENTIFY_DEFAULT_TIME - instructs target to identify for a default period
+   *  @li ZB_ZLL_IDENTIFY_STOP - instructs target to exit identify mode.
+   *  @li ZB_ZLL_IDENTIFY_DEFAULT_TIME - instructs target to identify for a default period
    *  known by the receiver.
    */
   zb_uint16_t identify_time;
