@@ -543,8 +543,6 @@ void zb_zcl_energy_management_server_send_report_event_status(zb_uint8_t param,
  * @param src_ep - Current endpoint.
  * @param payload - Packet payload (@ref zb_zcl_energy_management_manage_event_payload_t).
  * @param cb - Callback which should be called when the ZCL stack receives APS ack.
- * @param cb - Callback which should be called when the ZCL stack receives APS ack.
- * @param cb - Callback which should be called when the ZCL stack receives APS ack.
  * @par Usage
  * @n Example of sending @ref ZB_ZCL_ENERGY_MANAGEMENT_CLI_CMD_MANAGE_EVENT "ManageEvent" command
  */

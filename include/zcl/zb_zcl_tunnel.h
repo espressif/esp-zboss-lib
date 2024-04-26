@@ -269,7 +269,7 @@ zb_zcl_tunnel_transfer_data_resp_t;
 */
 
 /** Callback to inform user about tx operation status or rx data;
- * @param - param is reference to a buffer;
+ * @param param - param is reference to a buffer;
  * zb_zcl_tunnel_io_param_t is stored as buffer parameter */
 typedef void (ZB_CODE * zb_zcl_tunnel_cb_t)(zb_uint8_t param);
 

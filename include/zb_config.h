@@ -492,6 +492,13 @@ Ideally should rework the whole zb_config.h to suit better for that new concept.
 
 #endif  /* ZB_MACSPLIT_HOST */
 
+/* ZB_HAVE_SERIAL_SINGLE is used by default for r22 only
+ * Define ZB_HAVE_MULTI_SERIAL in a vendor file for multi-serial if you need
+ */
+#if !defined(ZB_HAVE_MULTI_SERIAL)
+#define ZB_HAVE_SERIAL_SINGLE
+#endif /* ZB_HAVE_MULTI_SERIAL */
+
 #ifdef ZB_MACSPLIT
 #if defined ZB_MACSPLIT_TRANSPORT_SERIAL || defined ZB_TRANSPORT_LINUX_UART
 #define ZB_MACSPLIT_TRANSPORT_TYPE ZB_MACSPLIT_TRANSPORT_TYPE_SERIAL
