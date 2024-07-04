@@ -214,6 +214,18 @@ enum zb_zcl_window_covering_mode_e
   ZB_ZCL_ATTR_WINDOW_COVERING_CONFIG_OPERATIONAL                                                  \
   | ZB_ZCL_ATTR_WINDOW_COVERING_CONFIG_ONLINE
 
+/** @brief Current position lift attribute min value */
+#define ZB_ZCL_WINDOW_COVERING_CURRENT_POSITION_LIFT_MIN_VALUE 0x0000
+
+/** @brief Current position lift attribute max value */
+#define ZB_ZCL_WINDOW_COVERING_CURRENT_POSITION_LIFT_MAX_VALUE 0xffff
+
+/** @brief Current position tilt attribute min value */
+#define ZB_ZCL_WINDOW_COVERING_CURRENT_POSITION_TILT_MIN_VALUE 0x0000
+
+/** @brief Current position tilt attribute max value */
+#define ZB_ZCL_WINDOW_COVERING_CURRENT_POSITION_LILT_MAX_VALUE 0xffff
+
 /** @brief Current position lift percentage attribute default value */
 #define ZB_ZCL_WINDOW_COVERING_CURRENT_POSITION_LIFT_PERCENTAGE_DEFAULT_VALUE 0xff
 
@@ -513,7 +525,9 @@ enum zb_zcl_window_covering_cmd_e
                                   ZB_ZCL_CMD_WINDOW_COVERING_UP_OPEN,                \
                                   ZB_ZCL_CMD_WINDOW_COVERING_DOWN_CLOSE,             \
                                   ZB_ZCL_CMD_WINDOW_COVERING_STOP,                   \
+                                  ZB_ZCL_CMD_WINDOW_COVERING_GO_TO_LIFT_VALUE,       \
                                   ZB_ZCL_CMD_WINDOW_COVERING_GO_TO_LIFT_PERCENTAGE,  \
+                                  ZB_ZCL_CMD_WINDOW_COVERING_GO_TO_TILT_VALUE,       \
                                   ZB_ZCL_CMD_WINDOW_COVERING_GO_TO_TILT_PERCENTAGE
 
 #define ZB_ZCL_CLUSTER_ID_WINDOW_COVERING_SERVER_ROLE_RECEIVED_CMD_LIST  ZB_ZCL_CLUSTER_ID_WINDOW_COVERING_CLIENT_ROLE_GENERATED_CMD_LIST
@@ -618,6 +632,33 @@ typedef ZB_PACKED_PRE struct zb_zcl_go_to_tilt_percentage_req_s
     prfl_id, ZB_ZCL_CLUSTER_ID_WINDOW_COVERING, cb);                                              \
 }
 
+/** @brief Parses Get Go to Lift value command and fills data request
+    structure. If request contains invalid data, status parameter is ZB_FALSE
+    @param data_buf - pointer to zb_buf_t buffer containing command request data
+    @param lift_value_req - pointer to a variable to save command request to
+    @param status - return ZB_ZCL_PARSE_STATUS_SUCCESS if request contains valid data,
+    else ZB_ZCL_PARSE_STATUS_FAILURE
+    @note data_buf buffer should contain command request payload without ZCL header.
+ */
+#define ZB_ZCL_WINDOW_COVERING_GET_GO_TO_LIFT_VALUE_REQ(                \
+  data_buf, lift_value_req, status)                                     \
+{                                                                       \
+  zb_zcl_go_to_lift_value_req_t *lift_value_req_ptr;                    \
+  (lift_value_req_ptr) = zb_buf_len(data_buf) >=                        \
+    sizeof(zb_zcl_go_to_lift_value_req_t) ?                             \
+    (zb_zcl_go_to_lift_value_req_t*)zb_buf_begin(data_buf) : NULL;      \
+  if (lift_value_req_ptr != NULL)                                       \
+  {                                                                     \
+    (lift_value_req)->lift_value =                                      \
+      lift_value_req_ptr->lift_value;                                   \
+    (status) = ZB_ZCL_PARSE_STATUS_SUCCESS;                             \
+  }                                                                     \
+  else                                                                  \
+  {                                                                     \
+    (status) = ZB_ZCL_PARSE_STATUS_FAILURE;                             \
+  }                                                                     \
+}
+
 /** @brief Send Go to Lift Percentage command
     @param buffer - to put packet to
     @param addr - address to send packet to
@@ -661,6 +702,33 @@ typedef ZB_PACKED_PRE struct zb_zcl_go_to_tilt_percentage_req_s
   {                                                                     \
     (lift_percentage_req)->percentage_lift_value =                      \
       lift_percentage_req_ptr->percentage_lift_value;                   \
+    (status) = ZB_ZCL_PARSE_STATUS_SUCCESS;                             \
+  }                                                                     \
+  else                                                                  \
+  {                                                                     \
+    (status) = ZB_ZCL_PARSE_STATUS_FAILURE;                             \
+  }                                                                     \
+}
+
+/** @brief Parses Get Go to Tilt command and fills to data request
+    structure. If request contains invalid data, -1 is returned as Percentage Tilt Value
+    @param data_buf - pointer to zb_buf_t buffer containing command request data
+    @param tilt_value_req - variable to save command request
+    @param status - return ZB_ZCL_PARSE_STATUS_SUCCESS if request contains valid data,
+    else ZB_ZCL_PARSE_STATUS_FAILURE
+    @note data_buf buffer should contain command request payload without ZCL header.
+*/
+#define ZB_ZCL_WINDOW_COVERING_GET_GO_TO_TILT_VALUE_REQ(                \
+  data_buf, tilt_value_req, status)                                     \
+{                                                                       \
+  zb_zcl_go_to_tilt_value_req_t *tilt_value_req_ptr;                    \
+  (tilt_value_req_ptr) = zb_buf_len(data_buf) >=                        \
+    sizeof(zb_zcl_go_to_tilt_value_req_t) ?                             \
+    (zb_zcl_go_to_tilt_value_req_t*)zb_buf_begin(data_buf) : NULL;      \
+  if (tilt_value_req_ptr != NULL)                                       \
+  {                                                                     \
+    (tilt_value_req)->tilt_value =                                      \
+      tilt_value_req_ptr->tilt_value;                                   \
     (status) = ZB_ZCL_PARSE_STATUS_SUCCESS;                             \
   }                                                                     \
   else                                                                  \
