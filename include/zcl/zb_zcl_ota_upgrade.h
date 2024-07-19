@@ -451,6 +451,18 @@ typedef struct zb_zcl_ota_upgrade_server_variable_s
 /*! @brief Default value for UpgradeTime, OTA spec  */
 #define ZB_ZCL_OTA_UPGRADE_UPGRADE_TIME_DEF_VALUE       0xffffffff
 
+/* @brief ota upgrade query image resp app parameters */
+typedef ZB_PACKED_PRE struct zb_zcl_ota_upgrade_query_img_resp_param_s
+{
+  zb_uint8_t status;              /** Status, see @ref zcl_status */
+  zb_zcl_addr_t server_addr;      /** Server address */
+  zb_uint8_t server_endpoint;     /** Server endpoint */
+  zb_uint16_t manufacturer;       /** Manufacturer code */
+  zb_uint16_t image_type;         /** Image type */
+  zb_uint32_t file_version;       /** File version */
+  zb_uint32_t image_size;         /** Image size */
+} ZB_PACKED_STRUCT zb_zcl_ota_upgrade_query_img_resp_param_t;
+
 typedef ZB_PACKED_PRE struct zb_zcl_ota_upgrade_srv_query_img_param_s
 {
   zb_zcl_parsed_hdr_t zcl_parsed_hdr;
