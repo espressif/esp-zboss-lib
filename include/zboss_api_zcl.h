@@ -691,6 +691,8 @@ typedef enum zb_zcl_device_callback_id_e
   ZB_ZCL_IAS_ACE_GET_ZONE_STATUS_RESP_CB_ID,
   /** Inform user about OTA Upgrade commands  */
   ZB_ZCL_OTA_UPGRADE_VALUE_CB_ID,
+  /** Inform user about OTA Upgrade query image response command */
+  ZB_ZCL_OTA_UPGRADE_QUERY_IMAGE_RESP_CB_ID,
   /** Inform user about Basic Reset to Factory Defaults commands  */
   ZB_ZCL_BASIC_RESET_CB_ID,
   /** Inform user about call Thermostat command @see HA spec 10.1.3.3 */
@@ -1968,6 +1970,9 @@ typedef struct zb_zcl_device_callback_param_s
    zb_zcl_ota_upgrade_srv_upgrade_started_param_t ota_upgrade_srv_upgrade_started_param;
    zb_zcl_ota_upgrade_srv_upgrade_aborted_param_t ota_upgrade_srv_upgrade_aborted_param;
    zb_zcl_ota_upgrade_srv_upgrade_end_param_t     ota_upgrade_srv_upgrade_end_param;
+#endif
+#if defined ZB_HA_ENABLE_OTA_UPGRADE_CLIENT
+   zb_zcl_ota_upgrade_query_img_resp_param_t  ota_upgrade_query_img_resp_param;
 #endif
 #endif /* defined ZB_ENABLE_HA */
     zb_zcl_device_cmd_generic_param_t gnr;

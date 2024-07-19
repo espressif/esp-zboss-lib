@@ -1215,13 +1215,20 @@ exponent.
  * some space in a packet during APSDE data request processing.
  * In this case our parent will be able to use at least 7 hops.
  *
- * If destination is not ZC, it is possible that packet
- * can be routed via ZC, and ZC will use source routing.
+ * If destination is not ZC/ZR, it is possible that packet
+ * can be routed via ZC/ZR, and ZC/ZR will use source routing.
  *
  * Use that 24 bytes for either long addresses in nwk hdr with 3 hops
  * or 11 hops of source routing.
+ *
+ * > Based on the investigation, the ZED cannot set the SOURCE_ROUTE
+ * in the NWK header (limited by the ZB_ROUTER_ROLE MACRO), and the
+ * parent of the ZED will also not populate the source routing path
+ * for ZED in ZBOSS. Reserving space for the parent does not make sense.
+ * Therefore, we set this value to 0 to improve the valid payload
+ * capability for ZED.
 */
-#define ZB_NWK_RESERVED_SPACE_FOR_PARENT_ROUTING 24U
+#define ZB_NWK_RESERVED_SPACE_FOR_PARENT_ROUTING 0U
 /** @endcond */ /* DOXYGEN_INTERNAL_DOC */
 
 /***********************************************************************/
