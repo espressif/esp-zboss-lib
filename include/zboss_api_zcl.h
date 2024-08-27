@@ -1995,13 +1995,16 @@ typedef struct zb_zcl_device_callback_param_s
   ((ZB_ZCL_DEVICE_CMD_PARAM(_param))->cb_param.gnr.out = _pvalue)
 
 /** Init all fields of device callback params. */
-#define ZB_ZCL_DEVICE_CMD_PARAM_INIT_WITH(_param, _cb_id, _status, _cmd_info, _in, _out) \
-  (ZB_BZERO(ZB_ZCL_DEVICE_CMD_PARAM(_param), sizeof(*ZB_ZCL_DEVICE_CMD_PARAM(_param))), \
-   (ZB_ZCL_DEVICE_CMD_PARAM_CB_ID(_param) = _cb_id, \
-    (ZB_ZCL_DEVICE_CMD_PARAM_STATUS(_param) = _status, \
-     (ZB_ZCL_DEVICE_CMD_PARAM_CMD_INFO(_param) = _cmd_info, \
-      (ZB_ZCL_DEVICE_CMD_PARAM_IN_SET(_param, _in), \
-       (ZB_ZCL_DEVICE_CMD_PARAM_OUT_SET(_param, _out)))))))
+#define ZB_ZCL_DEVICE_CMD_PARAM_INIT_WITH(_param, _cb_id, _status, _cmd_info, _in, _out)                              \
+  (ZB_BZERO(ZB_ZCL_DEVICE_CMD_PARAM(_param), sizeof(*ZB_ZCL_DEVICE_CMD_PARAM(_param))),                               \
+    (ZB_ZCL_DEVICE_CMD_PARAM_CB_ID(_param) = _cb_id,                                                                  \
+      (ZB_ZCL_DEVICE_CMD_PARAM_ENDPOINT(_param) = (_cmd_info != NULL ?                                                \
+       ZB_ZCL_PARSED_HDR_SHORT_DATA((typeof(ZB_ZCL_DEVICE_CMD_PARAM_CMD_INFO(_param)))_cmd_info).dst_endpoint : 0x00),\
+        (ZB_ZCL_DEVICE_CMD_PARAM_STATUS(_param) = _status,                                                            \
+         (ZB_ZCL_DEVICE_CMD_PARAM_CMD_INFO(_param) = _cmd_info,                                                       \
+          (ZB_ZCL_DEVICE_CMD_PARAM_IN_SET(_param, _in),                                                               \
+           (ZB_ZCL_DEVICE_CMD_PARAM_OUT_SET(_param, _out))))))))
+
 /** @endcond */ /* internals_doc */
 
 /** Get INPUT device callback parameter from buffer reference.
@@ -2040,6 +2043,10 @@ typedef struct zb_zcl_device_callback_param_s
  */
 #define ZB_ZCL_DEVICE_CMD_PARAM_STATUS(_param) \
   ((ZB_ZCL_DEVICE_CMD_PARAM(_param))->status)
+
+/* Set ENDPOINT device callback parameter with specific value. */
+#define ZB_ZCL_DEVICE_CMD_PARAM_ENDPOINT(_param) \
+     ((ZB_ZCL_DEVICE_CMD_PARAM(_param))->endpoint)
 
 /** @cond internals_doc */
 /** @brief ZCL default handler.

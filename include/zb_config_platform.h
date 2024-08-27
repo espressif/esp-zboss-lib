@@ -95,9 +95,9 @@ typedef enum {
 
 typedef struct {
     uart_port_t port;               /*!< UART port number */
-    uart_config_t uart_config;      /*!< UART configuration, see uart_config_t docs */
     gpio_num_t rx_pin;              /*!< UART RX pin */
     gpio_num_t tx_pin;              /*!< UART TX pin */
+    uart_config_t uart_config;      /*!< UART configuration, see uart_config_t docs */
 } esp_zb_uart_config_t;
 
 typedef struct {
