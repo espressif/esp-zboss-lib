@@ -25,10 +25,12 @@ if(CONFIG_ZB_ENABLED)
 
     if(CONFIG_ZB_DEBUG_MODE)
         add_prebuilt_library(zboss_port_lib "${CMAKE_CURRENT_SOURCE_DIR}/lib/${idf_target}/libzboss_port.a"
-            PRIV_REQUIRES ieee802154 efuse esp_system esp_hw_support)
+            PRIV_REQUIRES ieee802154 efuse esp_system esp_hw_support
+            REQUIRES driver)
     else()
         add_prebuilt_library(zboss_port_lib "${CMAKE_CURRENT_SOURCE_DIR}/lib/${idf_target}/libzboss_port.debug.a"
-            PRIV_REQUIRES ieee802154 efuse esp_system esp_hw_support)
+            PRIV_REQUIRES ieee802154 efuse esp_system esp_hw_support
+            REQUIRES driver)
     endif()
 
     list(APPEND ZBOSS_LIBS zboss_stack_lib zboss_port_lib)
