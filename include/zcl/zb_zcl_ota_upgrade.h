@@ -329,9 +329,6 @@ typedef ZB_PACKED_PRE struct zb_zcl_ota_upgrade_ecdsa_certificate_s
 /** @brief Default value for OTA Upgrade cluster revision global attribute */
 #define ZB_ZCL_OTA_UPGRADE_CLUSTER_REVISION_DEFAULT ((zb_uint16_t)0x0004u)
 
-/*! @brief Maximum size data for Query Image Block Request */
-#define ZB_ZCL_OTA_UPGRADE_QUERY_IMAGE_BLOCK_DATA_SIZE_MAX   64
-
 /*! @brief Callback function for send next data portion
  *
  */

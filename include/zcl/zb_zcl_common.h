@@ -1118,6 +1118,8 @@ typedef ZB_PACKED_PRE  struct zb_zcl_frame_hdr_full_s
 } ZB_PACKED_STRUCT
 zb_zcl_frame_hdr_full_t;
 
+#define ZB_ZCL_FULL_HDR_SIZE sizeof(zb_zcl_frame_hdr_full_t)
+
 /*! @brief ZCL frame header without manufacturer code
     @see ZCL spec, subclause 2.3.1
 */
