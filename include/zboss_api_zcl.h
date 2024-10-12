@@ -695,6 +695,8 @@ typedef enum zb_zcl_device_callback_id_e
   ZB_ZCL_OTA_UPGRADE_QUERY_IMAGE_RESP_CB_ID,
   /** Inform user about Basic Reset to Factory Defaults commands  */
   ZB_ZCL_BASIC_RESET_CB_ID,
+  /** Inform user about call Thermostat weekly schedule command @see HA spec 10.1.3.3 */
+  ZB_ZCL_THERMOSTAT_WEEKLY_SCHEDULE_SET_CB_ID,
   /** Inform user about call Thermostat command @see HA spec 10.1.3.3 */
   ZB_ZCL_THERMOSTAT_VALUE_CB_ID,
   /** Inform user about Check-In command from polled device */
@@ -1947,6 +1949,7 @@ typedef struct zb_zcl_device_callback_param_s
     /* moved thermostat_value_param out of ZB_ENABLE_HA to be able to compile without that define */
 #if defined ZB_ZCL_SUPPORT_CLUSTER_THERMOSTAT
    zb_zcl_thermostat_value_param_t thermostat_value_param;
+   zb_zcl_thermostat_weekly_schedule_table_param_t thermostat_weekly_schedule_table_param;
 #endif
 #if defined (ZB_ZCL_SUPPORT_CLUSTER_IAS_WD)
    zb_zcl_ias_wd_squawk_value_param_t  squawk_value_param;
