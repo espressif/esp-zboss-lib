@@ -1,7 +1,11 @@
 cmake_minimum_required(VERSION 3.16)
 
+if(CONFIG_ZB_ENABLED)
+    set(include_dirs include)
+endif()
+
 idf_component_register(
-    INCLUDE_DIRS include
+    INCLUDE_DIRS "${include_dirs}"
 )
 
 if(CONFIG_ZB_ENABLED)
