@@ -2034,7 +2034,7 @@ typedef ZB_PACKED_PRE struct zb_zcl_read_reporting_cfg_rsp_s
 {                                                                                          \
   zb_uint16_t res_size = 0;                                                                \
   zb_uint16_t min_resp_size = sizeof(zb_uint16_t) + 2*sizeof(zb_uint8_t);                  \
-  (read_rep_conf_res) = (min_resp_size < zb_buf_len(data_buf))?                            \
+  (read_rep_conf_res) = (min_resp_size <= zb_buf_len(data_buf))?                           \
     (zb_zcl_read_reporting_cfg_rsp_t *)zb_buf_begin(data_buf): NULL;                       \
                                                                                            \
   if ((read_rep_conf_res))                                                                 \
@@ -2050,14 +2050,6 @@ typedef ZB_PACKED_PRE struct zb_zcl_read_reporting_cfg_rsp_s
       min_resp_size += sizeof(zb_uint16_t); /* timeout value */                            \
     }                                                                                      \
                                                                                            \
-    if (zb_buf_len(data_buf) < min_resp_size)                                              \
-    {                                                                                      \
-      (read_rep_conf_res) = NULL;                                                          \
-    }                                                                                      \
-  }                                                                                        \
-                                                                                           \
-  if (read_rep_conf_res)                                                                   \
-  {                                                                                        \
     (read_rep_conf_res)->status =                                                          \
       zb_zcl_zcl8_statuses_conversion((read_rep_conf_res)->status);                        \
     if ((read_rep_conf_res)->status != ZB_ZCL_STATUS_SUCCESS                               \
@@ -2065,10 +2057,6 @@ typedef ZB_PACKED_PRE struct zb_zcl_read_reporting_cfg_rsp_s
     {                                                                                      \
       /* In case of error, direction and attribute id is reported */                       \
       res_size = sizeof(zb_uint16_t) + 2*sizeof(zb_uint8_t);                               \
-      if (res_size <= zb_buf_len(data_buf))                                                \
-      {                                                                                    \
-        ZB_ZCL_HTOLE16_INPLACE(&(read_rep_conf_res)->attr_id);                             \
-      }                                                                                    \
     }                                                                                      \
     else                                                                                   \
     {                                                                                      \
@@ -2078,6 +2066,7 @@ typedef ZB_PACKED_PRE struct zb_zcl_read_reporting_cfg_rsp_s
                                                                                            \
   if (res_size <= zb_buf_len(data_buf))                                                    \
   {                                                                                        \
+    ZB_ZCL_HTOLE16_INPLACE(&(read_rep_conf_res)->attr_id);                                 \
     (void)zb_buf_cut_left((data_buf), res_size);                                           \
   }                                                                                        \
   else                                                                                     \

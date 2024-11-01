@@ -131,7 +131,6 @@ typedef void (*esp_rcp_failure_callback_t)(uint8_t param);
  *
  */
 esp_err_t esp_zb_platform_config(esp_zb_platform_config_t *config);
-esp_err_t esp_zb_platform_serial_config_set(esp_zb_serial_config_t *serial_config);
 
 /**
  * @brief  Get the espressif soc platform config
@@ -142,37 +141,7 @@ esp_err_t esp_zb_platform_serial_config_set(esp_zb_serial_config_t *serial_confi
 esp_zb_platform_config_t* esp_zb_platform_config_get(void);
 
 /**
- * @brief  Get the espressif soc platform serial config
- *
- * @return - pointer to platform serial configuration @ref esp_zb_serial_config_t
- *
- */
-esp_zb_serial_config_t* esp_zb_platform_serial_config_get(void);
-
-/**
- * @brief  Get the rcp Zigbee rcp version string
- *
- * @return string of rcp Zigbee stack version string
- *
- */
-char* esp_zb_macsplit_get_version();
-
-/**
- * @brief  Set the rcp Zigbee rcp version string
- *
- */
-void esp_zb_macsplit_set_version(char *ver_string);
-
-/**
- * @brief  Reset the rcp through UART reset command from host (gateway)
- *
- */
-void esp_zb_macsplit_host_reset_rcp();
-
-void esp_zb_add_rcp_failure_cb(esp_rcp_failure_callback_t cb);
-
-/**
- * @brief  Deinitilaize the RCP
+ * @brief  Deinitialize the RCP
  *
  * @return - ESP_OK on success
  *
