@@ -1,7 +1,11 @@
 cmake_minimum_required(VERSION 3.16)
 
+if(CONFIG_ZB_ENABLED)
+    set(include_dirs include)
+endif()
+
 idf_component_register(
-    INCLUDE_DIRS include
+    INCLUDE_DIRS "${include_dirs}"
 )
 
 if(CONFIG_ZB_ENABLED)
@@ -64,7 +68,8 @@ if(CONFIG_ZB_ENABLED)
 
     if (CONFIG_ZB_RADIO_SPINEL_UART)
         idf_component_get_property(openthread_lib openthread COMPONENT_LIB)
-        target_link_libraries(${COMPONENT_LIB} INTERFACE zboss_port_lib $<TARGET_FILE:${openthread_lib}> zboss_port_lib)
+        idf_component_get_property(zigbee_lib espressif__esp-zigbee-lib COMPONENT_LIB)
+        target_link_libraries(${COMPONENT_LIB} INTERFACE zboss_port_lib $<TARGET_FILE:${zigbee_lib}> $<TARGET_FILE:${openthread_lib}> zboss_port_lib)
     endif()
 
 endif()
