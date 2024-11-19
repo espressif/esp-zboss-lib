@@ -27,15 +27,17 @@ if(CONFIG_ZB_ENABLED)
         endif()
     endif()
 
-    if(CONFIG_ZB_DEBUG_MODE)
-        add_prebuilt_library(zboss_port_lib "${CMAKE_CURRENT_SOURCE_DIR}/lib/${idf_target}/libzboss_port.a"
-            PRIV_REQUIRES ieee802154 efuse esp_system esp_hw_support
-            REQUIRES driver)
-    else()
-        add_prebuilt_library(zboss_port_lib "${CMAKE_CURRENT_SOURCE_DIR}/lib/${idf_target}/libzboss_port.debug.a"
-            PRIV_REQUIRES ieee802154 efuse esp_system esp_hw_support
-            REQUIRES driver)
+    set(zboss_port_type ".native")
+    set(zboss_port_mode "")
+    if (CONFIG_ZB_RADIO_SPINEL_UART)
+        set(zboss_port_type ".remote")
     endif()
+    if(CONFIG_ZB_DEBUG_MODE)
+        set(zboss_port_mode ".debug")
+    endif()
+    add_prebuilt_library(zboss_port_lib "${CMAKE_CURRENT_SOURCE_DIR}/lib/${idf_target}/libzboss_port${zboss_port_type}${zboss_port_mode}.a"
+            PRIV_REQUIRES ieee802154 efuse esp_system esp_hw_support
+            REQUIRES driver)
 
     list(APPEND ZBOSS_LIBS zboss_stack_lib zboss_port_lib)
 
