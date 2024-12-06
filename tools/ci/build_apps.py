@@ -8,6 +8,7 @@ import argparse
 import sys
 import logging
 import os
+import subprocess
 from pathlib import Path
 from typing import List
 
@@ -54,18 +55,13 @@ def get_cmake_apps(
     return apps
 
 def update_component_yml_files():
-    idf_path = os.environ.get('IDF_PATH')
-
-    os.chdir(os.path.join(PROJECT_ROOT, 'examples', 'zigbee', 'esp_zigbee_gateway'))
-    os.remove('main/idf_component.yml')
-    os.system(f'cp {os.path.join(idf_path, "../", "esp-zboss-lib", "esp-zigbee-sdk", "tools", "managed_component_yml", "gw_idf_component.yml")} main/idf_component.yml')
-
-    os.chdir(os.path.join(PROJECT_ROOT, 'examples', 'zigbee', 'light_sample', 'HA_on_off_switch'))
-    os.remove('main/idf_component.yml')
-
-    os.chdir(os.path.join(PROJECT_ROOT, 'examples', 'zigbee', 'light_sample', 'HA_on_off_light'))
-    os.remove('main/idf_component.yml')
-    os.system(f'cp {os.path.join(idf_path, "../", "esp-zboss-lib", "esp-zigbee-sdk", "tools", "managed_component_yml", "light_idf_component.yml")} main/idf_component.yml')
+    idf_path = "${IDF_PATH}"
+    command = f'sed -i "/\\besp-zboss-lib\\b/d;/\\besp-zigbee-lib\\b/d" "{idf_path}/examples/zigbee/esp_zigbee_gateway/main/idf_component.yml"'
+    subprocess.run(command, shell=True)
+    command = f'sed -i "/\\besp-zboss-lib\\b/d;/\\besp-zigbee-lib\\b/d" "{idf_path}/examples/zigbee/light_sample/HA_on_off_light/main/idf_component.yml"'
+    subprocess.run(command, shell=True)
+    command = f'sed -i "/\\besp-zboss-lib\\b/d;/\\besp-zigbee-lib\\b/d" "{idf_path}/examples/zigbee/light_sample/HA_on_off_switch/main/idf_component.yml"'
+    subprocess.run(command, shell=True)
 
 def main(args: argparse.Namespace) -> None:
     current_dir = os.getcwd()

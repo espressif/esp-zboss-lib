@@ -129,6 +129,7 @@ enum zb_zcl_ota_upgrade_file_header_fc_e
 
 /** @brief Special Manufacturer Code, see ZCL8 specification, subsection 11.4.2.5 */
 #define ZB_ZCL_OTA_UPGRADE_FILE_HEADER_MANUFACTURE_CODE_WILD_CARD   0xffff
+#define ZB_ZCL_OTA_UPGRADE_FILE_HEADER_FILE_VERSION_WILD_CARD       0xffffffff
 
 /*! @brief OTA File header - Image Type Values
     @see ZCL8 specification, subsection 11.4.2.6, Table 11-4. Image Type Values

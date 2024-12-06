@@ -17,7 +17,7 @@ before_script:
 .setup_idf: &setup_idf
   - cd $CI_PROJECT_DIR/..
   - rm -rf esp-idf
-  - git clone --recursive -b v5.3.1 ${ESP_IDF_URL}
+  - git clone --recursive -b v5.3.2 ${ESP_IDF_URL}
   - cd esp-idf
   - git checkout --track origin/$CI_COMMIT_REF_NAME || git branch
   - git submodule sync --recursive
@@ -88,8 +88,6 @@ build_idf_examples:
   image: ${CI_DOCKER_REGISTRY}/esp-env-v5.3:1
   artifacts:
     paths:
-      - "**/build*/size.json"
-      - "**/build*/build_log.txt"
       - "**/build*/*.bin"
       - "**/build*/*.map"
       - "**/build*/*.elf"
