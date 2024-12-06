@@ -99,3 +99,6 @@
 
 /* Memory configuration */
 #define ZB_CONFIGURABLE_MEM
+
+/* Bind translation */
+#define ZB_BIND_TRANS_PARALLEL
