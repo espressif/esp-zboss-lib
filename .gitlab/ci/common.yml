@@ -1,0 +1,81 @@
+stages:
+  - generate
+  - build
+  - target_test
+
+variables:
+    GIT_SUBMODULE_STRATEGY: none
+    DEFAULT_IDF_VERSION: "v5.3.2"
+    DEFAULT_BUILD_DOCKER_ENV: "v5.3:1"
+    # tell build system do not check submodule update as we download archive instead of clone
+    IDF_SKIP_CHECK_SUBMODULES: 1
+
+.init_ssh: &init_ssh
+  - mkdir -p ~/.ssh
+  - chmod 700 ~/.ssh
+  - echo -n "${GITLAB_KEY}" >~/.ssh/id_rsa_base64
+  - base64 --decode --ignore-garbage ~/.ssh/id_rsa_base64 >~/.ssh/id_rsa
+  - chmod 600 ~/.ssh/id_rsa
+  - echo -e "Host gitlab.espressif.cn\n\tStrictHostKeyChecking no\n" >>~/.ssh/config
+
+.setup_idf: &setup_idf
+  - cd $CI_PROJECT_DIR
+  - git clone --recursive ${ESP_IDF_URL}
+  - cd esp-idf
+  - git checkout --track origin/$CI_COMMIT_REF_NAME || git checkout ${IDF_VERSION}
+  - git submodule sync --recursive
+  - git submodule update --recursive --init
+  - ./install.sh
+  - . ./export.sh
+
+.setup_esp_sdk: &setup_esp_sdk
+  - cd $CI_PROJECT_DIR
+  - git clone --recursive -b main ${ZIGBEE_SDK_REPO_URL}
+  - cd esp-zigbee-sdk
+  - git checkout --track origin/$CI_COMMIT_REF_NAME || git branch
+
+.update_cmake_dependency: &update_cmake_dependency
+  - echo ${IDF_PATH}
+  - cp -r $CI_PROJECT_DIR/esp-zigbee-sdk/components/esp-zigbee-lib ${IDF_PATH}/components/espressif__esp-zigbee-lib
+  # copy esp-zboss-lib to esp-idf
+  - mkdir ${IDF_PATH}/components/espressif__esp-zboss-lib
+  - cp -r $CI_PROJECT_DIR/include ${IDF_PATH}/components/espressif__esp-zboss-lib
+  - cp -r $CI_PROJECT_DIR/lib ${IDF_PATH}/components/espressif__esp-zboss-lib
+  - cp $CI_PROJECT_DIR/idf_component.yml ${IDF_PATH}/components/espressif__esp-zboss-lib
+  - cp $CI_PROJECT_DIR/CMakeLists.txt ${IDF_PATH}/components/espressif__esp-zboss-lib
+  - ls -lf ${IDF_PATH}/components/espressif__esp-zboss-lib
+  # end copy
+  - sed -i "/\besp-zboss-lib\b/d;/\besp-zigbee-lib\b/d" ${IDF_PATH}/examples/zigbee/**/main/idf_component.yml
+  - sed -i "/\besp-zboss-lib\b/d;/\besp-zigbee-lib\b/d" $CI_PROJECT_DIR/esp-zigbee-sdk/examples/**/main/idf_component.yml
+  - sed -i "/\besp-zboss-lib\b/d;/\besp-zigbee-lib\b/d" $CI_PROJECT_DIR/esp-zigbee-sdk/components/*/idf_component.yml
+
+.build_rcp_gateway: &build_rcp_gateway
+  - mv $CI_PROJECT_DIR/esp-zigbee-sdk/examples/esp_zigbee_gateway/sdkconfig.defaults $CI_PROJECT_DIR/esp-zigbee-sdk/examples/esp_zigbee_gateway/sdkconfig.defaults.ori
+  - cp $CI_PROJECT_DIR/esp-zigbee-sdk/tools/ci/sdkconfig_for_gateway_ci.defaults $CI_PROJECT_DIR/esp-zigbee-sdk/examples/esp_zigbee_gateway/sdkconfig.defaults
+  - cd $CI_PROJECT_DIR/esp-idf/examples/openthread/ot_rcp
+  - echo "CONFIG_OPENTHREAD_NCP_VENDOR_HOOK=y" >> sdkconfig.defaults
+  - idf.py set-target esp32h2
+  - idf.py build
+  - cd $CI_PROJECT_DIR/esp-zigbee-sdk/examples/esp_zigbee_gateway
+  - idf.py set-target esp32s3
+  - idf.py build
+  - mv $CI_PROJECT_DIR/esp-zigbee-sdk/examples/esp_zigbee_gateway/sdkconfig.defaults.ori $CI_PROJECT_DIR/esp-zigbee-sdk/examples/esp_zigbee_gateway/sdkconfig.defaults
+  - cd ${CI_PROJECT_DIR}
+
+.setup_build_environment_script:
+  before_script:
+    - *init_ssh
+    - *setup_idf
+    - *setup_esp_sdk
+    - *update_cmake_dependency
+    - pip install -r tools/ci/requirements-build.txt
+
+.setup_esp_sdk_script:
+  before_script:
+    - *init_ssh
+    - *setup_esp_sdk
+
+.build_gateway_script:
+  script:
+    - python tools/ci/build_apps.py ./examples --rcp_gateway --ignore_warning
+    - *build_rcp_gateway
