@@ -88,6 +88,7 @@ union zb_zcl_attr_var_u
   zb_uint48_t u48;
   zb_uint8_t data_buf[4];
   zb_uint32_t data_buf_crc32;
+  zb_single_t f32;
 };
 
 /** @cond internals_doc */

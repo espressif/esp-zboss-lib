@@ -1067,7 +1067,7 @@ uint8_t bdb_get_scan_duration(void);
 /**
    NWK: default energy/active scan duration
 */
-#define ZB_DEFAULT_SCAN_DURATION_VALUE 4U
+#define ZB_DEFAULT_SCAN_DURATION_VALUE 3U
 #define ZB_DEFAULT_SCAN_DURATION       bdb_get_scan_duration()
 
 #ifdef ZB_SUBGHZ_BAND_ENABLED
