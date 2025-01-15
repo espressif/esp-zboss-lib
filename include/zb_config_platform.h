@@ -122,6 +122,13 @@ typedef struct {
 
 typedef void (*esp_rcp_failure_callback_t)(uint8_t param);
 
+typedef struct {
+    uint8_t csma_min_be;        /*!< The minimum value of the backoff exponent, BE, in the CSMA-CA algorithm. */
+    uint8_t csma_max_be;        /*!< The maximum value of the backoff exponent, BE, in the CSMA-CA algorithm. */
+    uint8_t csma_max_backoffs;  /*!< The maximum number of backoffs the CSMA-CA algorithm will attempt before
+                                     declaring a channel access failure. */
+} esp_zb_platform_mac_config_t;
+
 /**
  * @brief  Set the espressif soc platform config
  *
@@ -139,6 +146,29 @@ esp_err_t esp_zb_platform_config(esp_zb_platform_config_t *config);
  *
  */
 esp_zb_platform_config_t* esp_zb_platform_config_get(void);
+
+/**
+ * @brief  Set the espressif platform mac config
+ *
+ * @param[in] config - pointer to platform mac configuration @ref esp_zb_platform_mac_config_t
+ *
+ * @return - ESP_OK on success
+ *         - ESP_ERR_INVALID_ARG if @p config is invalid or with invalid values.
+ *         - ESP_ERR_NOT_SUPPORTED if ZB_RADIO_NATIVE is not enabled.
+ *
+ */
+esp_err_t esp_zb_platform_mac_config_set(const esp_zb_platform_mac_config_t *config);
+
+/**
+ * @brief  Get the espressif platform mac config
+ *
+ * @param[out] config - pointer to platform mac configuration @ref esp_zb_platform_mac_config_t
+ *
+ * @return - ESP_OK on success
+ *         - ESP_ERR_NOT_SUPPORTED if ZB_RADIO_NATIVE is not enabled.
+ *
+ */
+esp_err_t esp_zb_platform_mac_config_get(esp_zb_platform_mac_config_t *config);
 
 /**
  * @brief  Deinitialize the RCP

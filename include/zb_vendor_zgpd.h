@@ -71,9 +71,8 @@
 #define ZB_SEND_OOM_STATUS
 
 #define ZB_NO_NVRAM_VER_MIGRATION
-#if CONFIG_ZB_RADIO_NATIVE
+
 #define ZB_LIMIT_VISIBILITY
-#endif
 
 #define ZB_ZGPD_ROLE
 

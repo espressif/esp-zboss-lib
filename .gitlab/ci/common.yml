@@ -45,6 +45,7 @@ variables:
   - cp $CI_PROJECT_DIR/CMakeLists.txt ${IDF_PATH}/components/espressif__esp-zboss-lib
   - ls -lf ${IDF_PATH}/components/espressif__esp-zboss-lib
   # end copy
+  - shopt -s globstar # Allow ** for recursive matches
   - sed -i "/\besp-zboss-lib\b/d;/\besp-zigbee-lib\b/d" ${IDF_PATH}/examples/zigbee/**/main/idf_component.yml
   - sed -i "/\besp-zboss-lib\b/d;/\besp-zigbee-lib\b/d" $CI_PROJECT_DIR/esp-zigbee-sdk/examples/**/main/idf_component.yml
   - sed -i "/\besp-zboss-lib\b/d;/\besp-zigbee-lib\b/d" $CI_PROJECT_DIR/esp-zigbee-sdk/components/*/idf_component.yml

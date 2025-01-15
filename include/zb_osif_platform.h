@@ -111,6 +111,11 @@ void zb_osif_disable_all_interrupts(void);
 #define ZB_OSIF_GLOBAL_LOCK()      ZB_DISABLE_ALL_INTER()
 #define ZB_OSIF_GLOBAL_UNLOCK()    ZB_ENABLE_ALL_INTER()
 
+/* Trace log */
+void zb_trace_msg_port_platform(zb_uint_t mask, zb_uint_t level, zb_char_t *fmt, const zb_char_t *file_name,
+                                zb_uint16_t file_id, zb_uint16_t line_number, zb_uint_t args_size, ...);
+#define ZB_T1_TRACE(s, l, fmt, args) zb_trace_msg_port_platform(s, l, fmt, ZB_T0_TRACE args)
+
 /* Userial */
 void zb_osif_userial_poll(void);
 
