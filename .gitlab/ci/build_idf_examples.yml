@@ -1,8 +1,12 @@
 build_idf_examples:
   stage: build
   image: ${CI_DOCKER_REGISTRY}/esp-env-${DEFAULT_BUILD_DOCKER_ENV}
-  extends:
-    - .setup_build_environment_script
+  before_script:
+    - source tools/ci/utils.sh
+    - setup_idf
+    - setup_esp_sdk
+    - update_cmake_dependency
+    - pip install -r ${CI_PROJECT_DIR}/esp-zigbee-sdk/tools/ci/requirements-build.txt
   artifacts:
     paths:
       - "**/build*/*.bin"
@@ -14,7 +18,7 @@ build_idf_examples:
       - "**/build*/bootloader/*.bin"
       - "**/build*/partition_table/*.bin"
     when: always
-    expire_in: 4 days
+    expire_in: 3 days
   variables:
     IDF_VERSION: ${DEFAULT_IDF_VERSION}
   script:
