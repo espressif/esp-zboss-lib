@@ -91,6 +91,18 @@ So, rest is 127-45 = 82b
 /*! Maximal payload size without long address sending */
 #define ZB_ZCL_HI_WO_IEEE_MAX_PAYLOAD_SIZE 82U
 
+/**
+ * ZCL frame in IOBUF : payload + ZCL HDR + APS HDR + NWK HDR + MAC HDR + FCS + BUF PARAM
+ * This macro defines the minimum buffer cost to transmit a ZCL frame.
+ */
+#define ZB_ZCL_FRAME_MIN_RESERVE_IOBUF_SIZE(manuf_specific)             \
+   (0                                                                   \
+   + ((manuf_specific) ? ZB_ZCL_FULL_HDR_SIZE : ZB_ZCL_SHORT_HDR_SIZE)  \
+   + (ZB_APS_BASE_HDR_SIZE + ZB_APS_MAX_APS_SECURITY_SIZE)              \
+   + (ZB_NWK_BASE_HDR_SIZE + ZB_NWK_MAX_SECURITY_HDR_SIZE)              \
+   + (MAX_MAC_OVERHEAD_SHORT_ADDRS)                                     \
+   + (ZB_IO_BUF_SIZE - MAX_PHY_FRM_SIZE))                               \
+
 struct zb_zcl_attr_s; /* Forward declaration */
 
 /** @brief ZCL Cluster Init Handler. This handler is called on registering device context (@ref
@@ -1130,6 +1142,8 @@ typedef ZB_PACKED_PRE  struct zb_zcl_frame_hdr_short_s
   zb_uint8_t          command_id;   /*!< Command Identifier Field */
 } ZB_PACKED_STRUCT
 zb_zcl_frame_hdr_short_t;
+
+#define ZB_ZCL_SHORT_HDR_SIZE sizeof(zb_zcl_frame_hdr_short_t)
 
 /**
  * @name ZCL address type
