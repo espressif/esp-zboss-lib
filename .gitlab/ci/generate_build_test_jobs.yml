@@ -1,5 +1,6 @@
 generate_child_pipeline:
   stage: generate
+  image: ${CI_DOCKER_REGISTRY}/esp-env-${DEFAULT_BUILD_DOCKER_ENV}
   before_script:
     - source tools/ci/utils.sh
     - setup_esp_sdk
@@ -9,6 +10,8 @@ generate_child_pipeline:
       - child_pipeline_lts.yml
     expire_in: 1 week
     when: always
+  tags:
+    - build
   script:
     - python3 $CI_PROJECT_DIR/esp-zigbee-sdk/tools/ci/dynamic_pipelines/generate_child_pipeline.py -p $CI_PROJECT_DIR -t .gitlab/ci/templates.yml -i ${DEFAULT_IDF_VERSION} -d ${DEFAULT_BUILD_DOCKER_ENV}
 
