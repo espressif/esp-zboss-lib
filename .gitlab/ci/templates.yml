@@ -54,6 +54,7 @@ include:
   script:
     - python tools/ci/build_apps.py ./examples --pytest --ignore_warning
   tags:
+    - build
 
 .build_pytest_gateway_template:
   stage: build
